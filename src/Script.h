@@ -14,9 +14,13 @@ public:
 	virtual void OnTick() = 0;
 	virtual void OnDestroy() {};
 
-protected:
-	GameObject* obj = nullptr;
+	//template<class T>
+	//T& GetComponent()
+	//{
+	//	return obj->GetComponent<T>();
+	//}
 
+	GameObject* obj = nullptr;
 private:
 	void SetGameObject(GameObject* const new_obj);
 

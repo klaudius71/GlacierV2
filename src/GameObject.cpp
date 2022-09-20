@@ -1,12 +1,12 @@
 #include "gpch.h"
 #include "GameObject.h"
+#include "SceneManager.h"
 #include "GameObjectRegCmd.h"
 #include "GameObjectDeregCmd.h"
 
 GameObject::GameObject(std::string name, GameObject* const parent, const bool keep_transform)
 	: reg_state(REGISTRATION_STATE::CURRENTLY_DEREGISTERED)
 {
-	UNREFERENCED_PARAMETER(parent); UNREFERENCED_PARAMETER(keep_transform);
 	scene = SceneManager::GetCurrentScene();
 	id = scene->CreateEmpty(name, parent, keep_transform);
 	curr_registry = &scene->GetRegistryDisabled();

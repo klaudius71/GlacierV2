@@ -31,10 +31,10 @@ void MainScene::InitializeScene()
 		for (int j = 0; j < 2; j++)
 		{
 			GameObject*& cube = cubes.emplace_back(new GameObject("Cube" + (i * 2 + j)));
-			cube->GetComponent<TransformComponent>().transform = glm::translate(glm::mat4(1.0f), glm::vec3(-20.0f + (i * 40.0f), 60.0f, -20.0f + (j * 40.0f)));
+			cube->GetComponent<TransformComponent>().position() = glm::vec3(-20.0f + (i * 40.0f), 60.0f, -20.0f + (j * 40.0f));
 			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 8.0f), TextureLoader::Get("Crate"));
-			//cube->AddScript<RotatingScript>();
+			cube->AddScript<RotatingScript>();
 			cube->RegisterToScene();
 		}
 	}

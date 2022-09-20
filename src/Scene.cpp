@@ -1,6 +1,7 @@
 #include "gpch.h"
 #include "Scene.h"
 #include "Components.h"
+#include "GameObject.h"
 #include "Glacier.h"
 #include "Window.h"
 
@@ -30,7 +31,11 @@ const entt::entity Scene::CreateEmpty(std::string& name, GameObject* const paren
 	entt::entity ent = registry_disabled.create();
 	assert(ent == temp);
 	registry_disabled.emplace<NameComponent>(ent, std::move(name));
-	registry_disabled.emplace<TransformComponent>(ent, glm::mat4(1.0f), parent).children.emplace_back(;
+	if (parent)
+		registry_disabled.emplace<TransformComponent>(ent, glm::mat4(1.0f), &parent->GetComponent<TransformComponent>(), keep_transform);
+	else
+		registry_disabled.emplace<TransformComponent>(ent, glm::mat4(1.0f), nullptr, false);
+
 	return ent;
 }
 

@@ -13,7 +13,7 @@ public:
 	virtual void OnTick() override;
 
 private:
-	glm::mat4* transform = nullptr;
+	TransformComponent* transform = nullptr;
 };
 
 #endif _ROTATING_SCRIPT

@@ -48,7 +48,7 @@ void Renderer::RenderScene(Scene* const scn)
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, material.tex_id.q);
 		glUniform4fv(color_uniform_loc, 1, (const GLfloat*)&material.col);
-		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.transform);
+		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 		glBindVertexArray(mesh.vao);
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}

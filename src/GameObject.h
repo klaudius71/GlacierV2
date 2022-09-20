@@ -3,7 +3,6 @@
 
 #include "Scene.h"
 #include "Components.h"
-#include "SceneManager.h"
 #include "RegistrationState.h"
 #include "ScriptAtt.h"
 #include "AddScriptCmd.h"

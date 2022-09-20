@@ -1,6 +1,6 @@
 #include "gpch.h"
-#include "GameObject.h"
 #include "Script.h"
+#include "GameObject.h"
 #include "Scene.h"
 #include "Components.h"
 
