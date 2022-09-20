@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{b20d1801-654e-4813-b826-cd9691cd3dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad">
+      <UniqueIdentifier>{ab23ae9b-c63d-43ec-b37b-f44e9856bb13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad\include">
+      <UniqueIdentifier>{4d43e2ba-0174-4148-a549-adcfad48b946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad\include\glad">
+      <UniqueIdentifier>{945a9a31-4bc8-4da8-8239-001ff930f5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad\include\KHR">
+      <UniqueIdentifier>{7b2f99c1-41b8-4daf-95dc-dc175481ade6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad\src">
+      <UniqueIdentifier>{657c1468-99e6-4eb7-93d5-efeca3b4a310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glfw-3.3.8">
+      <UniqueIdentifier>{1a1c3c32-3e17-49ba-a85d-af99fd0b53de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glfw-3.3.8\include">
+      <UniqueIdentifier>{58f077a0-8a35-4f5a-af77-1544d647363a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glfw-3.3.8\include\GLFW">
+      <UniqueIdentifier>{c5661799-8080-4a02-aa50-0f25e2e68d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Sandbox">
+      <UniqueIdentifier>{aee9b8fd-006e-44d8-97c1-947727774772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glm-0.9.9.8">
+      <UniqueIdentifier>{dd4f8b21-75d5-48d9-9e89-6040adc57308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\stb">
+      <UniqueIdentifier>{9437697c-6b52-443c-8d7f-9c90426cfc93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\entt-3.10.3">
+      <UniqueIdentifier>{2de08e78-7673-4319-814a-b8b0e82476f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\base64">
+      <UniqueIdentifier>{5b5777c3-cc8b-4eef-932e-218bae336ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\JSON for Modern C++">
+      <UniqueIdentifier>{6d64d751-f0ac-4f5f-9c93-85d4e9e10040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\MemTracker">
+      <UniqueIdentifier>{8d38270c-697a-42e5-ae50-eeaf21dcc57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Sandbox\Scripts">
+      <UniqueIdentifier>{142b005a-3c9c-4917-ad10-d6a6ed45f234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Sandbox\Scenes">
+      <UniqueIdentifier>{c33fdff3-0531-44eb-b962-e10b7f8d646f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Sandbox\Prefabs">
+      <UniqueIdentifier>{192dacd5-e65a-4579-a29c-9e7fb85ccde9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine">
+      <UniqueIdentifier>{c5ab7cb3-39af-4b73-b564-8135e9b5f5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Asset">
+      <UniqueIdentifier>{4d192563-3af2-4779-bda2-2349d4105190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Asset\Loaders">
+      <UniqueIdentifier>{d6e3166f-f8b7-4655-9eb8-37efd464f376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\ECS">
+      <UniqueIdentifier>{46486f35-b58b-413c-b087-6341eb30475a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Time">
+      <UniqueIdentifier>{24a5c727-81cf-446f-8412-be8268fd4453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Attorneys">
+      <UniqueIdentifier>{2e38a58a-2b68-401a-8ebb-49809082dcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems">
+      <UniqueIdentifier>{79d6d4dc-a74c-4961-9da7-cf6371e14d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Input">
+      <UniqueIdentifier>{f212ef75-6239-4dfc-8397-10871b12b866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Scene">
+      <UniqueIdentifier>{8c6c86e0-bdf5-46ee-9bbb-635fe77aceeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Command">
+      <UniqueIdentifier>{2db54995-0aa9-4080-a034-b2ee79373c91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Command\Commands">
+      <UniqueIdentifier>{fa4f55a4-baa0-49f6-bd64-7534d232e598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Command\Commands\GameObject">
+      <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Command\Commands\Scene">
+      <UniqueIdentifier>{a1bd05df-d169-4be4-bf2b-0862c5cd2d1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Misc">
+      <UniqueIdentifier>{7beb0b48-0817-410d-9584-6e966d9bf6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Main">
+      <UniqueIdentifier>{b016f993-7717-4488-93e5-e2d2ab015ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\GraphicsContext">
+      <UniqueIdentifier>{505e5aa6-8377-418e-95c2-085c3ef210d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Render">
+      <UniqueIdentifier>{fc67491a-e6ee-42f7-936a-c6df8e1dc490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{f67f2003-bbc2-4e74-a27c-bfb61cd405b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\shaders">
+      <UniqueIdentifier>{66467979-800a-418c-9ee5-71330f35929a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Engine\Systems\Lighting">
+      <UniqueIdentifier>{bd989961-9dc8-473e-a574-fcabfc95d28b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="external\glad\src\glad.c">
+      <Filter>Libraries\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Glacier.cpp">
+      <Filter>src\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>src\Engine\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderLoader.cpp">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>src\Engine\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureLoader.cpp">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Window.cpp">
+      <Filter>src\Engine\GraphicsContext</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>src\Engine\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components.cpp">
+      <Filter>src\Engine\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>src\Engine\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>src\Engine\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timer.cpp">
+      <Filter>src\Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="external\base64\include\base64.cpp">
+      <Filter>Libraries\base64</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModelLoader.cpp">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>src\Engine\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TimeManager.cpp">
+      <Filter>src\Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\RotatingScript.cpp">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraControllerScript.cpp">
+      <Filter>src\Engine\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager.cpp">
+      <Filter>src\Engine\Systems\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\MainScene.cpp">
+      <Filter>src\Sandbox\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\LoadResources.cpp">
+      <Filter>src\Sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommandBroker.cpp">
+      <Filter>src\Engine\Systems\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\LevelScript.cpp">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AddScriptCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjectRegCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjectDeregCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneChangeCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneChangeNullCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gpch.cpp">
+      <Filter>src\Engine\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src\Engine\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colors.cpp">
+      <Filter>src\Engine\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>src\Engine\Systems\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer2D.cpp">
+      <Filter>src\Engine\Systems\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lighting.cpp">
+      <Filter>src\Engine\Systems\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Script.cpp">
+      <Filter>src\Engine\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\SpinningLightScript.cpp">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="external\glad\include\glad\glad.h">
+      <Filter>Libraries\glad\include\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glad\include\KHR\khrplatform.h">
+      <Filter>Libraries\glad\include\KHR</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glfw-3.3.8\include\GLFW\glfw3.h">
+      <Filter>Libraries\glfw-3.3.8\include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glfw-3.3.8\include\GLFW\glfw3native.h">
+      <Filter>Libraries\glfw-3.3.8\include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Glacier.h">
+      <Filter>src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glm-0.9.9.8\glm\glm.hpp">
+      <Filter>Libraries\glm-0.9.9.8</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderLoader.h">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb\stb_image.h">
+      <Filter>Libraries\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureLoader.h">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window.h">
+      <Filter>src\Engine\GraphicsContext</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>src\Engine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components.h">
+      <Filter>src\Engine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="external\entt-3.10.3\src\entt\entt.hpp">
+      <Filter>Libraries\entt-3.10.3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject.h">
+      <Filter>src\Engine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Timer.h">
+      <Filter>src\Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="external\base64\include\base64.h">
+      <Filter>Libraries\base64</Filter>
+    </ClInclude>
+    <ClInclude Include="external\JSON for Modern C++\json.hpp">
+      <Filter>Libraries\JSON for Modern C++</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexTypes.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelLoader.h">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelLoaderAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureLoaderAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderLoaderAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="external\MemTracker\Framework.h">
+      <Filter>Libraries\MemTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
+      <Filter>src\Engine\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyCodes.h">
+      <Filter>src\Engine\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TimeManager.h">
+      <Filter>src\Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TimeManagerAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer2DAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Script.h">
+      <Filter>src\Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlacierAPI.h">
+      <Filter>src\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\RotatingScript.h">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraControllerScript.h">
+      <Filter>src\Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.h">
+      <Filter>src\Engine\Systems\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\MainScene.h">
+      <Filter>src\Sandbox\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManagerAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CommandBroker.h">
+      <Filter>src\Engine\Systems\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Command.h">
+      <Filter>src\Engine\Systems\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\PlayerTankPrefab.h">
+      <Filter>src\Sandbox\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\LevelScript.h">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScriptAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AddScriptCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EmplaceComponentCommand.h">
+      <Filter>src\Engine\Systems\Command\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RegistrationState.h">
+      <Filter>src\Engine\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjectRegCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjectDeregCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObjectAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneChangeCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneChangeNullCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gpch.h">
+      <Filter>src\Engine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colors.h">
+      <Filter>src\Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer2D.h">
+      <Filter>src\Engine\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>src\Engine\Systems\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lighting.h">
+      <Filter>src\Engine\Systems\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\SpinningLightScript.h">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\color.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\color.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture_lit.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture_lit.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
