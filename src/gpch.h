@@ -1,5 +1,9 @@
 #pragma once
 
+#if _WIN32
+#include <Windows.h>
+#endif
+
 #include <cassert>
 #include <unordered_map>
 #include <unordered_set>
