@@ -30,64 +30,27 @@ struct TransformComponent
 	glm::vec3& position() { flag_changed = true; return pos; }
 	glm::vec3& rotation() { flag_changed = true; return rot; }
 	glm::vec3& scale() { flag_changed = true; return scl; }
-	
-	const glm::mat4& GetWorldMatrix() 
-	{	
-		if (!flag_changed)
-			return world_matrix;
 
-		flag_changed = false;
-
-		const glm::mat4& rot_yxz = glm::rotate(glm::mat4(1.0f), rot.y, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), rot.x, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
-		world_matrix = glm::scale(glm::translate(glm::mat4(1.0f), pos) * rot_yxz, scl);
-		if (parent)
-			world_matrix *= parent->GetWorldMatrix();
-				
-		return world_matrix;
-	}
+	const glm::mat4& GetWorldMatrix() const { return world_matrix; }
 
 	TransformComponent() = default;
-	TransformComponent(const glm::mat4& transform, TransformComponent* const parent, const bool& keep_world)
-		: parent(parent)
-	{
-		UNREFERENCED_PARAMETER(keep_world);
-
-		pos = transform[3];
-		rot = glm::eulerAngles(glm::quat_cast(transform));
-		scl = { glm::length(transform[0]), glm::length(transform[1]), glm::length(transform[2]) };
-
-		if (parent)
-			parent->children.emplace_back(this);
-	}
-	TransformComponent(TransformComponent&& o)
-		: world_matrix(o.world_matrix), flag_changed(o.flag_changed), pad0(0), pad1(0), pad2(0), pos(o.pos), rot(o.rot), scl(o.scl), parent(o.parent), children(std::move(o.children))
-	{}
-	TransformComponent& operator=(TransformComponent&& o)
-	{
-		world_matrix = o.world_matrix;
-		flag_changed = o.flag_changed;
-		pos = o.pos;
-		rot = o.rot;
-		scl = o.scl;
-		parent = o.parent;
-		children = std::move(o.children);
-
-		return *this;
-	}
+	TransformComponent(TransformComponent&& o) = default;
+	TransformComponent& operator=(TransformComponent&& o) = default;
 
 private:
 	glm::mat4 world_matrix = glm::mat4(1.0f);
-	bool flag_changed = false;
-	char pad0 = 0;
-	char pad1 = 0;
-	char pad2 = 0;
+public:
+	bool flag_changed = true;
+private:
+	uint8_t pad0 = 0;
+	uint8_t pad1 = 0;
+	uint8_t pad2 = 0;
 	glm::vec3 pos = glm::vec3(0.0f);
 	glm::vec3 rot = glm::vec3(0.0f);
 	glm::vec3 scl = glm::vec3(1.0f);
-	TransformComponent* parent = nullptr;
-	std::vector<TransformComponent*> children;
 
 	friend class Scene;
+	friend class GameObject;
 };
 
 struct CameraComponent

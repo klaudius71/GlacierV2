@@ -11,14 +11,15 @@ class GameObject final
 {
 public:
 	GameObject() = delete;
-	GameObject(std::string name = "Default Entity", GameObject* const parent = nullptr, const bool keep_transform = false);
-	GameObject(const GameObject& o);
-	GameObject& operator=(const GameObject& o);
-	GameObject(GameObject&& o);
-	GameObject& operator=(GameObject&& o);
+	GameObject(std::string& name, GameObject* const parent);
+	GameObject(const GameObject& o) = delete;
+	GameObject& operator=(const GameObject& o) = delete;
+	GameObject(GameObject&& o) = delete;
+	GameObject& operator=(GameObject&& o) = delete;
 	~GameObject();
 
-	const entt::entity& GetID();
+	const entt::entity& GetID() const;
+	const std::vector<GameObject*>& GetChildren() const;
 
 	void RegisterToScene();
 	void DeregisterFromScene();
@@ -63,6 +64,7 @@ public:
 	template<class T>
 	void RemoveComponent()
 	{
+		static_assert(std::is_same<T, TransformComponent>, "Can't remove an entity's TransformComponent!");
 		assert(HasComponent<T>() && "Entity does not have component to remove!");
 		curr_registry->remove<T>(id);
 	}
@@ -71,12 +73,17 @@ private:
 	void register_to_scene();
 	void deregister_from_scene();
 
+	void update_transform();
+	void update_transform_as_child(const glm::mat4& parent_world_matrix);
+
 	friend class GameObjectAtt;
 
 	entt::entity id;
 	Scene* scene;
 	entt::registry* curr_registry;
 	REGISTRATION_STATE reg_state;
+	GameObject* parent;
+	std::vector<GameObject*> children;
 };
 
 #endif _GAMEOBJECT

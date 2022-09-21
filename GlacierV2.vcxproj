@@ -198,6 +198,7 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SceneChangeCmd.cpp" />
     <ClCompile Include="src\SceneChangeNullCmd.cpp" />
+    <ClCompile Include="src\SceneGraph.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\Script.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\SceneChangeCmd.h" />
     <ClInclude Include="src\SceneChangeNullCmd.h" />
+    <ClInclude Include="src\SceneGraph.h" />
     <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\SceneManagerAtt.h" />
     <ClInclude Include="src\Script.h" />

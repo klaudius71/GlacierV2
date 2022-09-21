@@ -4,7 +4,7 @@
 
 void LevelScript::OnCreate()
 {
-	cube2 = new GameObject("Cube2");
+	cube2 = SceneManager::GetCurrentScene()->CreateGameObject("Cube2");
 	//cube2->AddScript<RotatingScript>();
 	cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 1.0f, 0.0f);
 	cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
@@ -20,7 +20,7 @@ void LevelScript::OnTick()
 		woah = false;
 		if (!cube2)
 		{
-			cube2 = new GameObject("Cube2");
+			cube2 = SceneManager::GetCurrentScene()->CreateGameObject("Cube2");
 			//cube2->AddScript<RotatingScript>();
 			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 1.0f, 0.0f);
 			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
@@ -35,12 +35,12 @@ void LevelScript::OnTick()
 		cube2->DeregisterFromScene();
 	}
 
-	if (Input::GetKeyDown(GLACIER_KEY::KEY_3))
-	{
-		woah = true;
-		delete cube2;
-		cube2 = nullptr;
-	}
+	//if (Input::GetKeyDown(GLACIER_KEY::KEY_3))
+	//{
+	//	woah = true;
+	//	delete cube2;
+	//	cube2 = nullptr;
+	//}
 }
 
 void LevelScript::OnDestroy()

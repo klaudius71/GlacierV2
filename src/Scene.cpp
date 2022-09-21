@@ -25,17 +25,18 @@ const entt::registry& Scene::GetRegistryDisabled() const
 	return registry_disabled;
 }
 
-const entt::entity Scene::CreateEmpty(std::string& name, GameObject* const parent, const bool keep_transform)
+GameObject* const Scene::CreateGameObject(std::string name, GameObject* const parent, bool keep_world)
+{
+	return scn_graph.CreateGameObject(name, parent, keep_world);
+}
+
+const entt::entity Scene::CreateEmpty(std::string& name)
 {
 	entt::entity temp = registry.create(); temp;
 	entt::entity ent = registry_disabled.create();
 	assert(ent == temp);
 	registry_disabled.emplace<NameComponent>(ent, std::move(name));
-	if (parent)
-		registry_disabled.emplace<TransformComponent>(ent, glm::mat4(1.0f), &parent->GetComponent<TransformComponent>(), keep_transform);
-	else
-		registry_disabled.emplace<TransformComponent>(ent, glm::mat4(1.0f), nullptr, false);
-
+	registry_disabled.emplace<TransformComponent>(ent);
 	return ent;
 }
 

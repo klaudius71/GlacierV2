@@ -2,6 +2,7 @@
 #define _SCENE
 
 #include "CommandBroker.h"
+#include "SceneGraph.h"
 
 class GameObject;
 struct CameraComponent;
@@ -21,7 +22,7 @@ public:
 	entt::registry& GetRegistryDisabled();
 	const entt::registry& GetRegistryDisabled() const;
 
-	const entt::entity CreateEmpty(std::string& name, GameObject* const parent, const bool keep_transform);
+	GameObject* const CreateGameObject(std::string name, GameObject* const parent = nullptr, bool keep_world = false);
 
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);
@@ -29,19 +30,24 @@ public:
 
 	const CameraComponent& GetActiveCamera() const;
 
+protected:
+	virtual void InitializeScene() {}
+	virtual void EndScene() {}
+
 private:
 	entt::registry registry;
 	entt::registry registry_disabled;
 	CommandBroker cmd_broker;
+	SceneGraph scn_graph;
 	
 	static const CameraComponent default_camera;
 
 	static void switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to);
 
-	virtual void InitializeScene() {}
-	virtual void EndScene() {}
+	const entt::entity CreateEmpty(std::string& name);
 
 	friend class SceneManager;
+	friend class GameObject;
 };
 
 #endif _SCENE

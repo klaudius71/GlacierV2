@@ -5,12 +5,15 @@
 
 TimeManager* TimeManager::instance = nullptr;
 
+TimeManager::TimeManager()
+	: prev_time(std::chrono::steady_clock::now()), delta(0.0f)
+{}
+
 void TimeManager::process_time()
 {
 	const auto curr_time = std::chrono::steady_clock::now();
 	delta = (std::chrono::duration<float>(curr_time - prev_time)).count();
 	prev_time = curr_time;
-	glfwSetWindowTitle(Glacier::GetWindow().GetNativeWindow(), std::string(std::to_string(delta * 1000.0f) + "ms").c_str());
 }
 void TimeManager::limit_frametime(const float& frame_time)
 {

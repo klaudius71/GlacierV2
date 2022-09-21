@@ -5,7 +5,7 @@ class TimeManager
 {
 private:
 	static TimeManager* instance;
-	TimeManager() = default;
+	TimeManager();
 	TimeManager(const TimeManager&) = delete;
 	TimeManager& operator=(const TimeManager&) = delete;
 	TimeManager(TimeManager&&) = delete;

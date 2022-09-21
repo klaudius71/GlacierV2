@@ -232,6 +232,9 @@
     <ClCompile Include="src\Sandbox\SpinningLightScript.cpp">
       <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="src\SceneGraph.cpp">
+      <Filter>src\Engine\Systems\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="src\Sandbox\SpinningLightScript.h">
       <Filter>src\Sandbox\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneGraph.h">
+      <Filter>src\Engine\Systems\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

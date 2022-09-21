@@ -25,6 +25,7 @@ void SceneManager::updateCurrentScene()
 
 	curr_scene->cmd_broker.DequeueAndExecuteAll();
 	Script::ExecuteAllOnTick(*curr_scene);
+	curr_scene->scn_graph.UpdateTransforms();
 	Lighting::UpdateBuffers(*curr_scene);
 }
 void SceneManager::renderCurrentScene()
