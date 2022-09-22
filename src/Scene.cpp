@@ -25,9 +25,17 @@ const entt::registry& Scene::GetRegistryDisabled() const
 	return registry_disabled;
 }
 
-GameObject* const Scene::CreateGameObject(std::string name, GameObject* const parent, bool keep_world)
+GameObject& Scene::CreateGameObject(std::string name)
+{
+	return scn_graph.CreateGameObject(name);
+}
+GameObject& Scene::CreateGameObject(std::string name, GameObject& parent, bool keep_world)
 {
 	return scn_graph.CreateGameObject(name, parent, keep_world);
+}
+void Scene::EraseGameObject(GameObject* const go)
+{
+	scn_graph.EraseGameObject(go);
 }
 
 const entt::entity Scene::CreateEmpty(std::string& name)

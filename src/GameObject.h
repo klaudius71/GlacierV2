@@ -11,7 +11,7 @@ class GameObject final
 {
 public:
 	GameObject() = delete;
-	GameObject(std::string& name, GameObject* const parent);
+	GameObject(std::string& name, GameObject* const parent = nullptr);
 	GameObject(const GameObject& o) = delete;
 	GameObject& operator=(const GameObject& o) = delete;
 	GameObject(GameObject&& o) = delete;
@@ -70,20 +70,28 @@ public:
 	}
 
 private:
+	entt::entity id;
+	Scene* scene;
+	entt::registry* curr_registry;
+	REGISTRATION_STATE reg_state;
+	SceneGraph::SceneGraphRef scene_graph_ref;
+	GameObject* parent;
+	std::vector<GameObject*> children;
+	
 	void register_to_scene();
 	void deregister_from_scene();
 
 	void update_transform();
 	void update_transform_as_child(const glm::mat4& parent_world_matrix);
 
-	friend class GameObjectAtt;
+	// Scene Graph
+	void SetSceneGraphRef(SceneGraph::SceneGraphRef ref);
+	SceneGraph::SceneGraphRef& GetSceneGraphRef();
+	
+	std::vector<GameObject*>& GetChildren();
 
-	entt::entity id;
-	Scene* scene;
-	entt::registry* curr_registry;
-	REGISTRATION_STATE reg_state;
-	GameObject* parent;
-	std::vector<GameObject*> children;
+	// Attorney
+	friend class GameObjectAtt;
 };
 
 #endif _GAMEOBJECT

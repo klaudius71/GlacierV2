@@ -4,7 +4,6 @@
 #include "CommandBroker.h"
 #include "SceneGraph.h"
 
-class GameObject;
 struct CameraComponent;
 
 class Scene
@@ -22,7 +21,9 @@ public:
 	entt::registry& GetRegistryDisabled();
 	const entt::registry& GetRegistryDisabled() const;
 
-	GameObject* const CreateGameObject(std::string name, GameObject* const parent = nullptr, bool keep_world = false);
+	GameObject& CreateGameObject(std::string name);
+	GameObject& CreateGameObject(std::string name, GameObject& parent, bool keep_world = false);
+	void EraseGameObject(GameObject* const go);
 
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);

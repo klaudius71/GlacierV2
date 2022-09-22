@@ -13,13 +13,16 @@ public:
 	SceneGraph& operator=(SceneGraph&&) = delete;
 	~SceneGraph();
 
-	GameObject* const CreateGameObject(std::string& name, GameObject* const parent = nullptr, bool keep_world = false);
+	GameObject& CreateGameObject(std::string& name);
+	GameObject& CreateGameObject(std::string& name, GameObject& parent, bool keep_world);
 	void EraseGameObject(GameObject* const go);
 
 	void UpdateTransforms();
 
+	using SceneGraphRef = std::list<GameObject*>::const_iterator;
+
 private:
-	std::vector<GameObject*> graph;
+	std::list<GameObject*> graph;
 };
 
 #endif _SCENE_GRAPH

@@ -13,11 +13,6 @@ public:
 	virtual void EndScene() override;
 
 private:
-	GameObject* level_script = nullptr;
-	GameObject* camera = nullptr;
-	GameObject* dir_light = nullptr;
-	GameObject* terrain = nullptr;
-	std::vector<GameObject*> cubes;
 };
 
 #endif _MAIN_SCENE

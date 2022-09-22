@@ -13,7 +13,7 @@ GameObject::GameObject(std::string& name, GameObject* const parent)
 }
 GameObject::~GameObject()
 {
-	//scene->Destroy(id);
+	//scene->EraseGameObject(this);
 }
 
 const entt::entity& GameObject::GetID() const
@@ -76,7 +76,6 @@ void GameObject::update_transform()
 			child->update_transform_as_child(transform.world_matrix);
 	}
 }
-
 void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 {
 	TransformComponent& transform = GetComponent<TransformComponent>();
@@ -90,4 +89,18 @@ void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 
 	for (auto& child : children)
 		child->update_transform_as_child(transform.world_matrix);
+}
+
+std::vector<GameObject*>& GameObject::GetChildren()
+{
+	return children;
+}
+
+void GameObject::SetSceneGraphRef(SceneGraph::SceneGraphRef ref)
+{
+	scene_graph_ref = ref;
+}
+SceneGraph::SceneGraphRef& GameObject::GetSceneGraphRef()
+{
+	return scene_graph_ref;
 }
