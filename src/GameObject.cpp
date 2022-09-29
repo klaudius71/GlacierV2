@@ -28,7 +28,7 @@ const entt::entity& GameObject::GetID() const
 {
 	return id;
 }
-const std::vector<GameObjectRef>& GameObject::GetChildren() const
+const std::list<GameObjectRef>& GameObject::GetChildren() const
 {
 	return children;
 }
@@ -80,7 +80,7 @@ void GameObject::update_transform()
 		if (!parent.isExpired())
 			transform.world_matrix = parent->GetComponent<TransformComponent>().world_matrix * transform.world_matrix;
 
-		for (auto& child : children)
+		for(auto& child : children)
 			child->update_transform_as_child(transform.world_matrix);
 	}
 }
@@ -99,7 +99,19 @@ void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 		child->update_transform_as_child(transform.world_matrix);
 }
 
-std::vector<GameObjectRef>& GameObject::GetChildren()
+GameObjectRef& GameObject::GetParent()
+{
+	return parent;
+}
+std::list<GameObjectRef>::const_iterator& GameObject::GetAsChildRef()
+{
+	return as_child_ref;
+}
+void GameObject::SetAsChildRef(std::list<GameObjectRef>::const_iterator ref)
+{
+	as_child_ref = ref;
+}
+std::list<GameObjectRef>& GameObject::GetChildren()
 {
 	return children;
 }
@@ -111,4 +123,9 @@ void GameObject::SetSceneGraphRef(SceneGraphRef ref)
 SceneGraphRef& GameObject::GetSceneGraphRef()
 {
 	return scene_graph_ref;
+}
+
+void GameObject::EraseChild(std::list<GameObjectRef>::const_iterator ref)
+{
+	children.erase(ref);
 }

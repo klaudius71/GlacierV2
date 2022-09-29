@@ -21,7 +21,7 @@ public:
 	~GameObject();
 
 	const entt::entity& GetID() const;
-	const std::vector<GameObjectRef>& GetChildren() const;
+	const std::list<GameObjectRef>& GetChildren() const;
 
 	void RegisterToScene();
 	void DeregisterFromScene();
@@ -78,7 +78,8 @@ private:
 	REGISTRATION_STATE reg_state;
 	SceneGraphRef scene_graph_ref;
 	GameObjectRef parent;
-	std::vector<GameObjectRef> children;
+	std::list<GameObjectRef>::const_iterator as_child_ref;
+	std::list<GameObjectRef> children;
 	
 	void register_to_scene();
 	void deregister_from_scene();
@@ -89,8 +90,13 @@ private:
 	// Scene Graph
 	void SetSceneGraphRef(SceneGraphRef ref);
 	SceneGraphRef& GetSceneGraphRef();
+
+	void EraseChild(std::list<GameObjectRef>::const_iterator ref);
 	
-	std::vector<GameObjectRef>& GetChildren();
+	GameObjectRef& GetParent();
+	std::list<GameObjectRef>::const_iterator& GetAsChildRef();
+	void SetAsChildRef(std::list<GameObjectRef>::const_iterator ref);
+	std::list<GameObjectRef>& GetChildren();
 
 	// Attorney
 	friend class GameObjectAtt;

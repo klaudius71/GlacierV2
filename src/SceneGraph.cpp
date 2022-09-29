@@ -26,11 +26,18 @@ GameObjectRef SceneGraph::CreateGameObject(std::string& name, GameObjectRef& par
 
 	auto it = graph.emplace(graph.end(), std::make_shared<GameObject>(name, parent));
 	GameObjectAtt::SetSceneGraphRef(**it, it);
-	GameObjectAtt::GetChildren(**parent).emplace_back(*it);
+
+	auto& parent_children = GameObjectAtt::GetChildren(**parent);
+	auto parent_children_it = parent_children.emplace(parent_children.cend(), *it);
+	GameObjectAtt::SetAsChildRef(**it, parent_children_it);
 	return *it;
 }
 void SceneGraph::EraseGameObject(GameObjectRef& go)
 {
+	GameObjectRef& parent = GameObjectAtt::GetParent(**go);
+	if (!parent.isExpired())
+		GameObjectAtt::EraseChild(**parent, GameObjectAtt::GetAsChildRef(**go));
+	
 	graph.erase(GameObjectAtt::GetSceneGraphRef(**go));
 }
 

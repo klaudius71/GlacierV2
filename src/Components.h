@@ -14,15 +14,22 @@ struct NameComponent
 
 	NameComponent(const std::string& name)
 		: name(name), id(std::hash<std::string>()(name))
-	{}
+	{
+	}
 	NameComponent(std::string&& name)
 		: name(std::move(name))
-	{ id = std::hash<std::string>()(this->name); }
+	{ 
+		id = std::hash<std::string>()(this->name); 
+	}
 	NameComponent(NameComponent&& o)
 		: id(o.id), name(std::move(o.name))
 	{}
 	NameComponent& operator=(NameComponent&& o)
-	{ name = std::move(o.name); return *this; }
+	{ 
+		name = std::move(o.name); 
+		id = o.id;
+		return *this; 
+	}
 };
 
 struct TransformComponent

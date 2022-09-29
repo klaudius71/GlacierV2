@@ -43,7 +43,8 @@ GameObjectRef Scene::FindGameObject(const std::string& name)
 	size_t name_hash = std::hash<std::string>()(name);
 	for (auto& go : scn_graph.GetGraph())
 	{
-		if (go->GetComponent<NameComponent>().id == name_hash)
+		NameComponent& name_comp = go->GetComponent<NameComponent>();
+		if (name_comp.id == name_hash)
 			return GameObjectRef(go);
 	}
 	return GameObjectRef();

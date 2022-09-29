@@ -4,11 +4,6 @@
 
 void LevelScript::OnCreate()
 {
-	cube2 = GetCurrentScene().CreateGameObject("Cube2");
-	cube2->AddScript<RotatingScript>();
-	cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 80.0f, 0.0f);
-	cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
-	cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 }
 
 void LevelScript::OnTick()
@@ -20,9 +15,10 @@ void LevelScript::OnTick()
 		woah = false;
 		if (cube2.isExpired())
 		{
-			cube2 = GetCurrentScene().CreateGameObject("Cube2");
-			cube2->AddScript<RotatingScript>();
-			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 80.0f, 0.0f);
+			GameObjectRef cube1 = GetCurrentScene().FindGameObject("Cube1");
+			cube2 = CreateGameObject("Cube3", cube1);
+			//cube2->AddScript<RotatingScript>();
+			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 10.0f, 0.0f);
 			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
 			cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 		}
