@@ -53,8 +53,6 @@ void Lighting::UpdateBuffers(const Scene& curr_scene)
 
 void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)
 {
-	UNREFERENCED_PARAMETER(cam);
-
 	entt::registry& scene_registry = curr_scene->GetRegistry();
 
 	auto dir_light_view = scene_registry.view<DirectionalLightComponent>();
