@@ -3,6 +3,9 @@
 
 class GameObject;
 
+using SceneGraphRef = std::list<std::shared_ptr<GameObject>>::iterator;
+using GameObjectRef = WeakPtr<GameObject>;
+
 class SceneGraph
 {
 public:
@@ -13,16 +16,14 @@ public:
 	SceneGraph& operator=(SceneGraph&&) = delete;
 	~SceneGraph();
 
-	GameObject& CreateGameObject(std::string& name);
-	GameObject& CreateGameObject(std::string& name, GameObject& parent, bool keep_world);
+	GameObjectRef CreateGameObject(std::string& name);
+	GameObjectRef CreateGameObject(std::string& name, GameObjectRef& parent, bool keep_world);
 	void EraseGameObject(GameObject* const go);
 
 	void UpdateTransforms();
 
-	using SceneGraphRef = std::list<GameObject*>::const_iterator;
-
 private:
-	std::list<GameObject*> graph;
+	std::list<std::shared_ptr<GameObject>> graph;
 };
 
 #endif _SCENE_GRAPH

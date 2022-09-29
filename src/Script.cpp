@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "Components.h"
 
-void Script::SetGameObject(GameObject* const new_obj)
+void Script::SetGameObject(GameObjectRef& new_obj)
 {
 	obj = new_obj;
 }

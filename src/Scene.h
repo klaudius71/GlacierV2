@@ -21,8 +21,8 @@ public:
 	entt::registry& GetRegistryDisabled();
 	const entt::registry& GetRegistryDisabled() const;
 
-	GameObject& CreateGameObject(std::string name);
-	GameObject& CreateGameObject(std::string name, GameObject& parent, bool keep_world = false);
+	GameObjectRef CreateGameObject(std::string name);
+	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
 	void EraseGameObject(GameObject* const go);
 
 	void Register(const entt::entity& id);

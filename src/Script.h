@@ -1,7 +1,8 @@
 #ifndef _SCRIPT
 #define _SCRIPT
 
-class GameObject;
+#include "SceneGraph.h"
+
 class Scene;
 
 class Script
@@ -20,9 +21,9 @@ public:
 	//	return obj->GetComponent<T>();
 	//}
 
-	GameObject* obj = nullptr;
+	GameObjectRef obj;
 private:
-	void SetGameObject(GameObject* const new_obj);
+	void SetGameObject(GameObjectRef& new_obj);
 
 	static void ExecuteAllOnCreate(const Scene& scn);
 	static void ExecuteAllOnTick(const Scene& curr_scene);
