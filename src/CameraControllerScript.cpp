@@ -8,7 +8,7 @@
 
 void CameraControllerScript::OnCreate()
 {
-	cam = &obj->GetComponent<CameraComponent>();
+	cam = &GetGameObject()->GetComponent<CameraComponent>();
 }
 void CameraControllerScript::OnTick()
 {

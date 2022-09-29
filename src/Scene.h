@@ -23,11 +23,12 @@ public:
 
 	GameObjectRef CreateGameObject(std::string name);
 	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
-	void EraseGameObject(GameObject* const go);
+	void DestroyGameObject(GameObjectRef& go);
+
+	GameObjectRef FindGameObject(const std::string& name);
 
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);
-	void Destroy(const entt::entity& id);
 
 	const CameraComponent& GetActiveCamera() const;
 
@@ -40,7 +41,9 @@ private:
 	entt::registry registry_disabled;
 	CommandBroker cmd_broker;
 	SceneGraph scn_graph;
-	
+
+	void Destroy(const entt::entity& id);
+
 	static const CameraComponent default_camera;
 
 	static void switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to);

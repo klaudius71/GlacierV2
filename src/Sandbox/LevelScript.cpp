@@ -4,7 +4,7 @@
 
 void LevelScript::OnCreate()
 {
-	cube2 = SceneManager::GetCurrentScene()->CreateGameObject("Cube2");
+	cube2 = GetCurrentScene().CreateGameObject("Cube2");
 	cube2->AddScript<RotatingScript>();
 	cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 80.0f, 0.0f);
 	cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
@@ -20,9 +20,9 @@ void LevelScript::OnTick()
 		woah = false;
 		if (cube2.isExpired())
 		{
-			cube2 = SceneManager::GetCurrentScene()->CreateGameObject("Cube2");
+			cube2 = GetCurrentScene().CreateGameObject("Cube2");
 			cube2->AddScript<RotatingScript>();
-			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 1.0f, 0.0f);
+			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 80.0f, 0.0f);
 			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
 			cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 		}
@@ -35,11 +35,10 @@ void LevelScript::OnTick()
 		cube2->DeregisterFromScene();
 	}
 
-	if (Input::GetKeyDown(GLACIER_KEY::KEY_3))
+	if (Input::GetKeyDown(GLACIER_KEY::KEY_3) && !woah)
 	{
 		woah = true;
-		SceneManager::GetCurrentScene()->Destroy(cube2->GetID());
-		cube2 = nullptr;
+		GetCurrentScene().DestroyGameObject(cube2);
 	}
 }
 

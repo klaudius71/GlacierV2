@@ -9,6 +9,11 @@ SceneGraph::~SceneGraph()
 		graph.pop_front();
 }
 
+const std::list<std::shared_ptr<GameObject>>& SceneGraph::GetGraph() const
+{
+	return graph;
+}
+
 GameObjectRef SceneGraph::CreateGameObject(std::string& name)
 {
 	auto it = graph.emplace(graph.end(), std::make_shared<GameObject>(name));
@@ -24,10 +29,9 @@ GameObjectRef SceneGraph::CreateGameObject(std::string& name, GameObjectRef& par
 	GameObjectAtt::GetChildren(**parent).emplace_back(*it);
 	return *it;
 }
-void SceneGraph::EraseGameObject(GameObject* const go)
+void SceneGraph::EraseGameObject(GameObjectRef& go)
 {
-	graph.erase(GameObjectAtt::GetSceneGraphRef(*go));
-	delete go;
+	graph.erase(GameObjectAtt::GetSceneGraphRef(**go));
 }
 
 void SceneGraph::UpdateTransforms()

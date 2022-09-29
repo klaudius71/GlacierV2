@@ -16,9 +16,11 @@ public:
 	SceneGraph& operator=(SceneGraph&&) = delete;
 	~SceneGraph();
 
+	const std::list<std::shared_ptr<GameObject>>& GetGraph() const;
+
 	GameObjectRef CreateGameObject(std::string& name);
 	GameObjectRef CreateGameObject(std::string& name, GameObjectRef& parent, bool keep_world);
-	void EraseGameObject(GameObject* const go);
+	void EraseGameObject(GameObjectRef& go);
 
 	void UpdateTransforms();
 

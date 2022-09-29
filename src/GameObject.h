@@ -1,11 +1,12 @@
 #ifndef _GAMEOBJECT
 #define _GAMEOBJECT
 
-#include "Scene.h"
 #include "Components.h"
 #include "RegistrationState.h"
 #include "ScriptAtt.h"
 #include "AddScriptCmd.h"
+
+class Scene;
 
 class GameObject final
 {

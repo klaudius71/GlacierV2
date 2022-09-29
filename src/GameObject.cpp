@@ -1,6 +1,7 @@
 #include "gpch.h"
 #include "GameObject.h"
 #include "SceneManager.h"
+#include "Scene.h"
 #include "GameObjectRegCmd.h"
 #include "GameObjectDeregCmd.h"
 
@@ -20,10 +21,7 @@ GameObject::GameObject(std::string& name, GameObjectRef& parent)
 }
 GameObject::~GameObject()
 {
-	std::weak_ptr<GameObject> woah;
-	scene->Destroy(this->id);
-	parent = nullptr;
-	children.clear();
+	scene->Destroy(id);
 }
 
 const entt::entity& GameObject::GetID() const

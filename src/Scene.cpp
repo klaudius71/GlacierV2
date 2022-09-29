@@ -33,9 +33,20 @@ GameObjectRef Scene::CreateGameObject(std::string name, GameObjectRef parent, bo
 {
 	return scn_graph.CreateGameObject(name, parent, keep_world);
 }
-void Scene::EraseGameObject(GameObject* const go)
+void Scene::DestroyGameObject(GameObjectRef& go)
 {
 	scn_graph.EraseGameObject(go);
+}
+
+GameObjectRef Scene::FindGameObject(const std::string& name)
+{
+	size_t name_hash = std::hash<std::string>()(name);
+	for (auto& go : scn_graph.GetGraph())
+	{
+		if (go->GetComponent<NameComponent>().id == name_hash)
+			return GameObjectRef(go);
+	}
+	return GameObjectRef();
 }
 
 const entt::entity Scene::CreateEmpty(std::string& name)

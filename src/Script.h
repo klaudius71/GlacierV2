@@ -15,14 +15,16 @@ public:
 	virtual void OnTick() = 0;
 	virtual void OnDestroy() {};
 
-	//template<class T>
-	//T& GetComponent()
-	//{
-	//	return obj->GetComponent<T>();
-	//}
+	GameObjectRef CreateGameObject(std::string name);
+	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
+	void DestroyGameObject(GameObjectRef go);
 
-	GameObjectRef obj;
+	GameObjectRef& GetGameObject();
+	Scene& GetCurrentScene();
+
 private:
+	GameObjectRef obj;
+
 	void SetGameObject(GameObjectRef& new_obj);
 
 	static void ExecuteAllOnCreate(const Scene& scn);

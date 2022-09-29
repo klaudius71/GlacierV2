@@ -3,7 +3,7 @@
 
 void SpinningLightScript::OnCreate()
 {
-	dir = &obj->GetComponent<DirectionalLightComponent>().light.direction;
+	dir = &GetGameObject()->GetComponent<DirectionalLightComponent>().light.direction;
 }
 
 void SpinningLightScript::OnTick()

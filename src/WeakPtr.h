@@ -7,7 +7,7 @@ class WeakPtr
 public:
 	WeakPtr() = default;
 	WeakPtr(const WeakPtr&) = default;
-	WeakPtr(std::shared_ptr<T>& shrd)
+	WeakPtr(const std::shared_ptr<T>& shrd)
 		: ptr(shrd)
 	{}
 	WeakPtr& operator=(const WeakPtr&) = default;

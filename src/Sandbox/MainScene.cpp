@@ -18,7 +18,7 @@ void MainScene::InitializeScene()
 
 	GameObjectRef dir_light = CreateGameObject("Directional Light");
 	dir_light->EmplaceComponent<DirectionalLightComponent>(glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)));
-	//dir_light->AddScript<SpinningLightScript>();
+	dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
 
 	GameObjectRef terrain = CreateGameObject("Terrain");

@@ -3,7 +3,7 @@
 
 void RotatingScript::OnCreate()
 {
-	transform = &obj->GetComponent<TransformComponent>();
+	transform = &GetGameObject()->GetComponent<TransformComponent>();
 }
 void RotatingScript::OnTick()
 {

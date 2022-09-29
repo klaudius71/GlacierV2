@@ -16,8 +16,8 @@ struct NameComponent
 		: name(name), id(std::hash<std::string>()(name))
 	{}
 	NameComponent(std::string&& name)
-		: id(std::hash<std::string>()(name)), name(std::move(name))
-	{}
+		: name(std::move(name))
+	{ id = std::hash<std::string>()(this->name); }
 	NameComponent(NameComponent&& o)
 		: id(o.id), name(std::move(o.name))
 	{}
