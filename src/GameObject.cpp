@@ -4,7 +4,14 @@
 #include "GameObjectRegCmd.h"
 #include "GameObjectDeregCmd.h"
 
-GameObject::GameObject(std::string& name, GameObject* const parent)
+GameObject::GameObject(std::string& name)
+	: reg_state(REGISTRATION_STATE::CURRENTLY_DEREGISTERED)
+{
+	scene = SceneManager::GetCurrentScene();
+	id = scene->CreateEmpty(name);
+	curr_registry = &scene->GetRegistryDisabled();
+}
+GameObject::GameObject(std::string& name, GameObjectRef& parent)
 	: reg_state(REGISTRATION_STATE::CURRENTLY_DEREGISTERED), parent(parent)
 {
 	scene = SceneManager::GetCurrentScene();
@@ -13,14 +20,17 @@ GameObject::GameObject(std::string& name, GameObject* const parent)
 }
 GameObject::~GameObject()
 {
-	//scene->EraseGameObject(this);
+	std::weak_ptr<GameObject> woah;
+	scene->Destroy(this->id);
+	parent = nullptr;
+	children.clear();
 }
 
 const entt::entity& GameObject::GetID() const
 {
 	return id;
 }
-const std::vector<GameObject*>& GameObject::GetChildren() const
+const std::vector<GameObjectRef>& GameObject::GetChildren() const
 {
 	return children;
 }
@@ -69,7 +79,7 @@ void GameObject::update_transform()
 		const glm::mat4& scale = glm::scale(glm::mat4(1.0f), transform.scl);
 		transform.world_matrix = position * rot_yxz * scale;
 
-		if (parent)
+		if (!parent.isExpired())
 			transform.world_matrix = parent->GetComponent<TransformComponent>().world_matrix * transform.world_matrix;
 
 		for (auto& child : children)
@@ -91,16 +101,16 @@ void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 		child->update_transform_as_child(transform.world_matrix);
 }
 
-std::vector<GameObject*>& GameObject::GetChildren()
+std::vector<GameObjectRef>& GameObject::GetChildren()
 {
 	return children;
 }
 
-void GameObject::SetSceneGraphRef(SceneGraph::SceneGraphRef ref)
+void GameObject::SetSceneGraphRef(SceneGraphRef ref)
 {
 	scene_graph_ref = ref;
 }
-SceneGraph::SceneGraphRef& GameObject::GetSceneGraphRef()
+SceneGraphRef& GameObject::GetSceneGraphRef()
 {
 	return scene_graph_ref;
 }

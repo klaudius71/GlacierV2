@@ -203,6 +203,7 @@
     <ClCompile Include="src\Script.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
+    <ClCompile Include="src\WeakPtr.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TimeManager.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\ModelLoaderAtt.h" />
+    <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Renderer2D.h" />

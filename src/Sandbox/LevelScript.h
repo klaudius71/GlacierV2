@@ -13,5 +13,5 @@ public:
 	virtual void OnDestroy() override;
 
 private:
-	//GameObject* cube2 = nullptr;
+	GameObjectRef cube2;
 };

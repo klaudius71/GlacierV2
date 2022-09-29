@@ -21,6 +21,7 @@
 #include <functional>
 #include "Timer.h"
 #include "VertexTypes.h"
+#include "WeakPtr.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -40,4 +41,4 @@
 #include "Colors.h"
 
 //#pragma warning(disable : 4005)
-//#include "Framework.h"
+//#include "../external/MemTracker/Framework.h"

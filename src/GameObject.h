@@ -11,7 +11,8 @@ class GameObject final
 {
 public:
 	GameObject() = delete;
-	GameObject(std::string& name, GameObject* const parent = nullptr);
+	GameObject(std::string& name);
+	GameObject(std::string& name, GameObjectRef& parent);
 	GameObject(const GameObject& o) = delete;
 	GameObject& operator=(const GameObject& o) = delete;
 	GameObject(GameObject&& o) = delete;
@@ -19,7 +20,7 @@ public:
 	~GameObject();
 
 	const entt::entity& GetID() const;
-	const std::vector<GameObject*>& GetChildren() const;
+	const std::vector<GameObjectRef>& GetChildren() const;
 
 	void RegisterToScene();
 	void DeregisterFromScene();
@@ -56,7 +57,7 @@ public:
 		static_assert(std::is_base_of<Script, T>(), "AddScript() must take in a type derived from Script!");
 		assert(!HasComponent<ScriptComponent>() && "Entity already has a script component!");
 		Script* const scrpt = new T;
-		ScriptAtt::SetGameObject(scrpt, this);
+		ScriptAtt::SetGameObject(scrpt, *scene_graph_ref);
 		//SceneManager::EnqueueCommand(new AddScriptCmd(this, scrpt));
 		curr_registry->emplace<ScriptComponent>(id, scrpt);
 	}
@@ -74,9 +75,9 @@ private:
 	Scene* scene;
 	entt::registry* curr_registry;
 	REGISTRATION_STATE reg_state;
-	SceneGraph::SceneGraphRef scene_graph_ref;
-	GameObject* parent;
-	std::vector<GameObject*> children;
+	SceneGraphRef scene_graph_ref;
+	GameObjectRef parent;
+	std::vector<GameObjectRef> children;
 	
 	void register_to_scene();
 	void deregister_from_scene();
@@ -85,10 +86,10 @@ private:
 	void update_transform_as_child(const glm::mat4& parent_world_matrix);
 
 	// Scene Graph
-	void SetSceneGraphRef(SceneGraph::SceneGraphRef ref);
-	SceneGraph::SceneGraphRef& GetSceneGraphRef();
+	void SetSceneGraphRef(SceneGraphRef ref);
+	SceneGraphRef& GetSceneGraphRef();
 	
-	std::vector<GameObject*>& GetChildren();
+	std::vector<GameObjectRef>& GetChildren();
 
 	// Attorney
 	friend class GameObjectAtt;
