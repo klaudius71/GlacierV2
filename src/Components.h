@@ -62,13 +62,16 @@ private:
 
 struct CameraComponent
 {
-	glm::mat4 proj = glm::mat4(1.0f);
-	glm::mat4 view = glm::mat4(1.0f);
-	//glm::vec4 cam_pos = glm::vec4(0.0f);
+	glm::vec3 cam_pos = glm::vec3(0.0f);
+	glm::vec3 cam_dir = glm::vec3(0.0f, 0.0f, 1.0f);
+	float fov = glm::radians(90.0f);
+	float near_plane = 0.1f;
+	float far_plane = 10000.0f;
+	glm::mat4 proj = glm::perspective(fov, 16.0f / 9.0f, near_plane, far_plane);
 
 	CameraComponent() = default;
-	CameraComponent(const glm::mat4& proj, const glm::mat4& view/*, const glm::vec4& cam_pos*/)
-		: proj(proj), view(view)//, cam_pos(cam_pos)
+	CameraComponent(const glm::mat4& proj, const glm::vec3& cam_pos = glm::vec3(0.0f), const glm::vec3& cam_dir = glm::vec3(0.0f, 0.0f, -1.0f), const float& fov = glm::radians(90.0f), const float& near_plane = 0.1f, const float& far_plane = 10000.0f)
+		: proj(proj), cam_pos(cam_pos), cam_dir(cam_dir), fov(fov), near_plane(near_plane), far_plane(far_plane)
 	{}
 	CameraComponent(const CameraComponent&) = default;
 	CameraComponent& operator=(const CameraComponent&) = default;
@@ -109,19 +112,18 @@ struct MeshComponent
 {
 	GLuint vao;
 	uint32_t num_indices;
+	bool cast_shadow;
 
-	MeshComponent(const Model* const mod)
-		: vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3)
+	MeshComponent(const Model* const mod, const bool& cast_shadow = true)
+		: vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), cast_shadow(cast_shadow)
 	{}
-	MeshComponent(MeshComponent&& o)
-		: vao(o.vao), num_indices(o.num_indices)
-	{}
-	MeshComponent& operator=(MeshComponent&& o)
-	{
-		vao = o.vao;
-		num_indices = o.num_indices;
-		return *this;
-	}
+	MeshComponent(MeshComponent&& o) = default;
+	MeshComponent& operator=(MeshComponent&& o) = default;
+
+private:
+	uint8_t pad0 = 0;
+	uint8_t pad1 = 0;
+	uint8_t pad2 = 0;
 };
 
 struct MaterialComponent

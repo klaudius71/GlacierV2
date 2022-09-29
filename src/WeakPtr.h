@@ -1,5 +1,5 @@
-#ifndef _REF_H
-#define _REF_H
+#ifndef _WEAK_PTR
+#define _WEAK_PTR
 
 template<class T>
 class WeakPtr
@@ -42,4 +42,4 @@ private:
 	std::weak_ptr<T> ptr;
 };
 
-#endif _REF_H
+#endif _WEAK_PTR

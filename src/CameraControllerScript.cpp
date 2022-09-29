@@ -32,6 +32,8 @@ void CameraControllerScript::OnTick()
 	const glm::vec3 right = glm::normalize(glm::cross(dir, glm::vec3(0.0f, 1.0f, 0.0f)));
 	const glm::vec3 up = glm::normalize(-glm::cross(dir, right));
 	
+	cam->cam_dir = dir;
+
 	if(Input::GetKeyDown(GLACIER_KEY::KEY_LEFT_SHIFT))
 		cam_speed = 600.0f;
 	else
@@ -51,5 +53,5 @@ void CameraControllerScript::OnTick()
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
 		camPos += up * speed_delta;
 
-	cam->view = glm::lookAt(camPos, camPos + dir, camUp);
+	cam->cam_pos = camPos;
 }

@@ -11,7 +11,8 @@ void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraComponent) /*- sizeof(glm::vec4)*/, &camera);
+	glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, &proj_view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 

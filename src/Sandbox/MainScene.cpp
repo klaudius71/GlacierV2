@@ -12,7 +12,7 @@ void MainScene::InitializeScene()
 	
 	GameObjectRef camera = CreateGameObject("Camera");
 	camera->EmplaceComponent<CameraComponent>(glm::perspective(glm::radians(70.0f), (float)Glacier::GetWindow().GetWindowWidth() / (float)Glacier::GetWindow().GetWindowHeight(), 0.1f, 10000.0f),
-											  glm::lookAt(glm::vec3(0.0f, 100.0f, 20.0f), glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+											  glm::vec3(0.0f, 100.0f, 20.0f), glm::vec3(0.0f, 0.0f, -1.0f));
 	camera->AddScript<CameraControllerScript>();
 	camera->RegisterToScene();
 

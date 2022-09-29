@@ -5,9 +5,8 @@
 #include "Glacier.h"
 #include "Window.h"
 
-const CameraComponent Scene::default_camera = CameraComponent(glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, 10000.0f),
-														glm::lookAt(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-
+const CameraComponent Scene::default_camera = CameraComponent(glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, 10000.0f));
+													
 entt::registry& Scene::GetRegistry()
 {
 	return registry;
