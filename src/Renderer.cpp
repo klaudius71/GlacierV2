@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "ShaderLoader.h"
 #include "TextureLoader.h"
+#include "Lighting.h"
 
 void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
@@ -23,7 +24,9 @@ void Renderer::RenderScene(Scene* const scn)
 	const CameraComponent& camera = scn->GetActiveCamera();
 	UpdateCameraData(camera);
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT)->GetProgramID();
+	Lighting::RenderSceneShadows(scn, camera);
+
+	GLuint curr_shader = *ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	glUseProgram(curr_shader);
 	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
 	GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
@@ -32,6 +35,10 @@ void Renderer::RenderScene(Scene* const scn)
 	GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
 	const GLint tex[4] = { 0, 1, 2, 3 };
 	glUniform1iv(glGetUniformLocation(curr_shader, "textures[0]"), 4, tex);
+	//glUniform4i()
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
+	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 4);
 	
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);

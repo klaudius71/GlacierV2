@@ -17,6 +17,8 @@ public:
 
 	const GLint GetUniformLocation(const std::string& name) const;
 
+	operator const GLuint& () const { return program_id; }
+
 private:
 	void load_shader(const char* const vertex_shader, const char* const fragment_shader);
 	void load_with_geometry_shader(const char* const vertex_shader, const char* const fragment_shader, const char* const geometry_shader);

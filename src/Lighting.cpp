@@ -2,14 +2,40 @@
 #include "Lighting.h"
 #include "Scene.h"
 #include "Components.h"
+#include "ShaderLoader.h"
+#include "Shader.h"
+#include "Glacier.h"
+#include "Window.h"
 
 GLuint Lighting::DirLight_ubo = 0;
+GLuint Lighting::LightspaceMatrices_ubo = 0;
+
 GLuint Lighting::DirShadow_fbo = 0;
+GLuint Lighting::DirShadow_tex = 0;
 const DirectionalLightComponent Lighting::default_dir_light = DirectionalLightComponent(VertexTypes::PhongADS(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), 0.0f), glm::vec3(0.0f));
 
-void Lighting::SetBuffers(const GLuint& dir_light_ubo)
+void Lighting::SetBuffers(const GLuint& dir_light_ubo, const GLuint& lightspace_ubo)
 {
 	DirLight_ubo = dir_light_ubo;
+	LightspaceMatrices_ubo = lightspace_ubo;
+
+	glGenFramebuffers(1, &DirShadow_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, DirShadow_fbo);
+	
+	glGenTextures(1, &DirShadow_tex);
+	glBindTexture(GL_TEXTURE_2D, DirShadow_tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, (const GLfloat*) & Colors::White);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DirShadow_tex, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 void Lighting::UpdateBuffers(const Scene& curr_scene)
 {
@@ -25,16 +51,47 @@ void Lighting::UpdateBuffers(const Scene& curr_scene)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-void Lighting::RenderSceneShadows(Scene& curr_scene, const CameraComponent& cam)
+void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)
 {
 	UNREFERENCED_PARAMETER(cam);
 
-	entt::registry& scene_registry = curr_scene.GetRegistry();
-	
-	auto mesh_transform_group = scene_registry.group<MeshComponent>(entt::get<TransformComponent>);
+	entt::registry& scene_registry = curr_scene->GetRegistry();
 
+	auto dir_light_view = scene_registry.view<DirectionalLightComponent>();
+	if (dir_light_view.begin() == dir_light_view.end())
+		return;
+
+	glViewport(0, 0, 2048, 2048);
+	glBindFramebuffer(GL_FRAMEBUFFER, DirShadow_fbo);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glCullFace(GL_FRONT);
+
+	auto& dir_light_dir = scene_registry.get<DirectionalLightComponent>(*dir_light_view.begin()).light.direction;
+	const glm::vec3 cam_dir_xz = glm::normalize(glm::vec3(cam.cam_dir.x, 0.0f, cam.cam_dir.z));
+	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + cam_dir_xz * 200.0f;
+	const glm::mat4 lightspace = glm::ortho(-200.0f, 200.0f, -200.0f, 200.0f, -200.0f, 200.0f) *
+		glm::lookAt(dir_light_cam_center_pos - dir_light_dir, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	glBindBuffer(GL_UNIFORM_BUFFER, LightspaceMatrices_ubo);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &lightspace);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	GLuint curr_shader = *ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
+	glUseProgram(curr_shader);
+
+	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
+	auto mesh_transform_group = scene_registry.group<MeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, mesh, transform] : mesh_transform_group.each())
 	{
-		
+		if (mesh.cast_shadow)
+		{
+			glBindVertexArray(mesh.vao);
+			glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
+			glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
+		}
 	}
+
+	glCullFace(GL_BACK);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight());
 }

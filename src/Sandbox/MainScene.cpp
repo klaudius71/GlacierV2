@@ -22,7 +22,7 @@ void MainScene::InitializeScene()
 	dir_light->RegisterToScene();
 
 	GameObjectRef terrain = CreateGameObject("Terrain");
-	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"));
+	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.1f), 1.0f), TextureLoader::Get("Sand"));
 	terrain->RegisterToScene();
 

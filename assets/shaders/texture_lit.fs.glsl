@@ -28,6 +28,20 @@ layout (std140, binding = 1) uniform DirLight
 uniform vec4 color;
 uniform PhongADS material;
 uniform sampler2D textures[4];
+uniform sampler2D dir_shadow_map;
+
+float CalcDirectionalShadow(vec4 fragPosLightSpace)
+{
+	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+	projCoords = projCoords * 0.5f + 0.5f;
+	if(projCoords.z > 1.0f)
+        return 0.0f;
+
+	float closestDepth = texture(dir_shadow_map, projCoords.xy).r;
+
+	float shadow = projCoords.z < closestDepth ? 0.0f : 1.0f;
+	return shadow;
+}
 
 vec3 PhongModel(PhongADS mat, PhongADS light, vec3 L, vec3 normal, vec3 eyeDir)
 {
@@ -53,20 +67,21 @@ vec3 PhongModel(PhongADS mat, PhongADS light, vec3 L, vec3 normal, vec3 eyeDir)
     return diffuse + spec;
 }
 
-vec3 CalcDirectionalLight(PhongADS mat, DirectionalLight light, vec3 normal, vec3 eyeDir/*, float shadow*/)
-{
-	vec3 ambient = mat.ambient * light.light_properties.ambient;
-	const vec3 lightDir_cameraspace = mat3(view_matrix) * light.direction;
-    return ambient + PhongModel(mat, light.light_properties, lightDir_cameraspace, normal, eyeDir);
-}
-
 in VS_OUT
 {
     vec4 position_cameraspace;
+	vec4 position_lightspace;
     vec3 normal_cameraspace;
     vec2 tex_coord;
     flat uint tex_id;
 } fs_in;
+
+vec3 CalcDirectionalLight(PhongADS mat, DirectionalLight light, vec3 normal, vec3 eyeDir)
+{
+	vec3 ambient = mat.ambient * light.light_properties.ambient;
+	const vec3 lightDir_cameraspace = (view_matrix * vec4(light.direction, 0.0f)).xyz;
+    return ambient + PhongModel(mat, light.light_properties, lightDir_cameraspace, normal, eyeDir) * (1.0f - CalcDirectionalShadow(fs_in.position_lightspace));
+}
 
 out vec4 FragColor;
 

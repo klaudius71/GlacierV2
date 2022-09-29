@@ -41,17 +41,15 @@ void CameraControllerScript::OnTick()
 
 	const auto speed_delta = cam_speed * TimeManager::GetDeltaTime();
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_W))
-		camPos += dir * speed_delta;
+		cam->cam_pos += dir * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_S))
-		camPos -= dir * speed_delta;
+		cam->cam_pos -= dir * speed_delta;
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_A))
-		camPos -= right * speed_delta;
+		cam->cam_pos -= right * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_D))
-		camPos += right * speed_delta;
+		cam->cam_pos += right * speed_delta;
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_Q))
-		camPos -= up * speed_delta;
+		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
-		camPos += up * speed_delta;
-
-	cam->cam_pos = camPos;
+		cam->cam_pos += up * speed_delta;
 }
