@@ -22,7 +22,7 @@ Texture::Texture(const std::array<std::string, 6>& file_paths)
 	: id(0xFFFFFFFF), type(TEXTURE_TYPE::CUBE_MAP)
 {
 	// Vertically flips all loaded textures
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 
 	uint8_t* imgs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	int width_height_channels[3 * 6];

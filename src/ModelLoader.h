@@ -6,7 +6,8 @@
 
 enum class PRELOADED_MODELS
 {
-	QUAD
+	QUAD,
+	UNIT_CUBE
 };
 
 class ModelLoader

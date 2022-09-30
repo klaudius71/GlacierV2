@@ -40,7 +40,6 @@ namespace VertexTypes
 		uint32_t i1 = 0;
 		uint32_t i2 = 0;
 
-		VertexTriangle() = default;
 		VertexTriangle(const uint32_t& i0 = 0, const uint32_t& i1 = 0, const uint32_t& i2 = 0)
 			: i0(i0), i1(i1), i2(i2)
 		{}

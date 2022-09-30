@@ -277,6 +277,8 @@
     <None Include="assets\shaders\color.vs.glsl" />
     <None Include="assets\shaders\shadow_map.fs.glsl" />
     <None Include="assets\shaders\shadow_map.vs.glsl" />
+    <None Include="assets\shaders\skybox.fs.glsl" />
+    <None Include="assets\shaders\skybox.vs.glsl" />
     <None Include="assets\shaders\texture.fs.glsl" />
     <None Include="assets\shaders\texture.vs.glsl" />
     <None Include="assets\shaders\texture_lit.fs.glsl" />

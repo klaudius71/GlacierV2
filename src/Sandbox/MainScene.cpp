@@ -17,9 +17,13 @@ void MainScene::InitializeScene()
 	camera->RegisterToScene();
 
 	GameObjectRef dir_light = CreateGameObject("Directional Light");
-	dir_light->EmplaceComponent<DirectionalLightComponent>(glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)));
+	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(0.45f), glm::vec3(.8f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));
 	//dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
+
+	GameObjectRef skybox = CreateGameObject("Skybox");
+	skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));
+	skybox->RegisterToScene();
 
 	GameObjectRef terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
@@ -27,7 +31,7 @@ void MainScene::InitializeScene()
 	terrain->RegisterToScene();
 
 	GameObjectRef cube = CreateGameObject("Cube1");
-	cube->GetComponent<TransformComponent>().position().y = 60.0f;
+	cube->GetComponent<TransformComponent>().position().y = 70.0f;
 	//cube->GetComponent<TransformComponent>().rotation().z = 3.141529f * (1.0f/8.0f);
 	cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
 	cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));

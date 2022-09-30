@@ -452,5 +452,11 @@
     <None Include="assets\shaders\shadow_map.fs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
+    <None Include="assets\shaders\skybox.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\skybox.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -21,6 +21,9 @@ ModelLoader::ModelLoader()
 	preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::QUAD), std::forward_as_tuple(verts, tris));
 	verts.clear();
 	tris.clear();
+
+	Model& skybox_mod = preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::UNIT_CUBE), std::forward_as_tuple(PREMADE_MODELS::UNIT_CUBE_REPEAT_TEXTURE, 1.0f)).first->second;
+	Model::load_GPU_data(skybox_mod);
 }
 
 void ModelLoader::load_async_file(std::unordered_map<std::string, Model>& list_ref, const std::string& name, const std::string& file_name)

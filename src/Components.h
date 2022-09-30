@@ -211,4 +211,14 @@ struct DirectionalLightComponent
 	~DirectionalLightComponent() = default;
 };
 
+struct SkyboxComponent
+{
+	GLuint tex_id = 0xFFFFFFF;
+
+	SkyboxComponent() = default;
+	SkyboxComponent(const GLuint& tex)
+		: tex_id(tex)
+	{}
+};
+
 #endif _COMPONENTS

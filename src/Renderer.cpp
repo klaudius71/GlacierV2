@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "ShaderLoader.h"
 #include "TextureLoader.h"
+#include "ModelLoader.h"
 #include "Lighting.h"
 
 void Renderer::UpdateCameraData(const CameraComponent& camera)
@@ -19,14 +20,14 @@ void Renderer::UpdateCameraData(const CameraComponent& camera)
 
 void Renderer::RenderScene(Scene* const scn)
 {
-	entt::registry& registry = scn->GetRegistry();
-	
 	const CameraComponent& camera = scn->GetActiveCamera();
 	UpdateCameraData(camera);
 
 	Lighting::RenderSceneShadows(scn, camera);
 
-	GLuint curr_shader = *ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	entt::registry& registry = scn->GetRegistry();
+
+	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT)->GetProgramID();
 	glUseProgram(curr_shader);
 	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
 	GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
@@ -75,4 +76,23 @@ void Renderer::RenderScene(Scene* const scn)
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	// Render skybox
+	auto skybox_view = registry.view<SkyboxComponent>();
+	if (skybox_view.begin() != skybox_view.end())
+	{
+		glDepthFunc(GL_LEQUAL);
+		glCullFace(GL_FRONT);
+
+		curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SKYBOX)->GetProgramID();
+		glUseProgram(curr_shader);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, registry.get<SkyboxComponent>(*skybox_view.begin()).tex_id);
+		Model* skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
+		glBindVertexArray(skybox_model->GetVAO());
+		glDrawElements(GL_TRIANGLES, skybox_model->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
+
+		glCullFace(GL_BACK);
+		glDepthFunc(GL_LESS);
+	}
 }
