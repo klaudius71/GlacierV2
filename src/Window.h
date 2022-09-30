@@ -23,14 +23,18 @@ public:
 	void Clear();
 	void SwapBuffers();
 	void PollEvents();
+	void ToggleFullscreen();
 
 private:
 	static void glfw_window_resize_callback(GLFWwindow* window, int width, int height);
 	static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+	int prev_window_pos_x;
+	int prev_window_pos_y;
 	int window_width;
 	int window_height;
 	GLFWwindow* window;
+	bool is_fullscreen;
 };
 
 #endif _WINDOW
