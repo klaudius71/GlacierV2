@@ -6,7 +6,7 @@ const std::string TextureLoader::TEXTURE_PATH = "textures/";
 std::vector<std::future<void>> TextureLoader::futures;
 std::mutex TextureLoader::load_mutex;
 
-void TextureLoader::load_async(std::unordered_map<std::string, Texture>& list_ref, const std::string& name, const std::string& file_name)
+void TextureLoader::load_async_reg(std::unordered_map<std::string, Texture>& list_ref, const std::string& name, const std::string& file_name)
 {
 	Texture tex(file_name);
 	std::lock_guard<std::mutex> lock(load_mutex);
@@ -15,7 +15,19 @@ void TextureLoader::load_async(std::unordered_map<std::string, Texture>& list_re
 }
 void TextureLoader::load(const std::string& name, const std::string& file_name)
 {
-	futures.push_back(std::async(std::launch::async, load_async, std::ref(textures), name, TEXTURE_PATH + file_name));
+	futures.push_back(std::async(std::launch::async, load_async_reg, std::ref(textures), name, TEXTURE_PATH + file_name));
+}
+void TextureLoader::load_async_cube(std::unordered_map<std::string, Texture>& list_ref, const std::string& name, const std::array<std::string, 6>& file_paths)
+{
+	Texture cube_tex(file_paths);
+	std::lock_guard<std::mutex> lock(load_mutex);
+	assert(list_ref.find(name) == list_ref.end());
+	list_ref.emplace(name, std::move(cube_tex));
+}
+void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names)
+{
+	const std::array<std::string, 6>& file_paths { TEXTURE_PATH + file_names[0], TEXTURE_PATH + file_names[1], TEXTURE_PATH + file_names[2], TEXTURE_PATH + file_names[3], TEXTURE_PATH + file_names[4], TEXTURE_PATH + file_names[5] };
+	futures.push_back(std::async(std::launch::async, load_async_cube, std::ref(textures), name, file_paths));
 }
 
 const Texture& TextureLoader::get(const std::string& name)

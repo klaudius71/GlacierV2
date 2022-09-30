@@ -40,5 +40,5 @@
 
 #include "Colors.h"
 
-//#pragma warning(disable : 4005)
-//#include "../external/MemTracker/Framework.h"
+#pragma warning(disable : 4005)
+#include "../external/MemTracker/Framework.h"
