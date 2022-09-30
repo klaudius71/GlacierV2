@@ -29,13 +29,14 @@ void MainScene::InitializeScene()
 	GameObjectRef cube = CreateGameObject("Cube1");
 	cube->GetComponent<TransformComponent>().position().y = 60.0f;
 	//cube->GetComponent<TransformComponent>().rotation().z = 3.141529f * (1.0f/8.0f);
+	cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
 	cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
 	cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
-	cube->RegisterToScene();
 	cube->AddScript<RotatingScript>();
+	cube->RegisterToScene();
 
-	GameObjectRef cube2 = CreateGameObject("Cube2", cube);
-	cube2->GetComponent<TransformComponent>().position().x = 20.0f;
+	GameObjectRef cube2 = CreateGameObject("Cube2");
+	cube2->GetComponent<TransformComponent>().position() = glm::vec3(40.0f, 90.0f, 40.0f);
 	cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
 	cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 	cube2->RegisterToScene();

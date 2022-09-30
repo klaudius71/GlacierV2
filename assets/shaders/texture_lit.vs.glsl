@@ -34,9 +34,9 @@ void main()
 
     vs_out.position_cameraspace = view_world * vec4(position, 1.0f);
     gl_Position = proj_matrix * vs_out.position_cameraspace;
-    vs_out.position_lightspace = lightspace * vec4(position, 1.0f);
-    vs_out.normal_cameraspace = mat3(transpose(inverse(view_world))) // temporary (should be calculating this on CPU)
-                                * normal;
+    vs_out.position_lightspace = lightspace * world_matrix * vec4(position, 1.0f);
+    vs_out.normal_cameraspace = normalize(mat3(transpose(inverse(view_world))) // temporary (should be calculating this on CPU)
+                                * normal);
     //vs_out.normal_cameraspace = normalize(mat3(view_world) * normal);
     vs_out.tex_coord = uv;
     vs_out.tex_id = tex_id;
