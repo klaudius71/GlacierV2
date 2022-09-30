@@ -14,7 +14,6 @@ void Glacier::LoadResources()
 	TextureLoader::Load("default", "default.tga");
 	TextureLoader::Load("Crate", "crate_diffuse.tga");
 	TextureLoader::Load("Sand", "sand.tga");
-	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
 
 	SceneManager::SetNextScene(new MainScene);
 }

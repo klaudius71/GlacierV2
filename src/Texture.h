@@ -10,17 +10,10 @@ enum class TEXTURE_WRAP
 	MIRROR_CLAMP_TO_EDGE
 };
 
-enum class TEXTURE_TYPE
-{
-	REGULAR,
-	CUBE_MAP
-};
-
 class Texture
 {
 public:
 	Texture(const std::string& file_name);
-	Texture(const std::array<std::string, 6>& file_paths);
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
 	Texture(Texture&& o) noexcept;
@@ -36,7 +29,6 @@ public:
 	const int& GetWidth() const;
 	const int& GetHeight() const;
 	const int& GetNumChannels() const;
-	const TEXTURE_TYPE& GetTextureType() const;
 
 private:
 	static void load_GPU_data(Texture& tex);
@@ -48,7 +40,6 @@ private:
 	int width;
 	int height;
 	int channels;
-	TEXTURE_TYPE type;
 	uint8_t* img;
 };
 
