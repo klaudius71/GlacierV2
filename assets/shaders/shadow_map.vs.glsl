@@ -15,11 +15,6 @@ struct DirectionalLight
     vec3 direction; // world direction
 };
 
-layout (std140, binding = 1) uniform DirLight
-{
-    DirectionalLight dir_light;
-};
-
 layout (std140, binding = 2) uniform LightspaceMatrices
 {
     mat4 lightspace_dir_light;

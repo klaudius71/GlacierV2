@@ -36,11 +36,17 @@ float CalcDirectionalShadow(vec4 fragPosLightSpace)
 	projCoords = projCoords * 0.5f + 0.5f;
 	if(projCoords.z > 1.0f)
         return 0.0f;
-
-	float closestDepth = texture(dir_shadow_map, projCoords.xy).r;
-
-	float shadow = projCoords.z < closestDepth ? 0.0f : 1.0f;
-	return shadow;
+	float shadow = 0.0f;
+	vec2 texelSize = 1.0f / textureSize(dir_shadow_map, 0);
+	for(int x = -1; x < 2; x++)
+	{
+		for(int y = -1; y < 2; y++)
+		{
+			float closestDepth = texture(dir_shadow_map, projCoords.xy + vec2(x,y) * texelSize).r;
+			shadow += closestDepth < projCoords.z ? 1.0f : 0.0f;
+		}
+	}
+	return shadow / 9.0f;
 }
 
 vec3 PhongModel(PhongADS mat, PhongADS light, vec3 L, vec3 normal, vec3 eyeDir)
