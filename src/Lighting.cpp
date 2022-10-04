@@ -55,8 +55,8 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 {
 	entt::registry& scene_registry = curr_scene->GetRegistry();
 
-	auto dir_light_view = scene_registry.view<DirectionalLightComponent>();
-	if (dir_light_view.begin() == dir_light_view.end())
+	auto dir_light = curr_scene->GetFirstComponent<DirectionalLightComponent>();
+	if (!dir_light)
 		return;
 
 	glViewport(0, 0, 2048, 2048);
@@ -64,7 +64,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
 
-	auto& dir_light_dir = scene_registry.get<DirectionalLightComponent>(*dir_light_view.begin()).light.direction;
+	auto& dir_light_dir = dir_light->light.direction;
 	const glm::vec3 cam_dir_xz = glm::normalize(glm::vec3(cam.cam_dir.x, 0.0f, cam.cam_dir.z));
 	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + cam_dir_xz * 200.0f;
 	const glm::mat4 lightspace = glm::ortho(-250.0f, 250.0f, -250.0f, 250.0f, -250.0f, 250.0f) *

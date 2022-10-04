@@ -27,6 +27,13 @@ public:
 
 	GameObjectRef FindGameObject(const std::string& name);
 
+	template<class T>
+	T* GetFirstComponent()
+	{
+		auto component_view = registry.view<T>();
+		return component_view.begin() != component_view.end() ? &registry.get<T>(*component_view.begin()) : nullptr;
+	}
+
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);
 
