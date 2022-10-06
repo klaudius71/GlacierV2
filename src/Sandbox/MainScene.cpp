@@ -16,10 +16,10 @@ void MainScene::InitializeScene()
 	camera->AddScript<CameraControllerScript>();
 	camera->RegisterToScene();
 
-	//GameObjectRef dir_light = CreateGameObject("Directional Light");
-	//dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(0.45f), glm::vec3(.8f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));
-	////dir_light->AddScript<SpinningLightScript>();
-	//dir_light->RegisterToScene();
+	GameObjectRef dir_light = CreateGameObject("Directional Light");
+	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(0.45f), glm::vec3(.8f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));
+	//dir_light->AddScript<SpinningLightScript>();
+	dir_light->RegisterToScene();
 
 	GameObjectRef skybox = CreateGameObject("Skybox");
 	skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));

@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gpch.h</PrecompiledHeaderFile>
@@ -130,7 +130,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Debug\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Debug\glfw3.lib;$(SolutionDir)external\freetype\release static\vs2015-2022\win64\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gpch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -242,6 +242,7 @@
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\ModelLoaderAtt.h" />
+    <ClInclude Include="src\RendererAtt.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />
     <ClInclude Include="src\Renderer.h" />

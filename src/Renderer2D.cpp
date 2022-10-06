@@ -2,6 +2,7 @@
 #include "Renderer2D.h"
 #include "Glacier.h"
 #include "Window.h"
+#include "Scene.h"
 #include "ModelLoader.h"
 
 Renderer2D* Renderer2D::instance = nullptr;
@@ -11,11 +12,17 @@ Renderer2D::Renderer2D()
 	const auto& window = Glacier::GetWindow();
 	proj = glm::ortho(window.GetWindowWidth() * -0.5f, window.GetWindowWidth() * 0.5f, window.GetWindowHeight() * -0.5f, window.GetWindowHeight() * 0.5f);
 	view = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	debug_text_queue.reserve(RESERVED_DEBUG_TEXT_QUERIES);
 }
 
 void Renderer2D::Initialize()
 {
 	instance = new Renderer2D;
+}
+void Renderer2D::UpdateScreenSize(const int& width, const int& height)
+{
+	instance->proj = glm::ortho(width * -0.5f, width * 0.5f, height * -0.5f, height * 0.5f);
 }
 void Renderer2D::Terminate()
 {
@@ -23,11 +30,11 @@ void Renderer2D::Terminate()
 	instance = nullptr;
 }
 
-void Renderer2D::RenderComponents(entt::registry& registry)
+void Renderer2D::RenderComponents(Scene& scn)
 {
 	static const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
 
-	auto group = registry.group<Render2DComponent>(entt::get<TransformComponent>);
+	auto group = scn.GetRegistry().group<Render2DComponent>(entt::get<TransformComponent>);
 	glBindVertexArray(quad);
 	for (auto&& [entity, render, transform] : group.each())
 	{
@@ -40,4 +47,31 @@ void Renderer2D::RenderComponents(entt::registry& registry)
 		glBindTexture(GL_TEXTURE_2D, render.tex_id);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
+
+
+	for (const auto& entry : instance->debug_text_queue)
+		RenderText(entry.font, entry.pos.x, entry.pos.y, entry.text);
+
+	instance->debug_text_queue.clear();
+}
+
+void Renderer2D::RenderText(Font* const font, const float& x, const float& y, const std::string& text)
+{
+	UNREFERENCED_PARAMETER(font);
+	printf("X:%.3f Y:%.3f %s\n", x, y, text.c_str());
+}
+
+void Renderer2D::PrintText(Font* const font, const float& x, const float& y, const std::string& text)
+{
+	assert(instance && "Instance not created!");
+	instance->debug_text_queue.emplace_back(font, x, y, text);
+}
+void Renderer2D::PrintText(Font* const font, const float& x, const float& y, const char* const format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	char buf[256];
+	vsprintf_s(buf, format, args);
+	va_end(args);
+	PrintText(font, x, y, std::string(buf));
 }

@@ -73,12 +73,14 @@ void GameObject::update_transform()
 		transform.flag_changed = false;
 
 		const glm::mat4& position = glm::translate(glm::mat4(1.0f), transform.pos);
-		const glm::mat4& rot_yxz = glm::rotate(glm::mat4(1.0f), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		const glm::mat4& rot_yxz = glm::rotate(glm::rotate(glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
 		const glm::mat4& scale = glm::scale(glm::mat4(1.0f), transform.scl);
-		transform.world_matrix = position * rot_yxz * scale;
+		const glm::mat4& world = position * rot_yxz * scale;
 
 		if (!parent.isExpired())
-			transform.world_matrix = parent->GetComponent<TransformComponent>().world_matrix * transform.world_matrix;
+			transform.world_matrix = parent->GetComponent<TransformComponent>().world_matrix * world;
+		else
+			transform.world_matrix = world;
 
 		for(auto& child : children)
 			child->update_transform_as_child(transform.world_matrix);
@@ -87,11 +89,10 @@ void GameObject::update_transform()
 void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 {
 	TransformComponent& transform = GetComponent<TransformComponent>();
-
 	transform.flag_changed = false;
 
 	const glm::mat4& position = glm::translate(glm::mat4(1.0f), transform.pos);
-	const glm::mat4& rot_yxz = glm::rotate(glm::mat4(1.0f), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	const glm::mat4& rot_yxz = glm::rotate(glm::rotate(glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	const glm::mat4& scale = glm::scale(glm::mat4(1.0f), transform.scl);
 	transform.world_matrix = parent_world_matrix * position * rot_yxz * scale;
 

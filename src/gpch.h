@@ -38,6 +38,9 @@
 #include "json.hpp"
 #include "base64.h"
 
+#include "ft2build.h"
+#include FT_FREETYPE_H
+
 #include "Colors.h"
 
 //#pragma warning(disable : 4005)

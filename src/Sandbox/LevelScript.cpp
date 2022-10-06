@@ -17,7 +17,7 @@ void LevelScript::OnTick()
 		{
 			GameObjectRef cube1 = GetCurrentScene().FindGameObject("Cube1");
 			cube2 = CreateGameObject("Cube3", cube1);
-			//cube2->AddScript<RotatingScript>();
+			//cube2->AddScript<RotatingScript>(glm::vec3(1.0f, 0.0f, 0.0f));
 			cube2->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 10.0f, 0.0f);
 			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
 			cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));

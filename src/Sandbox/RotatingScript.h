@@ -6,7 +6,7 @@
 class RotatingScript : public Script
 {
 public:
-	RotatingScript() = default;
+	RotatingScript(const glm::vec3& rot_direction = glm::vec3(0.0f, 1.0f, 0.0f));
 	~RotatingScript() = default;
 
 	virtual void OnCreate() override;
@@ -14,6 +14,7 @@ public:
 
 private:
 	TransformComponent* transform = nullptr;
+	glm::vec3 rot_direction;
 };
 
 #endif _ROTATING_SCRIPT

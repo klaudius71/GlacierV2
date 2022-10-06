@@ -52,12 +52,23 @@ public:
 		return curr_registry->emplace<T>(id, std::forward<Args>(args)...);
 	}
 
-	template<class T>
-	void AddScript()
+	//template<class T>
+	//void AddScript()
+	//{
+	//	static_assert(std::is_base_of<Script, T>(), "AddScript() must take in a type derived from Script!");
+	//	assert(!HasComponent<ScriptComponent>() && "Entity already has a script component!");
+	//	Script* const scrpt = new T;
+	//	ScriptAtt::SetGameObject(scrpt, *scene_graph_ref);
+	//	//SceneManager::EnqueueCommand(new AddScriptCmd(this, scrpt));
+	//	curr_registry->emplace<ScriptComponent>(id, scrpt);
+	//}
+
+	template<class T, typename... Args>
+	void AddScript(Args&&... args)
 	{
 		static_assert(std::is_base_of<Script, T>(), "AddScript() must take in a type derived from Script!");
 		assert(!HasComponent<ScriptComponent>() && "Entity already has a script component!");
-		Script* const scrpt = new T;
+		Script* const scrpt = new T(std::forward<Args>(args)...);
 		ScriptAtt::SetGameObject(scrpt, *scene_graph_ref);
 		//SceneManager::EnqueueCommand(new AddScriptCmd(this, scrpt));
 		curr_registry->emplace<ScriptComponent>(id, scrpt);

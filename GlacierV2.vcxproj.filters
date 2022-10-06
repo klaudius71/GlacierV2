@@ -154,9 +154,6 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>src\Engine\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components.cpp">
-      <Filter>src\Engine\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject.cpp">
       <Filter>src\Engine\ECS</Filter>
     </ClCompile>
@@ -243,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="src\WeakPtr.cpp">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components.cpp">
+      <Filter>src\Engine\ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="src\WeakPtr.h">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RendererAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

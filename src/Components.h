@@ -46,9 +46,7 @@ struct TransformComponent
 
 private:
 	glm::mat4 world_matrix = glm::mat4(1.0f);
-public:
 	bool flag_changed = true;
-private:
 	uint8_t pad0 = 0;
 	uint8_t pad1 = 0;
 	uint8_t pad2 = 0;
@@ -56,7 +54,6 @@ private:
 	glm::vec3 rot = glm::vec3(0.0f);
 	glm::vec3 scl = glm::vec3(1.0f);
 
-	friend class Scene;
 	friend class GameObject;
 };
 
@@ -73,8 +70,6 @@ struct CameraComponent
 	CameraComponent(const glm::mat4& proj, const glm::vec3& cam_pos = glm::vec3(0.0f), const glm::vec3& cam_dir = glm::vec3(0.0f, 0.0f, -1.0f), const float& fov = glm::radians(90.0f), const float& near_plane = 0.1f, const float& far_plane = 10000.0f)
 		: proj(proj), cam_pos(cam_pos), cam_dir(cam_dir), fov(fov), near_plane(near_plane), far_plane(far_plane)
 	{}
-	CameraComponent(const CameraComponent&) = default;
-	CameraComponent& operator=(const CameraComponent&) = default;
 	CameraComponent(CameraComponent&& o) = default;
 	CameraComponent& operator=(CameraComponent&& o) = default;
 	~CameraComponent() = default;
@@ -145,16 +140,8 @@ struct MaterialComponent
 		: ads(ads), tex_id(tex0, tex1, tex2, TextureLoader::Get("default").GetID()), norm_tex_id(0), col(color) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const GLuint& tex3, const glm::vec4& color = Colors::White)
 		: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(0), col(color) {}
-	MaterialComponent(MaterialComponent&& o)
-		: ads(o.ads), tex_id(o.tex_id), norm_tex_id(o.norm_tex_id), col(o.col) {}
-	MaterialComponent& operator=(MaterialComponent&& o)
-	{
-		ads = o.ads;
-		tex_id = o.tex_id;
-		norm_tex_id = o.norm_tex_id;
-		col = o.col;
-		return *this;
-	}
+	MaterialComponent(MaterialComponent&& o) = default;
+	MaterialComponent& operator=(MaterialComponent&& o) = default;
 
 	void SetAmbientDiffuseSpecular(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const float& shininess)
 	{
@@ -199,15 +186,8 @@ struct DirectionalLightComponent
 	DirectionalLightComponent(const glm::vec3& dir)
 		: light(VertexTypes::PhongADS(glm::vec3(.3f), glm::vec3(1.0f), glm::vec3(1.0f), 0), dir)
 	{}
-	DirectionalLightComponent(DirectionalLightComponent&& o)
-		: light(o.light)
-	{ o.light = VertexTypes::DirectionalLight(); }
-	DirectionalLightComponent& operator=(DirectionalLightComponent&& o)
-	{
-		light = o.light;
-		o.light = VertexTypes::DirectionalLight();
-		return *this;
-	}
+	DirectionalLightComponent(DirectionalLightComponent&& o) = default;
+	DirectionalLightComponent& operator=(DirectionalLightComponent&& o) = default;
 	~DirectionalLightComponent() = default;
 };
 

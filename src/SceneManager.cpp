@@ -2,8 +2,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Script.h"
-#include "Renderer.h"
-#include "Renderer2D.h"
+#include "RendererAtt.h"
+#include "Renderer2DAtt.h"
 #include "Lighting.h"
 
 SceneManager* SceneManager::instance = nullptr;
@@ -32,8 +32,8 @@ void SceneManager::renderCurrentScene()
 {
 	assert(curr_scene);
 
-	Renderer::RenderScene(curr_scene);
-	Renderer2D::RenderComponents(curr_scene->GetRegistry());
+	RendererAtt::RenderScene(*curr_scene);
+	Renderer2DAtt::RenderComponents(*curr_scene);
 }
 void SceneManager::enqueueCommand(Command* const cmd)
 {

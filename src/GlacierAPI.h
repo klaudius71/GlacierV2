@@ -14,3 +14,5 @@
 #include "Script.h"
 #include "CameraControllerScript.h"
 #include "Input.h"
+#include "Renderer.h"
+#include "Renderer2D.h"

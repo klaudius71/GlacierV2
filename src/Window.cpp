@@ -1,13 +1,14 @@
 #include "gpch.h"
 #include "Window.h"
 #include "Glacier.h"
-#include "Window.h"
+#include "Renderer2DAtt.h"
 
 void Window::glfw_window_resize_callback(GLFWwindow* window, int width, int height)
 {
 	Window* glacier_window = static_cast<Window*>(glfwGetWindowUserPointer(window));
 	glacier_window->window_width = width;
 	glacier_window->window_height = height;
+	Renderer2DAtt::UpdateScreenSize(width, height);
 }
 void Window::glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
