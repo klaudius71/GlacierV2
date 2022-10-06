@@ -171,6 +171,8 @@
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
     <ClCompile Include="src\Components.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FontLoader.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\GameObjectDeregCmd.cpp" />
     <ClCompile Include="src\GameObjectRegCmd.cpp" />
@@ -228,6 +230,9 @@
     <ClInclude Include="src\CommandBroker.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\EmplaceComponentCommand.h" />
+    <ClInclude Include="src\Font.h" />
+    <ClInclude Include="src\FontLoader.h" />
+    <ClInclude Include="src\FontLoaderAtt.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectAtt.h" />
     <ClInclude Include="src\GameObjectDeregCmd.h" />
@@ -280,6 +285,8 @@
     <None Include="assets\shaders\shadow_map.vs.glsl" />
     <None Include="assets\shaders\skybox.fs.glsl" />
     <None Include="assets\shaders\skybox.vs.glsl" />
+    <None Include="assets\shaders\text.fs.glsl" />
+    <None Include="assets\shaders\text.vs.glsl" />
     <None Include="assets\shaders\texture.fs.glsl" />
     <None Include="assets\shaders\texture.vs.glsl" />
     <None Include="assets\shaders\texture_lit.fs.glsl" />

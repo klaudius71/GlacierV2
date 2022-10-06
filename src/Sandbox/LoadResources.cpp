@@ -1,7 +1,7 @@
 #include "gpch.h"
 #include "GlacierAPI.h"
-#include "ModelLoaderAtt.h"
 #include "MainScene.h"
+#include "Font.h"
 
 // Load all assets here
 void Glacier::LoadResources()
@@ -16,6 +16,10 @@ void Glacier::LoadResources()
 	TextureLoader::Load("Sand", "sand.tga");
 	TextureLoader::Load("Grass", "grass.jpg");
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
+
+	Font font("fonts/times.ttf", 12);
+
+	FontLoader::Load("Times12", "times.ttf", 12);
 
 	SceneManager::SetNextScene(new MainScene);
 }

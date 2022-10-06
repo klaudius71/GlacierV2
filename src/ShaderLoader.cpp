@@ -40,6 +40,7 @@ ShaderLoader::ShaderLoader()
 	load_lightspace_bindings(*curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "skybox").first->second;
 	load_matrix_binding(*curr_shader);
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "text").first->second;
 }
 
 void ShaderLoader::load(const char* const name, const char* const file_name)

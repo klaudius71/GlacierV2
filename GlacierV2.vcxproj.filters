@@ -244,6 +244,12 @@
     <ClCompile Include="src\Components.cpp">
       <Filter>src\Engine\ECS</Filter>
     </ClCompile>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>src\Engine\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FontLoader.cpp">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -429,6 +435,15 @@
     <ClInclude Include="src\RendererAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
     </ClInclude>
+    <ClInclude Include="src\Font.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontLoader.h">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FontLoaderAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">
@@ -459,6 +474,12 @@
       <Filter>assets\shaders</Filter>
     </None>
     <None Include="assets\shaders\skybox.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\text.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\text.fs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
   </ItemGroup>

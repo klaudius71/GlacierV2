@@ -4,6 +4,7 @@
 #include "ShaderLoaderAtt.h"
 #include "TextureLoaderAtt.h"
 #include "ModelLoaderAtt.h"
+#include "FontLoaderAtt.h"
 #include "TimeManagerAtt.h"
 #include "SceneManagerAtt.h"
 #include "Scene.h"
@@ -102,6 +103,7 @@ void Glacier::run()
 	ShaderLoaderAtt::Terminate();
 	ModelLoaderAtt::Terminate();
 	TextureLoaderAtt::Terminate();
+	FontLoaderAtt::Terminate();
 }
 
 void Glacier::Run()

@@ -11,7 +11,8 @@ enum class PRELOADED_SHADERS
 	TEXTURE,
 	TEXTURE_LIT,
 	SHADOW_MAP,
-	SKYBOX
+	SKYBOX,
+	TEXT
 };
 
 class ShaderLoader
