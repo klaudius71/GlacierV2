@@ -4,6 +4,9 @@
 #include "Window.h"
 #include "Scene.h"
 #include "ModelLoader.h"
+#include "Font.h"
+#include "ShaderLoader.h"
+#include "Shader.h"
 
 Renderer2D* Renderer2D::instance = nullptr;
 
@@ -55,18 +58,49 @@ void Renderer2D::RenderComponents(Scene& scn)
 	instance->debug_text_queue.clear();
 }
 
-void Renderer2D::RenderText(Font* const font, const float& x, const float& y, const std::string& text)
+void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const std::string& text)
 {
-	UNREFERENCED_PARAMETER(font);
-	printf("X:%.3f Y:%.3f %s\n", x, y, text.c_str());
+	assert(font);
+
+	Model* const quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+
+	const char& c = text.at(0);
+	const Glyph& glyph = font->GetGlyph(c);
+
+	GLuint shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT)->GetProgramID();
+	glUseProgram(shad);
+
+	glUniform1i(glGetUniformLocation(shad, "bitmap"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, font->GetBitmapID());
+
+	const glm::vec2 cell_size(font->GetBitmapWidth() / 16.0f, font->GetBitmapHeight() / 8.0f);
+
+	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
+	glUniformMatrix4fv(glGetUniformLocation(shad, "view_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->view);
+	glm::mat4 world_matrix = glm::translate(glm::mat4(1.0f), glm::vec3((x - (Glacier::GetWindow().GetWindowWidth() / 2.0f)) + cell_size.x, (y + Glacier::GetWindow().GetWindowHeight() / 2.0f) - cell_size.y * 0.5f, 0));
+	world_matrix *= glm::scale(glm::mat4(1.0f), glm::vec3(glyph.size.x, glyph.size.y, 0.0f));
+	glUniformMatrix4fv(glGetUniformLocation(shad, "world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
+
+	// c = 65
+	const int grid_x = c % 16;
+	glUniform4f(glGetUniformLocation(shad, "sprite_data"), grid_x * cell_size.x, cell_size.y * ((c - grid_x) / 16), cell_size.x, cell_size.y);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindVertexArray(quad->GetVBO());
+	glDrawElements(GL_TRIANGLES, quad->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
+	glDisable(GL_BLEND);
+
+	glUseProgram(0);
 }
 
-void Renderer2D::PrintText(Font* const font, const float& x, const float& y, const std::string& text)
+void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const std::string& text)
 {
 	assert(instance && "Instance not created!");
-	instance->debug_text_queue.emplace_back(font, x, y, text);
+	instance->debug_text_queue.emplace_back(&font, x, y, text);
 }
-void Renderer2D::PrintText(Font* const font, const float& x, const float& y, const char* const format, ...)
+void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const char* const format, ...)
 {
 	va_list args;
 	va_start(args, format);

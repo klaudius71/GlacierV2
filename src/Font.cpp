@@ -2,6 +2,7 @@
 #include "Font.h"
 
 Font::Font(const std::string& file_name, const int& font_size)
+	: glyphs(new Glyph[128])
 {
 	FT_Library lib;
 	FT_Error error;
@@ -23,8 +24,6 @@ Font::Font(const std::string& file_name, const int& font_size)
 	uint8_t* buf = new uint8_t[bitmap_height * bitmap_width * 4];
 	memset(buf, 0, bitmap_height * bitmap_width * 4);
 
-	int* widths = new int[INT8_MAX + 1];
-
 	int curr_max_under_baseline = 0;
 	for (int i = 32; i < 127; i++)
 	{
@@ -44,13 +43,10 @@ Font::Font(const std::string& file_name, const int& font_size)
 	{
 		glyph_index = FT_Get_Char_Index(face, i);
 
-		error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+		error = FT_Load_Glyph(face, glyph_index, FT_LOAD_RENDER);
 		assert(!error);
 
-		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
-		assert(!error);
-
-		widths[i] = face->glyph->metrics.width / 64;
+		glyphs[i] = Glyph(face->glyph->bitmap.width, face->glyph->bitmap.rows, face->glyph->bitmap_left, face->glyph->bitmap_top, face->glyph->advance.x);
 
 		int x = (i % 16) * (font_size + 2);
 		int y = (i / 16) * (font_size + 2);
@@ -67,7 +63,7 @@ Font::Font(const std::string& file_name, const int& font_size)
 				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 0] = r;
 				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 1] = r;
 				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 2] = r;
-				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 3] = 255;
+				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 3] = bitmap.buffer[(yy * (bitmap.width) + xx + 3)];
 			}
 		}
 	}
@@ -81,14 +77,20 @@ Font::Font(const std::string& file_name, const int& font_size)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	delete[] buf;
 
+	delete[] buf;
 	FT_Done_Face(face);
 	FT_Done_FreeType(lib);
 }
 Font::~Font()
 {
 	glDeleteTextures(1, &tex);
+	delete[] glyphs;
+}
+
+const GLuint& Font::GetBitmapID() const
+{
+	return tex;
 }
 
 const uint32_t& Font::GetBitmapWidth() const
@@ -98,4 +100,10 @@ const uint32_t& Font::GetBitmapWidth() const
 const uint32_t& Font::GetBitmapHeight() const
 {
 	return bitmap_height;
+}
+
+const Glyph& Font::GetGlyph(char c) const
+{
+	assert(c >= 0 && c <= CHAR_MAX);
+	return glyphs[c];
 }

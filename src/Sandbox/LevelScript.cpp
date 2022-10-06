@@ -36,6 +36,8 @@ void LevelScript::OnTick()
 		woah = true;
 		GetCurrentScene().DestroyGameObject(cube2);
 	}
+
+	Renderer2D::PrintText(FontLoader::Get("Times12"), 0.0f, 0.0f, "Woah");
 }
 
 void LevelScript::OnDestroy()

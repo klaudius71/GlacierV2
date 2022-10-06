@@ -19,7 +19,7 @@ void Glacier::LoadResources()
 
 	Font font("fonts/times.ttf", 12);
 
-	FontLoader::Load("Times12", "times.ttf", 12);
+	FontLoader::Load("Times12", "times.ttf", 40);
 
 	SceneManager::SetNextScene(new MainScene);
 }
