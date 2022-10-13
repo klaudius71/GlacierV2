@@ -4,6 +4,11 @@
 
 void LevelScript::OnCreate()
 {
+	frame_time_data.reserve(100);
+	for (int i = 0; i < 100; i++)
+		frame_time_data.emplace_back(0.0f);
+
+	frame_time_index = 0;
 }
 
 void LevelScript::OnTick()
@@ -37,7 +42,17 @@ void LevelScript::OnTick()
 		GetCurrentScene().DestroyGameObject(cube2);
 	}
 
-	Renderer2D::PrintText(FontLoader::Get("Times12"), 0.0f, 0.0f, "Woah");
+	frame_time_data[frame_time_index++] = TimeManager::GetDeltaTime();
+	if (frame_time_index == 100)
+		frame_time_index = 0;
+
+	float avg_frame_time = 0.0f;
+	for (const float& frame_time : frame_time_data)
+		avg_frame_time += frame_time;
+
+	avg_frame_time /= 100.0f;
+	const Window& window = Glacier::GetWindow();
+	Renderer2D::PrintText(FontLoader::Get("Times40"), 10.0f, window.GetWindowHeight() - 29.0f, Colors::Black, "FPS: %d", (int)(std::roundf(1.0f / avg_frame_time)));
 }
 
 void LevelScript::OnDestroy()

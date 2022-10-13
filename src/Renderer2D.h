@@ -23,9 +23,10 @@ private:
 		const Font* font;
 		glm::vec2 pos;
 		std::string text;
+		glm::vec4 color;
 
-		DebugTextQueueEntry(const Font* const font, const float& x, const float& y, const std::string& text)
-			: font(font), pos(x, y), text(text)
+		DebugTextQueueEntry(const Font* const font, const float& x, const float& y, const std::string& text, const glm::vec4& color)
+			: font(font), pos(x, y), text(text), color(color)
 		{}
 	};
 	std::vector<DebugTextQueueEntry> debug_text_queue;
@@ -36,13 +37,13 @@ private:
 
 	static void RenderComponents(Scene& scn);
 
-	static void RenderText(const Font* const font, const float& x, const float& y, const std::string& text);
+	static void RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
 
 	friend class Renderer2DAtt;
 
 public:
-	static void PrintText(const Font& font, const float& x, const float& y, const std::string& text);
-	static void PrintText(const Font& font, const float& x, const float& y, const char* const format, ...);
+	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
+	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const char* const format, ...);
 };
 
 #endif _RENDERER_2D

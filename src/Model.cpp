@@ -119,27 +119,10 @@ Model::Model(const std::string& file_name)
 	}
 }
 Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<VertexTypes::VertexTriangle>& triangles)
-	: triangles(triangles)
+	: vertex_data(verts), triangles(triangles), num_vertices((uint32_t)verts.size()), num_triangles((uint32_t)triangles.size())
 {
 	assert(triangles.size() > 0 && verts.size() > 0);
-	num_vertices = (uint32_t)verts.size();
-	num_triangles = (uint32_t)triangles.size();
-	vertices.reserve(num_vertices);
-	normals.reserve(num_vertices);
-	tangents.reserve(num_vertices);
-	bitangents.reserve(num_vertices);
-	joint_ids.reserve(num_vertices);
-	joint_weights.reserve(num_vertices);
-	for (uint32_t i = 0; i < num_vertices; i++)
-	{
-		vertices.emplace_back(verts[i].pos);
-		normals.emplace_back(verts[i].normal);
-		tangents.emplace_back(verts[i].tangent);
-		bitangents.emplace_back(verts[i].bitangent);
-		joint_ids.emplace_back(verts[i].joint_ids);
-		joint_weights.emplace_back(verts[i].joint_weights);
-	}
-	vertex_data = verts;
+	populate_all_arrays_from_vertex_data();
 	load_GPU_data(*this);
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
@@ -519,6 +502,7 @@ void Model::load_GPU_data(Model& mod)
 	glEnableVertexAttribArray(7);
 	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + 4 + sizeof(glm::vec3) * 3 + sizeof(glm::uvec4)));
 
+	// Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mod.ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * mod.triangles.size(), mod.triangles.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * mod.GetNumTriangles(), mod.triangles.data(), GL_STATIC_DRAW);
 }

@@ -3,15 +3,16 @@
 
 struct Glyph
 {
-	glm::uvec2 size;
-	glm::uvec2 bearing;
-	uint32_t advance;
+	glm::vec2 bitmap_origin;
+	glm::vec2 size;
+	float bearing_y;
+	float advance;
 
 	Glyph()
-		: size(0), bearing(0), advance(0)
+		: bitmap_origin(0), size(0), bearing_y(0), advance(0)
 	{}
-	Glyph(uint32_t size_x, uint32_t size_y, uint32_t bearing_x, uint32_t bearing_y, uint32_t advance)
-		: size(size_x, size_y), bearing(bearing_x, bearing_y), advance(advance)
+	Glyph(uint32_t bitmap_origin_x, uint32_t bitmap_origin_y, uint32_t size_x, uint32_t size_y, int bearing_y, uint32_t advance)
+		: bitmap_origin((float)bitmap_origin_x, (float)bitmap_origin_y), size((float)size_x, (float)size_y), bearing_y((float)bearing_y), advance((float)advance)
 	{}
 };
 

@@ -34,7 +34,7 @@ void MainScene::InitializeScene()
 	cube->GetComponent<TransformComponent>().position().y = 70.0f;
 	//cube->GetComponent<TransformComponent>().rotation().z = 3.141529f * (1.0f/8.0f);
 	cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
-	cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), 3);
+	cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
 	cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 	cube->AddScript<RotatingScript>();
 	cube->RegisterToScene();

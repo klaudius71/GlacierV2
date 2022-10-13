@@ -21,8 +21,8 @@ Font::Font(const std::string& file_name, const int& font_size)
 	bitmap_width = (font_size + 2) * 16;
 	bitmap_height = (font_size + 2) * 8;
 
-	uint8_t* buf = new uint8_t[bitmap_height * bitmap_width * 4];
-	memset(buf, 0, bitmap_height * bitmap_width * 4);
+	uint8_t* buf = new uint8_t[bitmap_height * bitmap_width];
+	memset(buf, 0, bitmap_height * bitmap_width);
 
 	int curr_max_under_baseline = 0;
 	for (int i = 32; i < 127; i++)
@@ -46,12 +46,12 @@ Font::Font(const std::string& file_name, const int& font_size)
 		error = FT_Load_Glyph(face, glyph_index, FT_LOAD_RENDER);
 		assert(!error);
 
-		glyphs[i] = Glyph(face->glyph->bitmap.width, face->glyph->bitmap.rows, face->glyph->bitmap_left, face->glyph->bitmap_top, face->glyph->advance.x);
-
 		int x = (i % 16) * (font_size + 2);
 		int y = (i / 16) * (font_size + 2);
 		x += 1; // 1 pixel padding from the left side of the tile
 		y += (font_size + 2) - face->glyph->bitmap_top + curr_max_under_baseline - 1;
+
+		glyphs[i] = Glyph(x - 1, y - 1, face->glyph->bitmap.width + 1, face->glyph->bitmap.rows + 1, face->glyph->bitmap_top, face->glyph->advance.x >> 6);
 
 		// draw the character
 		const FT_Bitmap& bitmap = face->glyph->bitmap;
@@ -59,24 +59,23 @@ Font::Font(const std::string& file_name, const int& font_size)
 		{
 			for (uint32_t yy = 0; yy < bitmap.rows; ++yy)
 			{
-				unsigned char r = bitmap.buffer[(yy * (bitmap.width) + xx)];
-				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 0] = r;
-				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 1] = r;
-				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 2] = r;
-				buf[(y + yy) * bitmap_width * 4 + (x + xx) * 4 + 3] = bitmap.buffer[(yy * (bitmap.width) + xx + 3)];
+				const unsigned char& r = bitmap.buffer[yy * (bitmap.width) + xx];
+				buf[(y + yy) * bitmap_width + (x + xx)] = r;
 			}
 		}
 	}
 
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, &tex);
 	glBindTexture(GL_TEXTURE_2D, tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bitmap_width, bitmap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, bitmap_width, bitmap_height, 0, GL_RED, GL_UNSIGNED_BYTE, buf);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
 	delete[] buf;
 	FT_Done_Face(face);

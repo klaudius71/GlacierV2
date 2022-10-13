@@ -17,9 +17,7 @@ void Glacier::LoadResources()
 	TextureLoader::Load("Grass", "grass.jpg");
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
 
-	Font font("fonts/times.ttf", 12);
-
-	FontLoader::Load("Times12", "times.ttf", 40);
+	FontLoader::Load("Times40", "times.ttf", 40);
 
 	SceneManager::SetNextScene(new MainScene);
 }

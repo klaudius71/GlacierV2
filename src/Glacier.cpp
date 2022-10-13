@@ -43,6 +43,7 @@ Glacier::Glacier()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 Glacier::~Glacier()
 {
@@ -92,7 +93,7 @@ void Glacier::run()
 		SceneManagerAtt::Engine::RenderCurrentScene();
 		window->SwapBuffers();
 
-		TimeManagerAtt::LimitFrametime(1.0f / 240.5f);
+		//TimeManagerAtt::LimitFrametime(1.0f / 240.5f);
 		window->PollEvents();
 	}
 

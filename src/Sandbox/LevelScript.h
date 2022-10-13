@@ -14,4 +14,6 @@ public:
 
 private:
 	GameObjectRef cube2;
+	int frame_time_index;
+	std::vector<float> frame_time_data;
 };

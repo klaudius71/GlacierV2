@@ -6,7 +6,6 @@
 enum class PREMADE_MODELS
 {
 	UNIT_CUBE_REPEAT_TEXTURE,
-	UNIT_CUBE_WRAP_TEXTURE
 };
 
 class Model
@@ -57,9 +56,9 @@ private:
 	friend class ModelLoader;
 
 private:
-	GLuint vao = 0xFFFFFFFF;
-	GLuint vbo = 0xFFFFFFFF;
-	GLuint ebo = 0xFFFFFFFF;
+	GLuint vao = 0;
+	GLuint vbo = 0;
+	GLuint ebo = 0;
 	uint32_t num_vertices;
 	uint32_t num_triangles;
 	std::vector<VertexTypes::Vertex> vertex_data;
