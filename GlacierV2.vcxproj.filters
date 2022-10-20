@@ -488,5 +488,11 @@
     <None Include="assets\shaders\text_instanced.fs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
+    <None Include="assets\shaders\sprite.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\sprite.fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

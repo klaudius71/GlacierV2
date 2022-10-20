@@ -27,7 +27,8 @@ Texture& TextureLoader::load_async_cube(const std::string& name, const std::arra
 void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names)
 {
 	const std::array<std::string, 6>& file_paths { TEXTURE_PATH + file_names[0], TEXTURE_PATH + file_names[1], TEXTURE_PATH + file_names[2], TEXTURE_PATH + file_names[3], TEXTURE_PATH + file_names[4], TEXTURE_PATH + file_names[5] };
-	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths));
+	//futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths));
+	load_async_cube(name, file_paths);
 }
 
 const Texture& TextureLoader::get(const std::string& name)

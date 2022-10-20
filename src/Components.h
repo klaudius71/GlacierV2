@@ -84,23 +84,27 @@ struct ScriptComponent
 	{ assert(script); }
 };
 
-struct Render2DComponent
+struct SpriteComponent
 {
-	GLuint shad;
 	GLuint tex_id;
-
-	Render2DComponent(const Shader* const shad, const Texture* texture)
-		: shad(shad->GetProgramID()), tex_id(texture->GetID())
-	{}
-	Render2DComponent(Render2DComponent&& o)
-		: shad(o.shad), tex_id(o.tex_id)
-	{}
-	Render2DComponent& operator=(Render2DComponent&& o)
+#pragma warning( disable : 4201 )
+	union
 	{
-		shad = o.shad;
-		tex_id = o.tex_id;
-		return *this;
-	}
+		glm::vec4 data;
+		struct {
+		glm::vec2 texel_origin;
+		glm::vec2 size;
+		};
+	};
+
+	SpriteComponent(const Texture& texture)
+		: tex_id(texture.GetID()), texel_origin(0), size(texture.GetWidth(), texture.GetHeight())
+	{}
+	SpriteComponent(const Texture& texture, const glm::vec2& texel_origin, const glm::vec2& size)
+		: tex_id(texture.GetID()), texel_origin(texel_origin), size(size)
+	{}
+	SpriteComponent(SpriteComponent&& o) = default;
+	SpriteComponent& operator=(SpriteComponent&& o) = default;
 };
 
 struct MeshComponent

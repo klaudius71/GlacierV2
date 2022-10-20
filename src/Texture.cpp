@@ -44,6 +44,8 @@ Texture::Texture(const std::array<std::string, 6>& file_paths)
 		memcpy(img + i * indiv_img_buffer_size, imgs[i], indiv_img_buffer_size);
 		stbi_image_free(imgs[i]);
 	}
+
+	load_GPU_data(*this);
 }
 Texture::Texture(Texture&& o) noexcept
 	: id(o.id), width(o.width), height(o.height), channels(o.channels), type(o.type), img(o.img)

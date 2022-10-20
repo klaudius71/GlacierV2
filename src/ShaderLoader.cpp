@@ -42,6 +42,7 @@ ShaderLoader::ShaderLoader()
 	load_matrix_binding(*curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "text").first->second;
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT_INSTANCED, SHADER_PATH + "text_instanced").first->second;
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "sprite").first->second;
 }
 
 void ShaderLoader::load(const char* const name, const char* const file_name)

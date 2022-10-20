@@ -42,24 +42,32 @@ void Renderer2D::Terminate()
 
 void Renderer2D::RenderComponents(Scene& scn)
 {
-	static const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
+	const GLuint shad = *ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
+	glUseProgram(shad);
+	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
+	glUniform1i(glGetUniformLocation(shad, "sprite_texture"), 0);
+	const GLint sprite_data_uniform_loc = glGetUniformLocation(shad, "sprite_data");
+	const GLint world_matrix_uniform_loc = glGetUniformLocation(shad, "world_matrix");
 
-	auto group = scn.GetRegistry().group<Render2DComponent>(entt::get<TransformComponent>);
+	const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
 	glBindVertexArray(quad);
+	glActiveTexture(GL_TEXTURE0);
+
+	glEnable(GL_BLEND);
+	auto group = scn.GetRegistry().group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, render, transform] : group.each())
 	{
-		glUseProgram(render.shad);
-		
-		glUniformMatrix4fv(glGetUniformLocation(render.shad, "proj_matrix"),  1, GL_FALSE, (const GLfloat*)&instance->proj);
-		glUniformMatrix4fv(glGetUniformLocation(render.shad, "view_matrix"),  1, GL_FALSE, (const GLfloat*)&instance->view);
-		glUniformMatrix4fv(glGetUniformLocation(render.shad, "world_matrix"), 1, GL_FALSE, (const GLfloat*)&transform);
-		glActiveTexture(GL_TEXTURE0);
+		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform);
+		glUniform4fv(sprite_data_uniform_loc, 1, (const GLfloat*)&render.data);
 		glBindTexture(GL_TEXTURE_2D, render.tex_id);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
+	glCullFace(GL_FRONT);
 	for (const auto& entry : instance->debug_text_queue)
 		RenderTextInstanced(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
+	glCullFace(GL_BACK);
+	glDisable(GL_BLEND);
 
 	instance->debug_text_queue.clear();
 }
@@ -172,12 +180,8 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	glUniform4fv(world_data_uniform_loc, (GLsizei)text.size(), (const GLfloat*)renderer_instance.uniform_world_data.data());
 
 	// Render the text
-	glEnable(GL_BLEND);
-	glCullFace(GL_FRONT);
 	glBindVertexArray(quad->GetVAO());
 	glDrawElementsInstanced(GL_TRIANGLES, quad->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr, (GLsizei)text.size());
-	glCullFace(GL_BACK);
-	glDisable(GL_BLEND);
 }
 
 void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
