@@ -98,10 +98,13 @@ struct SpriteComponent
 	};
 
 	SpriteComponent(const Texture& texture)
-		: tex_id(texture.GetID()), texel_origin(0), size(texture.GetWidth(), texture.GetHeight())
+		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }
 	{}
 	SpriteComponent(const Texture& texture, const glm::vec2& texel_origin, const glm::vec2& size)
-		: tex_id(texture.GetID()), texel_origin(texel_origin), size(size)
+		: tex_id(texture.GetID()), data{ texel_origin, size }
+	{}
+	SpriteComponent(const Texture& texture, const float& texel_origin_x, const float& texel_origin_y, const float& size_x, const float& size_y)
+		: tex_id(texture.GetID()), data{texel_origin_x, texel_origin_y, size_x, size_y}
 	{}
 	SpriteComponent(SpriteComponent&& o) = default;
 	SpriteComponent& operator=(SpriteComponent&& o) = default;

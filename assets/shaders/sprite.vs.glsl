@@ -18,7 +18,7 @@ void main()
     tex_coord = (sprite_data.xy / tex_size) + uv * vec2(sprite_data.zw / tex_size);
 
     mat4 world_matrix_shifted = world_matrix;
-    world_matrix_shifted[0] *= sprite_data.z;
-    world_matrix_shifted[1] *= sprite_data.w;
+    world_matrix_shifted[0] *= sprite_data.z * 0.5f;
+    world_matrix_shifted[1] *= sprite_data.w * 0.5f;
     gl_Position = proj_matrix * world_matrix_shifted * vec4(position, 1.0);
 }
