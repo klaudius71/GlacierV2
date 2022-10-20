@@ -18,6 +18,7 @@ void Glacier::LoadResources()
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
 
 	FontLoader::Load("Times40", "times.ttf", 40);
+	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
 
 	SceneManager::SetNextScene(new MainScene);
 }

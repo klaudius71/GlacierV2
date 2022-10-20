@@ -144,7 +144,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 
 	// Set the world_matrix uniform
 	const Glyph& glyph_with_max_height = font->GetGlyphWithMaxHeight();
-	const float y_offset = glyph_with_max_height.size.y * 0.5f + (glyph_with_max_height.size.y - glyph_with_max_height.bearing_y);
+	const float y_offset = glyph_with_max_height.size.y - glyph_with_max_height.bearing_y;
 	const glm::mat4 world_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(x - x_offset, y - y_offset, 0.0f)), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(glGetUniformLocation(shad, "world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
 

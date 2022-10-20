@@ -51,7 +51,7 @@ Font::Font(const std::string& file_name, const int& font_size)
 		x += 1; // 1 pixel padding from the left side of the tile
 		y += (font_size + 2) - face->glyph->bitmap_top + curr_max_under_baseline - 1;
 
-		glyphs[i] = Glyph(x - 1, y - 1, face->glyph->bitmap.width + 1, face->glyph->bitmap.rows + 1, face->glyph->bitmap_top, face->glyph->advance.x >> 6);
+		glyphs[i] = Glyph(x - 1, y - 1, face->glyph->bitmap.width + 1, face->glyph->bitmap.rows + 1, face->glyph->bitmap_top, face->glyph->advance.x >> 6 /* advance is given in 1/64 pixels for some reason */);
 
 		if (max_height_glyph->size.y < glyphs[i].size.y)
 			max_height_glyph = &glyphs[i];
