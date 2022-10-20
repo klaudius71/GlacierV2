@@ -33,11 +33,14 @@ public:
 
 	const Glyph& GetGlyph(char c) const;
 
+	const Glyph& GetGlyphWithMaxHeight() const;
+
 private:
 	GLuint tex;
 	uint32_t bitmap_width;
 	uint32_t bitmap_height;
 	Glyph* glyphs;
+	Glyph* max_height_glyph;
 };
 
 #endif _FONT

@@ -17,7 +17,7 @@ void MainScene::InitializeScene()
 	camera->RegisterToScene();
 
 	GameObjectRef dir_light = CreateGameObject("Directional Light");
-	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(0.45f), glm::vec3(.8f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));
+	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(.45f), glm::vec3(.55f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));
 	//dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
 
@@ -27,7 +27,7 @@ void MainScene::InitializeScene()
 
 	GameObjectRef terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
-	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.1f), 1.0f), TextureLoader::Get("Sand"));
+	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 1.0f), TextureLoader::Get("Sand"));
 	terrain->RegisterToScene();
 
 	GameObjectRef cube = CreateGameObject("Cube1");

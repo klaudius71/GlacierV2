@@ -46,13 +46,10 @@ void LevelScript::OnTick()
 	if (frame_time_index == 100)
 		frame_time_index = 0;
 
-	float avg_frame_time = 0.0f;
-	for (const float& frame_time : frame_time_data)
-		avg_frame_time += frame_time;
-
-	avg_frame_time /= 100.0f;
+	const float avg_frame_time = std::accumulate(frame_time_data.cbegin(), frame_time_data.cend(), 0.0f) / 100.0f;
 	const Window& window = Glacier::GetWindow();
-	Renderer2D::PrintText(FontLoader::Get("Times40"), 10.0f, window.GetWindowHeight() - 29.0f, Colors::Black, "FPS: %d", (int)(std::roundf(1.0f / avg_frame_time)));
+	//Renderer2D::PrintText(FontLoader::Get("Times40"), 0.0f, (float)window.GetWindowHeight(), Colors::Black, "FPS: %d", (int)(std::roundf(1.0f / avg_frame_time)));
+	Renderer2D::PrintText(FontLoader::Get("Times40"), 0.0f, (float)window.GetWindowHeight(), Colors::Black, "frame_time: %.4fms", avg_frame_time * 1000.0f);
 }
 
 void LevelScript::OnDestroy()

@@ -4,6 +4,7 @@
 #include "Components.h"
 
 #define RESERVED_DEBUG_TEXT_QUERIES 20
+#define MAX_CHARACTERS 100
 
 class Scene;
 class Font;
@@ -31,6 +32,9 @@ private:
 	};
 	std::vector<DebugTextQueueEntry> debug_text_queue;
 
+	std::vector<glm::vec4> uniform_glyph_data;
+	std::vector<glm::vec4> uniform_world_data;
+
 	static void Initialize();
 	static void UpdateScreenSize(const int& width, const int& height);
 	static void Terminate();
@@ -38,6 +42,7 @@ private:
 	static void RenderComponents(Scene& scn);
 
 	static void RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
+	static void RenderTextInstanced(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
 
 	friend class Renderer2DAtt;
 

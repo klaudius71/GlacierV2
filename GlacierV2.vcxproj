@@ -291,6 +291,8 @@
     <None Include="assets\shaders\texture.vs.glsl" />
     <None Include="assets\shaders\texture_lit.fs.glsl" />
     <None Include="assets\shaders\texture_lit.vs.glsl" />
+    <None Include="assets\shaders\text_instanced.fs.glsl" />
+    <None Include="assets\shaders\text_instanced.vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

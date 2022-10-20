@@ -8,7 +8,7 @@ void Glacier::LoadResources()
 {
 	//ModelLoader::Load("Vampire", "vampire2.gltf");
 	ModelLoader::Load("Box", PREMADE_MODELS::UNIT_CUBE_REPEAT_TEXTURE, 10.0f);
-	ModelLoader::Load("TempTerrain", "level1_grayscale.png", 3500.0f, 200.0f, 50.0f, 50.0f);
+	ModelLoader::Load("TempTerrain", "level1_grayscale.png", 3500.0f, 200.0f, 25.0f, 25.0f);
 	ModelLoader::Load("TempTerrain1", 3500.0f, 50.0f, 50.0f);
 
 	TextureLoader::Load("default", "default.tga");

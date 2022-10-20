@@ -41,6 +41,7 @@ ShaderLoader::ShaderLoader()
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "skybox").first->second;
 	load_matrix_binding(*curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "text").first->second;
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT_INSTANCED, SHADER_PATH + "text_instanced").first->second;
 }
 
 void ShaderLoader::load(const char* const name, const char* const file_name)
@@ -65,13 +66,11 @@ void ShaderLoader::load_matrix_binding(const Shader& shader)
 	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "Matrices"), 0);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_Matrices);
 }
-
 void ShaderLoader::load_light_bindings(const Shader& shader)
 {
 	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "DirLight"), 1);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_DirLight);
 }
-
 void ShaderLoader::load_lightspace_bindings(const Shader& shader)
 {
 	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "LightspaceMatrices"), 2);

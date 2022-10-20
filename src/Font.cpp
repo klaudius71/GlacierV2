@@ -2,7 +2,7 @@
 #include "Font.h"
 
 Font::Font(const std::string& file_name, const int& font_size)
-	: glyphs(new Glyph[128])
+	: glyphs(new Glyph[128]), max_height_glyph(glyphs)
 {
 	FT_Library lib;
 	FT_Error error;
@@ -52,6 +52,9 @@ Font::Font(const std::string& file_name, const int& font_size)
 		y += (font_size + 2) - face->glyph->bitmap_top + curr_max_under_baseline - 1;
 
 		glyphs[i] = Glyph(x - 1, y - 1, face->glyph->bitmap.width + 1, face->glyph->bitmap.rows + 1, face->glyph->bitmap_top, face->glyph->advance.x >> 6);
+
+		if (max_height_glyph->size.y < glyphs[i].size.y)
+			max_height_glyph = &glyphs[i];
 
 		// draw the character
 		const FT_Bitmap& bitmap = face->glyph->bitmap;
@@ -105,4 +108,9 @@ const Glyph& Font::GetGlyph(char c) const
 {
 	assert(c >= 0 && c <= CHAR_MAX);
 	return glyphs[c];
+}
+
+const Glyph& Font::GetGlyphWithMaxHeight() const
+{
+	return *max_height_glyph;
 }

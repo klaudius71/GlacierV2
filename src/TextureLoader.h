@@ -24,12 +24,12 @@ private:
 
 	std::unordered_map<std::string, Texture> textures;
 
-	static std::vector<std::future<void>> futures;
+	static std::list<std::future<Texture&>> futures;
 	static std::mutex load_mutex;
 
-	static void load_async_reg(std::unordered_map<std::string, Texture>& list_ref, const std::string& name, const std::string& file_path);
+	Texture& load_async_reg(const std::string& name, const std::string& file_path);
 	void load(const std::string& name, const std::string& file_name);
-	static void load_async_cube(std::unordered_map<std::string, Texture>& list_ref, const std::string& name, const std::array<std::string, 6>& file_paths);
+	Texture& load_async_cube(const std::string& name, const std::array<std::string, 6>& file_paths);
 	void load(const std::string& name, const std::array<std::string, 6>& file_names);
 	const Texture& get(const std::string& name);
 
