@@ -59,6 +59,7 @@ private:
 
 	friend class SceneManager;
 	friend class GameObject;
+	friend class SceneAtt;
 };
 
 #endif _SCENE

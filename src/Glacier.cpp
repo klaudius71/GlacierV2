@@ -10,6 +10,7 @@
 #include "Scene.h"
 #include "Renderer2DAtt.h"
 #include "InputAtt.h"
+#include "EditorLayer.h"
 
 Glacier* Glacier::instance = nullptr;
 
@@ -68,6 +69,7 @@ void Glacier::run()
 	TimeManagerAtt::Initialize();
 	Renderer2DAtt::Initialize();
 	SceneManagerAtt::Engine::Initialize();
+	EditorLayer::Initialize();
 
 	// Loads user defined assets
 	LoadResources();
@@ -82,7 +84,7 @@ void Glacier::run()
 	while (!window->IsOpen())
 	{
 		window->Clear();
-	
+
 		TimeManagerAtt::ProcessTime();
 		InputAtt::ProcessMouseData();
 	
@@ -91,13 +93,21 @@ void Glacier::run()
 	
 		// render
 		SceneManagerAtt::Engine::RenderCurrentScene();
+		EditorLayer::ShowEditor();
+
 		window->SwapBuffers();
 
 		//TimeManagerAtt::LimitFrametime(1.0f / 240.5f);
 		window->PollEvents();
 	}
 
+	// Cleanup
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	// Terminate all of the singletons
+	EditorLayer::Terminate();
 	SceneManagerAtt::Engine::Terminate();
 	Renderer2DAtt::Terminate();
 	TimeManagerAtt::Terminate();
