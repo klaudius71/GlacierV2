@@ -1,8 +1,10 @@
 #include "gpch.h"
 #include "EditorLayer.h"
+#include "Renderer2DAtt.h"
+#include "RendererAtt.h"
 #include "Glacier.h"
 #include "Window.h"
-#include "SceneManager.h"
+#include "SceneManagerAtt.h"
 #include "Scene.h"
 #include "SceneAtt.h"
 #include "GameObject.h"
@@ -10,6 +12,7 @@
 EditorLayer* EditorLayer::instance = nullptr;
 
 EditorLayer::EditorLayer()
+	: viewport_size(2, 2)
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -72,11 +75,23 @@ void EditorLayer::showEditor()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_::ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	static bool show_demo_window = true;
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
+	ImGui::Begin("Viewport");
+	const ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
+	if (viewport_size != glm::ivec2{ current_viewport_size.x, current_viewport_size.y })
+	{
+		viewport_size = { (int)current_viewport_size.x, (int)current_viewport_size.y };
+		SceneManagerAtt::Callback::ScreenSizeChanged(viewport_size.x, viewport_size.y);
+	}
+	ImGui::Image((void*)(uint64_t)Renderer::GetMainFramebuffer().GetTexID(), ImVec2{ (float)viewport_size.x, (float)viewport_size.y }, ImVec2{0,0}, ImVec2{1,-1});
+	ImGui::End();
+	ImGui::PopStyleVar();
 
 	Scene& current_scene = *SceneManager::GetCurrentScene();
 	SceneGraph& scn_graph = SceneAtt::GetSceneGraph(current_scene);

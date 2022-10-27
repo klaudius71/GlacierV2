@@ -13,17 +13,24 @@ private:
 	Renderer();
 	~Renderer() = default;
 
-	Framebuffer framebuffer;
+	Framebuffer main_framebuffer;
+
+	static void Initialize();
+	static void Terminate();
+
+	static void UpdateViewportSize(const int& width, const int& height);
+	static void UpdateCameraData(CameraComponent& camera);
 
 	static void RenderScene(Scene& scn);
-
-	static void UpdateCameraData(const CameraComponent& camera);
 
 	static void RenderUnlit(Scene& scn);
 	static void RenderLit(Scene& scn);
 	static void RenderSkybox(Scene& scn);
 
 	friend class RendererAtt;
+
+public:
+	static const Framebuffer& GetMainFramebuffer();
 };
 
 #endif _RENDERER

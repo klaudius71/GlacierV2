@@ -5,9 +5,15 @@
 
 class RendererAtt
 {
+	friend class Glacier;
 	friend class SceneManager;
+	friend class Window;
+	friend class EditorLayer;
 
+	static void Initialize() { Renderer::Initialize(); }
 	static void RenderScene(Scene& scn) { Renderer::RenderScene(scn); }
+	static void UpdateViewportSize(const int& width, const int& height) { Renderer::UpdateViewportSize(width, height); }
+	static void Terminate() { Renderer::Terminate(); }
 };
 
 #endif _RENDERER_ATT

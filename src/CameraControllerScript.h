@@ -14,6 +14,8 @@ public:
 	virtual void OnCreate() override;
 	virtual void OnTick() override;
 	
+	virtual void OnScreenResize(const int& width, const int& height) override;
+
 private:
 	const glm::vec3 camUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	CameraComponent* cam = nullptr;

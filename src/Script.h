@@ -15,6 +15,8 @@ public:
 	virtual void OnTick() = 0;
 	virtual void OnDestroy() {};
 
+	virtual void OnScreenResize(const int& width, const int& height) { width; height; };
+
 	GameObjectRef CreateGameObject(std::string name);
 	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
 	void DestroyGameObject(GameObjectRef go);
@@ -33,6 +35,7 @@ private:
 	static void ExecuteAllOnCreate(const Scene& scn);
 	static void ExecuteAllOnTick(const Scene& curr_scene);
 	static void ExecuteAllOnDestroy(const Scene& scn);
+	static void ExecuteAllOnScreenResize(const Scene& scn, const int& width, const int& height);
 
 	friend class ScriptAtt;
 	friend class SceneManager;

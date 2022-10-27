@@ -36,7 +36,7 @@ private:
 	std::vector<glm::vec4> uniform_world_data;
 
 	static void Initialize();
-	static void UpdateScreenSize(const int& width, const int& height);
+	static void UpdateViewportSize(const int& width, const int& height);
 	static void Terminate();
 
 	static void RenderComponents(Scene& scn);

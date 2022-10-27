@@ -9,17 +9,27 @@
 #include "ModelLoader.h"
 #include "Lighting.h"
 
+Renderer* Renderer::instance = nullptr;
+
 Renderer::Renderer()
+	: main_framebuffer(Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight())
 {
 }
 
-void Renderer::UpdateCameraData(const CameraComponent& camera)
+void Renderer::UpdateCameraData(CameraComponent& camera)
 {
+	camera.proj = glm::perspective(camera.fov, (float)instance->GetMainFramebuffer().GetSize().x / instance->GetMainFramebuffer().GetSize().y, camera.near_plane, camera.far_plane);
+
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-	glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
+	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))};
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, &proj_view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+void Renderer::UpdateViewportSize(const int& width, const int& height)
+{
+	assert(instance);
+	instance->main_framebuffer.Resize(width, height);
 }
 
 void Renderer::RenderUnlit(Scene& scn)
@@ -97,15 +107,40 @@ void Renderer::RenderSkybox(Scene& scn)
 	}
 }
 
+const Framebuffer& Renderer::GetMainFramebuffer()
+{
+	assert(instance);
+	return instance->main_framebuffer;
+}
+
 void Renderer::RenderScene(Scene& scn)
 {
-	const CameraComponent& camera = scn.GetActiveCamera();
+	CameraComponent& camera = scn.GetActiveCamera();
 	UpdateCameraData(camera);
 
 	Lighting::RenderSceneShadows(&scn, camera);
 	
+	const Framebuffer& framebuffer = instance->main_framebuffer;
+	framebuffer.Bind();
+	glViewport(0, 0, framebuffer.GetSize().x, framebuffer.GetSize().y);
+
 	RenderLit(scn);
 	RenderUnlit(scn);
 
 	RenderSkybox(scn);
+
+	framebuffer.Unbind();
+	const Window& window = Glacier::GetWindow();
+	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
+}
+
+void Renderer::Initialize()
+{
+	assert(!instance);
+	instance = new Renderer;
+}
+void Renderer::Terminate()
+{
+	delete instance;
+	instance = nullptr;
 }

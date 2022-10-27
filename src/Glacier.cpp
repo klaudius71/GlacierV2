@@ -9,6 +9,7 @@
 #include "SceneManagerAtt.h"
 #include "Scene.h"
 #include "Renderer2DAtt.h"
+#include "RendererAtt.h"
 #include "InputAtt.h"
 #include "EditorLayer.h"
 
@@ -16,10 +17,12 @@ Glacier* Glacier::instance = nullptr;
 
 void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 {
-	source, type, id, severity; length; userParam;
-
-	OutputDebugStringA(message);
-	OutputDebugStringA("\n");
+	source, type, id, length; userParam;
+	if (severity == GL_DEBUG_SEVERITY_HIGH)
+	{
+		OutputDebugStringA(message);
+		OutputDebugStringA("\n");
+	}
 }
 Glacier::Glacier()
 {
@@ -68,6 +71,7 @@ void Glacier::run()
 	// Initialize some singletons
 	TimeManagerAtt::Initialize();
 	Renderer2DAtt::Initialize();
+	RendererAtt::Initialize();
 	SceneManagerAtt::Engine::Initialize();
 	EditorLayer::Initialize();
 
@@ -84,6 +88,7 @@ void Glacier::run()
 	while (!window->IsOpen())
 	{
 		window->Clear();
+		Renderer::GetMainFramebuffer().Clear();
 
 		TimeManagerAtt::ProcessTime();
 		InputAtt::ProcessMouseData();
@@ -109,6 +114,7 @@ void Glacier::run()
 	// Terminate all of the singletons
 	EditorLayer::Terminate();
 	SceneManagerAtt::Engine::Terminate();
+	RendererAtt::Terminate();
 	Renderer2DAtt::Terminate();
 	TimeManagerAtt::Terminate();
 	ShaderLoaderAtt::Terminate();

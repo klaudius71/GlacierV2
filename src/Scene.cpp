@@ -5,7 +5,7 @@
 #include "Glacier.h"
 #include "Window.h"
 
-const CameraComponent Scene::default_camera = CameraComponent(glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, 10000.0f));
+CameraComponent Scene::default_camera = CameraComponent(glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, 10000.0f));
 													
 entt::registry& Scene::GetRegistry()
 {
@@ -91,7 +91,7 @@ void Scene::Destroy(const entt::entity& id)
 	registry_disabled.destroy(id);
 }
 
-const CameraComponent& Scene::GetActiveCamera() const
+CameraComponent& Scene::GetActiveCamera()
 {
 	auto camera_view = registry.view<CameraComponent>();
 	const bool& camera_exists = camera_view.begin() != camera_view.end();

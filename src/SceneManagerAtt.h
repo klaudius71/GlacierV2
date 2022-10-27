@@ -21,6 +21,13 @@ struct SceneManagerAtt
 
 		static void ChangeScene(Scene* const scn) { SceneManager::ChangeScene(scn); }
 	};
+
+	class Callback
+	{
+		friend class EditorLayer;
+
+		static void ScreenSizeChanged(const int& width, const int& height) { SceneManager::ScreenSizeChanged(width, height); }
+	};
 };	
 
 #endif _SCENE_MANAGER_ATT

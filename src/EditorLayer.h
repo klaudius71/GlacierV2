@@ -22,6 +22,8 @@ private:
 
 	GameObjectRef selected_go;
 
+	glm::ivec2 viewport_size;
+
 	void drawGraph(GameObjectRef go);
 	void showEditor();
 

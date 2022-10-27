@@ -15,7 +15,7 @@ void MainScene::InitializeScene()
 											  glm::vec3(0.0f, 100.0f, 20.0f), glm::vec3(0.0f, 0.0f, -1.0f));
 	camera->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"));
 	camera->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
-	camera->GetComponent<TransformComponent>().position() = glm::vec3(glm::vec2(Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight()) * 0.5f, 0.0f);
+	camera->GetComponent<TransformComponent>().position() = glm::vec3(glm::vec2(Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y) * 0.5f, 0.0f);
 	camera->AddScript<CameraControllerScript>();
 	camera->RegisterToScene();
 

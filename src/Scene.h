@@ -37,7 +37,7 @@ public:
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);
 
-	const CameraComponent& GetActiveCamera() const;
+	CameraComponent& GetActiveCamera();
 
 protected:
 	virtual void InitializeScene() {}
@@ -51,7 +51,7 @@ private:
 
 	void Destroy(const entt::entity& id);
 
-	static const CameraComponent default_camera;
+	static CameraComponent default_camera;
 
 	static void switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to);
 

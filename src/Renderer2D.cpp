@@ -1,5 +1,7 @@
 #include "gpch.h"
 #include "Renderer2D.h"
+#include "Renderer.h"
+#include "Framebuffer.h"
 #include "Glacier.h"
 #include "Window.h"
 #include "Scene.h"
@@ -30,7 +32,7 @@ void Renderer2D::Initialize()
 {
 	instance = new Renderer2D;
 }
-void Renderer2D::UpdateScreenSize(const int& width, const int& height)
+void Renderer2D::UpdateViewportSize(const int& width, const int& height)
 {
 	instance->proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 }
@@ -42,6 +44,11 @@ void Renderer2D::Terminate()
 
 void Renderer2D::RenderComponents(Scene& scn)
 {
+	const Framebuffer& framebuffer = Renderer::GetMainFramebuffer();
+	const glm::ivec2& viewport_size = framebuffer.GetSize();
+	glViewport(0, 0, viewport_size.x, viewport_size.y);
+	framebuffer.Bind();
+
 	const GLuint shad = *ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
 	glUseProgram(shad);
 	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
@@ -70,6 +77,10 @@ void Renderer2D::RenderComponents(Scene& scn)
 	glDisable(GL_BLEND);
 
 	instance->debug_text_queue.clear();
+
+	const Window& window = Glacier::GetWindow();
+	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
+	framebuffer.Unbind();
 }
 
 void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)

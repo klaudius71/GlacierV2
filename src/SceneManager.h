@@ -25,6 +25,7 @@ private:
 
 	void updateCurrentScene();
 	void renderCurrentScene();
+	void screenSizeChanged(const int& width, const int& height);
 	void enqueueCommand(Command* const cmd);
 	void setNextScene(Scene* const next_scene);
 	void changeScene(Scene* const next_scene);
@@ -33,6 +34,7 @@ private:
 	static void ChangeScene(Scene* const scn) { instance->changeScene(scn); }
 	static void UpdateCurrentScene() { instance->updateCurrentScene(); }
 	static void RenderCurrentScene() { instance->renderCurrentScene(); }
+	static void ScreenSizeChanged(const int& width, const int& height) { instance->screenSizeChanged(width, height); }
 	static void Terminate();
 
 	friend struct SceneManagerAtt;

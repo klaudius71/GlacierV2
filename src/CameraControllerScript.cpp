@@ -58,3 +58,8 @@ void CameraControllerScript::OnTick()
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
 		cam->cam_pos += up * speed_delta;
 }
+
+void CameraControllerScript::OnScreenResize(const int& width, const int& height)
+{
+	GetGameObject()->GetComponent<TransformComponent>().position() = { glm::vec2(width, height) * 0.5f, 1.0f };
+}

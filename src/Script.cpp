@@ -64,3 +64,11 @@ void Script::ExecuteAllOnDestroy(const Scene& scn)
 		delete script.script;
 	}
 }
+void Script::ExecuteAllOnScreenResize(const Scene& scn, const int& width, const int& height)
+{
+	auto script_view = scn.GetRegistry().view<ScriptComponent>();
+	for (auto&& [entity, script] : script_view.each())
+	{
+		script.script->OnScreenResize(width, height);
+	}
+}

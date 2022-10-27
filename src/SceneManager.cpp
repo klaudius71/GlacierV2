@@ -35,6 +35,12 @@ void SceneManager::renderCurrentScene()
 	RendererAtt::RenderScene(*curr_scene);
 	Renderer2DAtt::RenderComponents(*curr_scene);
 }
+void SceneManager::screenSizeChanged(const int& width, const int& height)
+{
+	Renderer2DAtt::UpdateViewportSize(width, height);
+	RendererAtt::UpdateViewportSize(width, height);
+	Script::ExecuteAllOnScreenResize(*curr_scene, width, height);
+}
 void SceneManager::enqueueCommand(Command* const cmd)
 {
 	curr_scene->cmd_broker.Enqueue(cmd);
