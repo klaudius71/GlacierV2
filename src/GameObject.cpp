@@ -32,6 +32,10 @@ const std::list<GameObjectRef>& GameObject::GetChildren() const
 {
 	return children;
 }
+GameObjectRef GameObject::GetParent()
+{
+	return parent;
+}
 
 void GameObject::RegisterToScene()
 {
@@ -100,10 +104,6 @@ void GameObject::update_transform_as_child(const glm::mat4& parent_world_matrix)
 		child->update_transform_as_child(transform.world_matrix);
 }
 
-GameObjectRef& GameObject::GetParent()
-{
-	return parent;
-}
 std::list<GameObjectRef>::const_iterator& GameObject::GetAsChildRef()
 {
 	return as_child_ref;

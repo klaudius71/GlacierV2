@@ -22,18 +22,25 @@ public:
 
 	const entt::entity& GetID() const;
 	const std::list<GameObjectRef>& GetChildren() const;
+	GameObjectRef GetParent();
 
 	void RegisterToScene();
 	void DeregisterFromScene();
 
 	template<class T>
-	bool HasComponent()
+	bool HasComponent() const
 	{
 		return curr_registry->any_of<T>(id);
 	}
 
 	template<class T>
 	T& GetComponent()
+	{
+		assert(HasComponent<T>() && "Entity doesn't have this component!");
+		return curr_registry->get<T>(id);
+	}
+	template<class T>
+	const T& GetComponent() const
 	{
 		assert(HasComponent<T>() && "Entity doesn't have this component!");
 		return curr_registry->get<T>(id);
@@ -104,7 +111,6 @@ private:
 
 	void EraseChild(std::list<GameObjectRef>::const_iterator ref);
 	
-	GameObjectRef& GetParent();
 	std::list<GameObjectRef>::const_iterator& GetAsChildRef();
 	void SetAsChildRef(std::list<GameObjectRef>::const_iterator ref);
 	std::list<GameObjectRef>& GetChildren();

@@ -34,7 +34,7 @@ GameObjectRef SceneGraph::CreateGameObject(std::string& name, GameObjectRef& par
 }
 void SceneGraph::EraseGameObject(GameObjectRef& go)
 {
-	GameObjectRef& parent = GameObjectAtt::GetParent(**go);
+	GameObjectRef parent = go->GetParent();
 	if (!parent.isExpired())
 		GameObjectAtt::EraseChild(**parent, GameObjectAtt::GetAsChildRef(**go));
 	

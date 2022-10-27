@@ -1,6 +1,8 @@
 #ifndef _EDITOR_LAYER
 #define _EDITOR_LAYER
 
+#include "GameObject.h"
+
 class EditorLayer
 {
 private:
@@ -18,8 +20,9 @@ private:
 	EditorLayer& operator=(const EditorLayer&) = delete;
 	~EditorLayer() = default;
 
-	ImGuiIO* io;
+	GameObjectRef selected_go;
 
+	void drawGraph(GameObjectRef go);
 	void showEditor();
 
 public:

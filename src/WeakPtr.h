@@ -22,6 +22,10 @@ public:
 	{
 		return ptr;
 	}
+	const std::weak_ptr<T>& getWeakPtr() const
+	{
+		return ptr;
+	}
 
 	bool isExpired() const
 	{
@@ -33,6 +37,15 @@ public:
 		return ptr.lock().get();
 	}
 	T* operator->()
+	{
+		assert(!ptr.expired());
+		return ptr.lock().get();
+	}
+	const T* operator*() const
+	{
+		return ptr.lock().get();
+	}
+	const T* operator->() const
 	{
 		assert(!ptr.expired());
 		return ptr.lock().get();
