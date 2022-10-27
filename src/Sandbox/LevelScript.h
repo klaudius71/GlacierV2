@@ -5,7 +5,7 @@
 class LevelScript : public Script
 {
 public:
-	LevelScript() = default;
+	LevelScript();
 	~LevelScript() = default;
 
 	virtual void OnCreate() override;

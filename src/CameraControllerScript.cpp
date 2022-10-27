@@ -6,6 +6,11 @@
 #include "Glacier.h"
 #include "Window.h"
 
+CameraControllerScript::CameraControllerScript()
+	: Script("CameraControllerScript")
+{
+}
+
 void CameraControllerScript::OnCreate()
 {
 	cam = &GetGameObject()->GetComponent<CameraComponent>();

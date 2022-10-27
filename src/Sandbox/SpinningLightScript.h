@@ -3,7 +3,7 @@
 class SpinningLightScript : public Script
 {
 public:
-	SpinningLightScript() = default;
+	SpinningLightScript();
 	~SpinningLightScript() = default;
 
 	virtual void OnCreate() override;

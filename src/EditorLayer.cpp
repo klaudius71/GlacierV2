@@ -58,7 +58,7 @@ void EditorLayer::drawGraph(GameObjectRef go)
 	}
 	else
 	{
-		if (ImGui::TreeNodeEx(go->GetComponent<NameComponent>().name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen))
+		if (ImGui::TreeNodeEx(go->GetComponent<NameComponent>().name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanAvailWidth))
 		{
 			if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 				selected_go = go;
@@ -71,6 +71,8 @@ void EditorLayer::showEditor()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_::ImGuiDockNodeFlags_PassthruCentralNode);
 
 	static bool show_demo_window = true;
 	if (show_demo_window)
@@ -92,6 +94,8 @@ void EditorLayer::showEditor()
 	ImGui::Begin("Properties");
 	if (!selected_go.isExpired())
 	{
+		auto [camera, script, sprite, mesh, material, dir_light, skybox] = selected_go->TryGetComponent<CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent>();
+
 		if (ImGui::TreeNode("Name Component"))
 		{
 			NameComponent& name_component = selected_go->GetComponent<NameComponent>();
@@ -104,8 +108,61 @@ void EditorLayer::showEditor()
 		{
 			TransformComponent& transform_component = selected_go->GetComponent<TransformComponent>();
 			ImGui::DragFloat3("Position", (float*)&transform_component.position());
-			ImGui::DragFloat3("Rotation", (float*)&transform_component.rotation());
+			glm::vec3 to_degrees = glm::degrees(transform_component.rotation());
+			ImGui::DragFloat3("Rotation", (float*)&to_degrees);
+			transform_component.rotation() = glm::radians(to_degrees);
 			ImGui::DragFloat3("Scale", (float*)&transform_component.scale());
+			ImGui::TreePop();
+		}
+
+		if (camera && ImGui::TreeNode("Camera Component"))
+		{
+			ImGui::DragFloat3("Position", (float*)&camera->cam_pos);
+			ImGui::DragFloat3("Direction", (float*)&camera->cam_dir);
+			float fov_degrees = glm::degrees(camera->fov);
+			ImGui::DragFloat("FOV", &fov_degrees);
+			camera->fov = glm::radians(fov_degrees);
+			ImGui::TreePop();
+		}
+
+		if (script && ImGui::TreeNode("Script Component"))
+		{
+			ImGui::Text("Script: %s", script->script->GetName().c_str());
+			ImGui::TreePop();
+		}
+
+		if (sprite && ImGui::TreeNode("Sprite Component"))
+		{
+			ImGui::Text("Texture:");
+			ImGui::Image((void*)(uint64_t)sprite->tex_id, ImVec2{ 256, 256 });
+			if (ImGui::TreeNode("Texture Details"))
+			{
+				ImGui::Text("File Path: %s", sprite->tex->GetFilePath().c_str());
+				ImGui::Text("Size:");
+				ImGui::BulletText("Width: %d", sprite->tex->GetWidth());
+				ImGui::BulletText("Height: %d", sprite->tex->GetHeight());
+				ImGui::TreePop();
+			}
+			ImGui::TreePop();
+		}
+
+		if(mesh && ImGui::TreeNode("Mesh Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (material && ImGui::TreeNode("Material Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (dir_light && ImGui::TreeNode("Directional Light Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (skybox && ImGui::TreeNode("Skybox Component"))
+		{
 			ImGui::TreePop();
 		}
 	}

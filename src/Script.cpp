@@ -4,6 +4,11 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+Script::Script(const std::string& name)
+	: script_name(name)
+{
+}
+
 void Script::SetGameObject(GameObjectRef& new_obj)
 {
 	obj = new_obj;
@@ -31,6 +36,11 @@ GameObjectRef& Script::GetGameObject()
 Scene& Script::GetCurrentScene()
 {
 	return *SceneManager::GetCurrentScene();
+}
+
+const std::string& Script::GetName() const
+{
+	return script_name;
 }
 
 void Script::ExecuteAllOnCreate(const Scene& scn)

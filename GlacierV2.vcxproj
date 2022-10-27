@@ -202,6 +202,7 @@
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\FontLoader.cpp" />
+    <ClCompile Include="src\Framebuffer.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\GameObjectDeregCmd.cpp" />
     <ClCompile Include="src\GameObjectRegCmd.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="src\Font.h" />
     <ClInclude Include="src\FontLoader.h" />
     <ClInclude Include="src\FontLoaderAtt.h" />
+    <ClInclude Include="src\Framebuffer.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectAtt.h" />
     <ClInclude Include="src\GameObjectDeregCmd.h" />

@@ -2,6 +2,11 @@
 #include "LevelScript.h"
 #include "RotatingScript.h"
 
+LevelScript::LevelScript()
+	: Script("LevelScript")
+{
+}
+
 void LevelScript::OnCreate()
 {
 	frame_time_data.reserve(100);

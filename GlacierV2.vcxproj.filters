@@ -283,6 +283,9 @@
     <ClCompile Include="src\EditorLayer.cpp">
       <Filter>src\Engine\Systems\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\Framebuffer.cpp">
+      <Filter>src\Engine\GraphicsContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -506,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="src\SceneAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Framebuffer.h">
+      <Filter>src\Engine\GraphicsContext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

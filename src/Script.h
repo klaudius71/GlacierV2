@@ -8,7 +8,7 @@ class Scene;
 class Script
 {
 public:
-	Script() = default;
+	Script(const std::string& name = "");
 	virtual ~Script() = default;
 
 	virtual void OnCreate() = 0;
@@ -22,8 +22,11 @@ public:
 	GameObjectRef& GetGameObject();
 	Scene& GetCurrentScene();
 
+	const std::string& GetName() const;
+
 private:
 	GameObjectRef obj;
+	std::string script_name;
 
 	void SetGameObject(GameObjectRef& new_obj);
 

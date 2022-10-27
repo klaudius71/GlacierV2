@@ -37,6 +37,7 @@ public:
 	const int& GetHeight() const;
 	const int& GetNumChannels() const;
 	const TEXTURE_TYPE& GetTextureType() const;
+	const std::string& GetFilePath() const;
 
 private:
 	static void load_GPU_data(Texture& tex);
@@ -50,6 +51,7 @@ private:
 	int channels;
 	TEXTURE_TYPE type;
 	uint8_t* img;
+	std::string file_path;
 };
 
 #endif _TEXTURE

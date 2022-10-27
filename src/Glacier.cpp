@@ -23,7 +23,7 @@ void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum 
 }
 Glacier::Glacier()
 {
-	window = new Window;
+	window = new Window(1920, 1080);
 
 	// Initializes GLAD
 	initialize_OpenGL();

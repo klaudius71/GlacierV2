@@ -9,6 +9,10 @@
 #include "ModelLoader.h"
 #include "Lighting.h"
 
+Renderer::Renderer()
+{
+}
+
 void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();

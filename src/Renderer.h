@@ -1,12 +1,20 @@
 #ifndef _RENDERER
 #define _RENDERER
 
+#include "Framebuffer.h"
+
 class Scene;
 struct CameraComponent;
 
 class Renderer
 {
 private:
+	static Renderer* instance;
+	Renderer();
+	~Renderer() = default;
+
+	Framebuffer framebuffer;
+
 	static void RenderScene(Scene& scn);
 
 	static void UpdateCameraData(const CameraComponent& camera);

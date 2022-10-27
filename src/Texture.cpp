@@ -5,7 +5,7 @@
 #include "stb_image.h"
 
 Texture::Texture(const std::string& file_name)
-	: id(0xFFFFFFFF), type(TEXTURE_TYPE::REGULAR)
+	: id(0xFFFFFFFF), type(TEXTURE_TYPE::REGULAR), file_path(file_name)
 {
 	// Vertically flips all loaded textures
 	stbi_set_flip_vertically_on_load(true);
@@ -48,7 +48,7 @@ Texture::Texture(const std::array<std::string, 6>& file_paths)
 	load_GPU_data(*this);
 }
 Texture::Texture(Texture&& o) noexcept
-	: id(o.id), width(o.width), height(o.height), channels(o.channels), type(o.type), img(o.img)
+	: id(o.id), width(o.width), height(o.height), channels(o.channels), type(o.type), img(o.img), file_path(std::move(o.file_path))
 {
 	o.img = nullptr;
 }
@@ -60,7 +60,10 @@ Texture& Texture::operator=(Texture&& o)
 	channels = o.channels;
 	type = o.type;
 	img = o.img;
+	file_path = std::move(o.file_path);
+
 	o.img = nullptr;
+
 	return *this;
 }
 Texture::~Texture()
@@ -98,6 +101,10 @@ const int& Texture::GetNumChannels() const
 const TEXTURE_TYPE& Texture::GetTextureType() const
 {
 	return type;
+}
+const std::string& Texture::GetFilePath() const
+{
+	return file_path;
 }
 
 void Texture::load_GPU_data(Texture& tex)

@@ -45,11 +45,10 @@ public:
 		assert(HasComponent<T>() && "Entity doesn't have this component!");
 		return curr_registry->get<T>(id);
 	}
-	template<class T>
-	bool TryGetComponent(T*& component)
+	template<typename... Component>
+	auto TryGetComponent()
 	{
-		component = curr_registry->try_get<T>(id);
-		return component != nullptr;
+		return curr_registry->try_get<Component...>(id);
 	}
 	
 	template<class T, typename... Args>

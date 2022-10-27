@@ -1,6 +1,11 @@
 #include "gpch.h"
 #include "SpinningLightScript.h"
 
+SpinningLightScript::SpinningLightScript()
+	: Script("SpinningLightScript")
+{
+}
+
 void SpinningLightScript::OnCreate()
 {
 	dir = &GetGameObject()->GetComponent<DirectionalLightComponent>().light.direction;

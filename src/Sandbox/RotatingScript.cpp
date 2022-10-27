@@ -2,7 +2,7 @@
 #include "RotatingScript.h"
 
 RotatingScript::RotatingScript(const glm::vec3& rot_direction)
-	: rot_direction(rot_direction)
+	: Script("RotatingScript"), rot_direction(rot_direction)
 {
 }
 

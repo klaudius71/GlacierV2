@@ -8,7 +8,7 @@ struct CameraComponent;
 class CameraControllerScript : public Script
 {
 public:
-	CameraControllerScript() = default;
+	CameraControllerScript();
 	~CameraControllerScript() = default;
 
 	virtual void OnCreate() override;
