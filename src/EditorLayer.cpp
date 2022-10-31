@@ -1,5 +1,6 @@
 #include "gpch.h"
 #include "EditorLayer.h"
+#include "ShowEditorDont.h"
 #include "Renderer2DAtt.h"
 #include "RendererAtt.h"
 #include "Glacier.h"
@@ -14,6 +15,13 @@ EditorLayer* EditorLayer::instance = nullptr;
 EditorLayer::EditorLayer()
 	: viewport_size(2, 2)
 {
+	// Set whether to show the editor
+#ifdef SHOW_EDITOR
+	show_editor_cmd = new ShowEditorNull(*this);
+#else
+	show_editor_cmd = new ShowEditorDont(*this);
+#endif
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -40,6 +48,31 @@ EditorLayer::EditorLayer()
 	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(Glacier::GetWindow().GetNativeWindow(), true);
 	ImGui_ImplOpenGL3_Init("#version 130");
+}
+EditorLayer::~EditorLayer()
+{
+	delete show_editor_cmd;
+	show_editor_cmd = nullptr;
+}
+
+void EditorLayer::newFrame()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+}
+void EditorLayer::render()
+{
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	}
 }
 
 void EditorLayer::drawGraph(GameObjectRef go)
@@ -69,12 +102,7 @@ void EditorLayer::drawGraph(GameObjectRef go)
 	}
 }
 void EditorLayer::showEditor()
-{
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-	
+{	
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	static bool show_demo_window = true;
@@ -182,14 +210,11 @@ void EditorLayer::showEditor()
 		}
 	}
 	ImGui::End();
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		GLFWwindow* backup_current_context = glfwGetCurrentContext();
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(backup_current_context);
-	}
+}
+void EditorLayer::showEditorDont()
+{
+	const Window& window = Glacier::GetWindow();
+	const int& width = window.GetWindowWidth();
+	const int& height = window.GetWindowHeight();
+	glBlitNamedFramebuffer(Renderer::GetMainFramebuffer().GetFBO(), 0,  0, 0, width, height,  0, 0, width, height,  GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }

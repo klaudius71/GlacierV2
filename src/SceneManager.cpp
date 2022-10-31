@@ -60,6 +60,7 @@ void SceneManager::changeScene(Scene* const next_scene)
 	delete curr_scene;
 	curr_scene = next_scene;
 	curr_scene->InitializeScene();
+	//Script::ExecuteAllOnCreate(*curr_scene);
 }
 
 Scene* const SceneManager::GetCurrentScene()

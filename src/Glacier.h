@@ -1,6 +1,8 @@
 #ifndef _GLACIER
 #define _GLACIER
 
+//#define SHOW_EDITOR
+
 class Window;
 
 class Glacier

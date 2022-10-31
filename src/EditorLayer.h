@@ -2,6 +2,7 @@
 #define _EDITOR_LAYER
 
 #include "GameObject.h"
+#include "ShowEditorNull.h"
 
 class EditorLayer
 {
@@ -18,19 +19,28 @@ private:
 	EditorLayer();
 	EditorLayer(const EditorLayer&) = delete;
 	EditorLayer& operator=(const EditorLayer&) = delete;
-	~EditorLayer() = default;
+	~EditorLayer();
+
+	ShowEditorNull* show_editor_cmd;
 
 	GameObjectRef selected_go;
-
 	glm::ivec2 viewport_size;
 
+	void newFrame();
+	void render();
+
 	void drawGraph(GameObjectRef go);
+
+public:
 	void showEditor();
+	void showEditorDont();
 
 public:
 	static void Initialize() { Instance(); }
 
-	static void ShowEditor() { assert(instance && "EditorLayer not initialized!"); instance->showEditor(); };
+	static void NewFrame() { instance->newFrame(); }
+	static void ShowEditor() { assert(instance && "EditorLayer not initialized!"); instance->show_editor_cmd->Execute(); };
+	static void Render() { instance->render(); }
 
 	static void Terminate() { delete instance; instance = nullptr; }
 };

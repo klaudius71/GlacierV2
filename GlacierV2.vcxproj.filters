@@ -137,6 +137,9 @@
     <Filter Include="src\Engine\Systems\Editor">
       <UniqueIdentifier>{ffa96cdc-c33d-4160-b3c0-f415b5ee3e90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Systems\Editor\ShowEditor">
+      <UniqueIdentifier>{90ea2b98-3cad-4d63-b982-fb157d7fc51e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -285,6 +288,12 @@
     </ClCompile>
     <ClCompile Include="src\Framebuffer.cpp">
       <Filter>src\Engine\GraphicsContext</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShowEditorDont.cpp">
+      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShowEditorNull.cpp">
+      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,6 +524,12 @@
     </ClInclude>
     <ClInclude Include="src\TextureAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShowEditorDont.h">
+      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShowEditorNull.h">
+      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

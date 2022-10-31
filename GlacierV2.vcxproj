@@ -235,6 +235,8 @@
     <ClCompile Include="src\Script.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
+    <ClCompile Include="src\ShowEditorDont.cpp" />
+    <ClCompile Include="src\ShowEditorNull.cpp" />
     <ClCompile Include="src\WeakPtr.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
@@ -289,6 +291,8 @@
     <ClInclude Include="src\ModelLoaderAtt.h" />
     <ClInclude Include="src\RendererAtt.h" />
     <ClInclude Include="src\SceneAtt.h" />
+    <ClInclude Include="src\ShowEditorDont.h" />
+    <ClInclude Include="src\ShowEditorNull.h" />
     <ClInclude Include="src\TextureAtt.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />

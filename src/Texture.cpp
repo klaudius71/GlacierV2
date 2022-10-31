@@ -165,24 +165,20 @@ void Texture::LoadGPUData()
 	case TEXTURE_TYPE::REGULAR:
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)tex_params.wrap_s);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)tex_params.wrap_t);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 16.0f);
 		break;
 	case TEXTURE_TYPE::CUBE_MAP:
 		for (int i = 0; i < 6; i++)
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img + i * width * height * channels);
-		
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, (GLint)tex_params.wrap_s);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, (GLint)tex_params.wrap_t);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, (GLint)tex_params.wrap_r);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 		break;
 	default:
 		assert(false);
 		break;
 	}
+
+	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_WRAP_S, (GLint)tex_params.wrap_s);
+	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_WRAP_T, (GLint)tex_params.wrap_t);
+	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_WRAP_R, (GLint)tex_params.wrap_r);
+	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
+	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 }

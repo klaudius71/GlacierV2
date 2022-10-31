@@ -18,7 +18,7 @@ Glacier* Glacier::instance = nullptr;
 void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 {
 	source, type, id, length; userParam;
-	if (severity == GL_DEBUG_SEVERITY_HIGH)
+	if (severity == GL_DEBUG_SEVERITY_HIGH || severity == GL_DEBUG_SEVERITY_MEDIUM)
 	{
 		OutputDebugStringA(message);
 		OutputDebugStringA("\n");
@@ -81,9 +81,6 @@ void Glacier::run()
 	ModelLoaderAtt::WaitForThreadsAndLoadGPUData();
 	TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
 
-	// Running all script OnCreate()'s
-	SceneManagerAtt::Engine::UpdateCurrentScene();
-
 	// Main loop
 	while (!window->IsOpen())
 	{
@@ -93,12 +90,16 @@ void Glacier::run()
 		TimeManagerAtt::ProcessTime();
 		InputAtt::ProcessMouseData();
 	
+		EditorLayer::NewFrame();
+
 		// update
 		SceneManagerAtt::Engine::UpdateCurrentScene();
 	
 		// render
 		SceneManagerAtt::Engine::RenderCurrentScene();
+
 		EditorLayer::ShowEditor();
+		EditorLayer::Render();
 
 		window->SwapBuffers();
 
