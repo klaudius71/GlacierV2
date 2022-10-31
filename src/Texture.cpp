@@ -4,8 +4,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture::Texture(const std::string& file_name)
-	: id(0xFFFFFFFF), type(TEXTURE_TYPE::REGULAR), file_path(file_name)
+Texture::Texture(const std::string& file_name, const TextureParameters& tex_params)
+	: id(0), tex_params(tex_params), file_path(file_name)
 {
 	// Vertically flips all loaded textures
 	stbi_set_flip_vertically_on_load(true);
@@ -18,9 +18,11 @@ Texture::Texture(const std::string& file_name)
 		img = stbi_load("default.tga", &width, &height, &channels, 0);
 	}
 }
-Texture::Texture(const std::array<std::string, 6>& file_paths)
-	: id(0xFFFFFFFF), type(TEXTURE_TYPE::CUBE_MAP)
+Texture::Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params)
+	: id(0), tex_params(tex_params)
 {
+	this->tex_params.type = TEXTURE_TYPE::CUBE_MAP;
+
 	// Vertically flips all loaded textures
 	stbi_set_flip_vertically_on_load(false);
 
@@ -32,11 +34,11 @@ Texture::Texture(const std::array<std::string, 6>& file_paths)
 	assert(imgs[0] && imgs[1] && imgs[2] && imgs[3] && imgs[4] && imgs[5]);
 	assert(width_height_channels[0] == width_height_channels[1] && width_height_channels[3] == width_height_channels[4] && width_height_channels[6] == width_height_channels[7] && width_height_channels[9] == width_height_channels[10] && width_height_channels[12] == width_height_channels[13]);
 	assert(width_height_channels[0] == width_height_channels[3] && width_height_channels[3] == width_height_channels[6] && width_height_channels[6] == width_height_channels[9] && width_height_channels[9] == width_height_channels[12] && width_height_channels[12] == width_height_channels[15]);
-	
+
 	width = width_height_channels[0];
 	height = width_height_channels[1];
 	channels = width_height_channels[2];
-	
+
 	const size_t indiv_img_buffer_size = width * height * channels;
 	img = (uint8_t*)malloc(indiv_img_buffer_size * 6);
 	for (int i = 0; i < 6; i++)
@@ -45,11 +47,16 @@ Texture::Texture(const std::array<std::string, 6>& file_paths)
 		stbi_image_free(imgs[i]);
 	}
 
-	load_GPU_data(*this);
+	LoadGPUData();
 }
 Texture::Texture(Texture&& o) noexcept
-	: id(o.id), width(o.width), height(o.height), channels(o.channels), type(o.type), img(o.img), file_path(std::move(o.file_path))
+	: id(o.id), width(o.width), height(o.height), channels(o.channels), tex_params(o.tex_params), img(o.img), file_path(std::move(o.file_path))
 {
+	o.id = 0;
+	o.width = 0;
+	o.height = 0;
+	o.channels = 0;
+	memset(&o.tex_params, 0, sizeof(TextureParameters));
 	o.img = nullptr;
 }
 Texture& Texture::operator=(Texture&& o)
@@ -58,10 +65,15 @@ Texture& Texture::operator=(Texture&& o)
 	width = o.width;
 	height = o.height;
 	channels = o.channels;
-	type = o.type;
+	tex_params = o.tex_params;
 	img = o.img;
 	file_path = std::move(o.file_path);
 
+	o.id = 0;
+	o.width = 0;
+	o.height = 0;
+	o.channels = 0;
+	memset(&o.tex_params, 0, sizeof(TextureParameters));
 	o.img = nullptr;
 
 	return *this;
@@ -78,7 +90,11 @@ Texture::~Texture()
 
 void Texture::Bind() const
 {
-	glBindTexture(GL_TEXTURE_2D, id);
+	glBindTexture((GLenum)tex_params.type, id);
+}
+void Texture::Unbind() const
+{
+	glBindTexture((GLenum)tex_params.type, 0);
 }
 
 const GLuint& Texture::GetID() const
@@ -98,47 +114,75 @@ const int& Texture::GetNumChannels() const
 {
 	return channels;
 }
-const TEXTURE_TYPE& Texture::GetTextureType() const
+const TextureParameters& Texture::GetTextureParameters() const
 {
-	return type;
+	return tex_params;
 }
 const std::string& Texture::GetFilePath() const
 {
 	return file_path;
 }
 
-void Texture::load_GPU_data(Texture& tex)
+void Texture::SetTextureWrapS(TEXTURE_WRAP wrap)
+{
+	Bind();
+	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_S, (GLint)wrap);
+	Unbind();
+}
+void Texture::SetTextureWrapT(TEXTURE_WRAP wrap)
+{
+	Bind();
+	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_T, (GLint)wrap);
+	Unbind();
+}
+void Texture::SetTextureWrapR(TEXTURE_WRAP wrap)
+{
+	Bind();
+	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_R, (GLint)wrap);
+	Unbind();
+}
+void Texture::SetTextureMinFilter(TEXTURE_MIN_FILTER filter)
+{
+	Bind();
+	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_MIN_FILTER, (GLint)filter);
+	Unbind();
+}
+void Texture::SetTextureMagFilter(TEXTURE_MAG_FILTER filter)
+{
+	Bind();
+	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_MAG_FILTER, (GLint)filter);
+	Unbind();
+}
+
+void Texture::LoadGPUData()
 {
 	// Load the image into the driver
-	glGenTextures(1, &tex.id);
-	const auto format = tex.channels == 3 ? GL_RGB : GL_RGBA;
-	switch (tex.type)
+	glGenTextures(1, &id);
+	const auto format = channels == 3 ? GL_RGB : GL_RGBA;
+	Bind();
+	switch (tex_params.type)
 	{
 	case TEXTURE_TYPE::REGULAR:
-		glBindTexture(GL_TEXTURE_2D, tex.id);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, tex.width, tex.height, 0, format, GL_UNSIGNED_BYTE, tex.img);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)tex_params.wrap_s);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)tex_params.wrap_t);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, 16.0f);
-		glBindTexture(GL_TEXTURE_2D, 0);
 		break;
 	case TEXTURE_TYPE::CUBE_MAP:
-		glBindTexture(GL_TEXTURE_CUBE_MAP, tex.id);
 		for (int i = 0; i < 6; i++)
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, tex.width, tex.height, 0, format, GL_UNSIGNED_BYTE, tex.img + i * tex.width * tex.height * tex.channels);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, img + i * width * height * channels);
 		
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, (GLint)tex_params.wrap_s);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, (GLint)tex_params.wrap_t);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, (GLint)tex_params.wrap_r);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 		break;
 	default:
 		assert(false);
 		break;
 	}
-	
 }

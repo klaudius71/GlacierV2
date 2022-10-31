@@ -513,6 +513,9 @@
     <ClInclude Include="src\Framebuffer.h">
       <Filter>src\Engine\GraphicsContext</Filter>
     </ClInclude>
+    <ClInclude Include="src\TextureAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">

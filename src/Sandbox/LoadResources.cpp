@@ -13,10 +13,10 @@ void Glacier::LoadResources()
 
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
 	TextureLoader::Load("default", "default.tga");
-	TextureLoader::Load("Crate", "crate_diffuse.tga");
-	TextureLoader::Load("Sand", "sand.tga");
+	TextureLoader::Load("Crate", "crate_diffuse.tga", { TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
+	TextureLoader::Load("Sand", "sand.tga", { TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
 	TextureLoader::Load("Grass", "grass.jpg");
-	TextureLoader::Load("Crosshair", "crosshair.tga");
+	TextureLoader::Load("Crosshair", "crosshair.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
 
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
