@@ -13,10 +13,23 @@
 Renderer2D* Renderer2D::instance = nullptr;
 
 Renderer2D::Renderer2D()
+	: anchors()
 {
 	const auto& window = Glacier::GetWindow();
-	proj = glm::ortho(0.0f, (float)window.GetWindowWidth(), 0.0f, (float)window.GetWindowHeight());
+	const int& width = window.GetWindowWidth();
+	const int& height = window.GetWindowHeight();
+	proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 	view = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	anchors[0] = { 0.0f, height };
+	anchors[1] = { width * 0.5f, height };
+	anchors[2] = { width, height };
+	anchors[3] = { 0.0f, height * 0.5f };
+	anchors[4] = { width * 0.5f, height * 0.5f };
+	anchors[5] = { width, height * 0.5f };
+	anchors[6] = { 0.0f, 0.0f };
+	anchors[7] = { width * 0.5f, 0.0f };
+	anchors[8] = { width, 0.0f };
 
 	debug_text_queue.reserve(RESERVED_DEBUG_TEXT_QUERIES);
 	uniform_glyph_data.reserve(MAX_CHARACTERS);
@@ -34,7 +47,19 @@ void Renderer2D::Initialize()
 }
 void Renderer2D::UpdateViewportSize(const int& width, const int& height)
 {
-	instance->proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+	Renderer2D& Instance = *instance;
+
+	Instance.proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+
+	Instance.anchors[0] = { 0.0f, height };
+	Instance.anchors[1] = { width * 0.5f, height };
+	Instance.anchors[2] = { width, height };
+	Instance.anchors[3] = { 0.0f, height * 0.5f };
+	Instance.anchors[4] = { width * 0.5f, height * 0.5f };
+	Instance.anchors[5] = { width, height * 0.5f };
+	Instance.anchors[6] = { 0.0f, 0.0f };
+	Instance.anchors[7] = { width * 0.5f, 0.0f };
+	Instance.anchors[8] = { width, 0.0f };
 }
 void Renderer2D::Terminate()
 {
@@ -42,7 +67,7 @@ void Renderer2D::Terminate()
 	instance = nullptr;
 }
 
-void Renderer2D::RenderComponents(Scene& scn)
+void Renderer2D::renderComponents(Scene& scn)
 {
 	const Framebuffer& framebuffer = Renderer::GetMainFramebuffer();
 	const glm::ivec2& viewport_size = framebuffer.GetSize();
@@ -55,6 +80,7 @@ void Renderer2D::RenderComponents(Scene& scn)
 	glUniform1i(glGetUniformLocation(shad, "sprite_texture"), 0);
 	const GLint sprite_data_uniform_loc = glGetUniformLocation(shad, "sprite_data");
 	const GLint world_matrix_uniform_loc = glGetUniformLocation(shad, "world_matrix");
+	glm::mat4 curr_world_matrix;
 
 	const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
 	glBindVertexArray(quad);
@@ -64,19 +90,21 @@ void Renderer2D::RenderComponents(Scene& scn)
 	auto group = scn.GetRegistry().group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, render, transform] : group.each())
 	{
-		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform);
+		curr_world_matrix = transform.GetWorldMatrix();
+		(glm::vec2&)curr_world_matrix[3] += anchors[(uint32_t)render.anchor];
+		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, glm::value_ptr(curr_world_matrix));
 		glUniform4fv(sprite_data_uniform_loc, 1, (const GLfloat*)&render.data);
 		glBindTexture(GL_TEXTURE_2D, render.tex_id);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
 	glCullFace(GL_FRONT);
-	for (const auto& entry : instance->debug_text_queue)
+	for (const auto& entry : debug_text_queue)
 		RenderTextInstanced(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
 	glCullFace(GL_BACK);
 	glDisable(GL_BLEND);
 
-	instance->debug_text_queue.clear();
+	debug_text_queue.clear();
 
 	const Window& window = Glacier::GetWindow();
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());

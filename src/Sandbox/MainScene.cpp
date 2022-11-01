@@ -13,11 +13,14 @@ void MainScene::InitializeScene()
 	GameObjectRef camera = CreateGameObject("Camera");
 	camera->EmplaceComponent<CameraComponent>(glm::perspective(glm::radians(70.0f), (float)Glacier::GetWindow().GetWindowWidth() / (float)Glacier::GetWindow().GetWindowHeight(), 0.1f, 10000.0f),
 											  glm::vec3(0.0f, 100.0f, 20.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-	camera->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"));
-	camera->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
-	camera->GetComponent<TransformComponent>().position() = glm::vec3(glm::vec2(Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y) * 0.5f, 0.0f);
 	camera->AddScript<CameraControllerScript>();
 	camera->RegisterToScene();
+
+	GameObjectRef crosshair = CreateGameObject("Crosshair", camera);
+	crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), 4);
+	crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
+	//crosshair->GetComponent<TransformComponent>().position() = glm::vec3(glm::vec2(Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y) * 0.5f, 0.0f);
+	crosshair->RegisterToScene();
 
 	GameObjectRef dir_light = CreateGameObject("Directional Light");
 	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(.45f), glm::vec3(.55f), glm::vec3(1.0f), 0), glm::normalize(-glm::vec3(-0.43f, 0.896f, -0.113f)));

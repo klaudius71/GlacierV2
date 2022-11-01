@@ -11,6 +11,20 @@ class Font;
 
 class Renderer2D
 {
+public:
+	enum class SCREEN_ANCHOR
+	{
+		TOP_LEFT,
+		TOP_CENTER,
+		TOP_RIGHT,
+		MIDDLE_LEFT,
+		MIDDLE_CENTER,
+		MIDDLE_RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM_CENTER,
+		BOTTOM_RIGHT
+	};
+
 private:
 	static Renderer2D* instance;
 	Renderer2D();
@@ -35,11 +49,14 @@ private:
 	std::vector<glm::vec4> uniform_glyph_data;
 	std::vector<glm::vec4> uniform_world_data;
 
+	glm::vec2 anchors[9];
+
 	static void Initialize();
 	static void UpdateViewportSize(const int& width, const int& height);
 	static void Terminate();
 
-	static void RenderComponents(Scene& scn);
+	void renderComponents(Scene& scn);
+	static void RenderComponents(Scene& scn) { assert(instance && "Renderer2D not initialized!"); instance->renderComponents(scn); }
 
 	static void RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
 	static void RenderTextInstanced(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);

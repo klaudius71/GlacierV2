@@ -97,15 +97,19 @@ struct SpriteComponent
 		};
 	};
 	const Texture* tex;
+	uint32_t anchor;
 
 	SpriteComponent(const Texture& texture)
-		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture)
+		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture), anchor(0)
 	{}
-	SpriteComponent(const Texture& texture, const glm::vec2& texel_origin, const glm::vec2& size)
-		: tex_id(texture.GetID()), data{ texel_origin, size }, tex(&texture)
+	SpriteComponent(const Texture& texture, const uint32_t& anchor)
+		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture), anchor(anchor)
 	{}
-	SpriteComponent(const Texture& texture, const float& texel_origin_x, const float& texel_origin_y, const float& size_x, const float& size_y)
-		: tex_id(texture.GetID()), data{texel_origin_x, texel_origin_y, size_x, size_y}, tex(&texture)
+	SpriteComponent(const Texture& texture, const uint32_t& anchor, const glm::vec2& texel_origin, const glm::vec2& size)
+		: tex_id(texture.GetID()), data{ texel_origin, size }, tex(&texture), anchor(anchor)
+	{}
+	SpriteComponent(const Texture& texture, const uint32_t& anchor, const float& texel_origin_x, const float& texel_origin_y, const float& size_x, const float& size_y)
+		: tex_id(texture.GetID()), data{texel_origin_x, texel_origin_y, size_x, size_y}, tex(&texture), anchor(anchor)
 	{}
 	SpriteComponent(SpriteComponent&& o) = default;
 	SpriteComponent& operator=(SpriteComponent&& o) = default;

@@ -1,10 +1,5 @@
 #include "gpch.h"
 #include "CameraControllerScript.h"
-#include "GameObject.h"
-#include "Input.h"
-#include "TimeManager.h"
-#include "Glacier.h"
-#include "Window.h"
 
 CameraControllerScript::CameraControllerScript()
 	: Script("CameraControllerScript")
@@ -57,9 +52,4 @@ void CameraControllerScript::OnTick()
 		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
 		cam->cam_pos += up * speed_delta;
-}
-
-void CameraControllerScript::OnScreenResize(const int& width, const int& height)
-{
-	GetGameObject()->GetComponent<TransformComponent>().position() = { glm::vec2(width, height) * 0.5f, 1.0f };
 }
