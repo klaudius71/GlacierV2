@@ -17,7 +17,7 @@ void MainScene::InitializeScene()
 	camera->RegisterToScene();
 
 	GameObjectRef crosshair = CreateGameObject("Crosshair", camera);
-	crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), 4);
+	crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), Renderer2D::SCREEN_ANCHOR::MIDDLE_CENTER);
 	crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
 	//crosshair->GetComponent<TransformComponent>().position() = glm::vec3(glm::vec2(Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y) * 0.5f, 0.0f);
 	crosshair->RegisterToScene();

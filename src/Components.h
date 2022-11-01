@@ -1,6 +1,7 @@
 #ifndef _COMPONENTS
 #define _COMPONENTS
 
+#include "Renderer2D.h"
 #include "Shader.h"
 #include "TextureLoader.h"
 #include "Texture.h"
@@ -97,18 +98,18 @@ struct SpriteComponent
 		};
 	};
 	const Texture* tex;
-	uint32_t anchor;
+	Renderer2D::SCREEN_ANCHOR anchor;
 
 	SpriteComponent(const Texture& texture)
-		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture), anchor(0)
+		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture), anchor(Renderer2D::SCREEN_ANCHOR::TOP_LEFT)
 	{}
-	SpriteComponent(const Texture& texture, const uint32_t& anchor)
+	SpriteComponent(const Texture& texture, const Renderer2D::SCREEN_ANCHOR& anchor)
 		: tex_id(texture.GetID()), data{ 0.0f, 0.0f, texture.GetWidth(), texture.GetHeight() }, tex(&texture), anchor(anchor)
 	{}
-	SpriteComponent(const Texture& texture, const uint32_t& anchor, const glm::vec2& texel_origin, const glm::vec2& size)
+	SpriteComponent(const Texture& texture, const Renderer2D::SCREEN_ANCHOR& anchor, const glm::vec2& texel_origin, const glm::vec2& size)
 		: tex_id(texture.GetID()), data{ texel_origin, size }, tex(&texture), anchor(anchor)
 	{}
-	SpriteComponent(const Texture& texture, const uint32_t& anchor, const float& texel_origin_x, const float& texel_origin_y, const float& size_x, const float& size_y)
+	SpriteComponent(const Texture& texture, const Renderer2D::SCREEN_ANCHOR& anchor, const float& texel_origin_x, const float& texel_origin_y, const float& size_x, const float& size_y)
 		: tex_id(texture.GetID()), data{texel_origin_x, texel_origin_y, size_x, size_y}, tex(&texture), anchor(anchor)
 	{}
 	SpriteComponent(SpriteComponent&& o) = default;

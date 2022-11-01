@@ -3,7 +3,7 @@
 #include "RotatingScript.h"
 
 LevelScript::LevelScript()
-	: Script("LevelScript")
+	: Script("LevelScript"), frame_time_index(0)
 {
 }
 

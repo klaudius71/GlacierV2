@@ -1,8 +1,6 @@
 #ifndef _RENDERER_2D
 #define _RENDERER_2D
 
-#include "Components.h"
-
 #define RESERVED_DEBUG_TEXT_QUERIES 20
 #define MAX_CHARACTERS 100
 
@@ -12,7 +10,7 @@ class Font;
 class Renderer2D
 {
 public:
-	enum class SCREEN_ANCHOR
+	enum class SCREEN_ANCHOR : uint32_t
 	{
 		TOP_LEFT,
 		TOP_CENTER,

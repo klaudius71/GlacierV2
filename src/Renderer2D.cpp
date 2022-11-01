@@ -2,6 +2,7 @@
 #include "Renderer2D.h"
 #include "Renderer.h"
 #include "Framebuffer.h"
+#include "Components.h"
 #include "Glacier.h"
 #include "Window.h"
 #include "Scene.h"
