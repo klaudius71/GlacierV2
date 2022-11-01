@@ -1,6 +1,8 @@
 #ifndef _LIGHTING
 #define _LIGHTING
 
+#define DIR_SHADOW_MAP_SIZE 2048
+
 class Scene;
 struct DirectionalLightComponent;
 struct CameraComponent;

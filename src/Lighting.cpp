@@ -24,7 +24,7 @@ void Lighting::SetBuffers(const GLuint& dir_light_ubo, const GLuint& lightspace_
 	
 	glGenTextures(1, &DirShadow_tex);
 	glBindTexture(GL_TEXTURE_2D, DirShadow_tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -92,4 +92,9 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight());
+
+	ImGui::Begin("Debug");
+	ImGui::Text("DirLight Shadow Texture:");
+	ImGui::Image((ImTextureID)(uint64_t)DirShadow_tex, ImVec2{256, 256}, ImVec2{0,0}, ImVec2{1,1});
+	ImGui::End();
 }
