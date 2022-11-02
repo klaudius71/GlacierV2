@@ -24,17 +24,16 @@ public:
 
 	GameObject CreateGameObject(std::string name);
 	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
-	template<typename T>
-	GameObject CreatePrefab(std::string name)
+	template<typename T> GameObject CreatePrefab()
 	{
 		static_assert(std::is_base_of<Prefab, T>() && !std::is_same<T, Prefab>(), "Prefab class must be derived from Prefab!");
 		return T().ApplyPrefab(*this);
 	}
-	template<typename T>
-	GameObject CreatePrefab(std::string name, GameObject parent, bool keep_world = false)
+	template<typename T> GameObject CreatePrefab(GameObject parent, bool keep_world = false)
 	{
 		static_assert(std::is_base_of<Prefab, T>() && !std::is_same<T, Prefab>(), "Prefab class must be derived from Prefab!");
-		return T().ApplyPrefab(*this);
+		GameObject go = T().ApplyPrefab(*this);
+		return go;
 	}
 	void DestroyGameObject(GameObject& go);
 

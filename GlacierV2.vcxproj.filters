@@ -196,9 +196,6 @@
     <ClCompile Include="src\Sandbox\MainScene.cpp">
       <Filter>src\Sandbox\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sandbox\LoadResources.cpp">
-      <Filter>src\Sandbox</Filter>
-    </ClCompile>
     <ClCompile Include="src\CommandBroker.cpp">
       <Filter>src\Engine\Systems\Command</Filter>
     </ClCompile>
@@ -294,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="src\ShowEditorNull.cpp">
       <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\LoadResources.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sandbox\TankControllerScript.cpp">
+      <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +536,9 @@
     </ClInclude>
     <ClInclude Include="src\Prefab.h">
       <Filter>src\Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\TankControllerScript.h">
+      <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,8 +28,14 @@ Texture& TextureLoader::load_async_cube(const std::string& name, const std::arra
 void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params)
 {
 	const std::array<std::string, 6>& file_paths { TEXTURE_PATH + file_names[0], TEXTURE_PATH + file_names[1], TEXTURE_PATH + file_names[2], TEXTURE_PATH + file_names[3], TEXTURE_PATH + file_names[4], TEXTURE_PATH + file_names[5] };
-	//futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths));
-	load_async_cube(name, file_paths, tex_params);
+	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths, tex_params));
+}
+
+void TextureLoader::load(const std::string& name, const glm::vec4& color)
+{
+	assert(textures.find(name) == textures.end());
+	Texture& tex = textures.emplace(name, color).first->second;
+	TextureAtt::LoadGPUData(tex);
 }
 
 Texture& TextureLoader::get(const std::string& name)

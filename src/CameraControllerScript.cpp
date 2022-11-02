@@ -10,24 +10,24 @@ void CameraControllerScript::OnSceneEnter()
 {
 	cam = &GetGameObject()->GetComponent<CameraComponent>();
 }
-void CameraControllerScript::OnUpdate()
+void CameraControllerScript::OnUpdate(float dt)
 {
 	if (Input::GetMouseButtonState(GLACIER_MOUSE::RIGHT_MOUSE_BUTTON)) {
-		camRot.x += Input::GetMouseDeltaPosition().y * TimeManager::GetDeltaTime();
-		camRot.y += Input::GetMouseDeltaPosition().x * TimeManager::GetDeltaTime();
+		camRot.x += Input::GetMouseDeltaPosition().y * dt;
+		camRot.y += Input::GetMouseDeltaPosition().x * dt;
 	}
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_UP))
-		camRot.x += 1.5f * TimeManager::GetDeltaTime();
+		camRot.x += 1.5f * dt;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_DOWN))
-		camRot.x -= 1.5f * TimeManager::GetDeltaTime();
+		camRot.x -= 1.5f * dt;
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_LEFT))
-		camRot.y += 1.5f * TimeManager::GetDeltaTime();
+		camRot.y += 1.5f * dt;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_RIGHT))
-		camRot.y -= 1.5f * TimeManager::GetDeltaTime();
+		camRot.y -= 1.5f * dt;
 
 	camRot.x = std::clamp(camRot.x, glm::radians(-89.0f), glm::radians(89.0f));
 
-	const auto& cos_pitch = cosf(camRot.x);
+	const float& cos_pitch = cosf(camRot.x);
 	const glm::vec3 dir(sinf(camRot.y) * cos_pitch, sinf(camRot.x), cosf(camRot.y) * cos_pitch);
 	const glm::vec3 right = glm::normalize(glm::cross(dir, glm::vec3(0.0f, 1.0f, 0.0f)));
 	const glm::vec3 up = glm::normalize(-glm::cross(dir, right));
@@ -39,10 +39,10 @@ void CameraControllerScript::OnUpdate()
 	else
 		cam_speed = 300.0f;
 
-	const auto speed_delta = cam_speed * TimeManager::GetDeltaTime();
-	if (Input::GetKeyDown(GLACIER_KEY::KEY_W))
+	const auto speed_delta = cam_speed * dt;
+	if (Input::GetKeyDown(GLACIER_KEY::KEY_Y))
 		cam->cam_pos += dir * speed_delta;
-	else if (Input::GetKeyDown(GLACIER_KEY::KEY_S))
+	/*else if (Input::GetKeyDown(GLACIER_KEY::KEY_S))
 		cam->cam_pos -= dir * speed_delta;
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_A))
 		cam->cam_pos -= right * speed_delta;
@@ -51,7 +51,7 @@ void CameraControllerScript::OnUpdate()
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_Q))
 		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
-		cam->cam_pos += up * speed_delta;
+		cam->cam_pos += up * speed_delta;*/
 }
 
 void CameraControllerScript::OnScreenResize(const int& width, const int& height)

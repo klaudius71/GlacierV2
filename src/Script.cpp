@@ -3,6 +3,7 @@
 #include "Components.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "TimeManager.h"
 
 Script::Script(const std::string& name)
 	: script_name(name)
@@ -51,9 +52,10 @@ void Script::ExecuteAllOnSceneEnter(const Scene& scn)
 }
 void Script::ExecuteAllOnUpdate(const Scene& scn)
 {
+	const float& dt = TimeManager::GetDeltaTime();
 	auto script_view = scn.GetRegistry().view<ScriptComponent>();
 	for (auto&& [entity, script] : script_view.each())
-		script.script->OnUpdate();
+		script.script->OnUpdate(dt);
 }
 void Script::ExecuteAllOnSceneExit(const Scene& scn)
 {

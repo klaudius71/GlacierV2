@@ -93,9 +93,6 @@ Model::Model(const std::string& file_name)
 		for (size_t i = 0; i < num_triangles; i++)
 			triangles.emplace_back(indices[i * 3], indices[i * 3 + 1], indices[i * 3 + 2]);
 	}
-
-	std::vector<VertexTypes::Vertex> verts;
-	verts.reserve(num_vertices);
 	
 	const auto& joint_ids_data = data.find("JOINTS_0");
 	if (joint_ids_data != data.end())
@@ -110,12 +107,12 @@ Model::Model(const std::string& file_name)
 		joint_weights = std::vector<glm::vec4>(weights, weights + num_vertices);
 
 		for (uint32_t i = 0; i < num_vertices; i++)
-			verts.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), joint_ids[i], joint_weights[i]);
+			vertex_data.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), joint_ids[i], joint_weights[i]);
 	}
 	else
 	{
 		for (uint32_t i = 0; i < num_vertices; i++)
-			verts.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::uvec4(0,0,0,0), glm::vec4(1.0f,1.0f,1.0f,1.0f));
+			vertex_data.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::uvec4(0,0,0,0), glm::vec4(1.0f,1.0f,1.0f,1.0f));
 	}
 }
 Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<VertexTypes::VertexTriangle>& triangles)

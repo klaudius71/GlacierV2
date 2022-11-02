@@ -12,7 +12,7 @@ public:
 	virtual ~Script() = default;
 
 	virtual void OnSceneEnter() {};
-	virtual void OnUpdate() {};
+	virtual void OnUpdate(float dt) { UNREFERENCED_PARAMETER(dt); };
 	virtual void OnSceneExit() {};
 
 	// Engine events

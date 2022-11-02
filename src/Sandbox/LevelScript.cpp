@@ -13,7 +13,7 @@ LevelScript::LevelScript()
 void LevelScript::OnSceneEnter()
 {
 }
-void LevelScript::OnUpdate()
+void LevelScript::OnUpdate(float dt)
 {
 	static bool woah = true;
 	
@@ -44,7 +44,7 @@ void LevelScript::OnUpdate()
 		GetCurrentScene().DestroyGameObject(cube2);
 	}
 
-	frame_time_data[frame_time_index++] = TimeManager::GetDeltaTime();
+	frame_time_data[frame_time_index++] = dt;
 	if (frame_time_index == 100)
 		frame_time_index = 0;
 

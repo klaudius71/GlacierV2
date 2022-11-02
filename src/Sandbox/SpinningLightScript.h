@@ -7,7 +7,7 @@ public:
 	~SpinningLightScript() = default;
 
 	virtual void OnSceneEnter() override;
-	virtual void OnUpdate() override;
+	virtual void OnUpdate(float dt) override;
 
 private:
 	glm::vec3* dir = nullptr;

@@ -24,7 +24,7 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 	this->tex_params.type = TEXTURE_TYPE::CUBE_MAP;
 
 	// Vertically flips all loaded textures
-	stbi_set_flip_vertically_on_load(false);
+	stbi_set_flip_vertically_on_load(true);
 
 	uint8_t* imgs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	int width_height_channels[3 * 6];
@@ -49,6 +49,19 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 
 	LoadGPUData();
 }
+Texture::Texture(const glm::vec4& color)
+	: id(0), tex_params(TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR)
+{
+	this->tex_params.type = TEXTURE_TYPE::REGULAR;
+	width = 1;
+	height = 1;
+	channels = 4;
+	img = new uint8_t[4];
+	glm::ivec4 color_bytes = color * 255.0f;
+	for (int i = 0; i < 4; i++)
+		img[i] = (uint8_t)color_bytes[i];
+}
+
 Texture::Texture(Texture&& o) noexcept
 	: id(o.id), width(o.width), height(o.height), channels(o.channels), tex_params(o.tex_params), img(o.img), file_path(std::move(o.file_path))
 {

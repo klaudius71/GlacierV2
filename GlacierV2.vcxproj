@@ -227,6 +227,7 @@
     <ClCompile Include="src\Sandbox\MainScene.cpp" />
     <ClCompile Include="src\Sandbox\RotatingScript.cpp" />
     <ClCompile Include="src\Sandbox\SpinningLightScript.cpp" />
+    <ClCompile Include="src\Sandbox\TankControllerScript.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SceneChangeCmd.cpp" />
     <ClCompile Include="src\SceneChangeNullCmd.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="src\ModelLoaderAtt.h" />
     <ClInclude Include="src\Prefab.h" />
     <ClInclude Include="src\RendererAtt.h" />
+    <ClInclude Include="src\Sandbox\TankControllerScript.h" />
     <ClInclude Include="src\SceneAtt.h" />
     <ClInclude Include="src\ShowEditorDont.h" />
     <ClInclude Include="src\ShowEditorNull.h" />

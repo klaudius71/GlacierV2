@@ -45,6 +45,8 @@ struct TransformComponent
 	TransformComponent(TransformComponent&& o) = default;
 	TransformComponent& operator=(TransformComponent&& o) = default;
 
+	const glm::vec3 GetForwardVector() const;
+
 private:
 	glm::mat4 world_matrix = glm::mat4(1.0f);
 	bool flag_changed = true;

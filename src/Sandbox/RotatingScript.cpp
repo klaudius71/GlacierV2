@@ -10,9 +10,9 @@ void RotatingScript::OnSceneEnter()
 {
 	transform = &GetGameObject()->GetComponent<TransformComponent>();
 }
-void RotatingScript::OnUpdate()
+void RotatingScript::OnUpdate(float dt)
 {
-	transform->rotation() += rot_direction * TimeManager::GetDeltaTime();
+	transform->rotation() += rot_direction * dt;
 	//glm::vec4& curr_pos = (*transform)[3];
 	//curr_pos.y = sinf((float)glfwGetTime() * 2.0f) * 10.0f + 60.0f;
 }

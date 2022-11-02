@@ -50,6 +50,8 @@ class Texture
 public:
 	Texture(const std::string& file_name, const TextureParameters& tex_params);
 	Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params);
+	Texture(const glm::vec4& color);
+
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
 	Texture(Texture&& o) noexcept;

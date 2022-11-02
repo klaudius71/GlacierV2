@@ -59,7 +59,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	if (!dir_light)
 		return;
 
-	glViewport(0, 0, 2048, 2048);
+	glViewport(0, 0, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE);
 	glBindFramebuffer(GL_FRAMEBUFFER, DirShadow_fbo);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
