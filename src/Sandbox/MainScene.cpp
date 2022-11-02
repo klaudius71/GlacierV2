@@ -3,6 +3,7 @@
 #include "LevelScript.h"
 #include "RotatingScript.h"
 #include "SpinningLightScript.h"
+#include "PlayerTankPrefab.h"
 
 void MainScene::InitializeScene()
 {
@@ -50,6 +51,9 @@ void MainScene::InitializeScene()
 	cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
 	cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 	cube2->RegisterToScene();
+
+	GameObject tank = CreatePrefab<PlayerTankPrefab>("Woah");
+	tank->RegisterToScene();
 }
 
 void MainScene::EndScene()

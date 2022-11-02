@@ -1,13 +1,12 @@
-#ifndef _PLAYER_TANK_PREFAB
-#define _PLAYER_TANK_PREFAB
-
 #include "GlacierAPI.h"
 
-class PlayerTankPrefab : public Entity
+struct PlayerTankPrefab : public Prefab
 {
-public:
-	PlayerTankPrefab() = default;
-	~PlayerTankPrefab() = default;
+	virtual GameObject ApplyPrefab(Scene& scn) override
+	{
+		GameObject base = scn.CreateGameObject("Tank");
+		base->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+		base->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), 0, Colors::White);
+		return base;
+	}
 };
-
-#endif

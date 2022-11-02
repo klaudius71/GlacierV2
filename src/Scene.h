@@ -3,6 +3,7 @@
 
 #include "CommandBroker.h"
 #include "SceneGraph.h"
+#include "Prefab.h"
 
 struct CameraComponent;
 
@@ -23,6 +24,18 @@ public:
 
 	GameObject CreateGameObject(std::string name);
 	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
+	template<typename T>
+	GameObject CreatePrefab(std::string name)
+	{
+		static_assert(std::is_base_of<Prefab, T>() && !std::is_same<T, Prefab>(), "Prefab class must be derived from Prefab!");
+		return T().ApplyPrefab(*this);
+	}
+	template<typename T>
+	GameObject CreatePrefab(std::string name, GameObject parent, bool keep_world = false)
+	{
+		static_assert(std::is_base_of<Prefab, T>() && !std::is_same<T, Prefab>(), "Prefab class must be derived from Prefab!");
+		return T().ApplyPrefab(*this);
+	}
 	void DestroyGameObject(GameObject& go);
 
 	GameObject FindGameObject(const std::string& name);

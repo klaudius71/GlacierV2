@@ -531,6 +531,9 @@
     <ClInclude Include="src\ShowEditorNull.h">
       <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
     </ClInclude>
+    <ClInclude Include="src\Prefab.h">
+      <Filter>src\Engine\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">
