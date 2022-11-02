@@ -21,11 +21,11 @@ public:
 	entt::registry& GetRegistryDisabled();
 	const entt::registry& GetRegistryDisabled() const;
 
-	GameObjectRef CreateGameObject(std::string name);
-	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
-	void DestroyGameObject(GameObjectRef& go);
+	GameObject CreateGameObject(std::string name);
+	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
+	void DestroyGameObject(GameObject& go);
 
-	GameObjectRef FindGameObject(const std::string& name);
+	GameObject FindGameObject(const std::string& name);
 
 	template<class T>
 	T* GetFirstComponent()
@@ -34,10 +34,17 @@ public:
 		return component_view.begin() != component_view.end() ? &registry.get<T>(*component_view.begin()) : nullptr;
 	}
 
+	template<class T>
+	const T* GetFirstComponent() const
+	{
+		auto component_view = registry.view<T>();
+		return component_view.begin() != component_view.end() ? &registry.get<T>(*component_view.begin()) : nullptr;
+	}
+
 	void Register(const entt::entity& id);
 	void Deregister(const entt::entity& id);
 
-	CameraComponent& GetActiveCamera();
+	const CameraComponent& GetActiveCamera() const;
 
 protected:
 	virtual void InitializeScene() {}
@@ -58,7 +65,7 @@ private:
 	const entt::entity CreateEmpty(std::string& name);
 
 	friend class SceneManager;
-	friend class GameObject;
+	friend class Entity;
 	friend class SceneAtt;
 };
 

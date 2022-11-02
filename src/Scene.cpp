@@ -1,7 +1,7 @@
 #include "gpch.h"
 #include "Scene.h"
 #include "Components.h"
-#include "GameObject.h"
+#include "Entity.h"
 #include "Glacier.h"
 #include "Window.h"
 
@@ -24,29 +24,29 @@ const entt::registry& Scene::GetRegistryDisabled() const
 	return registry_disabled;
 }
 
-GameObjectRef Scene::CreateGameObject(std::string name)
+GameObject Scene::CreateGameObject(std::string name)
 {
 	return scn_graph.CreateGameObject(name);
 }
-GameObjectRef Scene::CreateGameObject(std::string name, GameObjectRef parent, bool keep_world)
+GameObject Scene::CreateGameObject(std::string name, GameObject parent, bool keep_world)
 {
 	return scn_graph.CreateGameObject(name, parent, keep_world);
 }
-void Scene::DestroyGameObject(GameObjectRef& go)
+void Scene::DestroyGameObject(GameObject& go)
 {
 	scn_graph.EraseGameObject(go);
 }
 
-GameObjectRef Scene::FindGameObject(const std::string& name)
+GameObject Scene::FindGameObject(const std::string& name)
 {
 	size_t name_hash = std::hash<std::string>()(name);
 	for (auto& go : scn_graph.GetGraph())
 	{
 		NameComponent& name_comp = go->GetComponent<NameComponent>();
 		if (name_comp.id == name_hash)
-			return GameObjectRef(go);
+			return GameObject(go);
 	}
-	return GameObjectRef();
+	return GameObject();
 }
 
 const entt::entity Scene::CreateEmpty(std::string& name)
@@ -75,14 +75,14 @@ void Scene::Destroy(const entt::entity& id)
 	ScriptComponent* script = registry.try_get<ScriptComponent>(id);
 	if (script) 
 	{
-		script->script->OnDestroy();
+		script->script->OnSceneExit();
 		delete script->script;
 	}
 	else 
 	{
 		script = registry_disabled.try_get<ScriptComponent>(id);
 		if (script) {
-			script->script->OnDestroy();
+			script->script->OnSceneExit();
 			delete script->script;
 		}
 	}
@@ -91,16 +91,15 @@ void Scene::Destroy(const entt::entity& id)
 	registry_disabled.destroy(id);
 }
 
-CameraComponent& Scene::GetActiveCamera()
+const CameraComponent& Scene::GetActiveCamera() const
 {
-	auto camera_view = registry.view<CameraComponent>();
-	const bool& camera_exists = camera_view.begin() != camera_view.end();
-	return camera_exists ? registry.get<CameraComponent>(*camera_view.begin()) : default_camera;
+	auto cam = GetFirstComponent<CameraComponent>();
+	return cam ? *cam : default_camera;
 }
 
 void Scene::switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to)
 {
-	auto [name, transform, camera, script, render2d, render, material, dir_light, skybox] = from.try_get<NameComponent, TransformComponent, CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent>(id);
+	auto [name, transform, camera, script, sprite, mesh, material, dir_light, skybox] = from.try_get<NameComponent, TransformComponent, CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent>(id);
 	assert(name && transform);
 
 	to.emplace<NameComponent>(id, std::move(*name));
@@ -116,14 +115,14 @@ void Scene::switch_entity_registry(const entt::entity& id, entt::registry& from,
 		to.emplace<ScriptComponent>(id, std::move(*script));
 		from.erase<ScriptComponent>(id);
 	}
-	if (render2d)
+	if (sprite)
 	{
-		to.emplace<SpriteComponent>(id, std::move(*render2d));
+		to.emplace<SpriteComponent>(id, std::move(*sprite));
 		from.erase<SpriteComponent>(id);
 	}
-	if (render)
+	if (mesh)
 	{
-		to.emplace<MeshComponent>(id, std::move(*render));
+		to.emplace<MeshComponent>(id, std::move(*mesh));
 		from.erase<MeshComponent>(id);
 	}
 	if (material)

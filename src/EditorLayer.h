@@ -1,7 +1,7 @@
 #ifndef _EDITOR_LAYER
 #define _EDITOR_LAYER
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "ShowEditorNull.h"
 
 class EditorLayer
@@ -23,13 +23,13 @@ private:
 
 	ShowEditorNull* show_editor_cmd;
 
-	GameObjectRef selected_go;
+	GameObject selected_go;
 	glm::ivec2 viewport_size;
 
 	void newFrame();
 	void render();
 
-	void drawGraph(GameObjectRef go);
+	void drawGraph(GameObject go);
 
 public:
 	void showEditor();

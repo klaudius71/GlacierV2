@@ -6,11 +6,11 @@ RotatingScript::RotatingScript(const glm::vec3& rot_direction)
 {
 }
 
-void RotatingScript::OnCreate()
+void RotatingScript::OnSceneEnter()
 {
 	transform = &GetGameObject()->GetComponent<TransformComponent>();
 }
-void RotatingScript::OnTick()
+void RotatingScript::OnUpdate()
 {
 	transform->rotation() += rot_direction * TimeManager::GetDeltaTime();
 	//glm::vec4& curr_pos = (*transform)[3];

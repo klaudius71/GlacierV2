@@ -8,21 +8,22 @@
 
 class Scene;
 
-class GameObject final
+class Entity final
 {
 public:
-	GameObject() = delete;
-	GameObject(std::string& name);
-	GameObject(std::string& name, GameObjectRef& parent);
-	GameObject(const GameObject& o) = delete;
-	GameObject& operator=(const GameObject& o) = delete;
-	GameObject(GameObject&& o) = delete;
-	GameObject& operator=(GameObject&& o) = delete;
-	~GameObject();
+	Entity(std::string& name);
+	Entity(std::string& name, GameObject& parent);
+
+	Entity() = delete;
+	Entity(const Entity& o) = delete;
+	Entity& operator=(const Entity& o) = delete;
+	Entity(Entity&& o) = delete;
+	Entity& operator=(Entity&& o) = delete;
+	~Entity();
 
 	const entt::entity& GetID() const;
-	const std::list<GameObjectRef>& GetChildren() const;
-	GameObjectRef GetParent();
+	const std::list<GameObject>& GetChildren() const;
+	GameObject GetParent();
 
 	void RegisterToScene();
 	void DeregisterFromScene();
@@ -84,20 +85,26 @@ public:
 	void RemoveComponent()
 	{
 		static_assert(std::is_same<T, TransformComponent>, "Can't remove an entity's TransformComponent!");
+		static_assert(std::is_same<T, NameComponent>, "Can't remove an entity's NameComponent!");
 		assert(HasComponent<T>() && "Entity does not have component to remove!");
 		curr_registry->remove<T>(id);
 	}
 
 private:
+	// ECS
 	entt::entity id;
-	Scene* scene;
 	entt::registry* curr_registry;
+	// Scene reference
+	Scene* scene;
+	// Scene registration state
 	REGISTRATION_STATE reg_state;
+	// Scene Graph
 	SceneGraphRef scene_graph_ref;
-	GameObjectRef parent;
-	std::list<GameObjectRef>::const_iterator as_child_ref;
-	std::list<GameObjectRef> children;
+	GameObject parent;
+	std::list<GameObject>::const_iterator as_child_of_ref; // This is the reference that the parent has of this GameObject as a child
+	std::list<GameObject> children;
 	
+	// Scene registration
 	void register_to_scene();
 	void deregister_from_scene();
 
@@ -107,15 +114,13 @@ private:
 	// Scene Graph
 	void SetSceneGraphRef(SceneGraphRef ref);
 	SceneGraphRef& GetSceneGraphRef();
-
-	void EraseChild(std::list<GameObjectRef>::const_iterator ref);
-	
-	std::list<GameObjectRef>::const_iterator& GetAsChildRef();
-	void SetAsChildRef(std::list<GameObjectRef>::const_iterator ref);
-	std::list<GameObjectRef>& GetChildren();
+	void EraseChild(std::list<GameObject>::const_iterator ref);
+	std::list<GameObject>::const_iterator& GetAsChildRef();
+	void SetAsChildRef(std::list<GameObject>::const_iterator ref);
+	std::list<GameObject>& GetChildren();
 
 	// Attorney
-	friend class GameObjectAtt;
+	friend class EntityAtt;
 };
 
 #endif _GAMEOBJECT

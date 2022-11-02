@@ -3,14 +3,14 @@
 
 #include "Command.h"
 
-class GameObject;
+class Entity;
 class Script;
 
 class AddScriptCmd : public Command
 {
 public:
 	AddScriptCmd() = delete;
-	AddScriptCmd(GameObject* const obj, Script* const script);
+	AddScriptCmd(Entity* const obj, Script* const script);
 	AddScriptCmd(const AddScriptCmd&) = delete;
 	AddScriptCmd& operator=(const AddScriptCmd&) = delete;
 	AddScriptCmd(AddScriptCmd&&) = delete;
@@ -20,7 +20,7 @@ public:
 	virtual void Execute() override;
 
 private:
-	GameObject* obj;
+	Entity* obj;
 	Script* script;
 };
 

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "GlacierAPI.h"
 
 class LevelScript : public Script
@@ -8,12 +6,12 @@ public:
 	LevelScript();
 	~LevelScript() = default;
 
-	virtual void OnCreate() override;
-	virtual void OnTick() override;
-	virtual void OnDestroy() override;
+	virtual void OnSceneEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnSceneExit() override;
 
 private:
-	GameObjectRef cube2;
+	GameObject cube2;
 	int frame_time_index;
 	std::vector<float> frame_time_data;
 };

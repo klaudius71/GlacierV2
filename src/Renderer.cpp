@@ -10,16 +10,13 @@
 #include "Lighting.h"
 
 Renderer* Renderer::instance = nullptr;
-
 Renderer::Renderer()
 	: main_framebuffer(Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight())
 {
 }
 
-void Renderer::UpdateCameraData(CameraComponent& camera)
+void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
-	camera.proj = glm::perspective(camera.fov, (float)instance->GetMainFramebuffer().GetSize().x / instance->GetMainFramebuffer().GetSize().y, camera.near_plane, camera.far_plane);
-
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))};
@@ -115,7 +112,7 @@ const Framebuffer& Renderer::GetMainFramebuffer()
 
 void Renderer::RenderScene(Scene& scn)
 {
-	CameraComponent& camera = scn.GetActiveCamera();
+	const CameraComponent& camera = scn.GetActiveCamera();
 	UpdateCameraData(camera);
 
 	Lighting::RenderSceneShadows(&scn, camera);

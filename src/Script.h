@@ -11,30 +11,32 @@ public:
 	Script(const std::string& name = "");
 	virtual ~Script() = default;
 
-	virtual void OnCreate() = 0;
-	virtual void OnTick() = 0;
-	virtual void OnDestroy() {};
+	virtual void OnSceneEnter() {};
+	virtual void OnUpdate() {};
+	virtual void OnSceneExit() {};
 
+	// Engine events
 	virtual void OnScreenResize(const int& width, const int& height) { width; height; };
 
-	GameObjectRef CreateGameObject(std::string name);
-	GameObjectRef CreateGameObject(std::string name, GameObjectRef parent, bool keep_world = false);
-	void DestroyGameObject(GameObjectRef go);
 
-	GameObjectRef& GetGameObject();
+	GameObject CreateGameObject(std::string name);
+	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
+	void DestroyGameObject(GameObject go);
+
+	GameObject& GetGameObject();
 	Scene& GetCurrentScene();
 
-	const std::string& GetName() const;
+	const std::string& GetScriptName() const;
 
 private:
-	GameObjectRef obj;
+	GameObject obj;
 	std::string script_name;
 
-	void SetGameObject(GameObjectRef& new_obj);
+	void SetGameObject(GameObject& new_obj);
 
-	static void ExecuteAllOnCreate(const Scene& scn);
-	static void ExecuteAllOnTick(const Scene& curr_scene);
-	static void ExecuteAllOnDestroy(const Scene& scn);
+	static void ExecuteAllOnSceneEnter(const Scene& scn);
+	static void ExecuteAllOnUpdate(const Scene& curr_scene);
+	static void ExecuteAllOnSceneExit(const Scene& scn);
 	static void ExecuteAllOnScreenResize(const Scene& scn, const int& width, const int& height);
 
 	friend class ScriptAtt;

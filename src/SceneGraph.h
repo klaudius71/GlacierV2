@@ -1,10 +1,10 @@
 #ifndef _SCENE_GRAPH
 #define _SCENE_GRAPH
 
-class GameObject;
+class Entity;
 
-using SceneGraphRef = std::list<std::shared_ptr<GameObject>>::iterator;
-using GameObjectRef = WeakPtr<GameObject>;
+using SceneGraphRef = std::list<std::shared_ptr<Entity>>::iterator;
+using GameObject = WeakPtr<Entity>;
 
 class SceneGraph
 {
@@ -16,16 +16,16 @@ public:
 	SceneGraph& operator=(SceneGraph&&) = delete;
 	~SceneGraph();
 
-	const std::list<std::shared_ptr<GameObject>>& GetGraph() const;
+	const std::list<std::shared_ptr<Entity>>& GetGraph() const;
 
-	GameObjectRef CreateGameObject(std::string& name);
-	GameObjectRef CreateGameObject(std::string& name, GameObjectRef& parent, bool keep_world);
-	void EraseGameObject(GameObjectRef& go);
+	GameObject CreateGameObject(std::string& name);
+	GameObject CreateGameObject(std::string& name, GameObject& parent, bool keep_world);
+	void EraseGameObject(GameObject& go);
 
 	void UpdateTransforms();
 
 private:
-	std::list<std::shared_ptr<GameObject>> graph;
+	std::list<std::shared_ptr<Entity>> graph;
 };
 
 #endif _SCENE_GRAPH

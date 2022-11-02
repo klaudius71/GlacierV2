@@ -3,7 +3,7 @@
 
 #include "GlacierAPI.h"
 
-class PlayerTankPrefab : public GameObject
+class PlayerTankPrefab : public Entity
 {
 public:
 	PlayerTankPrefab() = default;

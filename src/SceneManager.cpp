@@ -24,7 +24,7 @@ void SceneManager::updateCurrentScene()
 	assert(curr_scene);
 
 	curr_scene->cmd_broker.DequeueAndExecuteAll();
-	Script::ExecuteAllOnTick(*curr_scene);
+	Script::ExecuteAllOnUpdate(*curr_scene);
 	curr_scene->scn_graph.UpdateTransforms();
 	Lighting::UpdateBuffers(*curr_scene);
 }
@@ -60,7 +60,7 @@ void SceneManager::changeScene(Scene* const next_scene)
 	delete curr_scene;
 	curr_scene = next_scene;
 	curr_scene->InitializeScene();
-	//Script::ExecuteAllOnCreate(*curr_scene);
+	//Script::ExecuteAllOnSceneEnter(*curr_scene);
 }
 
 Scene* const SceneManager::GetCurrentScene()

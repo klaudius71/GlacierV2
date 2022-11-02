@@ -6,11 +6,11 @@ CameraControllerScript::CameraControllerScript()
 {
 }
 
-void CameraControllerScript::OnCreate()
+void CameraControllerScript::OnSceneEnter()
 {
 	cam = &GetGameObject()->GetComponent<CameraComponent>();
 }
-void CameraControllerScript::OnTick()
+void CameraControllerScript::OnUpdate()
 {
 	if (Input::GetMouseButtonState(GLACIER_MOUSE::RIGHT_MOUSE_BUTTON)) {
 		camRot.x += Input::GetMouseDeltaPosition().y * TimeManager::GetDeltaTime();
@@ -52,4 +52,9 @@ void CameraControllerScript::OnTick()
 		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
 		cam->cam_pos += up * speed_delta;
+}
+
+void CameraControllerScript::OnScreenResize(const int& width, const int& height)
+{
+	CameraComponent::ResetProjectionToSize(*cam, width, height);
 }

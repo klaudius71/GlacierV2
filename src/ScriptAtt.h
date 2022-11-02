@@ -5,9 +5,9 @@
 
 class ScriptAtt
 {
-	friend class GameObject;
+	friend class Entity;
 
-	static void SetGameObject(Script* const scrpt, GameObjectRef obj) { scrpt->SetGameObject(obj); }
+	static void SetGameObject(Script* const scrpt, GameObject obj) { scrpt->SetGameObject(obj); }
 };
 
 #endif _SCRIPT_ATT

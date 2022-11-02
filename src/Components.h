@@ -55,7 +55,7 @@ private:
 	glm::vec3 rot = glm::vec3(0.0f);
 	glm::vec3 scl = glm::vec3(1.0f);
 
-	friend class GameObject;
+	friend class Entity;
 };
 
 struct CameraComponent
@@ -74,6 +74,8 @@ struct CameraComponent
 	CameraComponent(CameraComponent&& o) = default;
 	CameraComponent& operator=(CameraComponent&& o) = default;
 	~CameraComponent() = default;
+
+	static void ResetProjectionToSize(CameraComponent& camera, const int& width, const int& height);
 };
 
 struct ScriptComponent

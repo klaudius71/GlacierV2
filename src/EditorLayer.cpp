@@ -8,7 +8,7 @@
 #include "SceneManagerAtt.h"
 #include "Scene.h"
 #include "SceneAtt.h"
-#include "GameObject.h"
+#include "Entity.h"
 
 EditorLayer* EditorLayer::instance = nullptr;
 
@@ -75,9 +75,9 @@ void EditorLayer::render()
 	}
 }
 
-void EditorLayer::drawGraph(GameObjectRef go)
+void EditorLayer::drawGraph(GameObject go)
 {
-	const GameObject* const_go = go.getWeakPtr().lock().get();
+	const Entity* const_go = go.getWeakPtr().lock().get();
 	if (const_go->GetChildren().size() > 0)
 	{
 		if (ImGui::TreeNodeEx(go->GetComponent<NameComponent>().name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth))
@@ -170,7 +170,7 @@ void EditorLayer::showEditor()
 
 		if (script && ImGui::TreeNode("Script Component"))
 		{
-			ImGui::Text("Script: %s", script->script->GetName().c_str());
+			ImGui::Text("Script: %s", script->script->GetScriptName().c_str());
 			ImGui::TreePop();
 		}
 

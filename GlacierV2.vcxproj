@@ -203,9 +203,9 @@
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\FontLoader.cpp" />
     <ClCompile Include="src\Framebuffer.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\GameObjectDeregCmd.cpp" />
-    <ClCompile Include="src\GameObjectRegCmd.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\EntityDeregCmd.cpp" />
+    <ClCompile Include="src\EntityRegCmd.cpp" />
     <ClCompile Include="src\Glacier.cpp" />
     <ClCompile Include="src\gpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -275,10 +275,10 @@
     <ClInclude Include="src\FontLoader.h" />
     <ClInclude Include="src\FontLoaderAtt.h" />
     <ClInclude Include="src\Framebuffer.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\GameObjectAtt.h" />
-    <ClInclude Include="src\GameObjectDeregCmd.h" />
-    <ClInclude Include="src\GameObjectRegCmd.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\EntityAtt.h" />
+    <ClInclude Include="src\EntityDeregCmd.h" />
+    <ClInclude Include="src\EntityRegCmd.h" />
     <ClInclude Include="src\Glacier.h" />
     <ClInclude Include="src\GlacierAPI.h" />
     <ClInclude Include="src\gpch.h" />

@@ -6,8 +6,8 @@ public:
 	SpinningLightScript();
 	~SpinningLightScript() = default;
 
-	virtual void OnCreate() override;
-	virtual void OnTick() override;
+	virtual void OnSceneEnter() override;
+	virtual void OnUpdate() override;
 
 private:
 	glm::vec3* dir = nullptr;

@@ -95,9 +95,6 @@
     <Filter Include="src\Engine\Systems\Command\Commands">
       <UniqueIdentifier>{fa4f55a4-baa0-49f6-bd64-7534d232e598}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Command\Commands\GameObject">
-      <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Engine\Systems\Command\Commands\Scene">
       <UniqueIdentifier>{a1bd05df-d169-4be4-bf2b-0862c5cd2d1b}</UniqueIdentifier>
     </Filter>
@@ -140,6 +137,9 @@
     <Filter Include="src\Engine\Systems\Editor\ShowEditor">
       <UniqueIdentifier>{90ea2b98-3cad-4d63-b982-fb157d7fc51e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Systems\Command\Commands\Entity">
+      <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -166,7 +166,7 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>src\Engine\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
+    <ClCompile Include="src\Entity.cpp">
       <Filter>src\Engine\ECS</Filter>
     </ClCompile>
     <ClCompile Include="src\Model.cpp">
@@ -208,11 +208,11 @@
     <ClCompile Include="src\AddScriptCmd.cpp">
       <Filter>src\Engine\Systems\Command\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObjectRegCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    <ClCompile Include="src\EntityRegCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObjectDeregCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    <ClCompile Include="src\EntityDeregCmd.cpp">
+      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneChangeCmd.cpp">
       <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
@@ -342,7 +342,7 @@
     <ClInclude Include="external\entt-3.10.3\src\entt\entt.hpp">
       <Filter>Libraries\entt-3.10.3</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject.h">
+    <ClInclude Include="src\Entity.h">
       <Filter>src\Engine\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\Model.h">
@@ -435,13 +435,13 @@
     <ClInclude Include="src\RegistrationState.h">
       <Filter>src\Engine\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjectRegCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    <ClInclude Include="src\EntityRegCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjectDeregCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\GameObject</Filter>
+    <ClInclude Include="src\EntityDeregCmd.h">
+      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjectAtt.h">
+    <ClInclude Include="src\EntityAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneChangeCmd.h">

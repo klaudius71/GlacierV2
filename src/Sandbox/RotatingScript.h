@@ -9,8 +9,8 @@ public:
 	RotatingScript(const glm::vec3& rot_direction = glm::vec3(0.0f, 1.0f, 0.0f));
 	~RotatingScript() = default;
 
-	virtual void OnCreate() override;
-	virtual void OnTick() override;
+	virtual void OnSceneEnter() override;
+	virtual void OnUpdate() override;
 
 private:
 	TransformComponent* transform = nullptr;

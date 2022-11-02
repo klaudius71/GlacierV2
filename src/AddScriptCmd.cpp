@@ -1,8 +1,8 @@
 #include "gpch.h"
 #include "AddScriptCmd.h"
-#include "GameObject.h"
+#include "Entity.h"
 
-AddScriptCmd::AddScriptCmd(GameObject* const obj, Script* const script)
+AddScriptCmd::AddScriptCmd(Entity* const obj, Script* const script)
 	: obj(obj), script(script)
 {
 }

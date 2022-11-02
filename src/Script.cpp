@@ -9,26 +9,26 @@ Script::Script(const std::string& name)
 {
 }
 
-void Script::SetGameObject(GameObjectRef& new_obj)
+void Script::SetGameObject(GameObject& new_obj)
 {
 	obj = new_obj;
 }
 
-GameObjectRef Script::CreateGameObject(std::string name)
+GameObject Script::CreateGameObject(std::string name)
 {
 	return GetCurrentScene().CreateGameObject(std::move(name));
 }
-GameObjectRef Script::CreateGameObject(std::string name, GameObjectRef parent, bool keep_world)
+GameObject Script::CreateGameObject(std::string name, GameObject parent, bool keep_world)
 {
 	return GetCurrentScene().CreateGameObject(std::move(name), parent, keep_world);
 }
 
-void Script::DestroyGameObject(GameObjectRef go)
+void Script::DestroyGameObject(GameObject go)
 {
 	GetCurrentScene().DestroyGameObject(go);
 }
 
-GameObjectRef& Script::GetGameObject()
+GameObject& Script::GetGameObject()
 {
 	return obj;
 }
@@ -38,29 +38,29 @@ Scene& Script::GetCurrentScene()
 	return *SceneManager::GetCurrentScene();
 }
 
-const std::string& Script::GetName() const
+const std::string& Script::GetScriptName() const
 {
 	return script_name;
 }
 
-void Script::ExecuteAllOnCreate(const Scene& scn)
+void Script::ExecuteAllOnSceneEnter(const Scene& scn)
 {
 	auto script_view = scn.GetRegistry().view<ScriptComponent>();
 	for (auto&& [entity, script] : script_view.each())
-		script.script->OnCreate();
+		script.script->OnSceneEnter();
 }
-void Script::ExecuteAllOnTick(const Scene& scn)
+void Script::ExecuteAllOnUpdate(const Scene& scn)
 {
 	auto script_view = scn.GetRegistry().view<ScriptComponent>();
 	for (auto&& [entity, script] : script_view.each())
-		script.script->OnTick();
+		script.script->OnUpdate();
 }
-void Script::ExecuteAllOnDestroy(const Scene& scn)
+void Script::ExecuteAllOnSceneExit(const Scene& scn)
 {
 	auto script_view = scn.GetRegistry().view<ScriptComponent>();
 	for (auto&& [entity, script] : script_view.each())
 	{
-		script.script->OnDestroy();
+		script.script->OnSceneExit();
 		delete script.script;
 	}
 }

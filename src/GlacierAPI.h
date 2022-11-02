@@ -12,7 +12,7 @@
 #include "Timer.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "GameObject.h"
+#include "Entity.h"
 #include "Script.h"
 #include "CameraControllerScript.h"
 #include "Input.h"

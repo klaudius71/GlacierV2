@@ -1,7 +1,7 @@
 #include "gpch.h"
 #include "SceneGraph.h"
-#include "GameObjectAtt.h"
-#include "GameObject.h"
+#include "EntityAtt.h"
+#include "Entity.h"
 
 SceneGraph::~SceneGraph()
 {
@@ -9,40 +9,40 @@ SceneGraph::~SceneGraph()
 		graph.pop_front();
 }
 
-const std::list<std::shared_ptr<GameObject>>& SceneGraph::GetGraph() const
+const std::list<std::shared_ptr<Entity>>& SceneGraph::GetGraph() const
 {
 	return graph;
 }
 
-GameObjectRef SceneGraph::CreateGameObject(std::string& name)
+GameObject SceneGraph::CreateGameObject(std::string& name)
 {
-	auto it = graph.emplace(graph.end(), std::make_shared<GameObject>(name));
-	GameObjectAtt::SetSceneGraphRef(**it, it);
+	auto it = graph.emplace(graph.end(), std::make_shared<Entity>(name));
+	EntityAtt::SetSceneGraphRef(**it, it);
 	return *it;
 }
-GameObjectRef SceneGraph::CreateGameObject(std::string& name, GameObjectRef& parent, bool keep_world)
+GameObject SceneGraph::CreateGameObject(std::string& name, GameObject& parent, bool keep_world)
 {
 	UNREFERENCED_PARAMETER(keep_world);
 
-	auto it = graph.emplace(graph.end(), std::make_shared<GameObject>(name, parent));
-	GameObjectAtt::SetSceneGraphRef(**it, it);
+	auto it = graph.emplace(graph.end(), std::make_shared<Entity>(name, parent));
+	EntityAtt::SetSceneGraphRef(**it, it);
 
-	auto& parent_children = GameObjectAtt::GetChildren(**parent);
+	auto& parent_children = EntityAtt::GetChildren(**parent);
 	auto parent_children_it = parent_children.emplace(parent_children.cend(), *it);
-	GameObjectAtt::SetAsChildRef(**it, parent_children_it);
+	EntityAtt::SetAsChildRef(**it, parent_children_it);
 	return *it;
 }
-void SceneGraph::EraseGameObject(GameObjectRef& go)
+void SceneGraph::EraseGameObject(GameObject& go)
 {
-	GameObjectRef parent = go->GetParent();
+	GameObject parent = go->GetParent();
 	if (!parent.isExpired())
-		GameObjectAtt::EraseChild(**parent, GameObjectAtt::GetAsChildRef(**go));
+		EntityAtt::EraseChild(**parent, EntityAtt::GetAsChildRef(**go));
 	
-	graph.erase(GameObjectAtt::GetSceneGraphRef(**go));
+	graph.erase(EntityAtt::GetSceneGraphRef(**go));
 }
 
 void SceneGraph::UpdateTransforms()
 {
 	for (auto& go : graph)
-		GameObjectAtt::update_transform(*go);
+		EntityAtt::update_transform(*go);
 }

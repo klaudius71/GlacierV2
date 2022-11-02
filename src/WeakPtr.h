@@ -32,20 +32,11 @@ public:
 		return ptr.expired();
 	}
 
-	T* operator*()
+	T* operator*() const
 	{
 		return ptr.lock().get();
 	}
-	T* operator->()
-	{
-		assert(!ptr.expired());
-		return ptr.lock().get();
-	}
-	const T* operator*() const
-	{
-		return ptr.lock().get();
-	}
-	const T* operator->() const
+	T* operator->() const
 	{
 		assert(!ptr.expired());
 		return ptr.lock().get();

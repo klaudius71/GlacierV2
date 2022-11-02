@@ -10,7 +10,7 @@ class EmplaceComponentCommand : public Command
 {
 public:
 	EmplaceComponentCommand() = delete;
-	EmplaceComponentCommand(GameObject* const obj, Args&&... args)
+	EmplaceComponentCommand(Entity* const obj, Args&&... args)
 		: obj(obj), component(std::forward<Args>(args)...)
 	{}
 	EmplaceComponentCommand(const EmplaceComponentCommand&) = delete;
@@ -25,7 +25,7 @@ public:
 	}
 
 private:
-	GameObject* obj;
+	Entity* obj;
 	T component;
 };
 
