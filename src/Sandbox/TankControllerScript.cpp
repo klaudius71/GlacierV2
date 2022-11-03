@@ -61,34 +61,34 @@ void TankControllerScript::OnUpdate(float dt)
 	camera.cam_dir = position_offset - camera.cam_pos;
 
 	// Independent turret rotation
-	auto& tank_turret_transform = tank_turret->GetComponent<TransformComponent>();
-	const glm::vec3 turret_world_rotation = transform.rotation() + tank_turret_transform.rotation();
+	auto& tank_turret_transform_rotation = tank_turret->GetComponent<TransformComponent>().rotation();
+	const glm::vec3 turret_world_rotation = transform.rotation() + tank_turret_transform_rotation;
 	const float camera_turret_rotation_angle = turret_world_rotation.y - cam_rotation_euler.y;
 
 	if (camera_turret_rotation_angle < -dt * 2.0f)
-		tank_turret_transform.rotation().y += dt;
+		tank_turret_transform_rotation.y += dt;
 	else if (camera_turret_rotation_angle > dt * 2.0f)
-		tank_turret_transform.rotation().y -= dt;
+		tank_turret_transform_rotation.y -= dt;
 
-	if (tank_turret_transform.rotation().y > glm::radians(135.0f))
-		tank_turret_transform.rotation().y = glm::radians(135.0f);
-	else if (tank_turret_transform.rotation().y < glm::radians(-135.0f))
-		tank_turret_transform.rotation().y = glm::radians(-135.0f);
+	if (tank_turret_transform_rotation.y > glm::radians(135.0f))
+		tank_turret_transform_rotation.y = glm::radians(135.0f);
+	else if (tank_turret_transform_rotation.y < glm::radians(-135.0f))
+		tank_turret_transform_rotation.y = glm::radians(-135.0f);
 	
 	// Independent turret barrel rotation
-	auto& tank_turret_barrel_transform = tank_turret_barrel->GetComponent<TransformComponent>();
-	const glm::vec3 turret_barrel_world_rotation = turret_world_rotation + tank_turret_barrel_transform.rotation();
+	auto& tank_turret_barrel_transform_rotation = tank_turret_barrel->GetComponent<TransformComponent>().rotation();
+	const glm::vec3 turret_barrel_world_rotation = turret_world_rotation + tank_turret_barrel_transform_rotation;
 	const float camera_turret_barrel_rotation_angle = cam_rotation_euler.x - (-turret_barrel_world_rotation.x);
 
-	if (camera_turret_barrel_rotation_angle < (-dt * 2.0f - 0.25f))
-		tank_turret_barrel_transform.rotation().x += dt;
-	else if (camera_turret_barrel_rotation_angle > (dt * 2.0f - 0.25f))
-		tank_turret_barrel_transform.rotation().x -= dt;
+	if (camera_turret_barrel_rotation_angle < (-dt * 2.0f - BARREL_ANGLE_OFFSET))
+		tank_turret_barrel_transform_rotation.x += dt;
+	else if (camera_turret_barrel_rotation_angle > (dt * 2.0f - BARREL_ANGLE_OFFSET))
+		tank_turret_barrel_transform_rotation.x -= dt;
 
-	if (tank_turret_barrel_transform.rotation().x > glm::radians(10.0f))
-		tank_turret_barrel_transform.rotation().x = glm::radians(10.0f);
-	else if (tank_turret_barrel_transform.rotation().x < glm::radians(-18.0f))
-		tank_turret_barrel_transform.rotation().x = glm::radians(-18.0f);
+	if (tank_turret_barrel_transform_rotation.x > glm::radians(10.0f))
+		tank_turret_barrel_transform_rotation.x = glm::radians(10.0f);
+	else if (tank_turret_barrel_transform_rotation.x < glm::radians(-18.0f))
+		tank_turret_barrel_transform_rotation.x = glm::radians(-18.0f);
 }
 
 void TankControllerScript::OnScreenResize(const int& width, const int& height)

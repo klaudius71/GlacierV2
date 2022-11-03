@@ -19,6 +19,8 @@ private:
 
 	const float CAM_OFFSET = 85.0f;
 
+	const float BARREL_ANGLE_OFFSET = 0.25f;
+
 	//glm::quat cam_rotation{ 1.0f, 0.0f, 0.0f, 0.0f };
 	glm::vec3 cam_rotation_euler{ 0.0f, 0.0f, 0.0f };
 	GameObject tank_turret;
