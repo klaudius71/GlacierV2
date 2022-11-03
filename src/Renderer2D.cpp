@@ -91,7 +91,9 @@ void Renderer2D::renderComponents(Scene& scn)
 	auto group = scn.GetRegistry().group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, render, transform] : group.each())
 	{
-		curr_world_matrix = glm::translate(glm::rotate(glm::scale(glm::mat4(1.0f), transform.scl), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.pos);
+		curr_world_matrix = glm::translate(glm::mat4(1.0f), transform.pos);
+		curr_world_matrix *= glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		curr_world_matrix *= glm::scale(glm::mat4(1.0f), transform.scl);
 		(glm::vec2&)curr_world_matrix[3] += anchors[(uint32_t)render.anchor];
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, glm::value_ptr(curr_world_matrix));
 		glUniform4fv(sprite_data_uniform_loc, 1, (const GLfloat*)&render.data);
@@ -197,7 +199,8 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	glUniformMatrix4fv(glGetUniformLocation(shad, "world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
 
 	// Fill up the instance buffers
-	for (int i = 0; i < text.size(); i++)
+	const size_t num_characters = text.size() > 100 ? 100 : text.size();
+	for (int i = 0; i < num_characters; i++)
 	{
 		const Glyph& glyph = font->GetGlyph(text.at(i));
 		x_offset += glyph.advance * 0.5f;

@@ -5,15 +5,15 @@ struct PlayerTankPrefab : public Prefab
 {
 	virtual GameObject ApplyPrefab(Scene& scn) override
 	{
-		GameObject base = scn.CreateGameObject("Tank Body");
+		GameObject base = scn.CreateGameObject("Tank");
 		base->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankBase"));
 		base->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
-		CameraComponent& camera_component = base->EmplaceComponent<CameraComponent>(glm::mat4(1.0f), glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::radians(45.0f));
+		CameraComponent& camera_component = base->EmplaceComponent<CameraComponent>(glm::mat4(1.0f), glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::radians(60.0f));
 		CameraComponent::ResetProjectionToSize(camera_component, Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y);
 		base->AddScript<TankControllerScript>();
 		base->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f);
 		
-		GameObject wheels = scn.CreateGameObject("Tank", base);
+		GameObject wheels = scn.CreateGameObject("Tank Wheels", base);
 		wheels->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankWheels"));
 		wheels->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
 		wheels->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, -0.52f, 1.25f);
@@ -32,8 +32,8 @@ struct PlayerTankPrefab : public Prefab
 		turret_barrel->RegisterToScene();
 
 		GameObject crosshair = scn.CreateGameObject("Crosshair", base);
-		crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::GetConst("Crosshair"), Renderer2D::SCREEN_ANCHOR::MIDDLE_CENTER);
-		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
+		crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::GetConst("Crosshair"), Renderer2D::SCREEN_ANCHOR::TOP_LEFT);
+		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f, 10.0f, 1.0f);
 		crosshair->RegisterToScene();
 
 		return base;

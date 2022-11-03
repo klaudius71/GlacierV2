@@ -21,6 +21,7 @@ void Glacier::LoadResources()
 	TextureLoader::Load("Grass", "grass.jpg", { TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
 	TextureLoader::Load("Crosshair", "crosshair.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
 	TextureLoader::Load("Desert", glm::vec4(179.0f / 255.0f, 116.0f / 255.0f, 64.0f / 255.0f, 1.0f));
+	TextureLoader::Load("Mahogany", glm::vec4(103 / 255.0f, 10 / 255.0f, 10 / 255.0f, 1.0f));
 
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);

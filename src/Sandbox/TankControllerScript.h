@@ -22,4 +22,5 @@ private:
 	glm::vec3 cam_rotation_euler{ 0.0f, 0.0f, 0.0f };
 	GameObject tank_turret;
 	GameObject tank_turret_barrel;
+	GameObject crosshair;
 };

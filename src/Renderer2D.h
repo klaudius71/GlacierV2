@@ -64,6 +64,8 @@ private:
 public:
 	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
 	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const char* const format, ...);
+
+	static const glm::mat4& GetCurrentProjectionMatrix() { assert(instance); return instance->proj; }
 };
 
 #endif _RENDERER_2D

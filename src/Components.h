@@ -45,7 +45,9 @@ struct TransformComponent
 	TransformComponent(TransformComponent&& o) = default;
 	TransformComponent& operator=(TransformComponent&& o) = default;
 
+	const glm::vec3 GetWorldPosition() const;
 	const glm::vec3 GetForwardVector() const;
+	const glm::vec3 GetGlobalForwardVector() const;
 
 private:
 	glm::mat4 world_matrix = glm::mat4(1.0f);
@@ -78,7 +80,10 @@ struct CameraComponent
 	CameraComponent& operator=(CameraComponent&& o) = default;
 	~CameraComponent() = default;
 
+	const glm::mat4 MakeViewMatrix() const;
+
 	static void ResetProjectionToSize(CameraComponent& camera, const int& width, const int& height);
+	static const glm::vec2 WorldPositionToScreenPosition(const CameraComponent& camera, const glm::vec3& pos);
 };
 
 struct ScriptComponent
