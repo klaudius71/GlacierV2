@@ -32,6 +32,17 @@ const std::list<GameObject>& Entity::GetChildren() const
 {
 	return children;
 }
+const size_t Entity::GetChildrenCount() const
+{
+	return children.size();
+}
+GameObject Entity::GetChild(int index) const
+{
+	assert(index >= 0 && index < children.size() && "Child index out of range!");
+	auto it = children.begin();
+	std::advance(it, index);
+	return *it;
+}
 GameObject Entity::GetParent()
 {
 	return parent;
@@ -76,6 +87,21 @@ void Entity::update_transform()
 	{
 		transform.flag_changed = false;
 
+		const float pi = glm::pi<float>();
+		const float two_pi = pi * 2.0f;
+		if (transform.rot.x < -pi)
+			transform.rot.x += two_pi;
+		else if (transform.rot.x > pi)
+			transform.rot.x -= two_pi;
+		if (transform.rot.y < -pi)
+			transform.rot.y += two_pi;
+		else if (transform.rot.y > pi)
+			transform.rot.y -= two_pi;
+		if (transform.rot.z < -pi)
+			transform.rot.z += two_pi;
+		else if (transform.rot.z > pi)
+			transform.rot.z -= two_pi;
+
 		const glm::mat4& position = glm::translate(glm::mat4(1.0f), transform.pos);
 		const glm::mat4& rot_yxz = glm::rotate(glm::rotate(glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
 		const glm::mat4& scale = glm::scale(glm::mat4(1.0f), transform.scl);
@@ -95,6 +121,21 @@ void Entity::update_transform_as_child(const glm::mat4& parent_world_matrix)
 	TransformComponent& transform = GetComponent<TransformComponent>();
 	transform.flag_changed = false;
 
+	const float pi = glm::pi<float>();
+	const float two_pi = pi * 2.0f;
+	if (transform.rot.x < -pi)
+		transform.rot.x += two_pi;
+	else if (transform.rot.x > pi)
+		transform.rot.x -= two_pi;
+	if (transform.rot.y < -pi)
+		transform.rot.y += two_pi;
+	else if (transform.rot.y > pi)
+		transform.rot.y -= two_pi;
+	if (transform.rot.z < -pi)
+		transform.rot.z += two_pi;
+	else if (transform.rot.z > pi)
+		transform.rot.z -= two_pi;
+
 	const glm::mat4& position = glm::translate(glm::mat4(1.0f), transform.pos);
 	const glm::mat4& rot_yxz = glm::rotate(glm::rotate(glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.rot.x, glm::vec3(1.0f, 0.0f, 0.0f)), transform.rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	const glm::mat4& scale = glm::scale(glm::mat4(1.0f), transform.scl);
@@ -111,10 +152,6 @@ std::list<GameObject>::const_iterator& Entity::GetAsChildRef()
 void Entity::SetAsChildRef(std::list<GameObject>::const_iterator ref)
 {
 	as_child_of_ref = ref;
-}
-std::list<GameObject>& Entity::GetChildren()
-{
-	return children;
 }
 
 void Entity::SetSceneGraphRef(SceneGraphRef ref)

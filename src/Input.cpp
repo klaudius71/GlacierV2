@@ -30,5 +30,6 @@ void Input::ProcessMouseData()
 {
 	glfwGetCursorPos(Glacier::GetWindow().GetNativeWindow(), &curr_mouse_position.x, &curr_mouse_position.y);
 	mouse_delta = prev_mouse_position - curr_mouse_position;
+	mouse_delta.x = -mouse_delta.x;
 	prev_mouse_position = curr_mouse_position;
 }

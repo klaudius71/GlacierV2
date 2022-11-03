@@ -12,7 +12,7 @@ class EntityAtt
 	static void register_to_scene(Entity* const obj) { obj->register_to_scene(); }
 	static void deregister_from_scene(Entity* const obj) { obj->deregister_from_scene(); }
 	static void update_transform(Entity& obj) { obj.update_transform(); }
-	static std::list<GameObject>& GetChildren(Entity& obj) { return obj.GetChildren(); }
+	static std::list<GameObject>& GetChildren(Entity& obj) { return obj.children; }
 	static SceneGraphRef& GetSceneGraphRef(Entity& obj) { return obj.GetSceneGraphRef(); }
 	static void SetSceneGraphRef(Entity& obj, SceneGraphRef ref) { obj.SetSceneGraphRef(ref); }
 	static std::list<GameObject>::const_iterator GetAsChildRef(Entity& obj) { return obj.GetAsChildRef(); }

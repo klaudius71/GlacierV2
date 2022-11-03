@@ -23,6 +23,8 @@ public:
 
 	const entt::entity& GetID() const;
 	const std::list<GameObject>& GetChildren() const;
+	const size_t GetChildrenCount() const;
+	GameObject GetChild(int index) const;
 	GameObject GetParent();
 
 	void RegisterToScene();
@@ -108,6 +110,7 @@ private:
 	void register_to_scene();
 	void deregister_from_scene();
 
+	// Transform update
 	void update_transform();
 	void update_transform_as_child(const glm::mat4& parent_world_matrix);
 
@@ -117,7 +120,6 @@ private:
 	void EraseChild(std::list<GameObject>::const_iterator ref);
 	std::list<GameObject>::const_iterator& GetAsChildRef();
 	void SetAsChildRef(std::list<GameObject>::const_iterator ref);
-	std::list<GameObject>& GetChildren();
 
 	// Attorney
 	friend class EntityAtt;

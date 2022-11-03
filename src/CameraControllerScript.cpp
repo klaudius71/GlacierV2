@@ -14,7 +14,7 @@ void CameraControllerScript::OnUpdate(float dt)
 {
 	if (Input::GetMouseButtonState(GLACIER_MOUSE::RIGHT_MOUSE_BUTTON)) {
 		camRot.x += Input::GetMouseDeltaPosition().y * dt;
-		camRot.y += Input::GetMouseDeltaPosition().x * dt;
+		camRot.y -= Input::GetMouseDeltaPosition().x * dt;
 	}
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_UP))
 		camRot.x += 1.5f * dt;
