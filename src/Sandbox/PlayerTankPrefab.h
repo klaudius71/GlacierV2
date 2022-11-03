@@ -31,6 +31,11 @@ struct PlayerTankPrefab : public Prefab
 		turret_barrel->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, -0.3f, 0.955f);
 		turret_barrel->RegisterToScene();
 
+		GameObject crosshair = scn.CreateGameObject("Crosshair", base);
+		crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::GetConst("Crosshair"), Renderer2D::SCREEN_ANCHOR::MIDDLE_CENTER);
+		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
+		crosshair->RegisterToScene();
+
 		return base;
 	}
 };

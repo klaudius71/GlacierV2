@@ -56,7 +56,7 @@ void TankControllerScript::OnUpdate(float dt)
 	const glm::vec3 position_offset = (transform.position() + glm::vec3(0.0f, 20.0f, 0.0f)) + transform.GetForwardVector() * 22.0f;
 	CameraComponent& camera = GetGameObject()->GetComponent<CameraComponent>();
 	const float& cos_pitch = cosf(cam_rotation_euler.x);
-	const glm::vec3 camera_offset = CAM_OFFSET * glm::vec3{ sinf(cam_rotation_euler.y)* cos_pitch, sinf(cam_rotation_euler.x), cosf(cam_rotation_euler.y)* cos_pitch };
+	const glm::vec3 camera_offset = CAM_RADIUS * glm::vec3(sinf(cam_rotation_euler.y) * cos_pitch, sinf(cam_rotation_euler.x), cosf(cam_rotation_euler.y) * cos_pitch);
 	camera.cam_pos = position_offset - camera_offset;
 	camera.cam_dir = position_offset - camera.cam_pos;
 

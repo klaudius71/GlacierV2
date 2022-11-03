@@ -91,7 +91,7 @@ void Renderer2D::renderComponents(Scene& scn)
 	auto group = scn.GetRegistry().group<SpriteComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, render, transform] : group.each())
 	{
-		curr_world_matrix = transform.GetWorldMatrix();
+		curr_world_matrix = glm::translate(glm::rotate(glm::scale(glm::mat4(1.0f), transform.scl), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f)), transform.pos);
 		(glm::vec2&)curr_world_matrix[3] += anchors[(uint32_t)render.anchor];
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, glm::value_ptr(curr_world_matrix));
 		glUniform4fv(sprite_data_uniform_loc, 1, (const GLfloat*)&render.data);

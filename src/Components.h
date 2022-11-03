@@ -58,6 +58,7 @@ private:
 	glm::vec3 scl = glm::vec3(1.0f);
 
 	friend class Entity;
+	friend class Renderer2D;
 };
 
 struct CameraComponent
