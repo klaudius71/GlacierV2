@@ -6,10 +6,10 @@
 void Glacier::LoadResources()
 {
 	//ModelLoader::Load("Vampire", "vampire2.gltf");
-	//ModelLoader::Load("TankBase", "tank_base.gltf");
-	//ModelLoader::Load("TankWheels", "tank_wheels.gltf");
-	//ModelLoader::Load("TankTurret", "tank_turret.gltf");
-	//ModelLoader::Load("TankTurretBarrel", "tank_turret_barrel.gltf");
+	ModelLoader::Load("TankBase", "tank_base.gltf");
+	ModelLoader::Load("TankWheels", "tank_wheels.gltf");
+	ModelLoader::Load("TankTurret", "tank_turret.gltf");
+	ModelLoader::Load("TankTurretBarrel", "tank_turret_barrel.gltf");
 	ModelLoader::Load("Box", PREMADE_MODELS::UNIT_CUBE_REPEAT_TEXTURE, 10.0f);
 	ModelLoader::Load("Sphere", 40, 40);
 	//ModelLoader::Load("Sphere2", 4, 4);
