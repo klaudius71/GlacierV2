@@ -4,7 +4,7 @@
 
 TextureLoader* TextureLoader::instance = nullptr;
 const std::string TextureLoader::TEXTURE_PATH = "textures/";
-std::list <std::future<Texture&>> TextureLoader::futures;
+std::list<std::future<Texture&>> TextureLoader::futures;
 std::mutex TextureLoader::load_mutex;
 
 Texture& TextureLoader::load_async_reg(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)

@@ -32,7 +32,7 @@ void Renderer::UpdateViewportSize(const int& width, const int& height)
 void Renderer::RenderUnlit(Scene& scn)
 {
 	// Render meshes without materials
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	const GLuint& shader = ShaderLoader::Get(PRELOADED_SHADERS::COLOR)->GetProgramID();
 	glUseProgram(shader);
 	GLint world_matrix_uniform_loc = glGetUniformLocation(shader, "world_matrix");
@@ -44,7 +44,7 @@ void Renderer::RenderUnlit(Scene& scn)
 		glBindVertexArray(mesh.vao);
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 void Renderer::RenderLit(Scene& scn)
 {
@@ -58,9 +58,10 @@ void Renderer::RenderLit(Scene& scn)
 	GLint material_specular_uniform_loc = material_diffuse_uniform_loc + 1;
 	GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
 	glUniform1iv(glGetUniformLocation(curr_shader, "textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
-	glActiveTexture(GL_TEXTURE4);
+	glUniform1i(glGetUniformLocation(curr_shader, "normal_map"), 4);
+	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 5);
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
-	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 4);
 
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
@@ -69,14 +70,13 @@ void Renderer::RenderLit(Scene& scn)
 		glUniform3fv(material_ambient_uniform_loc, 1, (const GLfloat*)&material.ads.ambient);
 		glUniform3fv(material_diffuse_uniform_loc, 1, (const GLfloat*)&material.ads.diffuse);
 		glUniform4fv(material_specular_uniform_loc, 1, (const GLfloat*)&material.ads.specular);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, material.tex_id.s);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, material.tex_id.t);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, material.tex_id.p);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, material.tex_id.q);
+		for (int i = 0; i < 4; i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, material.tex_id[i]);
+		}
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, material.norm_tex_id[0]);
 		glUniform4fv(color_uniform_loc, 1, (const GLfloat*)&material.col);
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 		glBindVertexArray(mesh.vao);

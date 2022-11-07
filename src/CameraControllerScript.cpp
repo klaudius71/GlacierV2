@@ -40,9 +40,9 @@ void CameraControllerScript::OnUpdate(float dt)
 		cam_speed = 300.0f;
 
 	const auto speed_delta = cam_speed * dt;
-	if (Input::GetKeyDown(GLACIER_KEY::KEY_Y))
+	if (Input::GetKeyDown(GLACIER_KEY::KEY_W))
 		cam->cam_pos += dir * speed_delta;
-	/*else if (Input::GetKeyDown(GLACIER_KEY::KEY_S))
+	else if (Input::GetKeyDown(GLACIER_KEY::KEY_S))
 		cam->cam_pos -= dir * speed_delta;
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_A))
 		cam->cam_pos -= right * speed_delta;
@@ -51,7 +51,7 @@ void CameraControllerScript::OnUpdate(float dt)
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_Q))
 		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
-		cam->cam_pos += up * speed_delta;*/
+		cam->cam_pos += up * speed_delta;
 }
 
 void CameraControllerScript::OnScreenResize(const int& width, const int& height)

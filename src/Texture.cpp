@@ -46,11 +46,9 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 		memcpy(img + i * indiv_img_buffer_size, imgs[i], indiv_img_buffer_size);
 		stbi_image_free(imgs[i]);
 	}
-
-	LoadGPUData();
 }
 Texture::Texture(const glm::vec4& color)
-	: id(0), tex_params(TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR)
+	: id(0), tex_params(TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR, TEXTURE_WRAP::CLAMP_TO_EDGE, TEXTURE_WRAP::CLAMP_TO_EDGE, TEXTURE_WRAP::CLAMP_TO_EDGE)
 {
 	this->tex_params.type = TEXTURE_TYPE::REGULAR;
 	width = 1;
@@ -167,7 +165,7 @@ void Texture::SetTextureMagFilter(TEXTURE_MAG_FILTER filter)
 	Unbind();
 }
 
-void Texture::LoadGPUData()
+void Texture::load_gpu_data()
 {
 	// Load the image into the driver
 	glGenTextures(1, &id);

@@ -152,17 +152,17 @@ struct MaterialComponent
 	glm::vec4 col;
 
 	MaterialComponent()
-		: ads(), tex_id(TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal").GetID()), col(Colors::White) {}
+		: ads(), tex_id(TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal")), col(Colors::White) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const glm::uvec4& tex_id, const glm::uvec4& norm_tex_id, const glm::vec4& color = Colors::White)
 		: ads(ads), tex_id(tex_id), norm_tex_id(norm_tex_id), col(color) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const glm::vec4& color = Colors::White)
-		: ads(ads), tex_id(tex0, TextureLoader::Get("default").GetID(), TextureLoader::Get("default").GetID(), TextureLoader::Get("default").GetID()), norm_tex_id(0), col(color) {}
+		: ads(ads), tex_id(tex0, glm::uvec3(TextureLoader::Get("default"))), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const glm::vec4& color = Colors::White)
-		: ads(ads), tex_id(tex0, tex1, TextureLoader::Get("default").GetID(), TextureLoader::Get("default").GetID()), norm_tex_id(0), col(color) {}
+		: ads(ads), tex_id(tex0, tex1, (GLuint)TextureLoader::Get("default"), TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const glm::vec4& color = Colors::White)
-		: ads(ads), tex_id(tex0, tex1, tex2, TextureLoader::Get("default").GetID()), norm_tex_id(0), col(color) {}
+		: ads(ads), tex_id(tex0, tex1, tex2, (GLuint)TextureLoader::Get("default")), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
 	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const GLuint& tex3, const glm::vec4& color = Colors::White)
-		: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(0), col(color) {}
+		: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
 	MaterialComponent(MaterialComponent&& o) = default;
 	MaterialComponent& operator=(MaterialComponent&& o) = default;
 

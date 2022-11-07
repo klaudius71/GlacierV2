@@ -79,6 +79,8 @@ Model::Model(const std::string& file_name)
 	uvs = std::vector<glm::vec2>(uv, uv + num_vertices);
 	normals = std::vector<glm::vec3>(norm, norm + num_vertices);
 
+	calculate_tangents();
+
 	const auto& ind = data.find("indices")->second;
 	num_triangles = ind.count / 3;
 	if (ind.stride == 2)
@@ -93,6 +95,8 @@ Model::Model(const std::string& file_name)
 		for (size_t i = 0; i < num_triangles; i++)
 			triangles.emplace_back(indices[i * 3], indices[i * 3 + 1], indices[i * 3 + 2]);
 	}
+
+
 	
 	const auto& joint_ids_data = data.find("JOINTS_0");
 	if (joint_ids_data != data.end())
@@ -120,7 +124,7 @@ Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<Ve
 {
 	assert(triangles.size() > 0 && verts.size() > 0);
 	populate_all_arrays_from_vertex_data();
-	load_GPU_data(*this);
+	load_gpu_data();
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
 	: num_vertices(0), num_triangles(0)
@@ -269,6 +273,75 @@ Model::Model(const std::string& file_name, const float& xz_size, const float& ma
 	// Frees up the memory used by stb
 	stbi_image_free(hgt_map);
 }
+Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
+	: num_vertices((v_slices + 1) * h_slices + (2 * v_slices)), num_triangles((v_slices * 2) + ((h_slices - 1) * v_slices * 2))
+{
+	uint32_t i, j;
+
+	vertex_data.reserve(num_vertices);
+	for (i = 0; i < num_vertices; i++)
+		vertex_data.emplace_back();
+
+	triangles.reserve(num_triangles);
+	for (i = 0; i < num_triangles; i++)
+		triangles.emplace_back();
+
+	// Vertices
+	const glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), glm::pi<float>() / (float)(h_slices + 1), glm::vec3(1.0f, 0.0f, 0.0f));
+	const glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), glm::two_pi<float>() / (float)v_slices, glm::vec3(0.0f, 1.0f,0.0f));
+	const glm::vec2 deltaUV{ 1.0f / h_slices, 1.0f / (v_slices + 1) };
+
+	glm::vec4 currentVect(0.0f, 1.0f, 0.0f, 1.0f);
+	glm::vec2 currentUV(0.0f, 0.0f);
+
+	for (i = 0; i < v_slices; i++)
+		vertex_data[i].set(glm::vec3(0.0f, 1.0f, 0.0f), currentUV + glm::vec2(0.5f / v_slices + i / (float)v_slices, 0.0f), currentVect);
+
+	currentVect = rotationX * currentVect;
+	currentUV = { 0.0f, deltaUV.y };
+	for (i = 1; i < num_vertices - v_slices * 2 + 1; i++)
+	{
+		vertex_data[i + v_slices - 1].set(currentVect, currentUV, currentVect);
+		currentVect = rotationY * currentVect;
+		currentUV.x += deltaUV.x;
+		if (i % (v_slices + 1) == 0)
+		{
+			vertex_data[i + v_slices - 1].set(vertex_data[(i + v_slices - 1) - v_slices].pos, vertex_data[i + v_slices - 1].uv, vertex_data[(i + v_slices - 1) - v_slices].normal);
+			currentVect = rotationX * glm::vec4(vertex_data[(i + v_slices - 1) - v_slices].pos, 1.0f);
+			currentUV.y += deltaUV.y;
+			currentUV.x = 0.0f;
+		}
+	}
+	currentVect = glm::vec4{ 0.0f, -1.0f, 0.0f, 1.0f };
+	for (i = num_vertices - v_slices, j = 0; i < num_vertices; i++, j++)
+		vertex_data[i].set(currentVect, currentUV + glm::vec2(0.5f / v_slices + j / (float)v_slices, 0.0f), currentVect);
+
+	// Triangles
+	for (i = 0, j = v_slices; i < v_slices; i++, j++)
+	{
+		triangles[i] = { j, j + 1, i };
+	}
+
+	j -= v_slices;
+	for (++j; i < num_triangles - v_slices; i += 2, j++)
+	{
+		triangles[i] = { j + v_slices, j - (v_slices + 1) + 1 + v_slices, j - (v_slices + 1) + v_slices };
+		triangles[i + 1] = { j + 1 + v_slices, j - (v_slices + 1) + 1 + v_slices, j + v_slices };
+		if ((j + 2) % (v_slices + 1) == 0)
+			j++;
+	}
+	j += v_slices;
+	
+	j -= (v_slices + 1);
+	for (uint32_t z = 0; i < num_triangles; i++, j++, z++)
+	{
+		triangles[i] = { j + 1, j, num_vertices - v_slices + z };
+	}
+
+	calculate_tangents();
+
+	populate_all_arrays_from_vertex_data();
+}
 Model::Model(const float& xz_size, const float& u, const float& v)
 	: num_vertices(4), num_triangles(2)
 {
@@ -292,7 +365,6 @@ Model::Model(const float& xz_size, const float& u, const float& v)
 		joint_ids.emplace_back(vertex.joint_ids);
 		joint_weights.emplace_back(vertex.joint_weights);
 	}
-	load_GPU_data(*this);
 }
 
 Model::Model(Model&& o) noexcept
@@ -457,15 +529,15 @@ void Model::populate_all_arrays_from_vertex_data()
 	}
 }
 
-void Model::load_GPU_data(Model& mod)
+void Model::load_gpu_data()
 {
-	glGenVertexArrays(1, &mod.vao);
-	glBindVertexArray(mod.vao);
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
-	glGenBuffers(2, &mod.vbo);
+	glGenBuffers(2, &vbo);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, mod.vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexTypes::Vertex) * mod.num_vertices, mod.vertex_data.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexTypes::Vertex) * num_vertices, vertex_data.data(), GL_STATIC_DRAW);
 
 	// Position
 	glEnableVertexAttribArray(0);
@@ -485,21 +557,21 @@ void Model::load_GPU_data(Model& mod)
 
 	// Tangent
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + 4 + sizeof(glm::vec3)));
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3)));
 
 	// Bitangent
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + 4 + sizeof(glm::vec3) * 2));
+	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 2));
 
 	// Joint IDs
 	glEnableVertexAttribArray(6);
-	glVertexAttribIPointer(6, 4, GL_UNSIGNED_INT, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + 4 + sizeof(glm::vec3) * 3));
+	glVertexAttribIPointer(6, 4, GL_UNSIGNED_INT, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 3));
 
 	// Joint Weights
 	glEnableVertexAttribArray(7);
-	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + 4 + sizeof(glm::vec3) * 3 + sizeof(glm::uvec4)));
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 3 + sizeof(glm::uvec4)));
 
 	// Index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mod.ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * mod.GetNumTriangles(), mod.triangles.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * GetNumTriangles(), triangles.data(), GL_STATIC_DRAW);
 }

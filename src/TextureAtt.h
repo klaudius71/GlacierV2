@@ -7,7 +7,7 @@ class TextureAtt
 {
 	friend class TextureLoader;
 
-	static void LoadGPUData(Texture& tex) { tex.LoadGPUData(); }
+	static void LoadGPUData(Texture& tex) { tex.load_gpu_data(); }
 };
 
 #endif _TEXTURE_ATT

@@ -16,7 +16,6 @@ namespace VertexTypes
 		glm::uvec4 joint_ids{ 0, 0, 0, 0 };
 		glm::vec4 joint_weights{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-		Vertex() = default;
 		Vertex(const float& pos_x = 0.0f, const float& pos_y = 0.0f, const float& pos_z = 0.0f,
 			const float& u = 0.0f, const float& v = 0.0f, const uint32_t& tex_id = 0,
 			const float& normal_x = 0.0f, const float& normal_y = 1.0f, const float& normal_z = 0.0f,
@@ -28,11 +27,18 @@ namespace VertexTypes
 			normal(normal_x, normal_y, normal_z), tangent(tangent_x, tangent_y, tangent_z), bitangent(bitangent_x, bitangent_y, bitangent_z), 
 			joint_ids(joints_ids0, joints_ids1, joints_ids2, joints_ids3), joint_weights(joint_weights0, joint_weights1, joint_weights2, joint_weights3)
 		{}
-		Vertex(const glm::vec3& pos = glm::vec3(0.0f), const glm::vec2& uv = glm::vec2(0.0f), const uint32_t& tex_id = 0, 
+		Vertex(const glm::vec3& pos, const glm::vec2& uv = glm::vec2(0.0f), const uint32_t& tex_id = 0, 
 			const glm::vec3& normal = glm::vec3(0.0f, 1.0f, 0.0f), const glm::vec3& tangent = glm::vec3(1.0f, 0.0f, 0.0f), const glm::vec3& bitangent = glm::vec3(0.0f, 0.0f, 1.0f),
 			const glm::uvec4& joint_ids = glm::uvec4(0), const glm::vec4& joint_weights = glm::vec4(1.0f))
 			: pos(pos), uv(uv), tex_id(tex_id), normal(normal), tangent(tangent), bitangent(bitangent), joint_ids(joint_ids), joint_weights(joint_weights)
 		{}
+
+		void set(const glm::vec3& _pos, const glm::vec2& _uv, const glm::vec3& _normal)
+		{
+			pos = _pos;
+			uv = _uv;
+			normal = _normal;
+		}
 	};
 	struct VertexTriangle
 	{
@@ -43,6 +49,8 @@ namespace VertexTypes
 		VertexTriangle(const uint32_t& i0 = 0, const uint32_t& i1 = 0, const uint32_t& i2 = 0)
 			: i0(i0), i1(i1), i2(i2)
 		{}
+
+
 	};
 
 	struct PhongADS

@@ -288,6 +288,7 @@
     <ClInclude Include="src\KeyCodes.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\ModelAtt.h" />
     <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\ModelLoaderAtt.h" />
     <ClInclude Include="src\Prefab.h" />

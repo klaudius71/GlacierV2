@@ -78,7 +78,7 @@ public:
 	void SetTextureMagFilter(TEXTURE_MAG_FILTER filter);
 
 private:
-	void LoadGPUData();
+	void load_gpu_data();
 
 	friend class TextureAtt;
 

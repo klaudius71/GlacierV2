@@ -62,7 +62,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glViewport(0, 0, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE);
 	glBindFramebuffer(GL_FRAMEBUFFER, DirShadow_fbo);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glCullFace(GL_FRONT);
+	//glCullFace(GL_FRONT);
 
 	auto& dir_light_dir = dir_light->light.direction;
 	const glm::vec3 cam_dir_xz = glm::normalize(glm::vec3(cam.cam_dir.x, 0.0f, cam.cam_dir.z));
@@ -89,7 +89,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 		}
 	}
 
-	glCullFace(GL_BACK);
+	//glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight());
 

@@ -13,7 +13,7 @@ const glm::vec3 TransformComponent::GetForwardVector() const
 }
 const glm::vec3 TransformComponent::GetGlobalForwardVector() const
 {
-	return glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f) * glm::mat3(world_matrix));
+	return glm::normalize(world_matrix[2]);
 }
 
 const glm::mat4 CameraComponent::MakeViewMatrix() const
@@ -31,16 +31,4 @@ const glm::vec2 CameraComponent::WorldPositionToScreenPosition(const CameraCompo
 	const glm::mat4 modelview = camera.MakeViewMatrix() * glm::translate(glm::mat4(1.0f), pos);
 	const glm::vec3 temp = glm::project(glm::vec3(0.0f), modelview, camera.proj, glm::vec4(0, 0, viewport_size));
 	return glm::vec2{ temp.x, temp.y - viewport_size.y };
-	//glm::vec4 ndc = (camera.proj * glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))) * glm::vec4(pos, 1.0f);
-	//ImGui::Text("ndc: %.3f %.3f %.3f %.3f", ndc.x, ndc.y, ndc.z, ndc.w);
-	//const float inv_w = 1.0f / ndc.w;
-	//ndc *= inv_w;
-	//if (ndc.z > 1.0f)
-	//{
-	//	ndc.x = ndc.x < 0.0f ? 1.1f : -1.1f;
-	//	ndc.y = 0.0f;
-	//}
-	//ImGui::Text("ndc: %.3f %.3f %.3f %.3f", ndc.x, ndc.y, ndc.z, ndc.w);
-	//const glm::ivec2& viewport_size = Renderer::GetMainFramebuffer().GetSize();
-	//return glm::vec2{ ((ndc.x + 1.0f) / 2.0f) * viewport_size.x, viewport_size.y - ((ndc.y + 1.0f) / 2.0f) * viewport_size.y };
 }

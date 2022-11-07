@@ -33,7 +33,7 @@ struct PlayerTankPrefab : public Prefab
 
 		GameObject crosshair = scn.CreateGameObject("Crosshair", base);
 		crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::GetConst("Crosshair"), Renderer2D::SCREEN_ANCHOR::TOP_LEFT);
-		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f, 10.0f, 1.0f);
+		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
 		crosshair->RegisterToScene();
 
 		return base;

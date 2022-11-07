@@ -20,7 +20,7 @@ public:
 	// Load terrain from 16-bit heightmap
 	Model(const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v);
 	// Load a unit sphere model given a number of vertical and horizontal slices
-	Model(const int& v_slices, const int& h_slices);
+	Model(const uint32_t& v_slices, const uint32_t& h_slices);
 	// Load a flat plane given a xz size and uv repeats
 	Model(const float& xz_size, const float& u, const float& v);
 
@@ -51,9 +51,9 @@ private:
 	inline void calculate_tangents();
 	void populate_all_arrays_from_vertex_data();
 
-	static void load_GPU_data(Model& mod);
+	void load_gpu_data();
 
-	friend class ModelLoader;
+	friend class ModelAtt;
 
 private:
 	GLuint vao = 0;

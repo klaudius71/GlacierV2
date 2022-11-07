@@ -540,6 +540,9 @@
     <ClInclude Include="src\Sandbox\TankControllerScript.h">
       <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModelAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">
