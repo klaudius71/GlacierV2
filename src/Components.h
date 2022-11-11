@@ -144,6 +144,25 @@ private:
 	uint8_t pad2 = 0;
 };
 
+struct SkeletalMeshComponent
+{
+	const Model* mod;
+	bool cast_shadow;
+
+	SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow = true)
+		: mod(mod), cast_shadow(cast_shadow)
+	{
+		assert(mod);
+	}
+	SkeletalMeshComponent(SkeletalMeshComponent&& o) = default;
+	SkeletalMeshComponent& operator=(SkeletalMeshComponent&& o) = default;
+
+private:
+	uint8_t pad0 = 0;
+	uint8_t pad1 = 0;
+	uint8_t pad2 = 0;
+};
+
 struct MaterialComponent
 {
 	VertexTypes::PhongADS ads;

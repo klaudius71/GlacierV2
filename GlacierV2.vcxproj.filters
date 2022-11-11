@@ -140,6 +140,9 @@
     <Filter Include="src\Engine\Systems\Command\Commands\Entity">
       <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Systems\Render\Skeletal">
+      <UniqueIdentifier>{a95ded5a-1861-4a33-be46-d729ded8984c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">

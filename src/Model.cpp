@@ -75,9 +75,9 @@ Model::Model(const std::string& file_name)
 	if (data.find("NORMAL") != data.end())
 		norm = (glm::vec3*)data.find("NORMAL")->second.data;
 
-	vertices = std::vector<glm::vec3>(pos, pos + num_vertices);
-	uvs = std::vector<glm::vec2>(uv, uv + num_vertices);
-	normals = std::vector<glm::vec3>(norm, norm + num_vertices);
+	std::vector<glm::vec3> vertices(pos, pos + num_vertices);
+	std::vector<glm::vec2> uvs(uv, uv + num_vertices);
+	std::vector<glm::vec3> normals(norm, norm + num_vertices);
 
 	const auto& ind = data.find("indices")->second;
 	num_triangles = ind.count / 3;
@@ -99,15 +99,27 @@ Model::Model(const std::string& file_name)
 	{
 		assert(data.find("WEIGHTS_0") != data.end());
 		const uint8_t* const joint = (const uint8_t*)joint_ids_data->second.data;
+		std::vector<glm::uvec4> joint_ids;
 		joint_ids.reserve(num_vertices);
 		for (uint32_t i = 0; i < num_vertices; i++)
 			joint_ids.emplace_back(joint[i * 4], joint[i * 4 + 1], joint[i * 4 + 2], joint[i * 4 + 3]);
 		
 		const glm::vec4* const weights = (const glm::vec4*)data.find("WEIGHTS_0")->second.data;
-		joint_weights = std::vector<glm::vec4>(weights, weights + num_vertices);
+		std::vector<glm::vec4> joint_weights(weights, weights + num_vertices);
 
 		for (uint32_t i = 0; i < num_vertices; i++)
 			vertex_data.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), joint_ids[i], joint_weights[i]);
+	
+		assert(j.find("skins") != j.end());
+		const uint32_t inv_bind_matrix_accessor_location = j["skins"][0]["inverseBindMatrices"];
+		assert(j.find("accessors") != j.end());
+		auto& inverse_bind_matrix_accessor = j["accessors"][inv_bind_matrix_accessor_location];
+		const uint32_t& inv_bind_matrix_bufferView = inverse_bind_matrix_accessor["bufferView"];
+		const uint32_t& inv_bind_matrix_count = inverse_bind_matrix_accessor["count"];
+		assert(j.find("bufferViews") != j.end());
+		auto& inverse_bind_matrix_bufferView = j["bufferViews"][inv_bind_matrix_bufferView];
+		uint32_t byteOffset = inverse_bind_matrix_bufferView["byteOffset"];
+		inverse_bind_matrices = std::vector<glm::mat4>((const glm::mat4*)&buffer_data[byteOffset], (const glm::mat4*)&buffer_data[byteOffset] + inv_bind_matrix_count);
 	}
 	else
 	{
@@ -121,7 +133,6 @@ Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<Ve
 	: vertex_data(verts), triangles(triangles), num_vertices((uint32_t)verts.size()), num_triangles((uint32_t)triangles.size())
 {
 	assert(triangles.size() > 0 && verts.size() > 0);
-	populate_all_arrays_from_vertex_data();
 	load_gpu_data();
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
@@ -201,8 +212,6 @@ Model::Model(PREMADE_MODELS premade_model, const float& scale)
 	if (scale != 1.0f)
 		for (auto& v : vertex_data)
 			v.pos *= scale;
-
-	populate_all_arrays_from_vertex_data();
 }
 Model::Model(const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v)
 {
@@ -264,9 +273,6 @@ Model::Model(const std::string& file_name, const float& xz_size, const float& ma
 	
 	// Calculating the tangents and bitangents for the vertices
 	calculate_tangents();
-
-	// Populates the rest of the data members of the Model class from the vertex data
-	populate_all_arrays_from_vertex_data();
 
 	// Frees up the memory used by stb
 	stbi_image_free(hgt_map);
@@ -337,8 +343,6 @@ Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
 	}
 
 	calculate_tangents();
-
-	populate_all_arrays_from_vertex_data();
 }
 Model::Model(const float& xz_size, const float& u, const float& v)
 	: num_vertices(4), num_triangles(2)
@@ -352,24 +356,12 @@ Model::Model(const float& xz_size, const float& u, const float& v)
 	vertex_data.emplace_back( xz_size_half, 0.0f, -xz_size_half,  u_half, -v_half, 0,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f);
 	triangles.emplace_back(0, 1, 2);
 	triangles.emplace_back(0, 2, 3);
-
-	for (const auto& vertex : vertex_data)
-	{
-		vertices.emplace_back(vertex.pos);
-		uvs.emplace_back(vertex.uv);
-		normals.emplace_back(vertex.normal);
-		tangents.emplace_back(vertex.tangent);
-		bitangents.emplace_back(vertex.bitangent);
-		joint_ids.emplace_back(vertex.joint_ids);
-		joint_weights.emplace_back(vertex.joint_weights);
-	}
 }
 
 Model::Model(Model&& o) noexcept
-	: vao(o.vao), vbo(o.vbo), ebo(o.ebo), num_vertices(o.num_vertices), num_triangles(o.num_triangles), vertex_data(std::move(o.vertex_data)),
-	vertices(std::move(o.vertices)), uvs(std::move(o.uvs)), 
-	normals(std::move(o.normals)), tangents(std::move(o.tangents)), bitangents(std::move(o.bitangents)), 
-	joint_ids(std::move(o.joint_ids)), joint_weights(std::move(o.joint_weights)), triangles(std::move(o.triangles))
+	: vao(o.vao), vbo(o.vbo), ebo(o.ebo), 
+	num_vertices(o.num_vertices), num_triangles(o.num_triangles), vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
+	triangles(std::move(o.triangles))
 {
 	o.vao = 0;
 	o.vbo = 0;
@@ -383,13 +375,7 @@ Model& Model::operator=(Model&& o)
 	num_vertices = o.num_vertices;
 	num_triangles = o.num_triangles;
 	vertex_data = std::move(o.vertex_data);
-	vertices = std::move(o.vertices);
-	uvs = std::move(o.uvs);
-	normals = std::move(o.normals);
-	tangents = std::move(o.tangents);
-	bitangents = std::move(o.bitangents);
-	joint_ids = std::move(o.joint_ids);
-	joint_weights = std::move(o.joint_weights);
+	inverse_bind_matrices = std::move(o.inverse_bind_matrices);
 	triangles = std::move(o.triangles);
 
 	o.vao = 0;
@@ -436,33 +422,9 @@ const std::vector<VertexTypes::Vertex>& Model::GetVertexData() const
 {
 	return vertex_data;
 }
-const std::vector<glm::vec3>& Model::GetVertices() const
+const std::vector<glm::mat4>& Model::GetInverseBindMatrices() const
 {
-	return vertices;
-}
-const std::vector<glm::vec2>& Model::GetUVs() const
-{
-	return uvs;
-}
-const std::vector<glm::vec3>& Model::GetNormals() const
-{
-	return normals;
-}
-const std::vector<glm::vec3>& Model::GetTangents() const
-{
-	return tangents;
-}
-const std::vector<glm::vec3>& Model::GetBitangents() const
-{
-	return bitangents;
-}
-const std::vector<glm::uvec4>& Model::GetJointIDs() const
-{
-	return joint_ids;
-}
-const std::vector<glm::vec4>& Model::GetJointWeights() const
-{
-	return joint_weights;
+	return inverse_bind_matrices;
 }
 const std::vector<VertexTypes::VertexTriangle>& Model::GetTriangles() const
 {
@@ -505,26 +467,6 @@ inline void Model::calculate_tangents()
 		v.bitangent = glm::normalize(v.bitangent);
 	}
 		
-}
-
-void Model::populate_all_arrays_from_vertex_data()
-{
-	vertices.reserve(num_vertices);
-	normals.reserve(num_vertices);
-	tangents.reserve(num_vertices);
-	bitangents.reserve(num_vertices);
-	joint_ids.reserve(num_vertices);
-	joint_weights.reserve(num_vertices);
-	for (const auto& v : vertex_data)
-	{
-		vertices.emplace_back(v.pos);
-		uvs.emplace_back(v.uv);
-		normals.emplace_back(v.normal);
-		tangents.emplace_back(v.tangent);
-		bitangents.emplace_back(v.bitangent);
-		joint_ids.emplace_back(v.joint_ids);
-		joint_weights.emplace_back(v.joint_weights);
-	}
 }
 
 void Model::load_gpu_data()

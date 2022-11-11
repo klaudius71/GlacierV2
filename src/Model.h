@@ -38,18 +38,11 @@ public:
 	const uint32_t& GetNumVertices() const;
 	const uint32_t& GetNumTriangles() const;
 	const std::vector<VertexTypes::Vertex>& GetVertexData() const;
-	const std::vector<glm::vec3>& GetVertices() const;
-	const std::vector<glm::vec2>& GetUVs() const;
-	const std::vector<glm::vec3>& GetNormals() const;
-	const std::vector<glm::vec3>& GetTangents() const;
-	const std::vector<glm::vec3>& GetBitangents() const;
-	const std::vector<glm::uvec4>& GetJointIDs() const;
-	const std::vector<glm::vec4>& GetJointWeights() const;
+	const std::vector<glm::mat4>& GetInverseBindMatrices() const;
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;
 
 private:
 	inline void calculate_tangents();
-	void populate_all_arrays_from_vertex_data();
 
 	void load_gpu_data();
 
@@ -62,13 +55,7 @@ private:
 	uint32_t num_vertices;
 	uint32_t num_triangles;
 	std::vector<VertexTypes::Vertex> vertex_data;
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> uvs;
-	std::vector<glm::vec3> normals;
-	std::vector<glm::vec3> tangents;
-	std::vector<glm::vec3> bitangents;
-	std::vector<glm::uvec4> joint_ids;
-	std::vector<glm::vec4> joint_weights;
+	std::vector<glm::mat4> inverse_bind_matrices;
 	std::vector<VertexTypes::VertexTriangle> triangles;
 };
 
