@@ -143,6 +143,9 @@
     <Filter Include="src\Engine\Systems\Render\Skeletal">
       <UniqueIdentifier>{a95ded5a-1861-4a33-be46-d729ded8984c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Asset\SkeletalAnimation">
+      <UniqueIdentifier>{6fc28bbc-949a-4a4c-aabc-2f70b20a21d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -300,6 +303,12 @@
     </ClCompile>
     <ClCompile Include="src\Sandbox\TankControllerScript.cpp">
       <Filter>src\Sandbox\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SkeletalAnimation.cpp">
+      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bone.cpp">
+      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,6 +554,12 @@
     </ClInclude>
     <ClInclude Include="src\ModelAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkeletalAnimation.h">
+      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bone.h">
+      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

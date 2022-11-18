@@ -195,6 +195,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\AddScriptCmd.cpp" />
+    <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\CameraControllerScript.cpp" />
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="src\ShaderLoader.cpp" />
     <ClCompile Include="src\ShowEditorDont.cpp" />
     <ClCompile Include="src\ShowEditorNull.cpp" />
+    <ClCompile Include="src\SkeletalAnimation.cpp" />
     <ClCompile Include="src\WeakPtr.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
@@ -265,6 +267,7 @@
     <ClInclude Include="external\MemTracker\Framework.h" />
     <ClInclude Include="external\stb\stb_image.h" />
     <ClInclude Include="src\AddScriptCmd.h" />
+    <ClInclude Include="src\Bone.h" />
     <ClInclude Include="src\CameraControllerScript.h" />
     <ClInclude Include="src\Colors.h" />
     <ClInclude Include="src\Command.h" />
@@ -297,6 +300,7 @@
     <ClInclude Include="src\SceneAtt.h" />
     <ClInclude Include="src\ShowEditorDont.h" />
     <ClInclude Include="src\ShowEditorNull.h" />
+    <ClInclude Include="src\SkeletalAnimation.h" />
     <ClInclude Include="src\TextureAtt.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />
