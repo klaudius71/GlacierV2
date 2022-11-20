@@ -23,8 +23,9 @@ private:
 
 	static void RenderScene(Scene& scn);
 
-	static void RenderUnlit(Scene& scn);
 	static void RenderLit(Scene& scn);
+	static void RenderSkinned(Scene& scn);
+	static void RenderUnlit(Scene& scn);
 	static void RenderSkybox(Scene& scn);
 
 	friend class RendererAtt;

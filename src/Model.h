@@ -37,6 +37,7 @@ public:
 	const GLuint& GetEBO() const;
 	const uint32_t& GetNumVertices() const;
 	const uint32_t& GetNumTriangles() const;
+	const uint32_t& GetNumBones() const;
 	const std::vector<VertexTypes::Vertex>& GetVertexData() const;
 	const std::vector<glm::mat4>& GetInverseBindMatrices() const;
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;
@@ -54,6 +55,7 @@ private:
 	GLuint ebo = 0;
 	uint32_t num_vertices;
 	uint32_t num_triangles;
+	uint32_t num_bones;
 	std::vector<VertexTypes::Vertex> vertex_data;
 	std::vector<glm::mat4> inverse_bind_matrices;
 	std::vector<VertexTypes::VertexTriangle> triangles;

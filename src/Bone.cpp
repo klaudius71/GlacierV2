@@ -115,7 +115,7 @@ void Bone::ReadHierarchy(const uint32_t gltf_node, const std::vector<uint32_t>& 
 	}
 }
 
-void Bone::ApplyTransformHierarchy(const float& timestamp, std::vector<glm::mat4>& bone_matrices, const glm::mat4 parent_transform)
+void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone_matrices, const std::vector<glm::mat4>& inverse_bind_matrices, const glm::mat4 parent_transform)
 {
 	assert(timestamp >= 0.0f);
 
@@ -127,7 +127,7 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, std::vector<glm::mat4
 	}
 	float delta = (timestamp - position_timestamps[i]) / (position_timestamps[i + 1] - position_timestamps[i]);
 	
-	local_transform *= glm::translate(glm::mat4(1.0f), positions[i] * (1.0f - delta) + positions[i + 1] * delta);
+	local_transform = glm::translate(glm::mat4(1.0f), positions[i] * (1.0f - delta) + positions[i + 1] * delta);
 	
 	for (i = 0; i < rotation_timestamps.size() - 1; i++)
 	{
@@ -145,12 +145,12 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, std::vector<glm::mat4
 	}
 	delta = (timestamp - scale_timestamps[i]) / (scale_timestamps[i + 1] - scale_timestamps[i]);
 
-	local_transform = glm::scale(glm::mat4(1.0f), scales[i] * (1.0f - delta) + scales[i + 1] * delta);
+	local_transform *= glm::scale(glm::mat4(1.0f), scales[i] * (1.0f - delta) + scales[i + 1] * delta);
 
 	const glm::mat4& transform = parent_transform * local_transform;
 
-	bone_matrices[id] = transform;
+	bone_matrices[id] = transform * inverse_bind_matrices[id];
 
 	for (auto& x : children)
-		x.ApplyTransformHierarchy(timestamp, bone_matrices, transform);
+		x.ApplyTransformHierarchy(timestamp, bone_matrices, inverse_bind_matrices, transform);
 }

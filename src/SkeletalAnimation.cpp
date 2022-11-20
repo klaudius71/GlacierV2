@@ -54,6 +54,11 @@ SkeletalAnimation::~SkeletalAnimation()
 	delete bone_hierarchy_root;
 }
 
+void SkeletalAnimation::Apply(glm::mat4* const mats, const std::vector<glm::mat4>& inverse_bind_matrices, const float& timestamp) const
+{
+	bone_hierarchy_root->ApplyTransformHierarchy(timestamp, mats, inverse_bind_matrices, glm::mat4(1.0f));
+}
+
 const std::string& SkeletalAnimation::GetName() const
 {
 	return name;

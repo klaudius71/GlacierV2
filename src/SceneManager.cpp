@@ -5,6 +5,7 @@
 #include "RendererAtt.h"
 #include "Renderer2DAtt.h"
 #include "Lighting.h"
+#include "Animator.h"
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -22,11 +23,13 @@ void SceneManager::updateCurrentScene()
 	scene_change->Execute();
 
 	assert(curr_scene);
+	Scene& scn = *curr_scene;
 
-	curr_scene->cmd_broker.DequeueAndExecuteAll();
-	Script::ExecuteAllOnUpdate(*curr_scene);
-	curr_scene->scn_graph.UpdateTransforms();
-	Lighting::UpdateBuffers(*curr_scene);
+	scn.cmd_broker.DequeueAndExecuteAll();
+	Script::ExecuteAllOnUpdate(scn);
+	scn.scn_graph.UpdateTransforms();
+	Animator::UpdateAnimationComponents(scn);
+	Lighting::UpdateBuffers(scn);
 }
 void SceneManager::renderCurrentScene()
 {

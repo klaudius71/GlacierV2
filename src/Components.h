@@ -163,17 +163,45 @@ private:
 	uint8_t pad2 = 0;
 };
 
+#define MAX_BONES 100
 class SkeletalAnimation;
 struct SkeletalAnimationComponent
 {
 	const SkeletalAnimation* anim;
 	float playback_time;
+	float playback_speed;
+	glm::mat4* bone_matrices;
 
-	SkeletalAnimationComponent(const SkeletalAnimation* const anim)
-		: anim(anim), playback_time(0.0f)
+	SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float& playback_speed = 1.0f)
+		: anim(anim), 
+		playback_time(0.0f), playback_speed(playback_speed), 
+		bone_matrices(new glm::mat4[MAX_BONES]{ glm::mat4(1.0f) })
 	{}
-	SkeletalAnimationComponent(SkeletalAnimationComponent&&) = default;
-	SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&&) = default;
+	SkeletalAnimationComponent(const SkeletalAnimationComponent&) = delete;
+	SkeletalAnimationComponent& operator=(const SkeletalAnimationComponent&) = delete;
+	SkeletalAnimationComponent(SkeletalAnimationComponent&& o)
+		: anim(o.anim), playback_time(o.playback_time), playback_speed(o.playback_speed), bone_matrices(o.bone_matrices)
+	{
+		o.anim = nullptr;
+		o.bone_matrices = nullptr;
+	}
+	SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&& o)
+	{
+		anim = o.anim;
+		playback_time = o.playback_time;
+		playback_speed = o.playback_speed;
+		bone_matrices = o.bone_matrices;
+
+		o.anim = nullptr;
+		bone_matrices = nullptr;
+
+		return *this;
+	}
+	~SkeletalAnimationComponent()
+	{
+		delete[] bone_matrices;
+		bone_matrices = nullptr;
+	}
 };
 
 struct MaterialComponent

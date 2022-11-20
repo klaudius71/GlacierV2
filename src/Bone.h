@@ -12,7 +12,10 @@ public:
 	~Bone() = default;
 
 	//void ApplyTransform(glm::mat4& bone_matrix, const glm::mat4& parent_transform);
-	void ApplyTransformHierarchy(const float& timestamp, std::vector<glm::mat4>& bone_matrices, const glm::mat4 parent_transform);
+	void ApplyTransformHierarchy(const float& timestamp, 
+		glm::mat4* const bone_matrices, 
+		const std::vector<glm::mat4>& inverse_bind_matrices, 
+		const glm::mat4 parent_transform);
 
 private:
 	void ReadHierarchy(const uint32_t gltf_node, const std::vector<uint32_t>& node_to_id, const nlohmann::json& j, const std::vector<uint8_t>& buffer_data);

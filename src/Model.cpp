@@ -120,6 +120,8 @@ Model::Model(const std::string& file_name)
 		auto& inverse_bind_matrix_bufferView = j["bufferViews"][inv_bind_matrix_bufferView];
 		uint32_t byteOffset = inverse_bind_matrix_bufferView["byteOffset"];
 		inverse_bind_matrices = std::vector<glm::mat4>((const glm::mat4*)&buffer_data[byteOffset], (const glm::mat4*)&buffer_data[byteOffset] + inv_bind_matrix_count);
+	
+		num_bones = (uint32_t)j["skins"][0]["joints"].size();
 	}
 	else
 	{
@@ -136,7 +138,7 @@ Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<Ve
 	load_gpu_data();
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
-	: num_vertices(0), num_triangles(0)
+	: num_vertices(0), num_triangles(0), num_bones(0)
 {
 	switch (premade_model)
 	{
@@ -345,7 +347,7 @@ Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
 	calculate_tangents();
 }
 Model::Model(const float& xz_size, const float& u, const float& v)
-	: num_vertices(4), num_triangles(2)
+	: num_vertices(4), num_triangles(2), num_bones(0)
 {
 	const auto xz_size_half = xz_size * 0.5f;
 	const auto u_half = u * 0.5f;
@@ -359,8 +361,9 @@ Model::Model(const float& xz_size, const float& u, const float& v)
 }
 
 Model::Model(Model&& o) noexcept
-	: vao(o.vao), vbo(o.vbo), ebo(o.ebo), 
-	num_vertices(o.num_vertices), num_triangles(o.num_triangles), vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
+	: vao(o.vao), vbo(o.vbo), ebo(o.ebo),
+	num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_bones(o.num_bones),
+	vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
 	triangles(std::move(o.triangles))
 {
 	o.vao = 0;
@@ -374,6 +377,7 @@ Model& Model::operator=(Model&& o)
 	ebo = o.ebo;
 	num_vertices = o.num_vertices;
 	num_triangles = o.num_triangles;
+	num_bones = o.num_bones;
 	vertex_data = std::move(o.vertex_data);
 	inverse_bind_matrices = std::move(o.inverse_bind_matrices);
 	triangles = std::move(o.triangles);
@@ -417,6 +421,10 @@ const uint32_t& Model::GetNumVertices() const
 const uint32_t& Model::GetNumTriangles() const
 {
 	return num_triangles;
+}
+const uint32_t& Model::GetNumBones() const
+{
+	return num_bones;
 }
 const std::vector<VertexTypes::Vertex>& Model::GetVertexData() const
 {

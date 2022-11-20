@@ -14,7 +14,7 @@ public:
 	SkeletalAnimation& operator=(SkeletalAnimation&& o);
 	~SkeletalAnimation();
 
-	void Apply(std::vector<glm::mat4>& mats, const float& timestamp) const;
+	void Apply(glm::mat4* const mats, const std::vector<glm::mat4>& inverse_bind_matrices, const float& timestamp) const;
 
 	const std::string& GetName() const;
 	const Bone& GetBoneHierarchy() const;
