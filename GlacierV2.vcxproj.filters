@@ -310,6 +310,9 @@
     <ClCompile Include="src\Bone.cpp">
       <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
     </ClCompile>
+    <ClCompile Include="src\SkeletalAnimationLoader.cpp">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -560,6 +563,12 @@
     </ClInclude>
     <ClInclude Include="src\Bone.h">
       <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkeletalAnimationLoader.h">
+      <Filter>src\Engine\Asset\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkeletalAnimationLoaderAtt.h">
+      <Filter>src\Engine\Attorneys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

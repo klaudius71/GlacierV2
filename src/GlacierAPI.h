@@ -6,6 +6,8 @@
 #include "Model.h"
 #include "TextureLoader.h"
 #include "Texture.h"
+#include "SkeletalAnimationLoader.h"
+#include "SkeletalAnimation.h"
 #include "FontLoader.h"
 #include "Font.h"
 #include "TimeManager.h"

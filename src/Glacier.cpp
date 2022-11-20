@@ -5,6 +5,7 @@
 #include "TextureLoaderAtt.h"
 #include "ModelLoaderAtt.h"
 #include "FontLoaderAtt.h"
+#include "SkeletalAnimationLoaderAtt.h"
 #include "TimeManagerAtt.h"
 #include "SceneManagerAtt.h"
 #include "Scene.h"
@@ -80,6 +81,7 @@ void Glacier::run()
 	ShaderLoaderAtt::Initialize(); // Fallback for if the user did not load their own shaders
 	ModelLoaderAtt::WaitForThreadsAndLoadGPUData();
 	TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
+	SkeletalAnimationLoaderAtt::WaitForThreads();
 
 	// Main loop
 	while (!window->IsOpen())
@@ -122,6 +124,7 @@ void Glacier::run()
 	ModelLoaderAtt::Terminate();
 	TextureLoaderAtt::Terminate();
 	FontLoaderAtt::Terminate();
+	SkeletalAnimationLoaderAtt::Terminate();
 }
 
 void Glacier::Run()

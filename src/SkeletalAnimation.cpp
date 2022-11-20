@@ -32,6 +32,23 @@ SkeletalAnimation::SkeletalAnimation(const std::string& file_name)
 	
 	bone_hierarchy_root->ReadHierarchy(j["skins"][0]["joints"][0], node_to_id, j, buffer_data);
 }
+SkeletalAnimation::SkeletalAnimation(SkeletalAnimation&& o)
+	: name(std::move(o.name)), bone_hierarchy_root(o.bone_hierarchy_root), anim_duration(o.anim_duration)
+{
+	o.bone_hierarchy_root = nullptr;
+	o.anim_duration = -1.0f;
+}
+SkeletalAnimation& SkeletalAnimation::operator=(SkeletalAnimation&& o)
+{
+	name = std::move(o.name);
+	bone_hierarchy_root = o.bone_hierarchy_root;
+	anim_duration = o.anim_duration;
+
+	o.bone_hierarchy_root = nullptr;
+	o.anim_duration = -1.0f;
+
+	return *this;
+}
 SkeletalAnimation::~SkeletalAnimation()
 {
 	delete bone_hierarchy_root;

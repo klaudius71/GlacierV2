@@ -10,11 +10,11 @@ public:
 	SkeletalAnimation(const std::string& file_name);
 	SkeletalAnimation(const SkeletalAnimation&) = delete;
 	SkeletalAnimation& operator=(const SkeletalAnimation&) = delete;
-	SkeletalAnimation(SkeletalAnimation&&) = delete;
-	SkeletalAnimation& operator=(SkeletalAnimation&&) = delete;
+	SkeletalAnimation(SkeletalAnimation&& o);
+	SkeletalAnimation& operator=(SkeletalAnimation&& o);
 	~SkeletalAnimation();
 
-	void Apply(std::vector<glm::mat4>& mats, const float& timestamp);
+	void Apply(std::vector<glm::mat4>& mats, const float& timestamp) const;
 
 	const std::string& GetName() const;
 	const Bone& GetBoneHierarchy() const;

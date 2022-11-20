@@ -163,6 +163,19 @@ private:
 	uint8_t pad2 = 0;
 };
 
+class SkeletalAnimation;
+struct SkeletalAnimationComponent
+{
+	const SkeletalAnimation* anim;
+	float playback_time;
+
+	SkeletalAnimationComponent(const SkeletalAnimation* const anim)
+		: anim(anim), playback_time(0.0f)
+	{}
+	SkeletalAnimationComponent(SkeletalAnimationComponent&&) = default;
+	SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&&) = default;
+};
+
 struct MaterialComponent
 {
 	VertexTypes::PhongADS ads;

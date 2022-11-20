@@ -240,6 +240,7 @@
     <ClCompile Include="src\ShowEditorDont.cpp" />
     <ClCompile Include="src\ShowEditorNull.cpp" />
     <ClCompile Include="src\SkeletalAnimation.cpp" />
+    <ClCompile Include="src\SkeletalAnimationLoader.cpp" />
     <ClCompile Include="src\WeakPtr.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
@@ -301,6 +302,8 @@
     <ClInclude Include="src\ShowEditorDont.h" />
     <ClInclude Include="src\ShowEditorNull.h" />
     <ClInclude Include="src\SkeletalAnimation.h" />
+    <ClInclude Include="src\SkeletalAnimationLoader.h" />
+    <ClInclude Include="src\SkeletalAnimationLoaderAtt.h" />
     <ClInclude Include="src\TextureAtt.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />
