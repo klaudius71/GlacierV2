@@ -5,6 +5,8 @@ class Shader
 {
 public:
 	Shader(const std::string& file_name);
+	Shader(const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name);
+	Shader(const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name);
 	Shader(const Shader&) = delete;
 	Shader& operator=(const Shader&) = delete;
 	Shader(Shader&&) = delete;

@@ -33,6 +33,27 @@ Shader::Shader(const std::string& file_name)
 	}
 	file.close();
 }
+Shader::Shader(const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name)
+{
+	std::ifstream file(vertex_shader_file_name, std::ios::in);
+	assert(file.is_open() && "File not found!");
+	std::stringstream strm;
+	strm << file.rdbuf();
+	std::string vert(strm.str());
+	strm.str("");
+	file.close();
+	file.clear();
+
+	file.open(fragment_shader_file_name, std::ios::in);
+	assert(file.is_open() && "File not found!");
+	strm << file.rdbuf();
+	std::string frag(strm.str());
+	strm.str("");
+	file.close();
+	file.clear();
+
+	load_shader(vert.c_str(), frag.c_str());
+}
 Shader::~Shader()
 {
 	glDeleteProgram(program_id);

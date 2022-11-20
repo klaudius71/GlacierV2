@@ -626,5 +626,11 @@
     <None Include="assets\shaders\sprite.fs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
+    <None Include="assets\shaders\texture_skinned_lit.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\shadow_map_skinned.vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

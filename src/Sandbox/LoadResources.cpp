@@ -28,11 +28,14 @@ void Glacier::LoadResources()
 	TextureLoader::Load("Mahogany", glm::vec4(103 / 255.0f, 10 / 255.0f, 10 / 255.0f, 1.0f));
 	TextureLoader::Load("Rock", "strata-rock-2_albedo.tga",{ TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
 	TextureLoader::Load("RockNormal", "strata-rock-2_normal-ogl.tga",{ TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
+	TextureLoader::Load("VampireDiffuse", "Vampire_diffuse.png", { TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
+	TextureLoader::Load("VampireNormal", "Vampire_normal.png", { TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR });
 
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
 
-	SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_2.gltf");
+	//SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_2.gltf");
+	SkeletalAnimationLoader::Load("VampireIdle", "standing idle.gltf");
 
 	SceneManager::SetNextScene(new MainScene);
 }

@@ -46,12 +46,6 @@ void MainScene::InitializeScene()
 	//cube->AddScript<RotatingScript>();
 	cube->RegisterToScene();
 	
-	//GameObject cube2 = CreateGameObject("Cube2");
-	//cube2->GetComponent<TransformComponent>().position() = glm::vec3(40.0f, 90.0f, 40.0f);
-	//cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
-	//cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
-	//cube2->RegisterToScene();
-
 	GameObject sphere = CreateGameObject("Sphere");
 	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
@@ -60,11 +54,13 @@ void MainScene::InitializeScene()
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();
 
-	//GameObject sphere2 = CreateGameObject("Sphere2");
-	//sphere2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere2"));
-	//sphere2->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
-	//sphere2->GetComponent<TransformComponent>().position() = glm::vec3(100.0f, 20.0f, 0.0f);
-	//sphere2->RegisterToScene();
+	GameObject vampire = CreateGameObject("Vampire");
+	vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
+	vampire->GetComponent<TransformComponent>().rotation().x = glm::half_pi<float>();
+	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 30.0f, 0.0f);
+	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
+	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
+	vampire->RegisterToScene();
 }
 
 void MainScene::EndScene()

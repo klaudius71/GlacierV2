@@ -193,7 +193,7 @@ struct SkeletalAnimationComponent
 		bone_matrices = o.bone_matrices;
 
 		o.anim = nullptr;
-		bone_matrices = nullptr;
+		o.bone_matrices = nullptr;
 
 		return *this;
 	}

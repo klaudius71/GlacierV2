@@ -67,14 +67,14 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	auto& dir_light_dir = dir_light->light.direction;
 	const glm::vec3 cam_dir_xz = glm::normalize(glm::vec3(cam.cam_dir.x, 0.0f, cam.cam_dir.z));
 	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + cam_dir_xz * 200.0f;
-	const glm::mat4 lightspace = glm::ortho(-250.0f, 250.0f, -250.0f, 250.0f, -250.0f, 250.0f) *
+	const glm::mat4 lightspace = glm::ortho(-500.0f, 500.0f, -500.0f, 500.0f, -500.0f, 500.0f) *
 		glm::lookAt(dir_light_cam_center_pos - dir_light_dir, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glBindBuffer(GL_UNIFORM_BUFFER, LightspaceMatrices_ubo);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &lightspace);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	GLuint curr_shader = *ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
+	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP)->GetProgramID();
 	glUseProgram(curr_shader);
 
 	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
@@ -86,6 +86,22 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 			glBindVertexArray(mesh.vao);
 			glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 			glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
+		}
+	}
+
+	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED)->GetProgramID();
+	glUseProgram(curr_shader);
+	world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
+	GLint bone_matrices_uniform_loc = glGetUniformLocation(curr_shader, "bone_matrices[0]");
+	auto skel_mesh_anim_group = scene_registry.group<SkeletalMeshComponent, SkeletalAnimationComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, skel_mesh, anim, transform] : skel_mesh_anim_group.each())
+	{
+		if (skel_mesh.cast_shadow)
+		{
+			glBindVertexArray(skel_mesh.mod->GetVAO());
+			glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.mod->GetNumBones(), GL_FALSE, (const GLfloat*)anim.bone_matrices);
+			glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
+			glDrawElements(GL_TRIANGLES, skel_mesh.mod->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
 		}
 	}
 

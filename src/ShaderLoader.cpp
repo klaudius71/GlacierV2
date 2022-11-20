@@ -29,17 +29,23 @@ ShaderLoader::ShaderLoader()
 
 	// Load in the default shaders used by the engine
 	auto curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::COLOR, SHADER_PATH + "color").first->second;
-	load_matrix_binding(*curr_shader);
+	load_matrix_binding(curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "texture").first->second;
-	load_matrix_binding(*curr_shader);
+	load_matrix_binding(curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_LIT, SHADER_PATH + "texture_lit").first->second;
-	load_matrix_binding(*curr_shader);
-	load_light_bindings(*curr_shader);
-	load_lightspace_bindings(*curr_shader);
+	load_matrix_binding(curr_shader);
+	load_light_bindings(curr_shader);
+	load_lightspace_bindings(curr_shader);
+	curr_shader = &preloaded_shaders.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT), std::forward_as_tuple(SHADER_PATH + "texture_skinned_lit.vs.glsl", SHADER_PATH + "texture_lit.fs.glsl")).first->second;
+	load_matrix_binding(curr_shader);
+	load_light_bindings(curr_shader);
+	load_lightspace_bindings(curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SHADOW_MAP, SHADER_PATH + "shadow_map").first->second;
-	load_lightspace_bindings(*curr_shader);
+	load_lightspace_bindings(curr_shader);
+	curr_shader = &preloaded_shaders.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_SHADERS::SHADOW_MAP_SKINNED), std::forward_as_tuple(SHADER_PATH + "shadow_map_skinned.vs.glsl", SHADER_PATH + "shadow_map.fs.glsl")).first->second;
+	load_lightspace_bindings(curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "skybox").first->second;
-	load_matrix_binding(*curr_shader);
+	load_matrix_binding(curr_shader);
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "text").first->second;
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT_INSTANCED, SHADER_PATH + "text_instanced").first->second;
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "sprite").first->second;
@@ -62,19 +68,19 @@ Shader* const ShaderLoader::get(const std::string& name)
 	return &it->second;
 }
 
-void ShaderLoader::load_matrix_binding(const Shader& shader)
+void ShaderLoader::load_matrix_binding(const Shader* shader)
 {
-	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "Matrices"), 0);
+	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "Matrices"), 0);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_Matrices);
 }
-void ShaderLoader::load_light_bindings(const Shader& shader)
+void ShaderLoader::load_light_bindings(const Shader* shader)
 {
-	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "DirLight"), 1);
+	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "DirLight"), 1);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_DirLight);
 }
-void ShaderLoader::load_lightspace_bindings(const Shader& shader)
+void ShaderLoader::load_lightspace_bindings(const Shader* shader)
 {
-	glUniformBlockBinding(shader.GetProgramID(), glGetUniformBlockIndex(shader.GetProgramID(), "LightspaceMatrices"), 2);
+	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "LightspaceMatrices"), 2);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 2, ubo_LightspaceMatrices);
 }
 

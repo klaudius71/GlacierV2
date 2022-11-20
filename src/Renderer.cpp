@@ -87,6 +87,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
 
 	// Render meshes with materials
+	glDisable(GL_CULL_FACE);
 	auto render_group = registry.group<SkeletalMeshComponent, SkeletalAnimationComponent>(entt::get<TransformComponent, MaterialComponent>);
 	for (auto&& [entity, skel_mesh, anim, transform, material] : render_group.each())
 	{
@@ -106,6 +107,7 @@ void Renderer::RenderSkinned(Scene& scn)
 		glBindVertexArray(skel_mesh.mod->GetVAO());
 		glDrawElements(GL_TRIANGLES, skel_mesh.mod->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
 	}
+	glEnable(GL_CULL_FACE);
 }
 void Renderer::RenderUnlit(Scene& scn)
 {

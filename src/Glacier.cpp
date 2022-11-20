@@ -70,7 +70,6 @@ void Glacier::initialize_OpenGL()
 void Glacier::run()
 {
 	// Initialize some singletons
-	TimeManagerAtt::Initialize();
 	Renderer2DAtt::Initialize();
 	RendererAtt::Initialize();
 	SceneManagerAtt::Engine::Initialize();
@@ -82,6 +81,9 @@ void Glacier::run()
 	ModelLoaderAtt::WaitForThreadsAndLoadGPUData();
 	TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
 	SkeletalAnimationLoaderAtt::WaitForThreads();
+
+	// This one's later
+	TimeManagerAtt::Initialize();
 
 	// Main loop
 	while (!window->IsOpen())

@@ -12,6 +12,7 @@ enum class PRELOADED_SHADERS
 	TEXTURE_LIT,
 	TEXTURE_SKINNED_LIT,
 	SHADOW_MAP,
+	SHADOW_MAP_SKINNED,
 	SKYBOX,
 	TEXT,
 	TEXT_INSTANCED,
@@ -47,9 +48,9 @@ private:
 	Shader* const get(const PRELOADED_SHADERS shader);
 	Shader* const get(const std::string& name);
 
-	void load_matrix_binding(const Shader& shader);
-	void load_light_bindings(const Shader& shader);
-	void load_lightspace_bindings(const Shader& shader);
+	void load_matrix_binding(const Shader* shader);
+	void load_light_bindings(const Shader* shader);
+	void load_lightspace_bindings(const Shader* shader);
 
 	static void Terminate();
 
