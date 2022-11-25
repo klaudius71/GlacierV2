@@ -17,6 +17,6 @@ void Animator::UpdateAnimationComponents(Scene& scn)
 			anim.playback_time -= anim.anim->GetAnimationDuration();
 
 		if (anim.playback_speed != 0.0f)
-			anim.anim->Apply(anim.bone_matrices, skel_mesh.mod->GetInverseBindMatrices(), anim.playback_time);
+			anim.anim->Apply(skel_mesh.bone_matrices, skel_mesh.mod->GetInverseBindMatrices(), anim.playback_time);
 	}
 }

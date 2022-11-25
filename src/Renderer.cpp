@@ -88,8 +88,8 @@ void Renderer::RenderSkinned(Scene& scn)
 
 	// Render meshes with materials
 	glDisable(GL_CULL_FACE);
-	auto render_group = registry.group<SkeletalMeshComponent, SkeletalAnimationComponent>(entt::get<TransformComponent, MaterialComponent>);
-	for (auto&& [entity, skel_mesh, anim, transform, material] : render_group.each())
+	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
+	for (auto&& [entity, skel_mesh,transform, material] : render_group.each())
 	{
 		glUniform3fv(material_ambient_uniform_loc, 1, (const GLfloat*)&material.ads.ambient);
 		glUniform3fv(material_diffuse_uniform_loc, 1, (const GLfloat*)&material.ads.diffuse);
@@ -102,7 +102,7 @@ void Renderer::RenderSkinned(Scene& scn)
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, material.norm_tex_id[0]);
 		glUniform4fv(color_uniform_loc, 1, (const GLfloat*)&material.col);
-		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.mod->GetNumBones(), GL_FALSE, (const GLfloat*)anim.bone_matrices);
+		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.mod->GetNumBones(), GL_FALSE, (const GLfloat*)skel_mesh.bone_matrices);
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 		glBindVertexArray(skel_mesh.mod->GetVAO());
 		glDrawElements(GL_TRIANGLES, skel_mesh.mod->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
@@ -153,6 +153,10 @@ const Framebuffer& Renderer::GetMainFramebuffer()
 	return instance->main_framebuffer;
 }
 
+void Renderer::CullScene(Scene& scn)
+{
+	UNREFERENCED_PARAMETER(scn);
+}
 void Renderer::RenderScene(Scene& scn)
 {
 	const CameraComponent& camera = scn.GetActiveCamera();

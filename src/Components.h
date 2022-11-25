@@ -144,18 +144,43 @@ private:
 	uint8_t pad2 = 0;
 };
 
+#define MAX_BONES 100
 struct SkeletalMeshComponent
 {
 	const Model* mod;
+	glm::mat4* bone_matrices;
 	bool cast_shadow;
 
 	SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow = true)
-		: mod(mod), cast_shadow(cast_shadow)
+		: mod(mod),
+		bone_matrices(new glm::mat4[MAX_BONES]{ glm::mat4(1.0f) }),
+		cast_shadow(cast_shadow)
 	{
 		assert(mod);
 	}
-	SkeletalMeshComponent(SkeletalMeshComponent&& o) = default;
-	SkeletalMeshComponent& operator=(SkeletalMeshComponent&& o) = default;
+	SkeletalMeshComponent(const SkeletalMeshComponent& o) = delete;
+	SkeletalMeshComponent& operator=(const SkeletalMeshComponent&) = delete;
+	SkeletalMeshComponent(SkeletalMeshComponent&& o)
+		: mod(o.mod), bone_matrices(o.bone_matrices), cast_shadow(o.cast_shadow)
+	{
+		o.mod = nullptr;
+		o.bone_matrices = nullptr;
+	}
+	SkeletalMeshComponent& operator=(SkeletalMeshComponent&& o)
+	{
+		mod = o.mod;
+		bone_matrices = o.bone_matrices;
+		cast_shadow = o.cast_shadow;
+
+		o.mod = nullptr;
+		o.bone_matrices = nullptr;
+
+		return *this;
+	}
+	~SkeletalMeshComponent()
+	{
+		delete[] bone_matrices;
+	}
 
 private:
 	uint8_t pad0 = 0;
@@ -163,44 +188,31 @@ private:
 	uint8_t pad2 = 0;
 };
 
-#define MAX_BONES 100
 class SkeletalAnimation;
 struct SkeletalAnimationComponent
 {
 	const SkeletalAnimation* anim;
 	float playback_time;
 	float playback_speed;
-	glm::mat4* bone_matrices;
 
 	SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float& playback_speed = 1.0f)
 		: anim(anim), 
-		playback_time(0.0f), playback_speed(playback_speed), 
-		bone_matrices(new glm::mat4[MAX_BONES]{ glm::mat4(1.0f) })
+		playback_time(0.0f), playback_speed(playback_speed)
 	{}
-	SkeletalAnimationComponent(const SkeletalAnimationComponent&) = delete;
-	SkeletalAnimationComponent& operator=(const SkeletalAnimationComponent&) = delete;
 	SkeletalAnimationComponent(SkeletalAnimationComponent&& o)
-		: anim(o.anim), playback_time(o.playback_time), playback_speed(o.playback_speed), bone_matrices(o.bone_matrices)
+		: anim(o.anim), playback_time(o.playback_time), playback_speed(o.playback_speed)
 	{
 		o.anim = nullptr;
-		o.bone_matrices = nullptr;
 	}
 	SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&& o)
 	{
 		anim = o.anim;
 		playback_time = o.playback_time;
 		playback_speed = o.playback_speed;
-		bone_matrices = o.bone_matrices;
 
 		o.anim = nullptr;
-		o.bone_matrices = nullptr;
 
 		return *this;
-	}
-	~SkeletalAnimationComponent()
-	{
-		delete[] bone_matrices;
-		bone_matrices = nullptr;
 	}
 };
 
