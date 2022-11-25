@@ -102,10 +102,10 @@ void Renderer::RenderSkinned(Scene& scn)
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, material.norm_tex_id[0]);
 		glUniform4fv(color_uniform_loc, 1, (const GLfloat*)&material.col);
-		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.mod->GetNumBones(), GL_FALSE, (const GLfloat*)skel_mesh.bone_matrices);
+		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.num_bones, GL_FALSE, (const GLfloat*)skel_mesh.bone_matrices);
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
-		glBindVertexArray(skel_mesh.mod->GetVAO());
-		glDrawElements(GL_TRIANGLES, skel_mesh.mod->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(skel_mesh.vao);
+		glDrawElements(GL_TRIANGLES, skel_mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
 	glEnable(GL_CULL_FACE);
 }
@@ -153,14 +153,24 @@ const Framebuffer& Renderer::GetMainFramebuffer()
 	return instance->main_framebuffer;
 }
 
-void Renderer::CullScene(Scene& scn)
-{
-	UNREFERENCED_PARAMETER(scn);
+void Renderer::CullScene(Scene& scn, const CameraComponent& camera)
+{	
+	UNREFERENCED_PARAMETER(camera);
+
+	entt::registry& registry = scn.GetRegistry();
+
+	auto transform_mesh_view = registry.view<TransformComponent, MeshComponent>();
+	for (auto&& [entity, transform, mesh] : transform_mesh_view.each())
+	{
+		
+	}
 }
 void Renderer::RenderScene(Scene& scn)
 {
 	const CameraComponent& camera = scn.GetActiveCamera();
 	UpdateCameraData(camera);
+
+	CullScene(scn, camera);
 
 	Lighting::RenderSceneShadows(&scn, camera);
 	

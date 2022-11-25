@@ -21,7 +21,7 @@ private:
 	static void UpdateViewportSize(const int& width, const int& height);
 	static void UpdateCameraData(const CameraComponent& camera);
 
-	static void CullScene(Scene& scn);
+	static void CullScene(Scene& scn, const CameraComponent& camera);
 	static void RenderScene(Scene& scn);
 
 	static void RenderLit(Scene& scn);

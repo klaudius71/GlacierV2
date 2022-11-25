@@ -128,15 +128,32 @@ struct SpriteComponent
 
 struct MeshComponent
 {
+	const Model* mod;
 	GLuint vao;
 	uint32_t num_indices;
 	bool cast_shadow;
 
 	MeshComponent(const Model* const mod, const bool& cast_shadow = true)
-		: vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), cast_shadow(cast_shadow)
+		: mod(mod), vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), cast_shadow(cast_shadow)
 	{}
-	MeshComponent(MeshComponent&& o) = default;
-	MeshComponent& operator=(MeshComponent&& o) = default;
+	MeshComponent(MeshComponent&& o)
+		: mod(o.mod), vao(o.vao), num_indices(o.num_indices), cast_shadow(o.cast_shadow)
+	{
+		o.mod = nullptr;
+		o.vao = 0;
+	}
+	MeshComponent& operator=(MeshComponent&& o)
+	{
+		mod = o.mod;
+		vao = o.vao;
+		num_indices = o.num_indices;
+		cast_shadow = o.cast_shadow;
+
+		o.mod = nullptr;
+		o.vao = 0;
+
+		return *this;
+	}
 
 private:
 	uint8_t pad0 = 0;
@@ -148,11 +165,14 @@ private:
 struct SkeletalMeshComponent
 {
 	const Model* mod;
+	GLuint vao;
+	uint32_t num_indices;
+	uint32_t num_bones;
 	glm::mat4* bone_matrices;
 	bool cast_shadow;
 
 	SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow = true)
-		: mod(mod),
+		: mod(mod), vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), num_bones(mod->GetNumBones()),
 		bone_matrices(new glm::mat4[MAX_BONES]{ glm::mat4(1.0f) }),
 		cast_shadow(cast_shadow)
 	{
@@ -161,18 +181,25 @@ struct SkeletalMeshComponent
 	SkeletalMeshComponent(const SkeletalMeshComponent& o) = delete;
 	SkeletalMeshComponent& operator=(const SkeletalMeshComponent&) = delete;
 	SkeletalMeshComponent(SkeletalMeshComponent&& o)
-		: mod(o.mod), bone_matrices(o.bone_matrices), cast_shadow(o.cast_shadow)
+		: mod(o.mod), vao(o.vao), num_indices(o.num_indices), num_bones(o.num_bones),
+		bone_matrices(o.bone_matrices), 
+		cast_shadow(o.cast_shadow)
 	{
 		o.mod = nullptr;
+		o.vao = 0;
 		o.bone_matrices = nullptr;
 	}
 	SkeletalMeshComponent& operator=(SkeletalMeshComponent&& o)
 	{
 		mod = o.mod;
+		vao = o.vao;
+		num_indices = o.num_indices;
+		num_bones = o.num_bones;
 		bone_matrices = o.bone_matrices;
 		cast_shadow = o.cast_shadow;
 
 		o.mod = nullptr;
+		o.vao = 0;
 		o.bone_matrices = nullptr;
 
 		return *this;
