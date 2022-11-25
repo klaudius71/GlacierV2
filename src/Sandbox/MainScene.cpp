@@ -4,6 +4,7 @@
 #include "RotatingScript.h"
 #include "SpinningLightScript.h"
 #include "PlayerTankPrefab.h"
+#include "BSphereTestingScript.h"
 
 void MainScene::InitializeScene()
 {
@@ -59,8 +60,19 @@ void MainScene::InitializeScene()
 	vampire->GetComponent<TransformComponent>().rotation().x = glm::half_pi<float>();
 	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 30.0f, 0.0f);
 	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
-	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
+	//vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
 	vampire->RegisterToScene();
+
+	GameObject tankbase = CreateGameObject("TankBase");
+	tankbase->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankBase"));
+	tankbase->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
+	tankbase->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f);
+	tankbase->RegisterToScene();
+
+	GameObject bsphere = CreateGameObject("BSphere");
+	bsphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"), false);
+	bsphere->AddScript<BSphereTestingScript>(tankbase);
+	bsphere->RegisterToScene();
 }
 
 void MainScene::EndScene()

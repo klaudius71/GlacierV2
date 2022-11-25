@@ -38,12 +38,15 @@ public:
 	const uint32_t& GetNumVertices() const;
 	const uint32_t& GetNumTriangles() const;
 	const uint32_t& GetNumBones() const;
+	const glm::vec3& GetBSphereCenter() const;
+	const float& GetBSphereRadius() const;
 	const std::vector<VertexTypes::Vertex>& GetVertexData() const;
 	const std::vector<glm::mat4>& GetInverseBindMatrices() const;
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;
 
 private:
 	inline void calculate_tangents();
+	inline void calculate_bsphere();
 
 	void load_gpu_data();
 
@@ -56,6 +59,10 @@ private:
 	uint32_t num_vertices;
 	uint32_t num_triangles;
 	uint32_t num_bones;
+
+	glm::vec3 bsphere_center;
+	float bsphere_radius;
+
 	std::vector<VertexTypes::Vertex> vertex_data;
 	std::vector<glm::mat4> inverse_bind_matrices;
 	std::vector<VertexTypes::VertexTriangle> triangles;

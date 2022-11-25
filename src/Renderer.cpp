@@ -89,7 +89,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	// Render meshes with materials
 	glDisable(GL_CULL_FACE);
 	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
-	for (auto&& [entity, skel_mesh,transform, material] : render_group.each())
+	for (auto&& [entity, skel_mesh, transform, material] : render_group.each())
 	{
 		glUniform3fv(material_ambient_uniform_loc, 1, (const GLfloat*)&material.ads.ambient);
 		glUniform3fv(material_diffuse_uniform_loc, 1, (const GLfloat*)&material.ads.diffuse);

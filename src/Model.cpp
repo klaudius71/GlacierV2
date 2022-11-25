@@ -130,12 +130,14 @@ Model::Model(const std::string& file_name)
 	}
 
 	calculate_tangents();
+	calculate_bsphere();
 }
 Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<VertexTypes::VertexTriangle>& triangles)
 	: vertex_data(verts), triangles(triangles), num_vertices((uint32_t)verts.size()), num_triangles((uint32_t)triangles.size())
 {
 	assert(triangles.size() > 0 && verts.size() > 0);
 	load_gpu_data();
+	calculate_bsphere();
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
 	: num_vertices(0), num_triangles(0), num_bones(0)
@@ -204,7 +206,7 @@ Model::Model(PREMADE_MODELS premade_model, const float& scale)
 			vertex_data.emplace_back( 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  0,  0.0f, -1.0f, 0.0f);
 			triangles.emplace_back(vind, vind + 1, vind + 2);
 			triangles.emplace_back(vind, vind + 2, vind + 3);
-			
+
 			break;
 		}
 		default:
@@ -212,8 +214,12 @@ Model::Model(PREMADE_MODELS premade_model, const float& scale)
 	}
 
 	if (scale != 1.0f)
+	{
 		for (auto& v : vertex_data)
 			v.pos *= scale;
+	}
+
+	calculate_bsphere();
 }
 Model::Model(const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v)
 {
@@ -280,7 +286,8 @@ Model::Model(const std::string& file_name, const float& xz_size, const float& ma
 	stbi_image_free(hgt_map);
 }
 Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
-	: num_vertices((v_slices + 1) * h_slices + (2 * v_slices)), num_triangles((v_slices * 2) + ((h_slices - 1) * v_slices * 2))
+	: num_vertices((v_slices + 1) * h_slices + (2 * v_slices)), num_triangles((v_slices * 2) + ((h_slices - 1) * v_slices * 2)),
+	bsphere_center(0.0f), bsphere_radius(1.0f)
 {
 	uint32_t i, j;
 
@@ -347,7 +354,7 @@ Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
 	calculate_tangents();
 }
 Model::Model(const float& xz_size, const float& u, const float& v)
-	: num_vertices(4), num_triangles(2), num_bones(0)
+	: num_vertices(4), num_triangles(2), num_bones(0), bsphere_center(0.0f), bsphere_radius(0.0f)
 {
 	const auto xz_size_half = xz_size * 0.5f;
 	const auto u_half = u * 0.5f;
@@ -363,6 +370,7 @@ Model::Model(const float& xz_size, const float& u, const float& v)
 Model::Model(Model&& o) noexcept
 	: vao(o.vao), vbo(o.vbo), ebo(o.ebo),
 	num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_bones(o.num_bones),
+	bsphere_center(o.bsphere_center), bsphere_radius(o.bsphere_radius),
 	vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
 	triangles(std::move(o.triangles))
 {
@@ -378,6 +386,8 @@ Model& Model::operator=(Model&& o)
 	num_vertices = o.num_vertices;
 	num_triangles = o.num_triangles;
 	num_bones = o.num_bones;
+	bsphere_center = o.bsphere_center;
+	bsphere_radius = o.bsphere_radius;
 	vertex_data = std::move(o.vertex_data);
 	inverse_bind_matrices = std::move(o.inverse_bind_matrices);
 	triangles = std::move(o.triangles);
@@ -425,6 +435,14 @@ const uint32_t& Model::GetNumTriangles() const
 const uint32_t& Model::GetNumBones() const
 {
 	return num_bones;
+}
+const glm::vec3& Model::GetBSphereCenter() const
+{
+	return bsphere_center;
+}
+const float& Model::GetBSphereRadius() const
+{
+	return bsphere_radius;
 }
 const std::vector<VertexTypes::Vertex>& Model::GetVertexData() const
 {
@@ -475,6 +493,53 @@ inline void Model::calculate_tangents()
 		v.bitangent = glm::normalize(v.bitangent);
 	}
 		
+}
+inline void Model::calculate_bsphere()
+{
+	// Ritter's Algorithm
+	const glm::vec3& X = vertex_data[0].pos;
+	glm::vec3 Y;
+	float largest_distance_sqr = 0.0f;
+	for (auto it = vertex_data.cbegin() + 1; it != vertex_data.cend(); ++it)
+	{
+		const glm::vec3& diff = it->pos - X;
+		const float& d = glm::dot(diff, diff);
+		if (d > largest_distance_sqr)
+		{
+			largest_distance_sqr = d;
+			Y = it->pos;
+		}
+	}
+
+	glm::vec3 Z;
+	largest_distance_sqr = 0.0f;
+	for (auto it = vertex_data.cbegin(); it != vertex_data.cend(); ++it)
+	{
+		const glm::vec3& diff = it->pos - Y;
+		const float& d = glm::dot(diff, diff);
+		if (d > largest_distance_sqr)
+		{
+			largest_distance_sqr = d;
+			Z = it->pos;
+		}
+	}
+
+	bsphere_center = 0.5f * (Z + Y);
+	bsphere_radius = 0.5f * sqrtf(largest_distance_sqr);
+	
+	float bsphere_radius_sqr = bsphere_radius * bsphere_radius;
+	for (const auto& vert : vertex_data)
+	{
+		const glm::vec3& diff = vert.pos - bsphere_center;
+		const float& dist = glm::dot(diff, diff);
+		if (dist > bsphere_radius_sqr)
+		{
+			const float d_half = (sqrtf(dist) - bsphere_radius) * 0.5f;
+			bsphere_radius += d_half;
+			bsphere_radius_sqr = bsphere_radius * bsphere_radius;
+			bsphere_center += glm::normalize(diff) * d_half;
+		}
+	}
 }
 
 void Model::load_gpu_data()

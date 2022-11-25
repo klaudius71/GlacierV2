@@ -224,6 +224,7 @@
     <ClCompile Include="src\ModelLoader.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
+    <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp" />
     <ClCompile Include="src\Sandbox\LevelScript.cpp" />
     <ClCompile Include="src\Sandbox\LoadResources.cpp" />
     <ClCompile Include="src\Sandbox\MainScene.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="src\ModelLoaderAtt.h" />
     <ClInclude Include="src\Prefab.h" />
     <ClInclude Include="src\RendererAtt.h" />
+    <ClInclude Include="src\Sandbox\BSphereTestingScript.h" />
     <ClInclude Include="src\Sandbox\TankControllerScript.h" />
     <ClInclude Include="src\SceneAtt.h" />
     <ClInclude Include="src\ShowEditorDont.h" />

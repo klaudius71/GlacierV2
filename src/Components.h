@@ -173,10 +173,11 @@ struct SkeletalMeshComponent
 
 	SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow = true)
 		: mod(mod), vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), num_bones(mod->GetNumBones()),
-		bone_matrices(new glm::mat4[MAX_BONES]{ glm::mat4(1.0f) }),
+		bone_matrices(new glm::mat4[MAX_BONES]),
 		cast_shadow(cast_shadow)
 	{
-		assert(mod);
+		for (size_t i = 0; i < MAX_BONES; i++)
+			bone_matrices[i] = glm::mat4(1.0f);
 	}
 	SkeletalMeshComponent(const SkeletalMeshComponent& o) = delete;
 	SkeletalMeshComponent& operator=(const SkeletalMeshComponent&) = delete;

@@ -316,6 +316,9 @@
     <ClCompile Include="src\Animator.cpp">
       <Filter>src\Engine\Systems\Render\Skeletal</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp">
+      <Filter>src\Sandbox\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -575,6 +578,9 @@
     </ClInclude>
     <ClInclude Include="src\Animator.h">
       <Filter>src\Engine\Systems\Render\Skeletal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sandbox\BSphereTestingScript.h">
+      <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
