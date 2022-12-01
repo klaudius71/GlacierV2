@@ -39,7 +39,7 @@ struct TextureParameters
 	TEXTURE_WRAP wrap_t = TEXTURE_WRAP::REPEAT;
 	TEXTURE_WRAP wrap_r = TEXTURE_WRAP::REPEAT;
 
-	TextureParameters(const TEXTURE_MIN_FILTER& min_filter = TEXTURE_MIN_FILTER::LINEAR, const TEXTURE_MAG_FILTER& mag_filter = TEXTURE_MAG_FILTER::LINEAR,
+	TextureParameters(const TEXTURE_MIN_FILTER& min_filter = TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, const TEXTURE_MAG_FILTER& mag_filter = TEXTURE_MAG_FILTER::LINEAR,
 		const TEXTURE_WRAP& wrap_s = TEXTURE_WRAP::REPEAT, const TEXTURE_WRAP& wrap_t = TEXTURE_WRAP::REPEAT, const TEXTURE_WRAP& wrap_r = TEXTURE_WRAP::REPEAT)
 		: type(TEXTURE_TYPE::REGULAR), min_filter(min_filter), mag_filter(mag_filter), wrap_s(wrap_s), wrap_t(wrap_t), wrap_r(wrap_r)
 	{}

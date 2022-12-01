@@ -319,6 +319,9 @@
     <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp">
       <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="src\GMathTools.cpp">
+      <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -581,6 +584,9 @@
     </ClInclude>
     <ClInclude Include="src\Sandbox\BSphereTestingScript.h">
       <Filter>src\Sandbox\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GMathTools.h">
+      <Filter>src\Engine\Misc\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

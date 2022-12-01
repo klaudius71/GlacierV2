@@ -209,6 +209,7 @@
     <ClCompile Include="src\EntityDeregCmd.cpp" />
     <ClCompile Include="src\EntityRegCmd.cpp" />
     <ClCompile Include="src\Glacier.cpp" />
+    <ClCompile Include="src\GMathTools.cpp" />
     <ClCompile Include="src\gpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">gpch.h</PrecompiledHeaderFile>
@@ -289,6 +290,7 @@
     <ClInclude Include="src\EntityRegCmd.h" />
     <ClInclude Include="src\Glacier.h" />
     <ClInclude Include="src\GlacierAPI.h" />
+    <ClInclude Include="src\GMathTools.h" />
     <ClInclude Include="src\gpch.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\InputAtt.h" />

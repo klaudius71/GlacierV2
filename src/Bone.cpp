@@ -126,8 +126,8 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 			break;
 	}
 	float delta = (timestamp - position_timestamps[i]) / (position_timestamps[i + 1] - position_timestamps[i]);
-	
-	local_transform = glm::translate(glm::mat4(1.0f), positions[i] * (1.0f - delta) + positions[i + 1] * delta);
+
+	local_transform = glm::translate(glm::mat4(1.0f), GMathTools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
 	
 	for (i = 0; i < rotation_timestamps.size() - 1; i++)
 	{
@@ -145,7 +145,7 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 	}
 	delta = (timestamp - scale_timestamps[i]) / (scale_timestamps[i + 1] - scale_timestamps[i]);
 
-	local_transform *= glm::scale(glm::mat4(1.0f), scales[i] * (1.0f - delta) + scales[i + 1] * delta);
+	local_transform *= glm::scale(glm::mat4(1.0f), GMathTools::VectMath::Lerp2(scales[i], scales[i + 1], delta));
 
 	const glm::mat4& transform = parent_transform * local_transform;
 

@@ -44,7 +44,7 @@ private:
 public:
 	static void Load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params = TextureParameters()) { Instance().load(name, file_name, tex_params); }
 	static void Load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params = 
-		TextureParameters(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR, 
+		TextureParameters(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR,
 			TEXTURE_WRAP::CLAMP_TO_EDGE, TEXTURE_WRAP::CLAMP_TO_EDGE, TEXTURE_WRAP::CLAMP_TO_EDGE)) 
 	{ Instance().load(name, file_names, tex_params); }
 	static void Load(const std::string& name, const glm::vec4& color) { Instance().load(name, color); }

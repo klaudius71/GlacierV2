@@ -22,6 +22,7 @@
 #include "Timer.h"
 #include "VertexTypes.h"
 #include "WeakPtr.h"
+#include "GMathTools.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -30,6 +31,7 @@
 #define GLM_FORCE_INTRINSICS
 #define GLM_FORCE_SSE42
 #define GLM_FORCE_INLINE
+#define GLM_ENABLE_EXPERIMENTAL // glm::length2() is experimental for some reason
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 
