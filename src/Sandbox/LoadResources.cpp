@@ -5,8 +5,8 @@
 // Load all assets here
 void Glacier::LoadResources()
 {
-	//ModelLoader::Load("Vampire", "vampire2.gltf");
-	ModelLoader::Load("Dude", "dude.gltf");
+	ModelLoader::Load("Vampire", "vampire2.gltf");
+	//ModelLoader::Load("Dude", "dude.gltf");
 	ModelLoader::Load("TankBase", "tank_base.gltf");
 	ModelLoader::Load("TankWheels", "tank_wheels.gltf");
 	ModelLoader::Load("TankTurret", "tank_turret.gltf");
@@ -37,7 +37,7 @@ void Glacier::LoadResources()
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
 
-	//SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_2.gltf");
+	SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_3.gltf");
 	SkeletalAnimationLoader::Load("VampireIdle", "vampire_standing idle.gltf");
 	SkeletalAnimationLoader::Load("DudeIdle", "dude_standing idle.gltf");
 

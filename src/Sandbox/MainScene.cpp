@@ -12,14 +12,14 @@ void MainScene::InitializeScene()
 	level_script->AddScript<LevelScript>();
 	level_script->RegisterToScene();
 
-	//GameObject tank = CreatePrefab<PlayerTankPrefab>();
-	//tank->GetComponent<TransformComponent>().position().y = 10.5f;
-	//tank->RegisterToScene();
+	GameObject tank = CreatePrefab<PlayerTankPrefab>();
+	tank->GetComponent<TransformComponent>().position().y = 10.5f;
+	tank->RegisterToScene();
 
-	GameObject camera = CreateGameObject("God Camera");
-	camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 50.0f, 50.0f);
-	camera->AddScript<CameraControllerScript>();
-	camera->RegisterToScene();
+	//GameObject camera = CreateGameObject("God Camera");
+	//camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 50.0f, 50.0f);
+	//camera->AddScript<CameraControllerScript>();
+	//camera->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");
 	//const glm::vec3 light_dir = glm::normalize(glm::vec3(.967f, -1.0f, 0.254f));
@@ -55,19 +55,19 @@ void MainScene::InitializeScene()
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();
 
-	//GameObject vampire = CreateGameObject("Vampire");
-	//vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
-	//vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 0.0f, 0.0f);
-	//vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
-	//vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
-	//vampire->RegisterToScene();
+	GameObject vampire = CreateGameObject("Vampire");
+	vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
+	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 0.0f, 0.0f);
+	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
+	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
+	vampire->RegisterToScene();
 
-	GameObject dude = CreateGameObject("Dude");
-	dude->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Dude"));
-	dude->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 0.0f, 0.0f);
-	dude->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Dude")).norm_tex_id.x = TextureLoader::Get("DudeNormal");
-	dude->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("DudeIdle"));
-	dude->RegisterToScene();
+	//GameObject dude = CreateGameObject("Dude");
+	//dude->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Dude"));
+	//dude->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 0.0f, 0.0f);
+	//dude->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.0f), 128.0f), TextureLoader::Get("Dude")).norm_tex_id.x = TextureLoader::Get("DudeNormal");
+	//dude->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("DudeIdle"));
+	//dude->RegisterToScene();
 
 	GameObject tankbase = CreateGameObject("TankBase");
 	tankbase->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankBase"));
@@ -75,10 +75,10 @@ void MainScene::InitializeScene()
 	tankbase->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f);
 	tankbase->RegisterToScene();
 
-	GameObject bsphere = CreateGameObject("BSphere");
-	bsphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"), false);
-	bsphere->AddScript<BSphereTestingScript>(dude);
-	bsphere->RegisterToScene();
+	//GameObject bsphere = CreateGameObject("BSphere");
+	//bsphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"), false);
+	//bsphere->AddScript<BSphereTestingScript>(vampire);
+	//bsphere->RegisterToScene();
 }
 
 void MainScene::EndScene()

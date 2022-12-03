@@ -88,7 +88,7 @@ void Renderer::RenderSkinned(Scene& scn)
 
 	// Render meshes with materials
 	glDisable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
+	//glEnable(GL_BLEND);
 	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
 	for (auto&& [entity, skel_mesh, transform, material] : render_group.each())
 	{

@@ -65,10 +65,9 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	//glCullFace(GL_FRONT);
 
 	auto& dir_light_dir = dir_light->light.direction;
-	const glm::vec3 cam_dir_xz = glm::normalize(glm::vec3(cam.cam_dir.x, 0.0f, cam.cam_dir.z));
-	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + cam_dir_xz * 512.0f;
+	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + glm::normalize(cam.cam_dir) * 256.0f;
 	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -512.0f, 512.0f) *
-		glm::lookAt(dir_light_cam_center_pos - dir_light_dir, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::lookAt(dir_light_cam_center_pos - dir_light_dir * 128.0f, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glBindBuffer(GL_UNIFORM_BUFFER, LightspaceMatrices_ubo);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &lightspace);
@@ -109,8 +108,8 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight());
 
-	//ImGui::Begin("Debug");
-	//ImGui::Text("DirLight Shadow Texture:");
-	//ImGui::Image((ImTextureID)(uint64_t)DirShadow_tex, ImVec2{256, 256}, ImVec2{0,0}, ImVec2{1,1});
-	//ImGui::End();
+	ImGui::Begin("Debug");
+	ImGui::Text("DirLight Shadow Texture:");
+	ImGui::Image((ImTextureID)(uint64_t)DirShadow_tex, ImVec2{256, 256}, ImVec2{0,0}, ImVec2{1,1});
+	ImGui::End();
 }
