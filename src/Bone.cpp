@@ -120,16 +120,16 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 	assert(timestamp >= 0.0f);
 
 	size_t i;
-	for (i = 0; i < position_timestamps.size() - 1; i++)
+	for (i = 0; i < position_timestamps.size() - 2; i++)
 	{
 		if (timestamp < position_timestamps[i + 1])
 			break;
 	}
 	float delta = (timestamp - position_timestamps[i]) / (position_timestamps[i + 1] - position_timestamps[i]);
 
-	local_transform = glm::translate(glm::mat4(1.0f), GMathTools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
+	local_transform = glm::translate(glm::mat4(1.0f), Tools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
 	
-	for (i = 0; i < rotation_timestamps.size() - 1; i++)
+	for (i = 0; i < rotation_timestamps.size() - 2; i++)
 	{
 		if (timestamp < rotation_timestamps[i + 1])
 			break;
@@ -138,14 +138,14 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 	
 	local_transform *= glm::mat4_cast(glm::slerp(rotations[i], rotations[i + 1], delta));
 
-	for (i = 0; i < scale_timestamps.size() - 1; i++)
+	for (i = 0; i < scale_timestamps.size() - 2; i++)
 	{
 		if (timestamp < scale_timestamps[i + 1])
 			break;
 	}
 	delta = (timestamp - scale_timestamps[i]) / (scale_timestamps[i + 1] - scale_timestamps[i]);
 
-	local_transform *= glm::scale(glm::mat4(1.0f), GMathTools::VectMath::Lerp2(scales[i], scales[i + 1], delta));
+	local_transform *= glm::scale(glm::mat4(1.0f), Tools::VectMath::Lerp2(scales[i], scales[i + 1], delta));
 
 	const glm::mat4& transform = parent_transform * local_transform;
 

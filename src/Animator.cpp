@@ -9,7 +9,7 @@ void Animator::UpdateAnimationComponents(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	auto view = registry.view<SkeletalAnimationComponent, SkeletalMeshComponent>();
+	const auto view = registry.view<SkeletalAnimationComponent, SkeletalMeshComponent>();
 	for (auto&& [entity, anim, skel_mesh] : view.each())
 	{
 		anim.playback_time += TimeManager::GetDeltaTime() * anim.playback_speed;

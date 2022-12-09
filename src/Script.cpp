@@ -15,13 +15,13 @@ void Script::SetGameObject(GameObject& new_obj)
 	obj = new_obj;
 }
 
-GameObject Script::CreateGameObject(std::string name)
+GameObject Script::CreateGameObject(const std::string& name)
 {
-	return GetCurrentScene().CreateGameObject(std::move(name));
+	return GetCurrentScene().CreateGameObject(name);
 }
-GameObject Script::CreateGameObject(std::string name, GameObject parent, bool keep_world)
+GameObject Script::CreateGameObject(const std::string& name, GameObject parent)
 {
-	return GetCurrentScene().CreateGameObject(std::move(name), parent, keep_world);
+	return GetCurrentScene().CreateGameObject(name, parent);
 }
 
 void Script::DestroyGameObject(GameObject go)

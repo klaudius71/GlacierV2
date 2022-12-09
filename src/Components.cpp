@@ -2,9 +2,9 @@
 #include "Components.h"
 #include "Renderer.h"
 
-const glm::vec3 TransformComponent::GetWorldPosition() const
+const glm::vec3& TransformComponent::GetWorldPosition() const
 {
-	return world_matrix[3];
+	return *(const glm::vec3*)&world_matrix[3];
 }
 const glm::vec3 TransformComponent::GetForwardVector() const
 {

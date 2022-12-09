@@ -18,13 +18,16 @@ public:
 
 	const std::list<std::shared_ptr<Entity>>& GetGraph() const;
 
-	GameObject CreateGameObject(std::string& name);
-	GameObject CreateGameObject(std::string& name, GameObject& parent, bool keep_world);
+	GameObject CreateGameObject(const std::string& name);
+	GameObject CreateGameObject(const std::string& name, GameObject& parent);
 	void EraseGameObject(GameObject& go);
+
+	GameObject const FindGameObject(const std::string& name) const;
 
 	void UpdateTransforms();
 
 private:
+	std::unordered_multimap<std::string, uint64_t> uuids;
 	std::list<std::shared_ptr<Entity>> graph;
 };
 

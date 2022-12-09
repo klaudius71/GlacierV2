@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Model.h"
 #include "Script.h"
+#include "UUID.h"
 
 struct NameComponent
 {
@@ -14,16 +15,14 @@ struct NameComponent
 	size_t id;
 
 	NameComponent(const std::string& name)
-		: name(name), id(std::hash<std::string>()(name))
+		: name(name), id(Tools::UUID::GenUUID())
 	{
 	}
 	NameComponent(std::string&& name)
-		: name(std::move(name))
-	{ 
-		id = std::hash<std::string>()(this->name); 
-	}
+		: name(std::move(name)), id(Tools::UUID::GenUUID())
+	{}
 	NameComponent(NameComponent&& o)
-		: id(o.id), name(std::move(o.name))
+		: name(std::move(o.name)), id(o.id)
 	{}
 	NameComponent& operator=(NameComponent&& o)
 	{ 
@@ -45,7 +44,7 @@ struct TransformComponent
 	TransformComponent(TransformComponent&& o) = default;
 	TransformComponent& operator=(TransformComponent&& o) = default;
 
-	const glm::vec3 GetWorldPosition() const;
+	const glm::vec3& GetWorldPosition() const;
 	const glm::vec3 GetForwardVector() const;
 	const glm::vec3 GetGlobalForwardVector() const;
 
@@ -61,6 +60,7 @@ private:
 
 	friend class Entity;
 	friend class Renderer2D;
+	friend class EditorLayer;
 };
 
 struct CameraComponent

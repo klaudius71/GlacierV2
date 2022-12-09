@@ -11,7 +11,7 @@ class CollisionVolumeOBB;
 *	Some of these (mainly Collision) are used by engine subsystems.
 *	\ingroup MISC
 */
-namespace GMathTools
+namespace Tools
 {
 	namespace Collision
 	{

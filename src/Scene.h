@@ -22,8 +22,8 @@ public:
 	entt::registry& GetRegistryDisabled();
 	const entt::registry& GetRegistryDisabled() const;
 
-	GameObject CreateGameObject(std::string name);
-	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
+	GameObject CreateGameObject(const std::string& name);
+	GameObject CreateGameObject(const std::string& name, GameObject parent);
 	template<typename T> GameObject CreatePrefab()
 	{
 		static_assert(std::is_base_of<Prefab, T>() && !std::is_same<T, Prefab>(), "Prefab class must be derived from Prefab!");
@@ -37,7 +37,7 @@ public:
 	}
 	void DestroyGameObject(GameObject& go);
 
-	GameObject FindGameObject(const std::string& name);
+	GameObject const FindGameObject(const std::string& name);
 
 	template<class T>
 	T* GetFirstComponent()
@@ -74,7 +74,7 @@ private:
 
 	static void switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to);
 
-	const entt::entity CreateEmpty(std::string& name);
+	const entt::entity CreateEmpty(const std::string& name);
 
 	friend class SceneManager;
 	friend class Entity;

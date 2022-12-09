@@ -66,9 +66,9 @@ void TankControllerScript::OnUpdate(float dt)
 	const glm::vec3 turret_world_rotation = transform.rotation() + tank_turret_transform_rotation;
 	const float camera_turret_rotation_angle = -glm::eulerAngles(glm::quat(cam_rotation_euler) * glm::inverse(glm::quat(turret_world_rotation))).y;
 
-	if (camera_turret_rotation_angle < -dt * 2.0f)
+	if (camera_turret_rotation_angle < -dt * 1.1f)
 		tank_turret_transform_rotation.y += dt;
-	else if (camera_turret_rotation_angle > dt * 2.0f)
+	else if (camera_turret_rotation_angle > dt * 1.1f)
 		tank_turret_transform_rotation.y -= dt;
 	
 	if (tank_turret_transform_rotation.y > glm::radians(135.0f))
@@ -82,9 +82,9 @@ void TankControllerScript::OnUpdate(float dt)
 	const glm::vec3 turret_barrel_world_rotation = turret_world_rotation + tank_turret_barrel_transform_rotation;
 	const float camera_turret_barrel_rotation_angle = cam_rotation_euler.x - (-turret_barrel_world_rotation.x);
 	
-	if (camera_turret_barrel_rotation_angle < (-dt * 2.0f - BARREL_ANGLE_OFFSET))
+	if (camera_turret_barrel_rotation_angle < (-dt * 1.1f - BARREL_ANGLE_OFFSET))
 		tank_turret_barrel_transform_rotation.x += dt;
-	else if (camera_turret_barrel_rotation_angle > (dt * 2.0f - BARREL_ANGLE_OFFSET))
+	else if (camera_turret_barrel_rotation_angle > (dt * 1.1f - BARREL_ANGLE_OFFSET))
 		tank_turret_barrel_transform_rotation.x -= dt;
 
 	if (tank_turret_barrel_transform_rotation.x > glm::radians(10.0f))
@@ -96,7 +96,11 @@ void TankControllerScript::OnUpdate(float dt)
 	const glm::vec3 target = tank_turret_barrel_transform.GetWorldPosition() + tank_turret_barrel_transform.GetGlobalForwardVector() * 1000.0f;
 	const glm::vec2 screen_pos = CameraComponent::WorldPositionToScreenPosition(camera, target);
 	TransformComponent& crosshair_transform = crosshair->GetComponent<TransformComponent>();
-	crosshair_transform.position() = glm::vec3{ screen_pos, 0.0f };
+	crosshair_transform.position() = Tools::VectMath::Lerp2(crosshair_transform.position(), glm::vec3{ screen_pos, 0.0f }, TimeManager::GetDeltaTime() * 20.0f);
+
+	// Testing
+	GameObject sphere = GetCurrentScene().FindGameObject("Sphere");
+	Renderer2D::PrintText(FontLoader::Get("CascadiaMono20"), 0.0f, 20.0f, Colors::Black, "%d", sphere->GetComponent<const NameComponent>().id);
 }
 
 void TankControllerScript::OnScreenResize(const int& width, const int& height)

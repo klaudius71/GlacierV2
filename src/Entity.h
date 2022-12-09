@@ -11,8 +11,8 @@ class Scene;
 class Entity final
 {
 public:
-	Entity(std::string& name);
-	Entity(std::string& name, GameObject& parent);
+	Entity(const std::string& name);
+	Entity(const std::string& name, GameObject& parent);
 
 	Entity() = delete;
 	Entity(const Entity& o) = delete;

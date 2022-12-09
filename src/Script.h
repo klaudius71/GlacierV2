@@ -8,7 +8,7 @@ class Scene;
 class Script
 {
 public:
-	Script(const std::string& name = "");
+	Script(const std::string& name = "Unnamed Script");
 	virtual ~Script() = default;
 
 	virtual void OnSceneEnter() {};
@@ -16,11 +16,11 @@ public:
 	virtual void OnSceneExit() {};
 
 	// Engine events
-	virtual void OnScreenResize(const int& width, const int& height) { width; height; };
+	virtual void OnScreenResize(const int& width, const int& height) { UNREFERENCED_PARAMETER(width); UNREFERENCED_PARAMETER(height); };
 
 
-	GameObject CreateGameObject(std::string name);
-	GameObject CreateGameObject(std::string name, GameObject parent, bool keep_world = false);
+	GameObject CreateGameObject(const std::string& name);
+	GameObject CreateGameObject(const std::string& name, GameObject parent);
 	void DestroyGameObject(GameObject go);
 
 	GameObject& GetGameObject();

@@ -146,6 +146,9 @@
     <Filter Include="src\Engine\Asset\SkeletalAnimation">
       <UniqueIdentifier>{6fc28bbc-949a-4a4c-aabc-2f70b20a21d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Systems\Scripting">
+      <UniqueIdentifier>{4a8f0807-5fb8-45e1-a5df-f90f00f3a0ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -238,9 +241,6 @@
     <ClCompile Include="src\Lighting.cpp">
       <Filter>src\Engine\Systems\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="src\Script.cpp">
-      <Filter>src\Engine\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="src\Sandbox\SpinningLightScript.cpp">
       <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
@@ -321,6 +321,12 @@
     </ClCompile>
     <ClCompile Include="src\GMathTools.cpp">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UUID.cpp">
+      <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Script.cpp">
+      <Filter>src\Engine\Systems\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,9 +425,6 @@
     </ClInclude>
     <ClInclude Include="src\InputAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Script.h">
-      <Filter>src\Engine\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\GlacierAPI.h">
       <Filter>src\Engine</Filter>
@@ -587,6 +590,12 @@
     </ClInclude>
     <ClInclude Include="src\GMathTools.h">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UUID.h">
+      <Filter>src\Engine\Misc\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Script.h">
+      <Filter>src\Engine\Systems\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

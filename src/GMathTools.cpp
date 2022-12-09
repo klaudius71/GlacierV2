@@ -8,7 +8,7 @@
 //
 //#include "delaunator.hpp"
 
-namespace GMathTools
+namespace Tools
 {
 	namespace Collision
 	{

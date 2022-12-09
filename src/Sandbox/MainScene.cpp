@@ -69,12 +69,6 @@ void MainScene::InitializeScene()
 	//dude->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("DudeIdle"));
 	//dude->RegisterToScene();
 
-	GameObject tankbase = CreateGameObject("TankBase");
-	tankbase->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankBase"));
-	tankbase->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
-	tankbase->GetComponent<TransformComponent>().scale() = glm::vec3(10.0f);
-	tankbase->RegisterToScene();
-
 	//GameObject bsphere = CreateGameObject("BSphere");
 	//bsphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"), false);
 	//bsphere->AddScript<BSphereTestingScript>(vampire);

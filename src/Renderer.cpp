@@ -74,12 +74,12 @@ void Renderer::RenderSkinned(Scene& scn)
 	
 	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT)->GetProgramID();
 	glUseProgram(curr_shader);
-	GLint bone_matrices_uniform_loc = glGetUniformLocation(curr_shader, "bone_matrices[0]");
-	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
-	GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
-	GLint material_diffuse_uniform_loc = material_ambient_uniform_loc + 1;
-	GLint material_specular_uniform_loc = material_diffuse_uniform_loc + 1;
-	GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
+	const GLint bone_matrices_uniform_loc = glGetUniformLocation(curr_shader, "bone_matrices[0]");
+	const GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
+	const GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
+	const GLint material_diffuse_uniform_loc = material_ambient_uniform_loc + 1;
+	const GLint material_specular_uniform_loc = material_diffuse_uniform_loc + 1;
+	const GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
 	glUniform1iv(glGetUniformLocation(curr_shader, "textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
 	glUniform1i(glGetUniformLocation(curr_shader, "normal_map"), 4);
 	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 5);

@@ -24,37 +24,38 @@ const entt::registry& Scene::GetRegistryDisabled() const
 	return registry_disabled;
 }
 
-GameObject Scene::CreateGameObject(std::string name)
+GameObject Scene::CreateGameObject(const std::string& name)
 {
 	return scn_graph.CreateGameObject(name);
 }
-GameObject Scene::CreateGameObject(std::string name, GameObject parent, bool keep_world)
+GameObject Scene::CreateGameObject(const std::string& name, GameObject parent)
 {
-	return scn_graph.CreateGameObject(name, parent, keep_world);
+	return scn_graph.CreateGameObject(name, parent);
 }
 void Scene::DestroyGameObject(GameObject& go)
 {
 	scn_graph.EraseGameObject(go);
 }
 
-GameObject Scene::FindGameObject(const std::string& name)
+GameObject const Scene::FindGameObject(const std::string& name)
 {
-	size_t name_hash = std::hash<std::string>()(name);
+	/*size_t name_hash = std::hash<std::string>()(name);
 	for (auto& go : scn_graph.GetGraph())
 	{
 		NameComponent& name_comp = go->GetComponent<NameComponent>();
 		if (name_comp.id == name_hash)
 			return GameObject(go);
 	}
-	return GameObject();
+	return GameObject();*/
+	return scn_graph.FindGameObject(name);
 }
 
-const entt::entity Scene::CreateEmpty(std::string& name)
+const entt::entity Scene::CreateEmpty(const std::string& name)
 {
 	entt::entity temp = registry.create(); temp;
 	entt::entity ent = registry_disabled.create();
 	assert(ent == temp);
-	registry_disabled.emplace<NameComponent>(ent, std::move(name));
+	registry_disabled.emplace<NameComponent>(ent, name);
 	registry_disabled.emplace<TransformComponent>(ent);
 	return ent;
 }

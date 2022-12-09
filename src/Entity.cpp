@@ -5,14 +5,14 @@
 #include "EntityRegCmd.h"
 #include "EntityDeregCmd.h"
 
-Entity::Entity(std::string& name)
+Entity::Entity(const std::string& name)
 	: reg_state(REGISTRATION_STATE::CURRENTLY_DEREGISTERED)
 {
 	scene = SceneManager::GetCurrentScene();
 	id = scene->CreateEmpty(name);
 	curr_registry = &scene->GetRegistryDisabled();
 }
-Entity::Entity(std::string& name, GameObject& parent)
+Entity::Entity(const std::string& name, GameObject& parent)
 	: reg_state(REGISTRATION_STATE::CURRENTLY_DEREGISTERED), parent(parent)
 {
 	scene = SceneManager::GetCurrentScene();

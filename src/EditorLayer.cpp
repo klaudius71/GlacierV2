@@ -61,6 +61,7 @@ void EditorLayer::newFrame()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 }
 void EditorLayer::render()
 {
@@ -103,8 +104,6 @@ void EditorLayer::drawGraph(GameObject go)
 }
 void EditorLayer::showEditor()
 {	
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-
 	static bool show_demo_window = true;
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
@@ -141,7 +140,7 @@ void EditorLayer::showEditor()
 
 		if (ImGui::TreeNode("Name Component"))
 		{
-			NameComponent& name_component = selected_go->GetComponent<NameComponent>();
+			const NameComponent& name_component = selected_go->GetComponent<const NameComponent>();
 			ImGui::Text("Name: %s", name_component.name.c_str());
 			ImGui::Text("ID: %x", name_component.id);
 			ImGui::TreePop();
@@ -150,11 +149,18 @@ void EditorLayer::showEditor()
 		if (ImGui::TreeNode("Transform Component"))
 		{
 			TransformComponent& transform_component = selected_go->GetComponent<TransformComponent>();
-			ImGui::DragFloat3("Position", (float*)&transform_component.position());
-			glm::vec3 to_degrees = glm::degrees(transform_component.rotation());
-			ImGui::DragFloat3("Rotation", (float*)&to_degrees);
-			transform_component.rotation() = glm::radians(to_degrees);
-			ImGui::DragFloat3("Scale", (float*)&transform_component.scale());
+			if (ImGui::DragFloat3("Position", (float*)&transform_component.pos))
+				transform_component.flag_changed = true;
+			
+			glm::vec3 to_degrees = glm::degrees(transform_component.rot);
+			if(ImGui::DragFloat3("Rotation", (float*)&to_degrees, 0.1f))
+				transform_component.rotation() = glm::radians(to_degrees);
+
+			if (ImGui::DragFloat3("Scale", (float*)&transform_component.scl))
+				transform_component.flag_changed = true;
+
+			ImGui::Text("Changed Flag: %s", transform_component.flag_changed ? "true" : "false");
+
 			ImGui::TreePop();
 		}
 
@@ -201,6 +207,8 @@ void EditorLayer::showEditor()
 
 		if (dir_light && ImGui::TreeNode("Directional Light Component"))
 		{
+			ImGui::DragFloat3("Direction", (float*)&dir_light->light.direction, 0.01f, -1.0f, 1.0f);
+			dir_light->light.direction = glm::normalize(dir_light->light.direction);
 			ImGui::TreePop();
 		}
 
