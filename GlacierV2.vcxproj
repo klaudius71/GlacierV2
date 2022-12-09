@@ -118,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -139,7 +139,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -157,7 +157,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="external\base64\include\base64.cpp" />
+    <ClCompile Include="external\base64\include\base64.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="external\glad\src\glad.c">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
