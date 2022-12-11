@@ -1,12 +1,15 @@
 #include "gpch.h"
 #include "Glacier.h"
 
-//#undef new
 int main()
 {
-	//Glacier::Run();
-	//Glacier::Terminate();
+	//*
+	Glacier::Run();
+	Glacier::Terminate();
+	//*/
 
+	/*
+	#undef new
 	///-----includes_end-----
 
 	int i;
@@ -165,4 +168,5 @@ int main()
 	collisionShapes.clear();
 
 	return 0;
+	//*/
 }
