@@ -42,4 +42,4 @@
 /external/bullet3-3.24/lib
 /external/bullet3-3.24/src/BulletDynamics/BulletDynamics.dir
 /external/bullet3-3.24/src/BulletCollision/BulletCollision.dir
-/external/bullet3-3.24/src/LinearMath/BulletLinearMath.dir
+/external/bullet3-3.24/src/LinearMath/LinearMath.dir

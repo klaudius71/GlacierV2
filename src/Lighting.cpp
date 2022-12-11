@@ -66,7 +66,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 
 	auto& dir_light_dir = dir_light->light.direction;
 	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + glm::normalize(cam.cam_dir) * 256.0f;
-	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -512.0f, 512.0f) *
+	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -1024.0f, 1024.0f) *
 		glm::lookAt(dir_light_cam_center_pos - dir_light_dir * 128.0f, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glBindBuffer(GL_UNIFORM_BUFFER, LightspaceMatrices_ubo);

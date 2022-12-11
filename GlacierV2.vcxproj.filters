@@ -149,6 +149,9 @@
     <Filter Include="src\Engine\Systems\Scripting">
       <UniqueIdentifier>{4a8f0807-5fb8-45e1-a5df-f90f00f3a0ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\Systems\Physics">
+      <UniqueIdentifier>{41b0175c-367d-4430-8149-9dfe2765d4fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -327,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="src\Script.cpp">
       <Filter>src\Engine\Systems\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>src\Engine\Systems\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -596,6 +602,9 @@
     </ClInclude>
     <ClInclude Include="src\Script.h">
       <Filter>src\Engine\Systems\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics.h">
+      <Filter>src\Engine\Systems\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

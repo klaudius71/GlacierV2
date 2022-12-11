@@ -52,6 +52,12 @@ void CameraControllerScript::OnUpdate(float dt)
 		cam->cam_pos -= up * speed_delta;
 	else if (Input::GetKeyDown(GLACIER_KEY::KEY_E))
 		cam->cam_pos += up * speed_delta;
+
+	const Font& font = FontLoader::Get("CascadiaMono20");
+	const Framebuffer& fb = Renderer::GetMainFramebuffer();
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 3.0f, Colors::Black, "Camera Controls:");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 5.0f, Colors::Black, "Movement: WASD");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 7.0f, Colors::Black, "View: RMB + Mouse");
 }
 
 void CameraControllerScript::OnScreenResize(const int& width, const int& height)

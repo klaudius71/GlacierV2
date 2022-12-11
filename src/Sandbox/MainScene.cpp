@@ -12,14 +12,14 @@ void MainScene::InitializeScene()
 	level_script->AddScript<LevelScript>();
 	level_script->RegisterToScene();
 
-	GameObject tank = CreatePrefab<PlayerTankPrefab>();
-	tank->GetComponent<TransformComponent>().position().y = 10.5f;
-	tank->RegisterToScene();
+	//GameObject tank = CreatePrefab<PlayerTankPrefab>();
+	//tank->GetComponent<TransformComponent>().position().y = 10.5f;
+	//tank->RegisterToScene();
 
-	//GameObject camera = CreateGameObject("God Camera");
-	//camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 50.0f, 50.0f);
-	//camera->AddScript<CameraControllerScript>();
-	//camera->RegisterToScene();
+	GameObject camera = CreateGameObject("God Camera");
+	camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 50.0f, 50.0f);
+	camera->AddScript<CameraControllerScript>();
+	camera->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");
 	//const glm::vec3 light_dir = glm::normalize(glm::vec3(.967f, -1.0f, 0.254f));
@@ -35,23 +35,33 @@ void MainScene::InitializeScene()
 	GameObject terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain1"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.1f), 1.0f), TextureLoader::Get("Sand"));
+	terrain->EmplaceComponent<RigidbodyComponent>(PLANE_SHAPE);
 	terrain->RegisterToScene();
 
-	GameObject cube = CreateGameObject("Cube1");
-	cube->GetComponent<TransformComponent>().position() = glm::vec3(-41.0f, 50.0f, 30.0f);
-	cube->GetComponent<TransformComponent>().rotation() = glm::radians(glm::vec3(-5.0f, 0.0f, 7.0f));
-	cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
-	cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
-		.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
-	cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
-	//cube->AddScript<RotatingScript>();
-	cube->RegisterToScene();
+	RigidbodyComponent* rigidbody;
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6 - i; j++)
+		{
+			GameObject cube = CreateGameObject("Cube1");
+			cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
+			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
+				.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
+
+			rigidbody = &cube->EmplaceComponent<RigidbodyComponent>(BOX_SHAPE, 15.0f, 15.0f, 15.0f);
+			rigidbody->rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(float(j * 2 - (6 - i) + 1), float(i * 2 + 1), 0.0f) * 15.0f));
+			cube->RegisterToScene();
+		}
+	}
 	
 	GameObject sphere = CreateGameObject("Sphere");
 	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
-	sphere->GetComponent<TransformComponent>().position() = glm::vec3(18.0f, 68.0f, 86.0f);
+	//sphere->GetComponent<TransformComponent>().position() = glm::vec3(18.0f, 68.0f, 86.0f);
+	rigidbody = &sphere->EmplaceComponent<RigidbodyComponent>(SPHERE_SHAPE, 20.0f);
+	rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(0.0f, 20.0f, 200.0f)));
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();
 

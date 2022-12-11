@@ -6,6 +6,8 @@
 #include "Renderer2DAtt.h"
 #include "Lighting.h"
 #include "Animator.h"
+#include "Physics.h"
+#include "TimeManager.h"
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -26,6 +28,7 @@ void SceneManager::updateCurrentScene()
 	Scene& scn = *curr_scene;
 
 	scn.cmd_broker.DequeueAndExecuteAll();
+	Physics::SimulatePhysics(TimeManager::GetDeltaTime(), 1, 1.0f / 60.0f, scn);
 	Script::ExecuteAllOnUpdate(scn);
 	scn.scn_graph.UpdateTransforms();
 	Animator::UpdateAnimationComponents(scn);

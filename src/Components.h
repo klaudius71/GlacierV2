@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "Script.h"
 #include "UUID.h"
+#include "Physics.h"
 
 struct NameComponent
 {
@@ -39,6 +40,8 @@ struct TransformComponent
 	glm::vec3& scale() { flag_changed = true; return scl; }
 
 	const glm::mat4& GetWorldMatrix() const { return world_matrix; }
+	void SetWorldMatrix(const glm::mat4& mat);
+	void SetWorldMatrixKeepScale(const glm::mat4& mat);
 
 	TransformComponent() = default;
 	TransformComponent(TransformComponent&& o) = default;
@@ -324,4 +327,81 @@ struct SkyboxComponent
 	{}
 };
 
-#endif _COMPONENTS
+struct RigidbodyComponent
+{
+	btCollisionShape* shape;
+	btDefaultMotionState* motion_state;
+	btRigidBody* rb;
+
+	RigidbodyComponent(PHYSICS_PLANE, const glm::vec3& normal = glm::vec3(0.0f, 1.0f, 0.0f))
+		: shape(new btStaticPlaneShape(btVector3(normal.x, normal.y, normal.z), 0.0f)), 
+		motion_state(new btDefaultMotionState)
+	{
+		btRigidBody::btRigidBodyConstructionInfo info(0.0f, motion_state, shape);
+		info.m_friction = 10.0f;
+		info.m_rollingFriction = 10.0f;
+		info.m_restitution = 0.5f;
+
+		rb = new btRigidBody(info);
+		Physics::AddRigidbodyToWorld(rb);
+	}
+	RigidbodyComponent(PHYSICS_BOX, const float& half_extent_x, const float& half_extent_y, const float& half_extent_z, const float& mass = 100.0f)
+		: shape(new btBoxShape(btVector3(half_extent_x, half_extent_y, half_extent_z))),
+		motion_state(new btDefaultMotionState)
+	{
+		btVector3 inertia;
+		shape->calculateLocalInertia(mass, inertia);
+		btRigidBody::btRigidBodyConstructionInfo info(mass, motion_state, shape, inertia);
+		info.m_friction = .6f;
+		info.m_rollingFriction = .4f;
+		info.m_restitution = 0.5f;
+
+		rb = new btRigidBody(info);
+		Physics::AddRigidbodyToWorld(rb);
+	}
+	RigidbodyComponent(PHYSICS_SPHERE, const float& radius, const float& mass = 250.0f)
+		: shape(new btSphereShape(radius)), 
+		motion_state(new btDefaultMotionState)
+	{
+		btVector3 inertia;
+		shape->calculateLocalInertia(mass, inertia);
+		btRigidBody::btRigidBodyConstructionInfo info(mass, motion_state, shape, inertia);
+		info.m_friction = 1.0f;
+		info.m_rollingFriction = .9f;
+		info.m_restitution = .5f;
+
+		rb = new btRigidBody(info);
+		Physics::AddRigidbodyToWorld(rb);
+	}
+	RigidbodyComponent(RigidbodyComponent&& o)
+		: rb(o.rb), motion_state(o.motion_state), shape(o.shape)
+	{
+		o.rb = nullptr;
+		o.motion_state = nullptr;
+		o.shape = nullptr;
+	}
+	RigidbodyComponent& operator=(RigidbodyComponent&& o)
+	{
+		rb = o.rb;
+		motion_state = o.motion_state;
+		shape = o.shape;
+
+		o.rb = nullptr;
+		o.motion_state = nullptr;
+		o.shape = nullptr;
+
+		return *this;
+	}
+	~RigidbodyComponent()
+	{
+		if (rb)
+		{
+			Physics::RemoveRigidbodyFromWorld(rb);
+			delete shape;
+			delete rb;
+			delete motion_state;
+		}
+	}
+};
+
+#endif

@@ -87,7 +87,7 @@ void Entity::update_transform()
 	{
 		transform.flag_changed = false;
 
-		const float pi = glm::pi<float>();
+		const float constexpr pi = glm::pi<float>();
 		const float two_pi = pi * 2.0f;
 		if (transform.rot.x < -pi)
 			transform.rot.x += two_pi;
@@ -121,7 +121,7 @@ void Entity::update_transform_as_child(const glm::mat4& parent_world_matrix)
 	TransformComponent& transform = GetComponent<TransformComponent>();
 	transform.flag_changed = false;
 
-	const float pi = glm::pi<float>();
+	const float constexpr pi = glm::pi<float>();
 	const float two_pi = pi * 2.0f;
 	if (transform.rot.x < -pi)
 		transform.rot.x += two_pi;

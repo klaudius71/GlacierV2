@@ -69,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Debug\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\debug\freetype.lib;%(AdditionalDependencies);BulletLinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Debug\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\debug\freetype.lib;%(AdditionalDependencies);LinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)external\bullet3-3.24\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -93,7 +93,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Release\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\release\freetype.lib;%(AdditionalDependencies);BulletLinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Release\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\release\freetype.lib;%(AdditionalDependencies);LinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)external\bullet3-3.24\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -167,6 +167,7 @@
     </ClCompile>
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\ModelLoader.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="src\ModelAtt.h" />
     <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\ModelLoaderAtt.h" />
+    <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Prefab.h" />
     <ClInclude Include="src\RendererAtt.h" />
     <ClInclude Include="src\Sandbox\BSphereTestingScript.h" />

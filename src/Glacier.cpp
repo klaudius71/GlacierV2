@@ -13,6 +13,7 @@
 #include "RendererAtt.h"
 #include "InputAtt.h"
 #include "EditorLayer.h"
+#include "Physics.h"
 
 Glacier* Glacier::instance = nullptr;
 
@@ -74,6 +75,7 @@ void Glacier::run()
 	RendererAtt::Initialize();
 	SceneManagerAtt::Engine::Initialize();
 	EditorLayer::Initialize();
+	Physics::Initialize();
 
 	// Loads user defined assets
 	LoadResources();
