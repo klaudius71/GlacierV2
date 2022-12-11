@@ -1,0 +1,8 @@
+﻿  Building Custom Rule C:/Users/Klaudius/Downloads/bullet3-3.24/src/Bullet3Serialize/Bullet2FileLoader/CMakeLists.txt
+  b3BulletFile.cpp
+  b3Chunk.cpp
+  b3DNA.cpp
+  b3File.cpp
+  b3Serializer.cpp
+  Generating Code...
+  Bullet2FileLoader.vcxproj -> C:\Users\Klaudius\source\repos\Sandbox\bullet3-3.24\lib\Debug\Bullet2FileLoader_Debug.lib

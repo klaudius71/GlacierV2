@@ -4,23 +4,40 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GlacierV2", "GlacierV2.vcxproj", "{6641254A-35E0-4559-901C-A07601C326D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F0D42053-5616-309D-90DE-4E842E1E6355} = {F0D42053-5616-309D-90DE-4E842E1E6355}
+		{006D3D96-0D66-3A14-A83C-09DDF42DF44F} = {006D3D96-0D66-3A14-A83C-09DDF42DF44F}
+		{F9B7A0E3-5A7D-3546-B655-597F29AD2113} = {F9B7A0E3-5A7D-3546-B655-597F29AD2113}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletCollision", "external\bullet3-3.24\src\BulletCollision\BulletCollision.vcxproj", "{006D3D96-0D66-3A14-A83C-09DDF42DF44F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletDynamics", "external\bullet3-3.24\src\BulletDynamics\BulletDynamics.vcxproj", "{F0D42053-5616-309D-90DE-4E842E1E6355}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinearMath", "external\bullet3-3.24\src\LinearMath\LinearMath.vcxproj", "{F9B7A0E3-5A7D-3546-B655-597F29AD2113}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6641254A-35E0-4559-901C-A07601C326D6}.Debug|x64.ActiveCfg = Debug|x64
 		{6641254A-35E0-4559-901C-A07601C326D6}.Debug|x64.Build.0 = Debug|x64
-		{6641254A-35E0-4559-901C-A07601C326D6}.Debug|x86.ActiveCfg = Debug|Win32
-		{6641254A-35E0-4559-901C-A07601C326D6}.Debug|x86.Build.0 = Debug|Win32
 		{6641254A-35E0-4559-901C-A07601C326D6}.Release|x64.ActiveCfg = Release|x64
 		{6641254A-35E0-4559-901C-A07601C326D6}.Release|x64.Build.0 = Release|x64
-		{6641254A-35E0-4559-901C-A07601C326D6}.Release|x86.ActiveCfg = Release|Win32
-		{6641254A-35E0-4559-901C-A07601C326D6}.Release|x86.Build.0 = Release|Win32
+		{006D3D96-0D66-3A14-A83C-09DDF42DF44F}.Debug|x64.ActiveCfg = Debug|x64
+		{006D3D96-0D66-3A14-A83C-09DDF42DF44F}.Debug|x64.Build.0 = Debug|x64
+		{006D3D96-0D66-3A14-A83C-09DDF42DF44F}.Release|x64.ActiveCfg = Release|x64
+		{006D3D96-0D66-3A14-A83C-09DDF42DF44F}.Release|x64.Build.0 = Release|x64
+		{F0D42053-5616-309D-90DE-4E842E1E6355}.Debug|x64.ActiveCfg = Debug|x64
+		{F0D42053-5616-309D-90DE-4E842E1E6355}.Debug|x64.Build.0 = Debug|x64
+		{F0D42053-5616-309D-90DE-4E842E1E6355}.Release|x64.ActiveCfg = Release|x64
+		{F0D42053-5616-309D-90DE-4E842E1E6355}.Release|x64.Build.0 = Release|x64
+		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Debug|x64.ActiveCfg = Debug|x64
+		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Debug|x64.Build.0 = Debug|x64
+		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Release|x64.ActiveCfg = Release|x64
+		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

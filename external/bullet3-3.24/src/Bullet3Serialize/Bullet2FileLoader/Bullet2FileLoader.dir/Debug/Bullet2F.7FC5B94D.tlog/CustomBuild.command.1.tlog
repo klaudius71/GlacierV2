@@ -1,0 +1,10 @@
+^C:\USERS\KLAUDIUS\DOWNLOADS\BULLET3-3.24\SRC\BULLET3SERIALIZE\BULLET2FILELOADER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Klaudius/Downloads/bullet3-3.24 -BC:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24 --check-stamp-file C:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24/src/Bullet3Serialize/Bullet2FileLoader/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

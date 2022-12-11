@@ -47,6 +47,8 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
+#include "btBulletDynamicsCommon.h"
+
 #include "Colors.h"
 
 //#pragma warning(disable : 4005)
