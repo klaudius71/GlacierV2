@@ -61,7 +61,9 @@ void EditorLayer::newFrame()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+#ifdef SHOW_EDITOR
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+#endif
 }
 void EditorLayer::render()
 {

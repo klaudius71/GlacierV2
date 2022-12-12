@@ -108,8 +108,8 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight());
 
-	ImGui::Begin("Debug");
+	/*ImGui::Begin("Debug");
 	ImGui::Text("DirLight Shadow Texture:");
 	ImGui::Image((ImTextureID)(uint64_t)DirShadow_tex, ImVec2{256, 256}, ImVec2{0,0}, ImVec2{1,1});
-	ImGui::End();
+	ImGui::End();*/
 }

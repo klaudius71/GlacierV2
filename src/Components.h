@@ -359,7 +359,7 @@ struct RigidbodyComponent
 		rb = new btRigidBody(info);
 		Physics::AddRigidbodyToWorld(rb);
 	}
-	RigidbodyComponent(PHYSICS_SPHERE, const float& radius, const float& mass = 250.0f)
+	RigidbodyComponent(PHYSICS_SPHERE, const float& radius, const float& mass = 500.0f)
 		: shape(new btSphereShape(radius)), 
 		motion_state(new btDefaultMotionState)
 	{

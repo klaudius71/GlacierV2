@@ -22,7 +22,10 @@ void RotatingScript::OnUpdate(float dt)
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_F) && !key_pressed)
 	{
 		key_pressed = true;
-		GetGameObject()->GetComponent<RigidbodyComponent>().rb->setLinearVelocity(btVector3(0.0f, 100.0f, -250.0f));
+		RigidbodyComponent& rigidbody = GetGameObject()->GetComponent<RigidbodyComponent>();
+		rigidbody.rb->activate(); // Apparently applying a force or impulse doesn't activate the rigidbody
+		rigidbody.rb->applyCentralImpulse(btVector3(0.0f, 40000.0f, -150000.0f));
+		rigidbody.rb->applyTorqueImpulse(btVector3(0.0f, 500000.0f, 0.0f));
 	}
 	else if(!Input::GetKeyDown(GLACIER_KEY::KEY_F))
 	{
