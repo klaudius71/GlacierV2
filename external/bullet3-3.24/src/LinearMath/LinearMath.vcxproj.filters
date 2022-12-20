@@ -1,146 +1,146 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedAllocator.cpp">
+    <ClCompile Include="btAlignedAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHull.cpp">
+    <ClCompile Include="btConvexHull.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHullComputer.cpp">
+    <ClCompile Include="btConvexHullComputer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGeometryUtil.cpp">
+    <ClCompile Include="btGeometryUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPolarDecomposition.cpp">
+    <ClCompile Include="btPolarDecomposition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuickprof.cpp">
+    <ClCompile Include="btQuickprof.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btReducedVector.cpp">
+    <ClCompile Include="btReducedVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer.cpp">
+    <ClCompile Include="btSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer64.cpp">
+    <ClCompile Include="btSerializer64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btThreads.cpp">
+    <ClCompile Include="btThreads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btVector3.cpp">
+    <ClCompile Include="btVector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btTaskScheduler.cpp">
+    <ClCompile Include="TaskScheduler\btTaskScheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportPosix.cpp">
+    <ClCompile Include="TaskScheduler\btThreadSupportPosix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportWin32.cpp">
+    <ClCompile Include="TaskScheduler\btThreadSupportWin32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAabbUtil2.h">
+    <ClInclude Include="btAabbUtil2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedAllocator.h">
+    <ClInclude Include="btAlignedAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedObjectArray.h">
+    <ClInclude Include="btAlignedObjectArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHull.h">
+    <ClInclude Include="btConvexHull.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHullComputer.h">
+    <ClInclude Include="btConvexHullComputer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btDefaultMotionState.h">
+    <ClInclude Include="btDefaultMotionState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGeometryUtil.h">
+    <ClInclude Include="btGeometryUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGrahamScan2dConvexHull.h">
+    <ClInclude Include="btGrahamScan2dConvexHull.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btHashMap.h">
+    <ClInclude Include="btHashMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btIDebugDraw.h">
+    <ClInclude Include="btIDebugDraw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btList.h">
+    <ClInclude Include="btList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMatrix3x3.h">
+    <ClInclude Include="btMatrix3x3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btImplicitQRSVD.h">
+    <ClInclude Include="btImplicitQRSVD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMinMax.h">
+    <ClInclude Include="btMinMax.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btModifiedGramSchmidt.h">
+    <ClInclude Include="btModifiedGramSchmidt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMotionState.h">
+    <ClInclude Include="btMotionState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPolarDecomposition.h">
+    <ClInclude Include="btPolarDecomposition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPoolAllocator.h">
+    <ClInclude Include="btPoolAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuadWord.h">
+    <ClInclude Include="btQuadWord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuaternion.h">
+    <ClInclude Include="btQuaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuickprof.h">
+    <ClInclude Include="btQuickprof.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btReducedVector.h">
+    <ClInclude Include="btReducedVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btRandom.h">
+    <ClInclude Include="btRandom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btScalar.h">
+    <ClInclude Include="btScalar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer.h">
+    <ClInclude Include="btSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btStackAlloc.h">
+    <ClInclude Include="btStackAlloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btThreads.h">
+    <ClInclude Include="btThreads.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btTransform.h">
+    <ClInclude Include="btTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btTransformUtil.h">
+    <ClInclude Include="btTransformUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btVector3.h">
+    <ClInclude Include="btVector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportInterface.h">
+    <ClInclude Include="TaskScheduler\btThreadSupportInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\CMakeLists.txt" />
+    <CustomBuild Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

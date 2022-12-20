@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -73,10 +73,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_WIN64;BT_THREADSAFE=1;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NO_OPENGL3;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -89,7 +89,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -110,10 +110,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_WIN64;BT_THREADSAFE=1;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NO_OPENGL3;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Klaudius\Downloads\bullet3-3.24\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -125,82 +125,51 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\CMakeLists.txt">
-      <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Klaudius/Downloads/bullet3-3.24/src/LinearMath/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Klaudius/Downloads/bullet3-3.24 -BC:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24 --check-stamp-file C:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24/src/LinearMath/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Klaudius\source\repos\Sandbox\bullet3-3.24\src\LinearMath\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Klaudius/Downloads/bullet3-3.24/src/LinearMath/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Klaudius/Downloads/bullet3-3.24 -BC:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24 --check-stamp-file C:/Users/Klaudius/source/repos/Sandbox/bullet3-3.24/src/LinearMath/CMakeFiles/generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Klaudius\source\repos\Sandbox\bullet3-3.24\src\LinearMath\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedAllocator.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHull.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHullComputer.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGeometryUtil.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPolarDecomposition.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuickprof.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btReducedVector.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer64.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btThreads.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btVector3.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btTaskScheduler.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportPosix.cpp" />
-    <ClCompile Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportWin32.cpp" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAabbUtil2.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedAllocator.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btAlignedObjectArray.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHull.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btConvexHullComputer.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btDefaultMotionState.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGeometryUtil.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btGrahamScan2dConvexHull.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btHashMap.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btIDebugDraw.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btList.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMatrix3x3.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btImplicitQRSVD.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMinMax.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btModifiedGramSchmidt.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btMotionState.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPolarDecomposition.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btPoolAllocator.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuadWord.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuaternion.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btQuickprof.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btReducedVector.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btRandom.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btScalar.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btSerializer.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btStackAlloc.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btThreads.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btTransform.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btTransformUtil.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\btVector3.h" />
-    <ClInclude Include="C:\Users\Klaudius\Downloads\bullet3-3.24\src\LinearMath\TaskScheduler\btThreadSupportInterface.h" />
+    <ClCompile Include="$(ProjectDir)btAlignedAllocator.cpp" />
+    <ClCompile Include="$(ProjectDir)btConvexHull.cpp" />
+    <ClCompile Include="$(ProjectDir)btConvexHullComputer.cpp" />
+    <ClCompile Include="$(ProjectDir)btGeometryUtil.cpp" />
+    <ClCompile Include="$(ProjectDir)btPolarDecomposition.cpp" />
+    <ClCompile Include="$(ProjectDir)btQuickprof.cpp" />
+    <ClCompile Include="$(ProjectDir)btReducedVector.cpp" />
+    <ClCompile Include="$(ProjectDir)btSerializer.cpp" />
+    <ClCompile Include="$(ProjectDir)btSerializer64.cpp" />
+    <ClCompile Include="$(ProjectDir)btThreads.cpp" />
+    <ClCompile Include="$(ProjectDir)btVector3.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btTaskScheduler.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btThreadSupportPosix.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btThreadSupportWin32.cpp" />
+    <ClInclude Include="$(ProjectDir)btAabbUtil2.h" />
+    <ClInclude Include="$(ProjectDir)btAlignedAllocator.h" />
+    <ClInclude Include="$(ProjectDir)btAlignedObjectArray.h" />
+    <ClInclude Include="$(ProjectDir)btConvexHull.h" />
+    <ClInclude Include="$(ProjectDir)btConvexHullComputer.h" />
+    <ClInclude Include="$(ProjectDir)btDefaultMotionState.h" />
+    <ClInclude Include="$(ProjectDir)btGeometryUtil.h" />
+    <ClInclude Include="$(ProjectDir)btGrahamScan2dConvexHull.h" />
+    <ClInclude Include="$(ProjectDir)btHashMap.h" />
+    <ClInclude Include="$(ProjectDir)btIDebugDraw.h" />
+    <ClInclude Include="$(ProjectDir)btList.h" />
+    <ClInclude Include="$(ProjectDir)btMatrix3x3.h" />
+    <ClInclude Include="$(ProjectDir)btImplicitQRSVD.h" />
+    <ClInclude Include="$(ProjectDir)btMinMax.h" />
+    <ClInclude Include="$(ProjectDir)btModifiedGramSchmidt.h" />
+    <ClInclude Include="$(ProjectDir)btMotionState.h" />
+    <ClInclude Include="$(ProjectDir)btPolarDecomposition.h" />
+    <ClInclude Include="$(ProjectDir)btPoolAllocator.h" />
+    <ClInclude Include="$(ProjectDir)btQuadWord.h" />
+    <ClInclude Include="$(ProjectDir)btQuaternion.h" />
+    <ClInclude Include="$(ProjectDir)btQuickprof.h" />
+    <ClInclude Include="$(ProjectDir)btReducedVector.h" />
+    <ClInclude Include="$(ProjectDir)btRandom.h" />
+    <ClInclude Include="$(ProjectDir)btScalar.h" />
+    <ClInclude Include="$(ProjectDir)btSerializer.h" />
+    <ClInclude Include="$(ProjectDir)btStackAlloc.h" />
+    <ClInclude Include="$(ProjectDir)btThreads.h" />
+    <ClInclude Include="$(ProjectDir)btTransform.h" />
+    <ClInclude Include="$(ProjectDir)btTransformUtil.h" />
+    <ClInclude Include="$(ProjectDir)btVector3.h" />
+    <ClInclude Include="$(ProjectDir)TaskScheduler\btThreadSupportInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
