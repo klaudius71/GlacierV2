@@ -21,3 +21,4 @@
 #include "Renderer.h"
 #include "Renderer2D.h"
 #include "Prefab.h"
+#include "Logger.h"

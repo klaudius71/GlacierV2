@@ -10,6 +10,7 @@
 #include "Lighting.h"
 #include "Animator.h"
 #include "SkeletalAnimation.h"
+#include "Logger.h"
 
 Renderer* Renderer::instance = nullptr;
 Renderer::Renderer()
@@ -169,6 +170,8 @@ void Renderer::CullScene(Scene& scn, const CameraComponent& camera)
 }
 void Renderer::RenderScene(Scene& scn)
 {
+	GLACIER_LOG_FUNC_TIMER("3d");
+
 	const CameraComponent& camera = scn.GetActiveCamera();
 	UpdateCameraData(camera);
 

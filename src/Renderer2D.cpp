@@ -10,6 +10,7 @@
 #include "Font.h"
 #include "ShaderLoader.h"
 #include "Shader.h"
+#include "Logger.h"
 
 Renderer2D* Renderer2D::instance = nullptr;
 
@@ -70,6 +71,8 @@ void Renderer2D::Terminate()
 
 void Renderer2D::renderComponents(Scene& scn)
 {
+	GLACIER_LOG_FUNC_TIMER("2d");
+
 	const Framebuffer& framebuffer = Renderer::GetMainFramebuffer();
 	const glm::ivec2& viewport_size = framebuffer.GetSize();
 	glViewport(0, 0, viewport_size.x, viewport_size.y);

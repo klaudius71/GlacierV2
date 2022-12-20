@@ -334,6 +334,9 @@
     <ClCompile Include="src\Physics.cpp">
       <Filter>src\Engine\Systems\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Logger.cpp">
+      <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -605,6 +608,9 @@
     </ClInclude>
     <ClInclude Include="src\Physics.h">
       <Filter>src\Engine\Systems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Logger.h">
+      <Filter>src\Engine\Misc\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

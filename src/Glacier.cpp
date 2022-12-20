@@ -90,6 +90,8 @@ void Glacier::run()
 	// Main loop
 	while (!window->IsOpen())
 	{
+		GLACIER_LOG_FUNC_TIMER("frame_time");
+
 		window->Clear();
 		Renderer::GetMainFramebuffer().Clear();
 

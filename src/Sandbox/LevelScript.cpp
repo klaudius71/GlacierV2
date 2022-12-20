@@ -3,11 +3,8 @@
 #include "RotatingScript.h"
 
 LevelScript::LevelScript()
-	: Script("LevelScript"), frame_time_index(0)
+	: Script("LevelScript")
 {
-	frame_time_data.reserve(100);
-	for (int i = 0; i < 100; i++)
-		frame_time_data.emplace_back(0.0f);
 }
 
 void LevelScript::OnSceneEnter()
@@ -44,14 +41,15 @@ void LevelScript::OnUpdate(float dt)
 		GetCurrentScene().DestroyGameObject(cube2);
 	}
 
-	frame_time_data[frame_time_index++] = dt;
-	if (frame_time_index == 100)
-		frame_time_index = 0;
-
-	const float avg_frame_time = std::accumulate(frame_time_data.cbegin(), frame_time_data.cend(), 0.0f) / 100.0f;
 	const Framebuffer& fb = Renderer::GetMainFramebuffer();
 	const Font& font = FontLoader::Get("CascadiaMono20");
-	Renderer2D::PrintText(font, 0.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::MediumBlue, "frame_time: %.3fms", avg_frame_time * 1000.0f);
+	Renderer2D::PrintText(font, 0.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "update: %.4fms", Logger::GetFloat("update"));
+	Renderer2D::PrintText(font, 200.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "physics: %.4fms", Logger::GetFloat("physics"));
+	Renderer2D::PrintText(font, 420.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "draw: %.4fms", Logger::GetFloat("draw"));
+	Renderer2D::PrintText(font, 600.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "3d: %.4fms", Logger::GetFloat("3d"));
+	Renderer2D::PrintText(font, 750.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "2d: %.4fms", Logger::GetFloat("2d"));
+	Renderer2D::PrintText(font, 0.0f, (float)fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 3.0f, Colors::Blue, "frame_time: %.4fms", Logger::GetFloat("frame_time"));
+
 }
 void LevelScript::OnSceneExit()
 {

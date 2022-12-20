@@ -8,6 +8,7 @@
 #include "Animator.h"
 #include "Physics.h"
 #include "TimeManager.h"
+#include "Logger.h"
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -22,6 +23,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::updateCurrentScene()
 {
+	GLACIER_LOG_FUNC_TIMER("update");
 	scene_change->Execute();
 
 	assert(curr_scene);
@@ -36,6 +38,7 @@ void SceneManager::updateCurrentScene()
 }
 void SceneManager::renderCurrentScene()
 {
+	GLACIER_LOG_FUNC_TIMER("draw");
 	assert(curr_scene);
 
 	RendererAtt::RenderScene(*curr_scene);

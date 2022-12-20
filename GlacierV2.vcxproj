@@ -162,6 +162,7 @@
     </ClCompile>
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
+    <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -242,6 +243,7 @@
     <ClInclude Include="src\InputAtt.h" />
     <ClInclude Include="src\KeyCodes.h" />
     <ClInclude Include="src\Lighting.h" />
+    <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelAtt.h" />
     <ClInclude Include="src\ModelLoader.h" />

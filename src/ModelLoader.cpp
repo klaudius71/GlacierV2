@@ -28,7 +28,7 @@ ModelLoader::ModelLoader()
 
 Model& ModelLoader::load_async_file(const std::string& name, const std::string& file_name)
 {
-	GLACIER_FUNC_TIMER("Loaded " + file_name + " in... ");
+	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
 	Model mod(MODEL_PATH + file_name);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");

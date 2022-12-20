@@ -2,6 +2,7 @@
 #include "Physics.h"
 #include "Scene.h"
 #include "Components.h"
+#include "Logger.h"
 
 Physics& Physics::Instance()
 {
@@ -41,6 +42,8 @@ Physics::~Physics()
 
 void Physics::simulatePhysics(const float& timestep, const int& max_substeps, const float& fixed_timestep, Scene& scn)
 {
+	GLACIER_LOG_FUNC_TIMER("physics");
+
 	dynamicsWorld->stepSimulation(timestep, max_substeps, fixed_timestep);
 
 	entt::registry& registry = scn.GetRegistry();
