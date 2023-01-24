@@ -46,11 +46,11 @@ void Physics::simulatePhysics(const float& timestep, const int& max_substeps, co
 
 	dynamicsWorld->stepSimulation(timestep, max_substeps, fixed_timestep);
 
+	btTransform transf; 
 	entt::registry& registry = scn.GetRegistry();
 	auto group = registry.group<RigidbodyComponent, TransformComponent>(entt::get<MeshComponent>);
 	for (auto&& [entity, rigidbody, transform, mesh] : group.each())
 	{
-		btTransform transf; 
 		rigidbody.motion_state->getWorldTransform(transf);
 		glm::mat4 mat;
 		transf.getOpenGLMatrix(glm::value_ptr(mat));

@@ -17,7 +17,7 @@ void MainScene::InitializeScene()
 	//tank->RegisterToScene();
 
 	GameObject camera = CreateGameObject("God Camera");
-	camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 50.0f, 50.0f);
+	camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 100.0f, 50.0f);
 	camera->AddScript<CameraControllerScript>();
 	camera->RegisterToScene();
 
@@ -33,9 +33,10 @@ void MainScene::InitializeScene()
 	skybox->RegisterToScene();
 
 	GameObject terrain = CreateGameObject("Terrain");
-	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain1"), false);
+	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.1f), 1.0f), TextureLoader::Get("Sand"));
-	terrain->EmplaceComponent<RigidbodyComponent>(PLANE_SHAPE);
+	//terrain->EmplaceComponent<RigidbodyComponent>(PLANE_SHAPE);
+	terrain->EmplaceComponent<RigidbodyComponent>(ModelLoader::Get("TempTerrain"));
 	terrain->RegisterToScene();
 
 	RigidbodyComponent* rigidbody;
@@ -48,9 +49,9 @@ void MainScene::InitializeScene()
 			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
 				.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
-
+	
 			rigidbody = &cube->EmplaceComponent<RigidbodyComponent>(BOX_SHAPE, 15.0f, 15.0f, 15.0f);
-			rigidbody->rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(float(j * 2 - (6 - i) + 1), float(i * 2 + 1), 0.0f) * 15.0f));
+			rigidbody->rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f));
 			cube->RegisterToScene();
 		}
 	}
@@ -61,13 +62,14 @@ void MainScene::InitializeScene()
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
 	//sphere->GetComponent<TransformComponent>().position() = glm::vec3(18.0f, 68.0f, 86.0f);
 	rigidbody = &sphere->EmplaceComponent<RigidbodyComponent>(SPHERE_SHAPE, 20.0f);
-	rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(0.0f, 20.0f, 200.0f)));
+	//rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(0.0f, 20.0f, 200.0f)));
+	rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(150.0f, 500.0f, 100.0f)));
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();
 
 	GameObject vampire = CreateGameObject("Vampire");
 	vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
-	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 0.0f, 0.0f);
+	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 40.0f, 0.0f);
 	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
 	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
 	vampire->RegisterToScene();
