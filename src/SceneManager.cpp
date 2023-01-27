@@ -30,7 +30,7 @@ void SceneManager::updateCurrentScene()
 	Scene& scn = *curr_scene;
 
 	scn.cmd_broker.DequeueAndExecuteAll();
-	Physics::SimulatePhysics(TimeManager::GetDeltaTime(), 1, 1.0f / 60.0f, scn);
+	Physics::SimulatePhysics(TimeManager::GetDeltaTime(), 2, 1.0f / 60.0f, scn);
 	Script::ExecuteAllOnUpdate(scn);
 	scn.scn_graph.UpdateTransforms();
 	Animator::UpdateAnimationComponents(scn);

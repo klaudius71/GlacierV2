@@ -7,6 +7,8 @@
 
 void Animator::UpdateAnimationComponents(Scene& scn)
 {
+	GLACIER_LOG_FUNC_TIMER("animation");
+
 	entt::registry& registry = scn.GetRegistry();
 
 	const auto view = registry.view<SkeletalAnimationComponent, SkeletalMeshComponent>();

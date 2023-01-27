@@ -12,4 +12,7 @@ public:
 
 private:
 	GameObject cube2;
+
+	int frames;
+	float update, physics, draw, three, two, animation, frame_time;
 };

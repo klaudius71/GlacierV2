@@ -48,7 +48,7 @@ Window::Window(const int& width, const int& height)
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwGetWindowPos(window, &prev_window_pos_x, &prev_window_pos_y);
 
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 }
 Window::~Window()
 {
