@@ -1,4 +1,4 @@
-#version 460
+#version 420
 
 uniform vec4 color;
 uniform sampler2D textures[4];

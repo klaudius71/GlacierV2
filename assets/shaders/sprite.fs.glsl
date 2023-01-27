@@ -1,4 +1,4 @@
-#version 460 core
+#version 420
 
 uniform sampler2D sprite_texture;
 

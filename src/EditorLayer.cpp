@@ -226,5 +226,8 @@ void EditorLayer::showEditorDont()
 	const Window& window = Glacier::GetWindow();
 	const int& width = window.GetWindowWidth();
 	const int& height = window.GetWindowHeight();
-	glBlitNamedFramebuffer(Renderer::GetMainFramebuffer().GetFBO(), 0,  0, 0, width, height,  0, 0, width, height,  GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, Renderer::GetMainFramebuffer().GetFBO());
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 }

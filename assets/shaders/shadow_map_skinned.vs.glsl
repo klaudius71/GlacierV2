@@ -1,4 +1,4 @@
-#version 460 core
+#version 420
 
 #define MAX_BONES 100
 

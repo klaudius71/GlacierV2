@@ -28,7 +28,7 @@ Window::Window(const int& width, const int& height)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #if _DEBUG
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
@@ -48,7 +48,7 @@ Window::Window(const int& width, const int& height)
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwGetWindowPos(window, &prev_window_pos_x, &prev_window_pos_y);
 
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 }
 Window::~Window()
 {

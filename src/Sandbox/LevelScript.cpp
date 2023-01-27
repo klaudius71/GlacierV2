@@ -41,7 +41,7 @@ void LevelScript::OnUpdate(float dt)
 		GetCurrentScene().DestroyGameObject(cube2);
 	}
 
-	if (frames > (0.25f * (1.0f / dt)))
+	if ((float)frames > (0.1f * (1.0f / dt)))
 	{
 		frames = 0;
 		update = Logger::GetFloat("update");
