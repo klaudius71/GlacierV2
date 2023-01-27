@@ -26,7 +26,7 @@ Bone& Bone::operator=(Bone&& o)
 	return *this;
 }
 
-void Bone::ReadHierarchy(const uint32_t gltf_node, const std::vector<uint32_t>& node_to_id, const nlohmann::json& j, const std::vector<uint8_t>& buffer_data)
+void Bone::ReadHierarchy(Bone* root, const uint32_t gltf_node, const std::vector<uint32_t>& node_to_id, const nlohmann::json& j, const std::vector<uint8_t>& buffer_data)
 {
 	name = j["nodes"][gltf_node]["name"];
 	id = node_to_id[gltf_node];
@@ -37,8 +37,8 @@ void Bone::ReadHierarchy(const uint32_t gltf_node, const std::vector<uint32_t>& 
 		children.reserve(children_array.value().size());
 		for (uint32_t child_node_id : children_array.value())
 		{
-			children.emplace_back();
-			children.back().ReadHierarchy(child_node_id, node_to_id, j, buffer_data);
+			children.emplace_back(&root[node_to_id[child_node_id]]);
+			children.back()->ReadHierarchy(root, child_node_id, node_to_id, j, buffer_data);
 		}
 	}
 
@@ -152,5 +152,5 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 	bone_matrices[id] = transform * inverse_bind_matrices[id];
 
 	for (auto& x : children)
-		x.ApplyTransformHierarchy(timestamp, bone_matrices, inverse_bind_matrices, transform);
+		x->ApplyTransformHierarchy(timestamp, bone_matrices, inverse_bind_matrices, transform);
 }

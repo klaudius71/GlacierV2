@@ -3,7 +3,6 @@
 #include "Bone.h"
 
 SkeletalAnimation::SkeletalAnimation(const std::string& file_name)
-	: bone_hierarchy_root(new Bone)
 {
 	name = file_name;
 	std::ifstream file(file_name);
@@ -27,10 +26,12 @@ SkeletalAnimation::SkeletalAnimation(const std::string& file_name)
 	}
 	i = 0;
 	std::vector<uint32_t> node_to_id;
+	node_to_id.reserve(node_to_id_map.size());
 	for (const auto& x : node_to_id_map)
 		node_to_id.emplace_back(x.second);
 	
-	bone_hierarchy_root->ReadHierarchy(j["skins"][0]["joints"][0], node_to_id, j, buffer_data);
+	bone_hierarchy_root = new Bone[node_to_id.size()];
+	bone_hierarchy_root->ReadHierarchy(bone_hierarchy_root, j["skins"][0]["joints"][0], node_to_id, j, buffer_data);
 }
 SkeletalAnimation::SkeletalAnimation(SkeletalAnimation&& o)
 	: name(std::move(o.name)), bone_hierarchy_root(o.bone_hierarchy_root), anim_duration(o.anim_duration)
@@ -51,7 +52,7 @@ SkeletalAnimation& SkeletalAnimation::operator=(SkeletalAnimation&& o)
 }
 SkeletalAnimation::~SkeletalAnimation()
 {
-	delete bone_hierarchy_root;
+	delete[] bone_hierarchy_root;
 }
 
 void SkeletalAnimation::Apply(glm::mat4* const mats, const std::vector<glm::mat4>& inverse_bind_matrices, const float& timestamp) const

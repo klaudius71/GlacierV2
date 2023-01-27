@@ -37,9 +37,9 @@ void Glacier::LoadResources()
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
 
-	SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_3.gltf");
+	//SkeletalAnimationLoader::Load("VampireDancing", "vampire_anim_3.gltf");
 	SkeletalAnimationLoader::Load("VampireIdle", "vampire_standing idle.gltf");
-	SkeletalAnimationLoader::Load("DudeIdle", "dude_standing idle.gltf");
+	//SkeletalAnimationLoader::Load("DudeIdle", "dude_standing idle.gltf");
 
 	SceneManager::SetNextScene(new MainScene);
 }

@@ -53,7 +53,7 @@ void LevelScript::OnUpdate(float dt)
 		frame_time = dt * 1000.0f;
 
 		static char buf[128];
-		sprintf_s(buf, "Glacier V2\tFPS: %f", 1.0f / dt);
+		sprintf_s(buf, "Glacier V2  FPS: %.1f", 1.0f / dt);
 		Glacier::GetWindow().SetWindowTitle(buf);
 	}
 
@@ -66,7 +66,7 @@ void LevelScript::OnUpdate(float dt)
 	Renderer2D::PrintText(font, 420.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "draw: %.4fms", draw);
 	Renderer2D::PrintText(font, 600.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "3d: %.4fms", three);
 	Renderer2D::PrintText(font, 750.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "2d: %.4fms", two);
-	Renderer2D::PrintText(font, 950.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "animation: %.4fms", animation);
+	Renderer2D::PrintText(font, 910.0f, (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f, Colors::White, "animation: %.4fms", animation);
 	Renderer2D::PrintText(font, 0.0f, (float)fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 3.0f, Colors::Blue, "frame_time: %.4fms", frame_time);
 }
 void LevelScript::OnSceneExit()
