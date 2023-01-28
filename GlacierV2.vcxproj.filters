@@ -152,6 +152,9 @@
     <Filter Include="src\Engine\Systems\Physics">
       <UniqueIdentifier>{41b0175c-367d-4430-8149-9dfe2765d4fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Engine\ECS\Components">
+      <UniqueIdentifier>{a38b264f-c259-4cd9-bd74-5f678e6089b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -259,9 +262,6 @@
     <ClCompile Include="src\WeakPtr.cpp">
       <Filter>src\Engine\Misc\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components.cpp">
-      <Filter>src\Engine\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="src\Font.cpp">
       <Filter>src\Engine\Asset</Filter>
     </ClCompile>
@@ -336,6 +336,42 @@
     </ClCompile>
     <ClCompile Include="src\Logger.cpp">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NameComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScriptComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpriteComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SkeletalMeshComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SkeletalAnimationComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MaterialComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectionalLightComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SkyboxComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RigidbodyComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,6 +647,42 @@
     </ClInclude>
     <ClInclude Include="src\Logger.h">
       <Filter>src\Engine\Misc\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NameComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TransformComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScriptComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpriteComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeshComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkeletalMeshComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkeletalAnimationComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MaterialComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DirectionalLightComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkyboxComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RigidbodyComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Glacier.h"
 #include "Window.h"
+#include "Model.h"
 
 GLuint Lighting::DirLight_ubo = 0;
 GLuint Lighting::LightspaceMatrices_ubo = 0;

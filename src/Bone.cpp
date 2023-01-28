@@ -121,7 +121,9 @@ void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone
 {
 	assert(timestamp >= 0.0f);
 	
-	size_t i = Tools::Misc::BinarySearchApproximate(position_timestamps, timestamp);
+	uint32_t i;
+
+	i = Tools::Misc::BinarySearchApproximate(position_timestamps, timestamp);
 	float delta = (timestamp - position_timestamps[i]) / (position_timestamps[i + 1] - position_timestamps[i]);
 	glm::mat4 local_transform = glm::translate(glm::mat4(1.0f), Tools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
 	

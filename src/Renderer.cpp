@@ -5,6 +5,7 @@
 #include "Glacier.h"
 #include "Window.h"
 #include "ShaderLoader.h"
+#include "Shader.h"
 #include "TextureLoader.h"
 #include "ModelLoader.h"
 #include "Lighting.h"

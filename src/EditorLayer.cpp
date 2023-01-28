@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "SceneAtt.h"
 #include "Entity.h"
+#include "Texture.h"
 
 EditorLayer* EditorLayer::instance = nullptr;
 

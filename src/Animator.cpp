@@ -4,6 +4,7 @@
 #include "Components.h"
 #include "TimeManager.h"
 #include "SkeletalAnimation.h"
+#include "Model.h"
 
 void Animator::UpdateAnimationComponents(Scene& scn)
 {
