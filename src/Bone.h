@@ -25,7 +25,6 @@ private:
 
 	std::vector<Bone*> children;
 
-	glm::mat4 local_transform = glm::mat4(1.0f);
 	std::vector<float> position_timestamps;
 	std::vector<glm::vec3> positions;
 	std::vector<float> rotation_timestamps;

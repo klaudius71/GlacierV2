@@ -2,7 +2,7 @@
 #include "Bone.h"
 
 Bone::Bone(Bone&& o)
-	: name(std::move(o.name)), id(o.id), children(std::move(o.children)), local_transform(1.0f),
+	: name(std::move(o.name)), id(o.id), children(std::move(o.children)),
 	position_timestamps(std::move(o.position_timestamps)), positions(std::move(o.positions)),
 	rotation_timestamps(std::move(o.rotation_timestamps)), rotations(std::move(o.rotations)),
 	scale_timestamps(std::move(o.scale_timestamps)), scales(std::move(o.scales))
@@ -111,6 +111,8 @@ void Bone::ReadHierarchy(Bone* root, const uint32_t gltf_node, const std::vector
 				scales = std::vector<glm::vec3>((glm::vec3*)keyframes, ((glm::vec3*)keyframes) + count_keyframes);
 				break;
 			}
+			default:
+				assert(false);
 		}
 	}
 }
@@ -118,33 +120,17 @@ void Bone::ReadHierarchy(Bone* root, const uint32_t gltf_node, const std::vector
 void Bone::ApplyTransformHierarchy(const float& timestamp, glm::mat4* const bone_matrices, const std::vector<glm::mat4>& inverse_bind_matrices, const glm::mat4 parent_transform)
 {
 	assert(timestamp >= 0.0f);
-
-	size_t i;
-	for (i = 0; i < position_timestamps.size() - 2; i++)
-	{
-		if (timestamp < position_timestamps[i + 1])
-			break;
-	}
+	
+	size_t i = Tools::Misc::BinarySearchApproximate(position_timestamps, timestamp);
 	float delta = (timestamp - position_timestamps[i]) / (position_timestamps[i + 1] - position_timestamps[i]);
-
-	local_transform = glm::translate(glm::mat4(1.0f), Tools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
+	glm::mat4 local_transform = glm::translate(glm::mat4(1.0f), Tools::VectMath::Lerp2(positions[i], positions[i + 1], delta));
 	
-	for (i = 0; i < rotation_timestamps.size() - 2; i++)
-	{
-		if (timestamp < rotation_timestamps[i + 1])
-			break;
-	}
+	i = Tools::Misc::BinarySearchApproximate(rotation_timestamps, timestamp);
 	delta = (timestamp - rotation_timestamps[i]) / (rotation_timestamps[i + 1] - rotation_timestamps[i]);
-	
 	local_transform *= glm::mat4_cast(glm::slerp(rotations[i], rotations[i + 1], delta));
 
-	for (i = 0; i < scale_timestamps.size() - 2; i++)
-	{
-		if (timestamp < scale_timestamps[i + 1])
-			break;
-	}
+	i = Tools::Misc::BinarySearchApproximate(scale_timestamps, timestamp);
 	delta = (timestamp - scale_timestamps[i]) / (scale_timestamps[i + 1] - scale_timestamps[i]);
-
 	local_transform *= glm::scale(glm::mat4(1.0f), Tools::VectMath::Lerp2(scales[i], scales[i + 1], delta));
 
 	const glm::mat4& transform = parent_transform * local_transform;

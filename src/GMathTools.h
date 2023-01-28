@@ -73,6 +73,38 @@ namespace Tools
 		const bool PointInTriangle(const glm::vec3& pt, const glm::vec3& p0, const glm::vec3& p1, const glm::vec3& p2);
 		void BlendTriangle(const glm::vec3& pt, const glm::vec3& p0, const glm::vec3& p1, const glm::vec3& p2, float weights[3]);
 	}
+
+	namespace Misc
+	{
+		/*
+		* Runs a binary search on an array and returns the smaller index that the value falls in between.
+		* 
+		* Used in skeletal animation.
+		*/
+		template<class T>
+		uint32_t BinarySearchApproximate(const std::vector<T>& v, const T& value)
+		{
+			uint32_t low = 0;
+			uint32_t high = (const uint32_t)v.size() - 1;
+			uint32_t mid = 0;
+			while (low != high)
+			{
+				mid = (low + high) / 2;
+				if (value < v[mid + 1])
+				{
+					if (value >= v[mid])
+						return mid;
+					else
+						high = mid;
+				}
+				else
+				{
+					low = mid + 1;
+				}
+			}
+			return mid;
+		}
+	}
 };
 
 #endif _GMathTools
