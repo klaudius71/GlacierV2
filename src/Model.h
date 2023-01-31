@@ -2,13 +2,14 @@
 #define _MODEL
 
 #include "VertexTypes.h"
+#include "GlacierCore.h"
 
 enum class PREMADE_MODELS
 {
 	UNIT_CUBE_REPEAT_TEXTURE,
 };
 
-class Model
+class GLACIER_API Model
 {
 public:
 	// Load a model from a GLTF file

@@ -1,6 +1,6 @@
 #include "gpch.h"
 #include "Input.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 
 glm::f64vec2 Input::curr_mouse_position = glm::f64vec2(0.0f);

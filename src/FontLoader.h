@@ -1,9 +1,10 @@
 #ifndef _FONT_LOADER
 #define _FONT_LOADER
 
+#include "GlacierCore.h"
 #include "Font.h"
 
-class FontLoader
+class GLACIER_API FontLoader
 {
 private:
 	static const std::string FONT_PATH;

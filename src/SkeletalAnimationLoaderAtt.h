@@ -5,7 +5,7 @@
 
 class SkeletalAnimationLoaderAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 
 	static void WaitForThreads() { SkeletalAnimationLoader::WaitForThreads(); }
 	static void Terminate() { SkeletalAnimationLoader::Terminate(); }

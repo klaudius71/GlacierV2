@@ -1,7 +1,9 @@
 #ifndef _NAME_COMPONENT
 #define _NAME_COMPONENT
 
-struct NameComponent
+#include "GlacierCore.h"
+
+struct GLACIER_API NameComponent
 {
 	std::string name;
 	size_t id;

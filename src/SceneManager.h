@@ -1,13 +1,14 @@
 #ifndef _SCENE_MANAGER
 #define _SCENE_MANAGER
 
+#include "GlacierCore.h"
 #include "SceneChangeCmd.h"
 #include "SceneChangeNullCmd.h"
 
 class Scene;
 class Command;
 
-class SceneManager
+class GLACIER_API SceneManager
 {
 private:
 	static SceneManager* instance;

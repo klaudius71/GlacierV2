@@ -1,13 +1,14 @@
 #ifndef _SCENE
 #define _SCENE
 
+#include "GlacierCore.h"
 #include "CommandBroker.h"
 #include "SceneGraph.h"
 #include "Prefab.h"
 
 struct CameraComponent;
 
-class Scene
+class GLACIER_API Scene
 {
 public:
 	Scene() = default;

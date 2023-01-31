@@ -2,8 +2,9 @@
 #define _DIRECTIONAL_LIGHT_COMPONENT
 
 #include "VertexTypes.h"
+#include "GlacierCore.h"
 
-struct DirectionalLightComponent
+struct GLACIER_API DirectionalLightComponent
 {
 	VertexTypes::DirectionalLight light;
 

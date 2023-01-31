@@ -1,6 +1,7 @@
 #ifndef _MODEL_LOADER
 #define _MODEL_LOADER
 
+#include "GlacierCore.h"
 #include "VertexTypes.h"
 #include "Model.h"
 
@@ -10,7 +11,7 @@ enum class PRELOADED_MODELS
 	UNIT_CUBE
 };
 
-class ModelLoader
+class GLACIER_API ModelLoader
 {
 private:
 	static const std::string MODEL_PATH;

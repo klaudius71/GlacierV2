@@ -32,9 +32,6 @@
     <Filter Include="Libraries\glfw-3.3.8\include\GLFW">
       <UniqueIdentifier>{c5661799-8080-4a02-aa50-0f25e2e68d9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Sandbox">
-      <UniqueIdentifier>{aee9b8fd-006e-44d8-97c1-947727774772}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Libraries\glm-0.9.9.8">
       <UniqueIdentifier>{dd4f8b21-75d5-48d9-9e89-6040adc57308}</UniqueIdentifier>
     </Filter>
@@ -52,15 +49,6 @@
     </Filter>
     <Filter Include="Libraries\MemTracker">
       <UniqueIdentifier>{8d38270c-697a-42e5-ae50-eeaf21dcc57d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Sandbox\Scripts">
-      <UniqueIdentifier>{142b005a-3c9c-4917-ad10-d6a6ed45f234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Sandbox\Scenes">
-      <UniqueIdentifier>{c33fdff3-0531-44eb-b962-e10b7f8d646f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Sandbox\Prefabs">
-      <UniqueIdentifier>{192dacd5-e65a-4579-a29c-9e7fb85ccde9}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Engine">
       <UniqueIdentifier>{c5ab7cb3-39af-4b73-b564-8135e9b5f5b9}</UniqueIdentifier>
@@ -160,9 +148,6 @@
     <ClCompile Include="external\glad\src\glad.c">
       <Filter>Libraries\glad\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Glacier.cpp">
-      <Filter>src\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\Shader.cpp">
       <Filter>src\Engine\Asset</Filter>
     </ClCompile>
@@ -202,20 +187,11 @@
     <ClCompile Include="src\TimeManager.cpp">
       <Filter>src\Engine\Time</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sandbox\RotatingScript.cpp">
-      <Filter>src\Sandbox\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>src\Engine\Systems\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sandbox\MainScene.cpp">
-      <Filter>src\Sandbox\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="src\CommandBroker.cpp">
       <Filter>src\Engine\Systems\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sandbox\LevelScript.cpp">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="src\AddScriptCmd.cpp">
       <Filter>src\Engine\Systems\Command\Commands</Filter>
@@ -246,9 +222,6 @@
     </ClCompile>
     <ClCompile Include="src\Lighting.cpp">
       <Filter>src\Engine\Systems\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sandbox\SpinningLightScript.cpp">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneGraph.cpp">
       <Filter>src\Engine\Systems\Scene</Filter>
@@ -301,12 +274,6 @@
     <ClCompile Include="src\ShowEditorNull.cpp">
       <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sandbox\LoadResources.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sandbox\TankControllerScript.cpp">
-      <Filter>src\Sandbox\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="src\SkeletalAnimation.cpp">
       <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
     </ClCompile>
@@ -318,9 +285,6 @@
     </ClCompile>
     <ClCompile Include="src\Animator.cpp">
       <Filter>src\Engine\Systems\Render\Skeletal</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="src\GMathTools.cpp">
       <Filter>src\Engine\Misc\Tools</Filter>
@@ -373,6 +337,9 @@
     <ClCompile Include="src\RigidbodyComponent.cpp">
       <Filter>src\Engine\ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>src\Engine\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -386,9 +353,6 @@
     </ClInclude>
     <ClInclude Include="external\glfw-3.3.8\include\GLFW\glfw3native.h">
       <Filter>Libraries\glfw-3.3.8\include\GLFW</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Glacier.h">
-      <Filter>src\Engine</Filter>
     </ClInclude>
     <ClInclude Include="external\glm-0.9.9.8\glm\glm.hpp">
       <Filter>Libraries\glm-0.9.9.8</Filter>
@@ -474,14 +438,8 @@
     <ClInclude Include="src\GlacierAPI.h">
       <Filter>src\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sandbox\RotatingScript.h">
-      <Filter>src\Sandbox\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="src\SceneManager.h">
       <Filter>src\Engine\Systems\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sandbox\MainScene.h">
-      <Filter>src\Sandbox\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneManagerAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
@@ -491,12 +449,6 @@
     </ClInclude>
     <ClInclude Include="src\Command.h">
       <Filter>src\Engine\Systems\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sandbox\PlayerTankPrefab.h">
-      <Filter>src\Sandbox\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sandbox\LevelScript.h">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\ScriptAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
@@ -536,9 +488,6 @@
     </ClInclude>
     <ClInclude Include="src\Lighting.h">
       <Filter>src\Engine\Systems\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sandbox\SpinningLightScript.h">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneGraph.h">
       <Filter>src\Engine\Systems\Scene</Filter>
@@ -609,9 +558,6 @@
     <ClInclude Include="src\Prefab.h">
       <Filter>src\Engine\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sandbox\TankControllerScript.h">
-      <Filter>src\Sandbox\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="src\ModelAtt.h">
       <Filter>src\Engine\Attorneys</Filter>
     </ClInclude>
@@ -629,9 +575,6 @@
     </ClInclude>
     <ClInclude Include="src\Animator.h">
       <Filter>src\Engine\Systems\Render\Skeletal</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sandbox\BSphereTestingScript.h">
-      <Filter>src\Sandbox\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\GMathTools.h">
       <Filter>src\Engine\Misc\Tools</Filter>
@@ -683,6 +626,12 @@
     </ClInclude>
     <ClInclude Include="src\RigidbodyComponent.h">
       <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>src\Engine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlacierCore.h">
+      <Filter>src\Engine\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
 #include "gpch.h"
 #include "SkeletalAnimationLoader.h"
-#include "SkeletalAnimation.h"
 #include "Timer.h"
 
 SkeletalAnimationLoader* SkeletalAnimationLoader::instance = nullptr;

@@ -1,6 +1,7 @@
 #ifndef _Timer
 #define _Timer
 
+#include "GlacierCore.h"
 #include <chrono>
 
 #define GLACIER_FUNC_TIMER(expression) Timer tmr_func(expression)
@@ -23,7 +24,7 @@
 #define GLACIER_DEBUG_TIMER_END
 #endif
 
-class Timer
+class GLACIER_API Timer
 {
 public:
 	Timer() = delete;

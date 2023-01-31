@@ -2,12 +2,13 @@
 #define _SCENE_MANAGER_ATT
 
 #include "SceneManager.h"
+#include "Application.h"
 
 struct SceneManagerAtt
 {
 	class Engine
 	{
-		friend class Glacier;
+		friend class Glacier::Application;
 
 		static void Initialize() { SceneManager::Initialize(); }
 		static void ExecuteSceneChange() { SceneManager::instance->scene_change->Execute(); }

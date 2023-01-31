@@ -1,9 +1,10 @@
 #ifndef _TEXTURE_LOADER
 #define _TEXTURE_LOADER
 
+#include "GlacierCore.h"
 #include "Texture.h"
 
-class TextureLoader
+class GLACIER_API TextureLoader
 {
 private:
 	static const std::string TEXTURE_PATH;

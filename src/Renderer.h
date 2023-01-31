@@ -1,12 +1,13 @@
 #ifndef _RENDERER
 #define _RENDERER
 
+#include "GlacierCore.h"
 #include "Framebuffer.h"
 
 class Scene;
 struct CameraComponent;
 
-class Renderer
+class GLACIER_API Renderer
 {
 private:
 	static Renderer* instance;

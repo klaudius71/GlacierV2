@@ -1,6 +1,7 @@
 #ifndef _GAMEOBJECT
 #define _GAMEOBJECT
 
+#include "GlacierCore.h"
 #include "Components.h"
 #include "RegistrationState.h"
 #include "ScriptAtt.h"
@@ -8,7 +9,7 @@
 
 class Scene;
 
-class Entity final
+class GLACIER_API Entity final
 {
 public:
 	Entity(const std::string& name);

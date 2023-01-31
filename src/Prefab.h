@@ -1,9 +1,11 @@
 #ifndef _PREFAB
 #define _PREFAB
 
+#include "GlacierCore.h"
+
 class Scene;
 
-struct Prefab
+struct GLACIER_API Prefab
 {
 	virtual GameObject ApplyPrefab(Scene& scn) = 0;
 };

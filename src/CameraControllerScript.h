@@ -3,7 +3,7 @@
 
 #include "GlacierAPI.h"
 
-class CameraControllerScript : public Script
+class GLACIER_API CameraControllerScript : public Script
 {
 public:
 	CameraControllerScript();

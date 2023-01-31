@@ -1,9 +1,11 @@
 #ifndef _SCRIPT_COMPONENT
 #define _SCRIPT_COMPONENT
 
+#include "GlacierCore.h"
+
 class Script;
 
-struct ScriptComponent
+struct GLACIER_API ScriptComponent
 {
 	Script* script = nullptr;
 

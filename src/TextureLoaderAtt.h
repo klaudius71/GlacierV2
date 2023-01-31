@@ -5,7 +5,7 @@
 
 class TextureLoaderAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 
 	static void WaitForThreadsAndLoadGPUData() { TextureLoader::WaitForThreadsAndLoadGPUData(); }
 	static void Terminate() { TextureLoader::Terminate(); }

@@ -2,10 +2,11 @@
 #define _RENDERER_2D_ATT
 
 #include "Renderer2D.h"
+#include "Application.h"
 
 class Renderer2DAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 	friend class SceneManager;
 	friend class Window;
 	friend class EditorLayer;

@@ -1,11 +1,13 @@
 #ifndef _RIGIDBODY_COMPONENT
 #define _RIGIDBODY_COMPONENT
 
+#include "GlacierCore.h"
+
 #include "Physics.h"
 
 class Model;
 
-struct RigidbodyComponent
+struct GLACIER_API RigidbodyComponent
 {
 	btCollisionShape* shape;
 	btDefaultMotionState* motion_state;

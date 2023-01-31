@@ -1,9 +1,11 @@
 #ifndef _MATERIAL_COMPONENT
 #define _MATERIAL_COMPONENT
 
+#include "GlacierCore.h"
+
 class Texture;
 
-struct MaterialComponent
+struct GLACIER_API MaterialComponent
 {
 	VertexTypes::PhongADS ads;
 	glm::uvec4 tex_id;

@@ -1,6 +1,5 @@
 #include "gpch.h"
 #include "ShaderLoader.h"
-#include "Shader.h"
 #include "VertexTypes.h"
 #include "Lighting.h"
 

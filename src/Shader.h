@@ -1,7 +1,9 @@
 #ifndef _SHADER
 #define _SHADER
 
-class Shader
+#include "GlacierCore.h"
+
+class GLACIER_API Shader
 {
 public:
 	Shader(const std::string& file_name);

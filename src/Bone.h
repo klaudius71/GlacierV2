@@ -1,7 +1,9 @@
 #ifndef _BONE
 #define _BONE
 
-class Bone
+#include "GlacierCore.h"
+
+class GLACIER_API Bone
 {
 public:
 	Bone() = default;

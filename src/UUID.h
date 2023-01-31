@@ -1,11 +1,12 @@
 #ifndef _UUID
 #define _UUID
 
+#include "GlacierCore.h"
 #include <random>
 
 namespace Tools
 {
-	class UUID
+	class GLACIER_API UUID
 	{
 	private:
 		static UUID& Instance();

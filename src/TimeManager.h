@@ -1,7 +1,9 @@
 #ifndef _TIME_MANAGER
 #define _TIME_MANAGER
 
-class TimeManager
+#include "GlacierCore.h"
+
+class GLACIER_API TimeManager
 {
 private:
 	static TimeManager* instance;

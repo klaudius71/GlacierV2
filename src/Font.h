@@ -1,7 +1,9 @@
 #ifndef _FONT
 #define _FONT
 
-struct Glyph
+#include "GlacierCore.h"
+
+struct GLACIER_API Glyph
 {
 	glm::vec2 bitmap_origin;
 	glm::vec2 size;
@@ -16,7 +18,7 @@ struct Glyph
 	{}
 };
 
-class Font
+class GLACIER_API Font
 {
 public:
 	Font(const std::string& file_name, const int& font_size);

@@ -1,11 +1,12 @@
 #ifndef _VERTEX_TYPES
 #define _VERTEX_TYPES
 
+#include "GlacierCore.h"
 #include "glm/glm.hpp"
 
 namespace VertexTypes
 {
-	struct Vertex
+	struct GLACIER_API Vertex
 	{
 		glm::vec3 pos{ 0.0f, 0.0f, 0.0f };
 		glm::vec2 uv{ 0.0f, 0.0f };
@@ -40,7 +41,7 @@ namespace VertexTypes
 			normal = _normal;
 		}
 	};
-	struct VertexTriangle
+	struct GLACIER_API VertexTriangle
 	{
 		uint32_t i0 = 0;
 		uint32_t i1 = 0;
@@ -53,7 +54,7 @@ namespace VertexTypes
 
 	};
 
-	struct PhongADS
+	struct GLACIER_API PhongADS
 	{
 		glm::vec3 ambient = glm::vec3(1.0f);
 		float pad0 = 0.0f;
@@ -68,7 +69,7 @@ namespace VertexTypes
 		{}
 		PhongADS(const PhongADS&) = default;
 	};
-	struct DirectionalLight
+	struct GLACIER_API DirectionalLight
 	{
 		PhongADS light_properties;
 		glm::vec3 direction = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)); // world direction
@@ -81,4 +82,4 @@ namespace VertexTypes
 	};
 }
 
-#endif _VERTEX_TYPES
+#endif

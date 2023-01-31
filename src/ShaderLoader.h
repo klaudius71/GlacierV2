@@ -1,9 +1,8 @@
 #ifndef _SHADER_LOADER
 #define _SHADER_LOADER
 
-#include "gpch.h"
-
-class Shader;
+#include "GlacierCore.h"
+#include "Shader.h"
 
 enum class PRELOADED_SHADERS
 {
@@ -19,7 +18,7 @@ enum class PRELOADED_SHADERS
 	SPRITE
 };
 
-class ShaderLoader
+class GLACIER_API ShaderLoader
 {
 private:
 	static const std::string SHADER_PATH;

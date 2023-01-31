@@ -4,7 +4,7 @@
 #include "Components.h"
 #include "ShaderLoader.h"
 #include "Shader.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 #include "Model.h"
 

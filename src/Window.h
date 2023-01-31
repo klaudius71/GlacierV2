@@ -1,9 +1,9 @@
 #ifndef _WINDOW
 #define _WINDOW
 
-#include "gpch.h"
+#include "GlacierCore.h"
 
-class Window
+class GLACIER_API Window
 {
 public:
 	Window(const int& width = 1280, const int& height = 720);

@@ -1,9 +1,10 @@
 #ifndef _INPUT
 #define _INPUT
 
+#include "GlacierCore.h"
 #include "KeyCodes.h"
 
-class Input
+class GLACIER_API Input
 {
 public:
 	static bool GetKeyDown(GLACIER_KEY key);

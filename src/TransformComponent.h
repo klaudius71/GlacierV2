@@ -1,7 +1,9 @@
 #ifndef _TRANSFORM_COMPONENT
 #define _TRANSFORM_COMPONENT
 
-struct TransformComponent
+#include "GlacierCore.h"
+
+struct GLACIER_API TransformComponent
 {
 	glm::vec3& position() { flag_changed = true; return pos; }
 	glm::vec3& rotation() { flag_changed = true; return rot; }

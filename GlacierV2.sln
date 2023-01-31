@@ -14,7 +14,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletCollision", "external
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletDynamics", "external\bullet3-3.24\src\BulletDynamics\BulletDynamics.vcxproj", "{F0D42053-5616-309D-90DE-4E842E1E6355}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinearMath", "external\bullet3-3.24\src\LinearMath\LinearMath.vcxproj", "{F9B7A0E3-5A7D-3546-B655-597F29AD2113}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletLinearMath", "external\bullet3-3.24\src\LinearMath\LinearMath.vcxproj", "{F9B7A0E3-5A7D-3546-B655-597F29AD2113}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{E14CDB6B-A8C4-4BE4-982C-DD62578DD45E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6641254A-35E0-4559-901C-A07601C326D6} = {6641254A-35E0-4559-901C-A07601C326D6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +43,10 @@ Global
 		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Debug|x64.Build.0 = Debug|x64
 		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Release|x64.ActiveCfg = Release|x64
 		{F9B7A0E3-5A7D-3546-B655-597F29AD2113}.Release|x64.Build.0 = Release|x64
+		{E14CDB6B-A8C4-4BE4-982C-DD62578DD45E}.Debug|x64.ActiveCfg = Debug|x64
+		{E14CDB6B-A8C4-4BE4-982C-DD62578DD45E}.Debug|x64.Build.0 = Debug|x64
+		{E14CDB6B-A8C4-4BE4-982C-DD62578DD45E}.Release|x64.ActiveCfg = Release|x64
+		{E14CDB6B-A8C4-4BE4-982C-DD62578DD45E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

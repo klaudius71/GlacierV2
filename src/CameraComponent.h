@@ -1,7 +1,9 @@
 #ifndef _CAMERA_COMPONENT
 #define _CAMERA_COMPONENT
 
-struct CameraComponent
+#include "GlacierCore.h"
+
+struct GLACIER_API CameraComponent
 {
 	glm::vec3 cam_pos = glm::vec3(0.0f);
 	glm::vec3 cam_dir = glm::vec3(0.0f, 0.0f, 1.0f);

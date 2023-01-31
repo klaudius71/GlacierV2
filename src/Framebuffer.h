@@ -1,7 +1,9 @@
 #ifndef _FRAMEBUFFER
 #define _FRAMEBUFFER
 
-class Framebuffer
+#include "GlacierCore.h"
+
+class GLACIER_API Framebuffer
 {
 public:
 	Framebuffer(const int& width = 1280, const int& height = 720);

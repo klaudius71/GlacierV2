@@ -1,13 +1,15 @@
 #ifndef _RENDERER_2D
 #define _RENDERER_2D
 
+#include "GlacierCore.h"
+
 #define RESERVED_DEBUG_TEXT_QUERIES 20
 #define MAX_CHARACTERS 100
 
 class Scene;
 class Font;
 
-class Renderer2D
+class GLACIER_API Renderer2D
 {
 public:
 	enum class SCREEN_ANCHOR : uint32_t

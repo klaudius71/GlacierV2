@@ -1,6 +1,8 @@
 #ifndef _LOGGER
 #define _LOGGER
 
+#include "GlacierCore.h"
+
 #define GLACIER_LOG(key, value) Logger::Log(key, value)
 
 #if _DEBUG
@@ -9,7 +11,7 @@
 #define GLACIER_DEBUG_LOG(key, value)
 #endif
 
-class Logger
+class GLACIER_API Logger
 {
 private:
 	static Logger& Instance();

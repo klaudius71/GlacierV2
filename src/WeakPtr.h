@@ -1,8 +1,10 @@
 #ifndef _WEAK_PTR
 #define _WEAK_PTR
 
+#include "GlacierCore.h"
+
 template<class T>
-class WeakPtr
+class GLACIER_API WeakPtr
 {
 public:
 	WeakPtr() = default;

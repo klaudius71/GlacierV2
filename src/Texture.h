@@ -1,6 +1,8 @@
 #ifndef _TEXTURE
 #define _TEXTURE
 
+#include "GlacierCore.h"
+
 enum class TEXTURE_WRAP : uint16_t
 {
 	NONE = 0,
@@ -30,7 +32,7 @@ enum class TEXTURE_TYPE : uint16_t
 	CUBE_MAP = GL_TEXTURE_CUBE_MAP
 };
 
-struct TextureParameters
+struct GLACIER_API TextureParameters
 {
 	TEXTURE_TYPE type = TEXTURE_TYPE::REGULAR;
 	TEXTURE_MIN_FILTER min_filter = TEXTURE_MIN_FILTER::LINEAR;
@@ -45,7 +47,7 @@ struct TextureParameters
 	{}
 };
 
-class Texture
+class GLACIER_API Texture
 {
 public:
 	Texture(const std::string& file_name, const TextureParameters& tex_params);

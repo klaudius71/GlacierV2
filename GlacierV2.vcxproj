@@ -19,13 +19,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -57,7 +57,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui;$(SolutionDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -65,6 +65,7 @@
       <PrecompiledHeaderFile>gpch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,7 +80,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui;$(SolutionDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -87,6 +88,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,7 +155,7 @@
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\EntityDeregCmd.cpp" />
     <ClCompile Include="src\EntityRegCmd.cpp" />
-    <ClCompile Include="src\Glacier.cpp" />
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\GMathTools.cpp" />
     <ClCompile Include="src\gpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -176,13 +178,6 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="src\RigidbodyComponent.cpp" />
-    <ClCompile Include="src\Sandbox\BSphereTestingScript.cpp" />
-    <ClCompile Include="src\Sandbox\LevelScript.cpp" />
-    <ClCompile Include="src\Sandbox\LoadResources.cpp" />
-    <ClCompile Include="src\Sandbox\MainScene.cpp" />
-    <ClCompile Include="src\Sandbox\RotatingScript.cpp" />
-    <ClCompile Include="src\Sandbox\SpinningLightScript.cpp" />
-    <ClCompile Include="src\Sandbox\TankControllerScript.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SceneChangeCmd.cpp" />
     <ClCompile Include="src\SceneChangeNullCmd.cpp" />
@@ -248,8 +243,9 @@
     <ClInclude Include="src\EntityAtt.h" />
     <ClInclude Include="src\EntityDeregCmd.h" />
     <ClInclude Include="src\EntityRegCmd.h" />
-    <ClInclude Include="src\Glacier.h" />
+    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\GlacierAPI.h" />
+    <ClInclude Include="src\GlacierCore.h" />
     <ClInclude Include="src\GMathTools.h" />
     <ClInclude Include="src\gpch.h" />
     <ClInclude Include="src\Input.h" />
@@ -268,8 +264,6 @@
     <ClInclude Include="src\Prefab.h" />
     <ClInclude Include="src\RendererAtt.h" />
     <ClInclude Include="src\RigidbodyComponent.h" />
-    <ClInclude Include="src\Sandbox\BSphereTestingScript.h" />
-    <ClInclude Include="src\Sandbox\TankControllerScript.h" />
     <ClInclude Include="src\SceneAtt.h" />
     <ClInclude Include="src\ScriptComponent.h" />
     <ClInclude Include="src\ShowEditorDont.h" />
@@ -289,11 +283,6 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Renderer2D.h" />
     <ClInclude Include="src\Renderer2DAtt.h" />
-    <ClInclude Include="src\Sandbox\LevelScript.h" />
-    <ClInclude Include="src\Sandbox\MainScene.h" />
-    <ClInclude Include="src\Sandbox\PlayerTankPrefab.h" />
-    <ClInclude Include="src\Sandbox\RotatingScript.h" />
-    <ClInclude Include="src\Sandbox\SpinningLightScript.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\SceneChangeCmd.h" />
     <ClInclude Include="src\SceneChangeNullCmd.h" />

@@ -1,4 +1,6 @@
-#include "Glacier.h"
+#include "GlacierCore.h"
+#include "gpch.h"
+#include "Application.h"
 #include "Window.h"
 #include "ShaderLoader.h"
 #include "Shader.h"

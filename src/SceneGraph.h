@@ -1,12 +1,14 @@
 #ifndef _SCENE_GRAPH
 #define _SCENE_GRAPH
 
+#include "GlacierCore.h"
+
 class Entity;
 
 using SceneGraphRef = std::list<std::shared_ptr<Entity>>::iterator;
 using GameObject = WeakPtr<Entity>;
 
-class SceneGraph
+class GLACIER_API SceneGraph
 {
 public:
 	SceneGraph() = default;

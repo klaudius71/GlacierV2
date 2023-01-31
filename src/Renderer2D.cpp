@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Framebuffer.h"
 #include "Components.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 #include "Scene.h"
 #include "ModelLoader.h"

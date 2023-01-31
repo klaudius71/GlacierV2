@@ -1,9 +1,11 @@
 #ifndef _SKELETAL_ANIMATION_COMPONENT
 #define _SKELETAL_ANIMATION_COMPONENT
 
+#include "GlacierCore.h"
+
 class SkeletalAnimation;
 
-struct SkeletalAnimationComponent
+struct GLACIER_API SkeletalAnimationComponent
 {
 	const SkeletalAnimation* anim;
 	float playback_time;

@@ -1,11 +1,12 @@
 #ifndef _SCRIPT
 #define _SCRIPT
 
+#include "GlacierCore.h"
 #include "SceneGraph.h"
 
 class Scene;
 
-class Script
+class GLACIER_API Script
 {
 public:
 	Script(const std::string& name = "Unnamed Script");

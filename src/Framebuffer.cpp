@@ -1,6 +1,6 @@
 #include "gpch.h"
 #include "Framebuffer.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 
 Framebuffer::Framebuffer(const int& width, const int& height)

@@ -1,9 +1,11 @@
 #ifndef _SKELETAL_ANIMATION
 #define _SKELETAL_ANIMATION
 
+#include "GlacierCore.h"
+
 class Bone;
 
-class SkeletalAnimation
+class GLACIER_API SkeletalAnimation
 {
 public:
 	SkeletalAnimation() = delete;

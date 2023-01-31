@@ -5,7 +5,7 @@
 
 class ModelLoaderAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 
 	static void WaitForThreadsAndLoadGPUData() { ModelLoader::WaitForThreadsAndLoadGPUData(); }
 	static void Terminate() { ModelLoader::Terminate(); }

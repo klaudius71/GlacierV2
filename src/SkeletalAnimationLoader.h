@@ -1,9 +1,10 @@
 #ifndef _SKELETAL_ANIMATION_LOADER
 #define _SKELETAL_ANIMATION_LOADER
 
-class SkeletalAnimation;
+#include "GlacierCore.h"
+#include "SkeletalAnimation.h"
 
-class SkeletalAnimationLoader
+class GLACIER_API SkeletalAnimationLoader
 {
 private:
 	static const std::string ANIMATION_PATH;

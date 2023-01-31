@@ -1,7 +1,9 @@
 #ifndef _SKYBOX_COMPONENT
 #define _SKYBOX_COMPONENT
 
-struct SkyboxComponent
+#include "GlacierCore.h"
+
+struct GLACIER_API SkyboxComponent
 {
 	GLuint tex_id = 0xFFFFFFF;
 

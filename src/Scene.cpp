@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Components.h"
 #include "Entity.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 
 CameraComponent Scene::default_camera = CameraComponent(glm::perspective(glm::radians(70.0f), 16.0f / 9.0f, 0.1f, 10000.0f));

@@ -1,6 +1,6 @@
 #include "gpch.h"
 #include "TimeManager.h"
-#include "Glacier.h"
+#include "Application.h"
 #include "Window.h"
 
 TimeManager* TimeManager::instance = nullptr;

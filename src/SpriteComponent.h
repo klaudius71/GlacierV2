@@ -1,11 +1,12 @@
 #ifndef _SPRITE_COMPONENT
 #define _SPRITE_COMPONENT
 
+#include "GlacierCore.h"
 #include "Renderer2D.h"
 
 class Texture;
 
-struct SpriteComponent
+struct GLACIER_API SpriteComponent
 {
 	GLuint tex_id;
 #pragma warning( disable : 4201 )

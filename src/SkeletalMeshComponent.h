@@ -1,10 +1,12 @@
 #ifndef _SKELETAL_MESH_COMPONENT
 #define _SKELETAL_MESH_COMPONENT
 
+#include "GlacierCore.h"
+
 class Model;
 
 #define MAX_BONES 100
-struct SkeletalMeshComponent
+struct GLACIER_API SkeletalMeshComponent
 {
 	const Model* mod;
 	GLuint vao;

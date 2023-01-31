@@ -1,9 +1,11 @@
 #ifndef _MESH_COMPONENT
 #define _MESH_COMPONENT
 
+#include "GlacierCore.h"
+
 class Model;
 
-struct MeshComponent
+struct GLACIER_API MeshComponent
 {
 	const Model* mod;
 	GLuint vao;

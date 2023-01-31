@@ -5,7 +5,7 @@
 
 class InputAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 
 	static void ProcessMouseData() { Input::ProcessMouseData(); }
 };

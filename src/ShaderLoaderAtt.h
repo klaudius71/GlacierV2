@@ -5,7 +5,7 @@
 
 class ShaderLoaderAtt
 {
-	friend class Glacier;
+	friend class Glacier::Application;
 
 	static void Initialize() { ShaderLoader::Instance(); }
 	static void Terminate() { ShaderLoader::Terminate(); }
