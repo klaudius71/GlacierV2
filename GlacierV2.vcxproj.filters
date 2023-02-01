@@ -633,6 +633,9 @@
     <ClInclude Include="src\GlacierCore.h">
       <Filter>src\Engine\Main</Filter>
     </ClInclude>
+    <ClInclude Include="src\GlacierFileHdr.h">
+      <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">

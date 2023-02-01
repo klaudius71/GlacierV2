@@ -1,5 +1,6 @@
 #include "gpch.h"
 #include "Model.h"
+#include "GlacierFileHdr.h"
 #include "VertexTypes.h"
 #include "stb_image.h"
 
@@ -121,13 +122,68 @@ Model::Model(const std::string& file_name)
 		uint32_t byteOffset = inverse_bind_matrix_bufferView["byteOffset"];
 		inverse_bind_matrices = std::vector<glm::mat4>((const glm::mat4*)&buffer_data[byteOffset], (const glm::mat4*)&buffer_data[byteOffset] + inv_bind_matrix_count);
 	
-		num_bones = (uint32_t)j["skins"][0]["joints"].size();
+		num_joints = (uint32_t)j["skins"][0]["joints"].size();
 	}
 	else
 	{
 		for (uint32_t i = 0; i < num_vertices; i++)
 			vertex_data.emplace_back(vertices[i], uvs[i], 0, normals[i], glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::uvec4(0,0,0,0), glm::vec4(1.0f,1.0f,1.0f,1.0f));
 	}
+
+	calculate_tangents();
+	calculate_bsphere();
+}
+Model::Model(const std::string& file_name, bool)
+{
+	std::ifstream file(file_name, std::ifstream::binary);
+	if (!file.is_open())
+		throw std::exception(("File " + file_name + " not found!").c_str());
+
+	file.seekg(0, std::ifstream::end);
+	const size_t file_size = file.tellg();
+	file.seekg(0, std::ifstream::beg);
+	
+	uint8_t* buf = new uint8_t[file_size];
+	file.read((char*)buf, file_size);
+	file.close();
+
+	/*
+	* Parsing out the data
+	*/
+	int curr_index;
+	GlacierFileHdr hdr;
+
+	// Read the asset_name
+	for (curr_index = 0; buf[curr_index] != '\0'; curr_index++)
+	{
+		hdr.asset_name += buf[curr_index];
+	}
+	curr_index++;
+
+	// Read some data about the model
+	memcpy_s(&hdr.type, sizeof(uint32_t) * 5, &buf[curr_index], sizeof(uint32_t) * 5);
+	num_vertices = hdr.num_vertices;
+	num_triangles = hdr.num_indices / 3;
+	num_joints = hdr.num_joints;
+	curr_index += sizeof(uint32_t) * 5;
+
+	// Read in the actual model data
+	vertex_data = std::vector<VertexTypes::Vertex>((VertexTypes::Vertex*)&buf[curr_index], (VertexTypes::Vertex*)&buf[curr_index] + num_vertices);
+	curr_index += sizeof(VertexTypes::Vertex) * num_vertices;
+
+	// Read in the index data
+	triangles = std::vector<VertexTypes::VertexTriangle>((VertexTypes::VertexTriangle*)&buf[curr_index], (VertexTypes::VertexTriangle*)&buf[curr_index] + num_triangles);
+	curr_index += sizeof(VertexTypes::VertexTriangle) * num_triangles;
+
+	// Read in the inverse bind matrices
+	if (num_joints > 0)
+	{
+		inverse_bind_matrices = std::vector<glm::mat4>((glm::mat4*)&buf[curr_index], (glm::mat4*)&buf[curr_index] + num_joints);
+		curr_index += sizeof(glm::mat4) * num_joints;
+	}
+	assert(file_size == curr_index);
+
+	delete[] buf;
 
 	calculate_tangents();
 	calculate_bsphere();
@@ -140,7 +196,7 @@ Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<Ve
 	calculate_bsphere();
 }
 Model::Model(PREMADE_MODELS premade_model, const float& scale)
-	: num_vertices(0), num_triangles(0), num_bones(0)
+	: num_vertices(0), num_triangles(0), num_joints(0)
 {
 	switch (premade_model)
 	{
@@ -354,7 +410,7 @@ Model::Model(const uint32_t& v_slices, const uint32_t& h_slices)
 	calculate_tangents();
 }
 Model::Model(const float& xz_size, const float& u, const float& v)
-	: num_vertices(4), num_triangles(2), num_bones(0), bsphere_center(0.0f), bsphere_radius(0.0f)
+	: num_vertices(4), num_triangles(2), num_joints(0), bsphere_center(0.0f), bsphere_radius(0.0f)
 {
 	const auto xz_size_half = xz_size * 0.5f;
 	const auto u_half = u * 0.5f;
@@ -369,7 +425,7 @@ Model::Model(const float& xz_size, const float& u, const float& v)
 
 Model::Model(Model&& o) noexcept
 	: vao(o.vao), vbo(o.vbo), ebo(o.ebo),
-	num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_bones(o.num_bones),
+	num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_joints(o.num_joints),
 	bsphere_center(o.bsphere_center), bsphere_radius(o.bsphere_radius),
 	vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
 	triangles(std::move(o.triangles))
@@ -385,7 +441,7 @@ Model& Model::operator=(Model&& o)
 	ebo = o.ebo;
 	num_vertices = o.num_vertices;
 	num_triangles = o.num_triangles;
-	num_bones = o.num_bones;
+	num_joints = o.num_joints;
 	bsphere_center = o.bsphere_center;
 	bsphere_radius = o.bsphere_radius;
 	vertex_data = std::move(o.vertex_data);
@@ -434,7 +490,7 @@ const uint32_t& Model::GetNumTriangles() const
 }
 const uint32_t& Model::GetNumBones() const
 {
-	return num_bones;
+	return num_joints;
 }
 const glm::vec3& Model::GetBSphereCenter() const
 {

@@ -8,7 +8,8 @@ Sandbox::Sandbox(const int screen_width, const int screen_height)
 
 void Sandbox::LoadResources()
 {
-	ModelLoader::Load("Vampire", "vampire2.gltf");
+	ModelLoader::Load("Vampire", "vampire2.glacier", true);
+	//ModelLoader::Load("Vampire", "vampire2.gltf");
 	//ModelLoader::Load("Dude", "dude.gltf");
 	ModelLoader::Load("TankBase", "tank_base.gltf");
 	ModelLoader::Load("TankWheels", "tank_wheels.gltf");

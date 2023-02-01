@@ -105,7 +105,7 @@ void Renderer::RenderSkinned(Scene& scn)
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, material.norm_tex_id[0]);
 		glUniform4fv(color_uniform_loc, 1, (const GLfloat*)&material.col);
-		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.num_bones, GL_FALSE, (const GLfloat*)skel_mesh.bone_matrices);
+		glUniformMatrix4fv(bone_matrices_uniform_loc, skel_mesh.num_joints, GL_FALSE, (const GLfloat*)skel_mesh.bone_matrices);
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 		glBindVertexArray(skel_mesh.vao);
 		glDrawElements(GL_TRIANGLES, skel_mesh.num_indices, GL_UNSIGNED_INT, nullptr);

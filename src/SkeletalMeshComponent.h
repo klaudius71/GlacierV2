@@ -11,7 +11,7 @@ struct GLACIER_API SkeletalMeshComponent
 	const Model* mod;
 	GLuint vao;
 	uint32_t num_indices;
-	uint32_t num_bones;
+	uint32_t num_joints;
 	glm::mat4* bone_matrices;
 	bool cast_shadow;
 

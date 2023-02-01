@@ -12,8 +12,10 @@ enum class PREMADE_MODELS
 class GLACIER_API Model
 {
 public:
-	// Load a model from a GLTF file
+	// Load a model from a glTF file
 	Model(const std::string& file_name);
+	// Load a model from the .glacier file
+	Model(const std::string& file_name, bool glacier);
 	// Load a model from a given set of vertex and triangle data
 	Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<VertexTypes::VertexTriangle>& triangles);
 	// Load a model from a premade set
@@ -59,7 +61,7 @@ private:
 	GLuint ebo = 0;
 	uint32_t num_vertices;
 	uint32_t num_triangles;
-	uint32_t num_bones;
+	uint32_t num_joints;
 
 	glm::vec3 bsphere_center;
 	float bsphere_radius;
