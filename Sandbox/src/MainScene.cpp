@@ -5,6 +5,7 @@
 #include "SpinningLightScript.h"
 #include "PlayerTankPrefab.h"
 #include "BSphereTestingScript.h"
+#include "FPSCharacterControllerPrefab.h"
 
 void MainScene::InitializeScene()
 {
@@ -16,10 +17,14 @@ void MainScene::InitializeScene()
 	//tank->GetComponent<TransformComponent>().position().y = 10.5f;
 	//tank->RegisterToScene();
 
-	GameObject camera = CreateGameObject("God Camera");
-	camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 100.0f, 50.0f);
-	camera->AddScript<CameraControllerScript>();
-	camera->RegisterToScene();
+	//GameObject camera = CreateGameObject("God Camera");
+	//camera->EmplaceComponent<CameraComponent>().cam_pos = glm::vec3(0.0f, 100.0f, 50.0f);
+	//camera->AddScript<CameraControllerScript>();
+	//camera->RegisterToScene();
+
+	GameObject character = CreatePrefab<FPSCharacterControllerPrefab>();
+	character->GetComponent<CharacterControllerComponent>().rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(0.0f, 500.0f, 0.0f)));
+	character->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");
 	//const glm::vec3 light_dir = glm::normalize(glm::vec3(.967f, -1.0f, 0.254f));

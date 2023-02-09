@@ -94,3 +94,21 @@ RigidbodyComponent::~RigidbodyComponent()
 		delete mesh;
 	}
 }
+
+void RigidbodyComponent::Activate(bool force)
+{
+	assert(rb);
+	rb->activate(force);
+}
+void RigidbodyComponent::ApplyCentralImpulse(const glm::vec3& impulse)
+{
+	assert(rb);
+	rb->activate(); // Apparently applying a force or impulse doesn't activate the rigidbody
+	rb->applyCentralImpulse(btVector3(impulse.x, impulse.y, impulse.z));
+}
+void RigidbodyComponent::ApplyTorqueImpulse(const glm::vec3& torque)
+{
+	assert(rb);
+	rb->activate();
+	rb->applyTorqueImpulse(btVector3(torque.x, torque.y, torque.z));
+}

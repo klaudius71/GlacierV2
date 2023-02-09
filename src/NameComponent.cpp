@@ -11,13 +11,13 @@ NameComponent::NameComponent(std::string&& name)
 {}
 NameComponent::NameComponent(NameComponent&& o)
 	: name(std::move(o.name)), id(o.id)
-{ o.id = -1; }
+{ o.id = (size_t)-1; }
 NameComponent& NameComponent::operator=(NameComponent&& o)
 {
 	name = std::move(o.name);
 	id = o.id;
 
-	o.id = -1;
+	o.id = (size_t)-1;
 
 	return *this;
 }

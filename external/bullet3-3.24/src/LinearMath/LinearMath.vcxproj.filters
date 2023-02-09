@@ -1,146 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="btAlignedAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btConvexHull.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btConvexHullComputer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btGeometryUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btPolarDecomposition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btQuickprof.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btReducedVector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btSerializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btSerializer64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btThreads.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="btVector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskScheduler\btTaskScheduler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskScheduler\btThreadSupportPosix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskScheduler\btThreadSupportWin32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="$(ProjectDir)btAlignedAllocator.cpp" />
+    <ClCompile Include="$(ProjectDir)btConvexHull.cpp" />
+    <ClCompile Include="$(ProjectDir)btConvexHullComputer.cpp" />
+    <ClCompile Include="$(ProjectDir)btGeometryUtil.cpp" />
+    <ClCompile Include="$(ProjectDir)btPolarDecomposition.cpp" />
+    <ClCompile Include="$(ProjectDir)btQuickprof.cpp" />
+    <ClCompile Include="$(ProjectDir)btReducedVector.cpp" />
+    <ClCompile Include="$(ProjectDir)btSerializer.cpp" />
+    <ClCompile Include="$(ProjectDir)btSerializer64.cpp" />
+    <ClCompile Include="$(ProjectDir)btThreads.cpp" />
+    <ClCompile Include="$(ProjectDir)btVector3.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btTaskScheduler.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btThreadSupportPosix.cpp" />
+    <ClCompile Include="$(ProjectDir)TaskScheduler\btThreadSupportWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="btAabbUtil2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btAlignedAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btAlignedObjectArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btConvexHull.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btConvexHullComputer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btDefaultMotionState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btGeometryUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btGrahamScan2dConvexHull.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btHashMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btIDebugDraw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btMatrix3x3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btImplicitQRSVD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btMinMax.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btModifiedGramSchmidt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btMotionState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btPolarDecomposition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btPoolAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btQuadWord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btQuaternion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btQuickprof.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btReducedVector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btRandom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btScalar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btSerializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btStackAlloc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btThreads.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btTransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btTransformUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="btVector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskScheduler\btThreadSupportInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="CMakeLists.txt" />
+    <ClInclude Include="$(ProjectDir)btAabbUtil2.h" />
+    <ClInclude Include="$(ProjectDir)btAlignedAllocator.h" />
+    <ClInclude Include="$(ProjectDir)btAlignedObjectArray.h" />
+    <ClInclude Include="$(ProjectDir)btConvexHull.h" />
+    <ClInclude Include="$(ProjectDir)btConvexHullComputer.h" />
+    <ClInclude Include="$(ProjectDir)btDefaultMotionState.h" />
+    <ClInclude Include="$(ProjectDir)btGeometryUtil.h" />
+    <ClInclude Include="$(ProjectDir)btGrahamScan2dConvexHull.h" />
+    <ClInclude Include="$(ProjectDir)btHashMap.h" />
+    <ClInclude Include="$(ProjectDir)btIDebugDraw.h" />
+    <ClInclude Include="$(ProjectDir)btList.h" />
+    <ClInclude Include="$(ProjectDir)btMatrix3x3.h" />
+    <ClInclude Include="$(ProjectDir)btImplicitQRSVD.h" />
+    <ClInclude Include="$(ProjectDir)btMinMax.h" />
+    <ClInclude Include="$(ProjectDir)btModifiedGramSchmidt.h" />
+    <ClInclude Include="$(ProjectDir)btMotionState.h" />
+    <ClInclude Include="$(ProjectDir)btPolarDecomposition.h" />
+    <ClInclude Include="$(ProjectDir)btPoolAllocator.h" />
+    <ClInclude Include="$(ProjectDir)btQuadWord.h" />
+    <ClInclude Include="$(ProjectDir)btQuaternion.h" />
+    <ClInclude Include="$(ProjectDir)btQuickprof.h" />
+    <ClInclude Include="$(ProjectDir)btReducedVector.h" />
+    <ClInclude Include="$(ProjectDir)btRandom.h" />
+    <ClInclude Include="$(ProjectDir)btScalar.h" />
+    <ClInclude Include="$(ProjectDir)btSerializer.h" />
+    <ClInclude Include="$(ProjectDir)btStackAlloc.h" />
+    <ClInclude Include="$(ProjectDir)btThreads.h" />
+    <ClInclude Include="$(ProjectDir)btTransform.h" />
+    <ClInclude Include="$(ProjectDir)btTransformUtil.h" />
+    <ClInclude Include="$(ProjectDir)btVector3.h" />
+    <ClInclude Include="$(ProjectDir)TaskScheduler\btThreadSupportInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

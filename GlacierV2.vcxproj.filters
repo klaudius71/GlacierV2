@@ -340,6 +340,9 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>src\Engine\Main</Filter>
     </ClCompile>
+    <ClCompile Include="src\CharacterControllerComponent.cpp">
+      <Filter>src\Engine\ECS\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -635,6 +638,9 @@
     </ClInclude>
     <ClInclude Include="src\GlacierFileHdr.h">
       <Filter>src\Engine\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CharacterControllerComponent.h">
+      <Filter>src\Engine\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

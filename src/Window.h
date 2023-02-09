@@ -17,6 +17,8 @@ public:
 	const int& GetWindowHeight() const;
 	void SetWindowTitle(const char* const name) const;
 	void SetClearColor(const float& red, const float& green, const float& blue, const float& alpha = 1.0f) const;
+	void HideCursor() const;
+	void ShowCursor() const;
 	GLFWwindow* const GetNativeWindow() const;
 
 	const bool IsOpen();

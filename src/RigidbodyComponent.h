@@ -21,6 +21,11 @@ struct GLACIER_API RigidbodyComponent
 	RigidbodyComponent(RigidbodyComponent&& o);
 	RigidbodyComponent& operator=(RigidbodyComponent&& o);
 	~RigidbodyComponent();
+
+	// Will expand on these later
+	void Activate(bool force = false); // Apparently applying a force or impulse doesn't activate the rigidbody
+	void ApplyCentralImpulse(const glm::vec3& impulse);
+	void ApplyTorqueImpulse(const glm::vec3& torque);
 };
 
 #endif

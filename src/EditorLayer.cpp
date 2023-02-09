@@ -139,7 +139,7 @@ void EditorLayer::showEditor()
 	ImGui::Begin("Properties");
 	if (!selected_go.isExpired())
 	{
-		auto [camera, script, sprite, mesh, material, dir_light, skybox] = selected_go->TryGetComponent<CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent>();
+		auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, material, dir_light, skybox, rigidbody, character_controller] = selected_go->TryGetComponent<NameComponent, TransformComponent, CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, SkeletalMeshComponent, SkeletalAnimationComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent, RigidbodyComponent, CharacterControllerComponent>();
 
 		if (ImGui::TreeNode("Name Component"))
 		{
@@ -216,6 +216,16 @@ void EditorLayer::showEditor()
 		}
 
 		if (skybox && ImGui::TreeNode("Skybox Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (rigidbody && ImGui::TreeNode("Rigidbody Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (character_controller && ImGui::TreeNode("Character Controller Component"))
 		{
 			ImGui::TreePop();
 		}

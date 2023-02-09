@@ -48,6 +48,9 @@
     <ClCompile Include="src\TankControllerScript.cpp">
       <Filter>Source Files\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="src\FPSCharacterControllerScript.cpp">
+      <Filter>Source Files\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Sandbox.h">
@@ -72,6 +75,12 @@
       <Filter>Source Files\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\TankControllerScript.h">
+      <Filter>Source Files\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FPSCharacterControllerPrefab.h">
+      <Filter>Source Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FPSCharacterControllerScript.h">
       <Filter>Source Files\Scripts</Filter>
     </ClInclude>
   </ItemGroup>

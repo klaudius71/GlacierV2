@@ -66,6 +66,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,6 +94,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
       <TreatWarningAsError>false</TreatWarningAsError>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,6 +154,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\CameraComponent.cpp" />
     <ClCompile Include="src\CameraControllerScript.cpp" />
+    <ClCompile Include="src\CharacterControllerComponent.cpp" />
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
     <ClCompile Include="src\DirectionalLightComponent.cpp" />
@@ -235,6 +238,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
     <ClInclude Include="src\Bone.h" />
     <ClInclude Include="src\CameraComponent.h" />
     <ClInclude Include="src\CameraControllerScript.h" />
+    <ClInclude Include="src\CharacterControllerComponent.h" />
     <ClInclude Include="src\Colors.h" />
     <ClInclude Include="src\Command.h" />
     <ClInclude Include="src\CommandBroker.h" />

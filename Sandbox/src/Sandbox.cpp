@@ -22,7 +22,7 @@ void Sandbox::LoadResources()
 	ModelLoader::Load("TempTerrain1", 3500.0f, 25.0f, 25.0f);
 
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
-	TextureLoader::Load("default", "default.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
+	TextureLoader::Load("default", "default.tga");
 	TextureLoader::Load("default_normal", glm::vec4{ 0.5f, 0.5f, 1.0f, 1.0f });
 	TextureLoader::Load("Crate", "crate_diffuse.tga");
 	TextureLoader::Load("CrateNormal", "crate_normal.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });

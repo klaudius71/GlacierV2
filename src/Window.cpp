@@ -71,6 +71,14 @@ void Window::SetClearColor(const float& red, const float& green, const float& bl
 {
 	glClearColor(red, green, blue, alpha);
 }
+void Window::HideCursor() const
+{
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+}
+void Window::ShowCursor() const
+{
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
 GLFWwindow* const Window::GetNativeWindow() const
 {
 	return window;

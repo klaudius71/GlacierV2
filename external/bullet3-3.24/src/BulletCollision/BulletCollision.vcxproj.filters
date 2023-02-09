@@ -297,9 +297,6 @@
     <ClInclude Include="$(ProjectDir)CollisionDispatch\btInternalEdgeUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(ProjectDir)../btBulletCollisionCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(ProjectDir)BroadphaseCollision\btAxisSweep3Internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -684,9 +681,7 @@
     <ClInclude Include="$(ProjectDir)NarrowPhaseCollision\btPolyhedralContactClipping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="$(ProjectDir)CMakeLists.txt" />
+    <ClInclude Include="$(ProjectDir)nCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -13,5 +13,6 @@
 #include "DirectionalLightComponent.h"
 #include "SkyboxComponent.h"
 #include "RigidbodyComponent.h"
+#include "CharacterControllerComponent.h"
 
 #endif
