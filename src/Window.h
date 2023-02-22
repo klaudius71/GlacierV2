@@ -6,7 +6,7 @@
 class GLACIER_API Window
 {
 public:
-	Window(const int& width = 1280, const int& height = 720);
+	Window(const int& width = 1280, const int& height = 720, const char* const icon_path = nullptr);
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	Window(Window&&) = delete;

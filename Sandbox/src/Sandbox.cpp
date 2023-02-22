@@ -2,7 +2,7 @@
 #include "MainScene.h"
 
 Sandbox::Sandbox(const int screen_width, const int screen_height)
-	: Application(screen_width, screen_height)
+	: Application(screen_width, screen_height, "textures/icon.png")
 {
 }
 

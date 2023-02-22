@@ -4,6 +4,7 @@
 #include "Renderer2DAtt.h"
 #include "RendererAtt.h"
 #include "SceneManagerAtt.h"
+#include "stb_image.h"
 
 void Window::glfw_window_resize_callback(GLFWwindow* window, int width, int height)
 {
@@ -23,7 +24,7 @@ void Window::glfw_key_callback(GLFWwindow* window, int key, int scancode, int ac
 		static_cast<Window*>(glfwGetWindowUserPointer(window))->ToggleFullscreen();
 }
 
-Window::Window(const int& width, const int& height)
+Window::Window(const int& width, const int& height, const char* const icon_path)
 	: window_width(width), window_height(height), is_fullscreen(false)
 {
 	glfwInit();
@@ -47,6 +48,16 @@ Window::Window(const int& width, const int& height)
 	glfwSetKeyCallback(window, glfw_key_callback);
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwGetWindowPos(window, &prev_window_pos_x, &prev_window_pos_y);
+
+	if (icon_path)
+	{
+		int x, y, channels;
+		uint8_t* img = stbi_load(icon_path, &x, &y, &channels, 0);
+		assert(img);
+		GLFWimage glfwImg{ x, y, img };
+		glfwSetWindowIcon(window, 1, &glfwImg);
+	}
+	
 
 	glfwSwapInterval(1);
 }

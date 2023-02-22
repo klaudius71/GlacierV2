@@ -155,6 +155,7 @@ xcopy /y /d /s "$(SolutionDir)assets\" "$(OutDir)"</Command>
     <ClCompile Include="src\TankControllerScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\BSphereTestingScript.h" />
     <ClInclude Include="src\FPSCharacterControllerPrefab.h" />
     <ClInclude Include="src\FPSCharacterControllerScript.h" />
@@ -165,6 +166,12 @@ xcopy /y /d /s "$(SolutionDir)assets\" "$(OutDir)"</Command>
     <ClInclude Include="src\Sandbox.h" />
     <ClInclude Include="src\SpinningLightScript.h" />
     <ClInclude Include="src\TankControllerScript.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Sandbox.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

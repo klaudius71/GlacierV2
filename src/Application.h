@@ -14,7 +14,7 @@ namespace Glacier {
 	private:
 		static Application* instance;
 	protected:
-		Application(const int window_width = 1600, const int window_height = 900);
+		Application(const int window_width = 1600, const int window_height = 900, const char* const icon_path = nullptr);
 		~Application();
 	private:
 		Application(const Application&) = delete;

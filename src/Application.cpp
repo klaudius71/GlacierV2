@@ -28,12 +28,12 @@ namespace Glacier {
 			OutputDebugStringA("\n");
 		}
 	}
-	Application::Application(const int window_width, const int window_height)
+	Application::Application(const int window_width, const int window_height, const char* const icon_path)
 	{
 		assert(instance == nullptr);
 		instance = this;
 
-		window = new Window(window_width, window_height);
+		window = new Window(window_width, window_height, icon_path);
 
 		// Initializes GLAD
 		initialize_OpenGL();

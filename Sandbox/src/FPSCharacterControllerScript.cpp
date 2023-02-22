@@ -60,7 +60,7 @@ void FPSCharacterControllerScript::OnUpdate(float dt)
 		character_controller.Jump();
 
 	const glm::vec3& world_pos = transform.GetWorldPosition();
-	cam->cam_pos = glm::vec3(world_pos.x, world_pos.y + 50.0f, world_pos.z);
+	cam->cam_pos = glm::vec3(world_pos.x, world_pos.y + 25.0f, world_pos.z);
 
 	const Font& font = FontLoader::Get("CascadiaMono20");
 	const Framebuffer& fb = Renderer::GetMainFramebuffer();
