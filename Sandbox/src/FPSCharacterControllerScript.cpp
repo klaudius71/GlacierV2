@@ -14,13 +14,13 @@ void FPSCharacterControllerScript::OnUpdate(float dt)
 	
 	if (Input::GetMouseButtonState(GLACIER_MOUSE::RIGHT_MOUSE_BUTTON)) 
 	{
-		Glacier::GetWindow().HideCursor();
+		//Glacier::GetWindow().HideCursor();
 		camRot.x += Input::GetMouseDeltaPosition().y * dt;
 		camRot.y -= Input::GetMouseDeltaPosition().x * dt;
 	}
 	else
 	{
-		Glacier::GetWindow().ShowCursor();
+		//Glacier::GetWindow().ShowCursor();
 	}
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_ARROW_UP))
 		camRot.x += 1.5f * dt;
@@ -53,8 +53,18 @@ void FPSCharacterControllerScript::OnUpdate(float dt)
 	if(walk_direction != glm::vec3(0.0f))
 		glm::normalize(walk_direction);
 
-	character_controller.ApplyCentralImpulse(walk_direction * 300.0f);
+	//character_controller.ApplyCentralImpulse(walk_direction * 300.0f);
+	character_controller.AddMovement(walk_direction);
+
+	if (Input::GetKeyDown(GLACIER_KEY::KEY_SPACE))
+		character_controller.Jump();
 
 	const glm::vec3& world_pos = transform.GetWorldPosition();
 	cam->cam_pos = glm::vec3(world_pos.x, world_pos.y + 50.0f, world_pos.z);
+
+	const Font& font = FontLoader::Get("CascadiaMono20");
+	const Framebuffer& fb = Renderer::GetMainFramebuffer();
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 5.0f, Colors::Black, "Camera Controls:");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 7.0f, Colors::Black, "Movement: WASD");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 9.0f, Colors::Black, "View: RMB + Mouse");
 }

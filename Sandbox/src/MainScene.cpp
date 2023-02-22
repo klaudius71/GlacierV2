@@ -23,7 +23,7 @@ void MainScene::InitializeScene()
 	//camera->RegisterToScene();
 
 	GameObject character = CreatePrefab<FPSCharacterControllerPrefab>();
-	character->GetComponent<CharacterControllerComponent>().rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(0.0f, 500.0f, 0.0f)));
+	//character->GetComponent<CharacterControllerComponent>().m_controller->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(0.0f, 500.0f, 0.0f)));
 	character->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");

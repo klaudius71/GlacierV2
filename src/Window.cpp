@@ -115,6 +115,7 @@ void Window::ToggleFullscreen()
 		GLFWmonitor** monitors = glfwGetMonitors(&monitor_count);
 		const GLFWvidmode* mode = glfwGetVideoMode(monitors[0]);
 		glfwSetWindowMonitor(window, monitors[0], 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
+		glfwSwapInterval(1);
 	}
 	
 }

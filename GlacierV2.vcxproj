@@ -158,6 +158,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
     <ClCompile Include="src\DirectionalLightComponent.cpp" />
+    <ClCompile Include="src\DynamicCharacterController.cpp" />
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\FontLoader.cpp" />
@@ -244,6 +245,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
     <ClInclude Include="src\CommandBroker.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\DirectionalLightComponent.h" />
+    <ClInclude Include="src\DynamicCharacterController.h" />
     <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\EmplaceComponentCommand.h" />
     <ClInclude Include="src\Font.h" />

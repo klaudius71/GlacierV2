@@ -11,8 +11,8 @@ struct FPSCharacterControllerPrefab : public Prefab
 		GameObject character = scn.CreateGameObject("Character");
 		character->EmplaceComponent<CameraComponent>();
 		character->EmplaceComponent<CharacterControllerComponent>();
-		character->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
-		character->EmplaceComponent<MaterialComponent>(MaterialComponent(VertexTypes::PhongADS(), TextureLoader::Get("default")));
+		//character->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+		//character->EmplaceComponent<MaterialComponent>(MaterialComponent(VertexTypes::PhongADS(), TextureLoader::Get("default")));
 		character->AddScript<FPSCharacterControllerScript>();
 		character->GetComponent<TransformComponent>().scale() = glm::vec3(1.0f);
 		

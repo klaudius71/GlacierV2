@@ -343,6 +343,9 @@
     <ClCompile Include="src\CharacterControllerComponent.cpp">
       <Filter>src\Engine\ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\DynamicCharacterController.cpp">
+      <Filter>src\Engine\Systems\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -641,6 +644,9 @@
     </ClInclude>
     <ClInclude Include="src\CharacterControllerComponent.h">
       <Filter>src\Engine\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DynamicCharacterController.h">
+      <Filter>src\Engine\Systems\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

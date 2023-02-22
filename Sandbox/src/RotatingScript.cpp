@@ -31,7 +31,7 @@ void RotatingScript::OnUpdate(float dt)
 		key_pressed = false;
 	}
 
-	const Font& font = FontLoader::Get("CascadiaMono20");
-	const Framebuffer& fb = Renderer::GetMainFramebuffer();
-	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 11.0f, Colors::Black, "Launch Ball: F");
+	//const Font& font = FontLoader::Get("CascadiaMono20");
+	//const Framebuffer& fb = Renderer::GetMainFramebuffer();
+	//Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 11.0f, Colors::Black, "Launch Ball: F");
 }

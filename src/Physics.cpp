@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "BulletDynamics/Character/btKinematicCharacterController.h"
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
+#include "DynamicCharacterController.h"
 
 Physics& Physics::Instance()
 {
@@ -62,7 +63,7 @@ void Physics::simulatePhysics(const float& timestep, const int& max_substeps, co
 	auto view = registry.view<CharacterControllerComponent>();
 	for (auto&& [entity, character_controller] : view.each())
 	{
-		character_controller.motion_state->getWorldTransform(transf);
+		character_controller.m_controller->GetMotionState()->getWorldTransform(transf);
 		transf.getOpenGLMatrix(glm::value_ptr(mat));
 		registry.get<TransformComponent>(entity).SetWorldMatrixKeepScale(mat);
 	}
