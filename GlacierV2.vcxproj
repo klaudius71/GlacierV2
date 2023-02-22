@@ -72,7 +72,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Debug\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\debug\freetype.lib;%(AdditionalDependencies);LinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)external\bullet3-3.24\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;$(SolutionDir)external\bullet3-3.24\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Configuration)\Sandbox\"
@@ -102,7 +102,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Co
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)external\glfw-3.3.8\lib\x64\Release\glfw3.lib;$(SolutionDir)external\freetype\lib\x64\release\freetype.lib;%(AdditionalDependencies);LinearMath_$(Configuration).lib;BulletCollision_$(Configuration).lib;BulletDynamics_$(Configuration).lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)external\bullet3-3.24\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;$(SolutionDir)external\bullet3-3.24\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(SolutionDir)Sandbox\bin\$(Platform)\$(Configuration)\Sandbox\"</Command>

@@ -27,16 +27,16 @@ void Sandbox::LoadResources()
 	TextureLoader::Load("Crate", "crate_diffuse.tga");
 	TextureLoader::Load("CrateNormal", "crate_normal.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
 	TextureLoader::Load("Sand", "sand.tga");
-	TextureLoader::Load("Grass", "grass.jpg");
+	//TextureLoader::Load("Grass", "grass.jpg");
 	TextureLoader::Load("Crosshair", "crosshair.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
-	TextureLoader::Load("Desert", glm::vec4(179.0f / 255.0f, 116.0f / 255.0f, 64.0f / 255.0f, 1.0f));
-	TextureLoader::Load("Mahogany", glm::vec4(103 / 255.0f, 10 / 255.0f, 10 / 255.0f, 1.0f));
+	//TextureLoader::Load("Desert", glm::vec4(179.0f / 255.0f, 116.0f / 255.0f, 64.0f / 255.0f, 1.0f));
+	//TextureLoader::Load("Mahogany", glm::vec4(103 / 255.0f, 10 / 255.0f, 10 / 255.0f, 1.0f));
 	TextureLoader::Load("Rock", "strata-rock-2_albedo.tga");
 	TextureLoader::Load("RockNormal", "strata-rock-2_normal-ogl.tga");
 	TextureLoader::Load("VampireDiffuse", "Vampire_diffuse.png");
 	TextureLoader::Load("VampireNormal", "Vampire_normal.png");
-	TextureLoader::Load("Dude", "dude_packed0_diffuse.png");
-	TextureLoader::Load("DudeNormal", "dude_packed0_normal.png");
+	//TextureLoader::Load("Dude", "dude_packed0_diffuse.png");
+	//TextureLoader::Load("DudeNormal", "dude_packed0_normal.png");
 
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
