@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_SHOW_CONSOLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui;$(SolutionDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\imgui</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -101,7 +101,7 @@ xcopy /y /d "$(SolutionDir)bin\$(Platform)\$(Configuration)\GlacierV2\GlacierV2.
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_SHOW_CONSOLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui;$(SolutionDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\imgui</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -125,7 +125,7 @@ xcopy /y /d "$(SolutionDir)bin\$(Platform)\$(Configuration)\GlacierV2\GlacierV2.
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glfw-3.3.8\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\stb;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\JSON for Modern C++;$(SolutionDir)external\base64\include;$(SolutionDir)external\freetype\include;$(SolutionDir)external\imgui;$(SolutionDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)external\glm-0.9.9.8;$(SolutionDir)external\entt-3.10.3\src;$(SolutionDir)external\imgui</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

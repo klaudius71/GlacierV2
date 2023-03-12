@@ -3,9 +3,24 @@
 
 #include "GlacierCore.h"
 
-#include "Physics.h"
-
 class Model;
+class btCollisionShape;
+struct btDefaultMotionState;
+class btRigidBody;
+class btStridingMeshInterface;
+
+enum PHYSICS_PLANE
+{
+	PLANE_SHAPE
+};
+enum PHYSICS_BOX
+{
+	BOX_SHAPE
+};
+enum PHYSICS_SPHERE
+{
+	SPHERE_SHAPE
+};
 
 struct GLACIER_API RigidbodyComponent
 {
@@ -24,6 +39,7 @@ struct GLACIER_API RigidbodyComponent
 
 	// Will expand on these later
 	void Activate(bool force = false); // Apparently applying a force or impulse doesn't activate the rigidbody
+	void SetWorldPosition(const glm::vec3& pos);
 	void ApplyCentralImpulse(const glm::vec3& impulse);
 	void ApplyTorqueImpulse(const glm::vec3& torque);
 };

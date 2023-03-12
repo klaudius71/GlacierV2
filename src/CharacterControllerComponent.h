@@ -3,25 +3,10 @@
 
 #include "GlacierCore.h"
 
-class btCollisionShape;
-struct btDefaultMotionState;
-class btRigidBody;
-
-class btPairCachingGhostObject;
-class btKinematicCharacterController;
-
 class DynamicCharacterController;
 
 struct GLACIER_API CharacterControllerComponent
 {
-	//btCollisionShape* shape;
-	//btDefaultMotionState* motion_state;
-	//btRigidBody* rb;
-
-	//btConvexShape* m_convexShape;
-	//btPairCachingGhostObject* m_ghostObject;
-	//btKinematicCharacterController* m_controller;
-
 	DynamicCharacterController* m_controller;
 
 	CharacterControllerComponent(const float& radius = 10.0f, const float& height = 60.0f);

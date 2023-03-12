@@ -1,4 +1,3 @@
-#include "gpch.h"
 #include "SpinningLightScript.h"
 
 SpinningLightScript::SpinningLightScript()

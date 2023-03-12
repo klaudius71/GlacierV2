@@ -3,19 +3,6 @@
 
 class Scene;
 
-enum PHYSICS_PLANE
-{
-	PLANE_SHAPE
-};
-enum PHYSICS_BOX
-{
-	BOX_SHAPE
-};
-enum PHYSICS_SPHERE
-{
-	SPHERE_SHAPE
-};
-
 class Physics
 {
 private:

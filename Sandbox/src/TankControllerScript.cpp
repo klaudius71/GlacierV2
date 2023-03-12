@@ -1,4 +1,3 @@
-#include "gpch.h"
 #include "TankControllerScript.h"
 
 void TankControllerScript::OnSceneEnter()

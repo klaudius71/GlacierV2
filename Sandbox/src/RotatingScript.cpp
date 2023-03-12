@@ -1,4 +1,3 @@
-#include "gpch.h"
 #include "RotatingScript.h"
 
 RotatingScript::RotatingScript(const glm::vec3& rot_direction)

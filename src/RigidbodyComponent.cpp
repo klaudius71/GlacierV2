@@ -1,5 +1,6 @@
 #include "gpch.h"
 #include "RigidbodyComponent.h"
+#include "Physics.h"
 #include "Model.h"
 
 RigidbodyComponent::RigidbodyComponent(PHYSICS_PLANE, const glm::vec3& normal)
@@ -99,6 +100,11 @@ void RigidbodyComponent::Activate(bool force)
 {
 	assert(rb);
 	rb->activate(force);
+}
+void RigidbodyComponent::SetWorldPosition(const glm::vec3& pos)
+{
+	assert(rb);
+	rb->getWorldTransform().setOrigin(btVector3(pos.x, pos.y, pos.z));
 }
 void RigidbodyComponent::ApplyCentralImpulse(const glm::vec3& impulse)
 {

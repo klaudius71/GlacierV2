@@ -64,9 +64,9 @@ void FPSCharacterControllerScript::OnUpdate(float dt)
 
 	const Font& font = FontLoader::Get("CascadiaMono20");
 	const Framebuffer& fb = Renderer::GetMainFramebuffer();
-	//Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 5.0f, Colors::Black, "Camera Controls:");
-	//Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 7.0f, Colors::Black, "Movement: WASD");
-	//Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 9.0f, Colors::Black, "View: RMB + Mouse");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 5.0f, Colors::Black, "Camera Controls:");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 7.0f, Colors::Black, "Movement: WASD");
+	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 9.0f, Colors::Black, "View: RMB + Mouse");
 }
 
 void FPSCharacterControllerScript::OnScreenResize(int width, int height)

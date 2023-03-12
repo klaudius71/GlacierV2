@@ -1,5 +1,39 @@
+#if _WIN32
+#include <Windows.h>
+#endif
+
+#include <cassert>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+#include <vector>
+#include <list>
+#include <queue>
+#include <stack>
+#include <future>
+#include <mutex>
+
 #include "GlacierCore.h"
-#include "gpch.h"
+#include "VertexTypes.h"
+#include "WeakPtr.h"
+#include "GMathTools.h"
+#include "Colors.h"
+
+#include "../external/glad/include/glad/glad.h"
+#include "../external/glfw-3.3.8/include/GLFW/glfw3.h"
+
+#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
+#define GLM_FORCE_INTRINSICS
+#define GLM_FORCE_SSE42
+#define GLM_FORCE_INLINE
+#define GLM_ENABLE_EXPERIMENTAL // glm::length2() is experimental for some reason
+#include "glm/glm.hpp"
+#include "glm/ext.hpp"
+
+#include "entt/entity/registry.hpp"
+
+//#include "imgui.h"
+
 #include "Application.h"
 #include "Window.h"
 #include "ShaderLoader.h"

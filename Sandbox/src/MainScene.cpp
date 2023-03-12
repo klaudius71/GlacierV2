@@ -1,4 +1,3 @@
-#include "gpch.h"
 #include "MainScene.h"
 #include "LevelScript.h"
 #include "RotatingScript.h"
@@ -40,7 +39,6 @@ void MainScene::InitializeScene()
 	GameObject terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
-	//terrain->EmplaceComponent<RigidbodyComponent>(PLANE_SHAPE);
 	terrain->EmplaceComponent<RigidbodyComponent>(ModelLoader::Get("TempTerrain"));
 	terrain->RegisterToScene();
 
@@ -56,7 +54,7 @@ void MainScene::InitializeScene()
 				.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
 	
 			rigidbody = &cube->EmplaceComponent<RigidbodyComponent>(BOX_SHAPE, 15.0f, 15.0f, 15.0f);
-			rigidbody->rb->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f));
+			rigidbody->SetWorldPosition(glm::vec3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f);
 			cube->RegisterToScene();
 		}
 	}
@@ -65,10 +63,8 @@ void MainScene::InitializeScene()
 	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
-	//sphere->GetComponent<TransformComponent>().position() = glm::vec3(18.0f, 68.0f, 86.0f);
 	rigidbody = &sphere->EmplaceComponent<RigidbodyComponent>(SPHERE_SHAPE, 20.0f);
-	//rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(0.0f, 20.0f, 200.0f)));
-	rigidbody->rb->setWorldTransform(btTransform(btQuaternion(0.0f, 0.0f, 0.0f), btVector3(150.0f, 500.0f, 100.0f)));
+	rigidbody->SetWorldPosition(glm::vec3(150.0f, 500.0f, 100.0f));
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();
 

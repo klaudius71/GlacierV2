@@ -1,4 +1,3 @@
-#include "gpch.h"
 #include "BSphereTestingScript.h"
 
 BSphereTestingScript::BSphereTestingScript(GameObject mesh)
