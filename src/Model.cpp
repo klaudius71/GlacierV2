@@ -283,7 +283,7 @@ Model::Model(const std::string& file_name, const float& xz_size, const float& ma
 	stbi_set_flip_vertically_on_load(true);
 
 	uint32_t width, height, components;
-	uint16_t* hgt_map = stbi_load_16(("heightmaps/" + file_name).c_str(), (int*)&width, (int*)&height, (int*)&components, 0);
+	uint16_t* hgt_map = stbi_load_16(("assets/heightmaps/" + file_name).c_str(), (int*)&width, (int*)&height, (int*)&components, 0);
 	assert(hgt_map && "Error loading heightmap file!");
 	assert(width == height && width > 1);
 

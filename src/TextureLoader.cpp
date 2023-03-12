@@ -3,9 +3,21 @@
 #include "TextureAtt.h"
 
 TextureLoader* TextureLoader::instance = nullptr;
-const std::string TextureLoader::TEXTURE_PATH = "textures/";
+const std::string TextureLoader::TEXTURE_PATH = "assets/textures/";
 std::list<std::future<Texture&>> TextureLoader::futures;
 std::mutex TextureLoader::load_mutex;
+
+TextureLoader::TextureLoader()
+	: textures()
+{
+	Texture* tex;
+
+	tex = &preloaded_textures.emplace(PRELOADED_TEXTURES::DEFAULT, glm::vec4{ 1.0f, 0.0784f, 0.5764f, 1.0f }).first->second;
+	TextureAtt::LoadGPUData(*tex);
+
+	tex = &preloaded_textures.emplace(PRELOADED_TEXTURES::NORMAL_DEFAULT, glm::vec4{ 0.5f, 0.5f, 1.0f, 1.0f }).first->second;
+	TextureAtt::LoadGPUData(*tex);
+}
 
 Texture& TextureLoader::load_async_reg(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
 {
@@ -38,6 +50,12 @@ void TextureLoader::load(const std::string& name, const glm::vec4& color)
 	TextureAtt::LoadGPUData(tex);
 }
 
+const Texture& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
+{
+	auto it = preloaded_textures.find(preloaded_tex);
+	assert(it != preloaded_textures.cend());
+	return it->second;
+}
 Texture& TextureLoader::get(const std::string& name)
 {
 	auto it = textures.find(name);

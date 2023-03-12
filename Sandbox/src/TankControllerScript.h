@@ -11,7 +11,7 @@ public:
 	virtual void OnSceneEnter() override;
 	virtual void OnUpdate(float dt) override;
 
-	virtual void OnScreenResize(const int& width, const int& height) override;
+	virtual void OnScreenResize(int width, int height) override;
 
 private:
 	const float TANK_SPEED = 100.0f;

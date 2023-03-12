@@ -39,7 +39,7 @@ void MainScene::InitializeScene()
 
 	GameObject terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
-	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.1f), 1.0f), TextureLoader::Get("Sand"));
+	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
 	//terrain->EmplaceComponent<RigidbodyComponent>(PLANE_SHAPE);
 	terrain->EmplaceComponent<RigidbodyComponent>(ModelLoader::Get("TempTerrain"));
 	terrain->RegisterToScene();

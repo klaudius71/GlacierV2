@@ -8,13 +8,13 @@ MaterialComponent::MaterialComponent()
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const glm::uvec4& tex_id, const glm::uvec4& norm_tex_id, const glm::vec4& color)
 	: ads(ads), tex_id(tex_id), norm_tex_id(norm_tex_id), col(color) {}
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const glm::vec4& color)
-	: ads(ads), tex_id(tex0, glm::uvec3(TextureLoader::Get("default"))), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
+	: ads(ads), tex_id(tex0, glm::uvec3(TextureLoader::Get(PRELOADED_TEXTURES::DEFAULT))), norm_tex_id(TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color) {}
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const glm::vec4& color)
-	: ads(ads), tex_id(tex0, tex1, (GLuint)TextureLoader::Get("default"), TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
+	: ads(ads), tex_id(tex0, tex1, (GLuint)TextureLoader::Get(PRELOADED_TEXTURES::DEFAULT), TextureLoader::Get(PRELOADED_TEXTURES::DEFAULT).GetID()), norm_tex_id(TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color) {}
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const glm::vec4& color)
-	: ads(ads), tex_id(tex0, tex1, tex2, (GLuint)TextureLoader::Get("default")), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
+	: ads(ads), tex_id(tex0, tex1, tex2, (GLuint)TextureLoader::Get(PRELOADED_TEXTURES::DEFAULT)), norm_tex_id(TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color) {}
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const GLuint& tex3, const glm::vec4& color)
-	: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(TextureLoader::Get("default_normal")), col(color) {}
+	: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color) {}
 
 void MaterialComponent::SetAmbientDiffuseSpecular(const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, const float& shininess)
 {

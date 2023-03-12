@@ -17,7 +17,7 @@ public:
 	virtual void OnSceneExit() {};
 
 	// Engine events
-	virtual void OnScreenResize(const int& width, const int& height) { UNREFERENCED_PARAMETER(width); UNREFERENCED_PARAMETER(height); };
+	virtual void OnScreenResize(int width, int height) { UNREFERENCED_PARAMETER(width); UNREFERENCED_PARAMETER(height); };
 
 
 	GameObject CreateGameObject(const std::string& name);

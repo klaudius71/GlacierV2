@@ -2,7 +2,7 @@
 #include "FontLoader.h"
 
 FontLoader* FontLoader::instance = nullptr;
-const std::string FontLoader::FONT_PATH = "fonts/";
+const std::string FontLoader::FONT_PATH = "assets/fonts/";
 
 void FontLoader::load(const std::string& name, const std::string& file_name, const int& size)
 {

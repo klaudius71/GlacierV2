@@ -4,7 +4,7 @@
 #include "ModelAtt.h"
 
 ModelLoader* ModelLoader::instance = nullptr;
-const std::string ModelLoader::MODEL_PATH = "models/";
+const std::string ModelLoader::MODEL_PATH = "assets/models/";
 std::vector<std::future<Model&>> ModelLoader::futures;
 std::mutex ModelLoader::load_mutex;
 

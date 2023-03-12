@@ -3,7 +3,7 @@
 #include "Timer.h"
 
 SkeletalAnimationLoader* SkeletalAnimationLoader::instance = nullptr;
-const std::string SkeletalAnimationLoader::ANIMATION_PATH = "animations/";
+const std::string SkeletalAnimationLoader::ANIMATION_PATH = "assets/animations/";
 std::vector<std::future<void>> SkeletalAnimationLoader::futures;
 std::mutex SkeletalAnimationLoader::load_mutex;
 

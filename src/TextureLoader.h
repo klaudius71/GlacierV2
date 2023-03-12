@@ -4,6 +4,12 @@
 #include "GlacierCore.h"
 #include "Texture.h"
 
+enum class PRELOADED_TEXTURES
+{
+	DEFAULT,
+	NORMAL_DEFAULT
+};
+
 class GLACIER_API TextureLoader
 {
 private:
@@ -16,13 +22,14 @@ private:
 			instance = new TextureLoader;
 		return *instance;
 	}
-	TextureLoader() = default;
+	TextureLoader();
 	TextureLoader(const TextureLoader&) = delete;
 	TextureLoader& operator=(const TextureLoader&) = delete;
 	TextureLoader(TextureLoader&&) = delete;
 	TextureLoader& operator=(TextureLoader&&) = delete;
 	~TextureLoader() = default;
 
+	std::unordered_map<PRELOADED_TEXTURES, Texture> preloaded_textures;
 	std::unordered_map<std::string, Texture> textures;
 
 	static std::list<std::future<Texture&>> futures;
@@ -34,6 +41,7 @@ private:
 	void load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params);
 	void load(const std::string& name, const glm::vec4& color);
 	
+	const Texture& get(const PRELOADED_TEXTURES preloaded_tex);
 	Texture& get(const std::string& name);
 	const Texture& get_const(const std::string& name) const;
 
@@ -50,6 +58,7 @@ public:
 	{ Instance().load(name, file_names, tex_params); }
 	static void Load(const std::string& name, const glm::vec4& color) { Instance().load(name, color); }
 	
+	static const Texture& Get(const PRELOADED_TEXTURES preloaded_tex) { assert(instance && "TextureLoader not initialized!"); return instance->get(preloaded_tex); }
 	static Texture& Get(const std::string& name) { assert(instance && "TextureLoader not initialized!"); return instance->get(name); }
 	static const Texture& GetConst(const std::string& name) { assert(instance && "TextureLoader not initialized!"); return instance->get_const(name); }
 };

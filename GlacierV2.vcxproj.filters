@@ -50,68 +50,11 @@
     <Filter Include="Libraries\MemTracker">
       <UniqueIdentifier>{8d38270c-697a-42e5-ae50-eeaf21dcc57d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine">
-      <UniqueIdentifier>{c5ab7cb3-39af-4b73-b564-8135e9b5f5b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Asset">
-      <UniqueIdentifier>{4d192563-3af2-4779-bda2-2349d4105190}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Asset\Loaders">
-      <UniqueIdentifier>{d6e3166f-f8b7-4655-9eb8-37efd464f376}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\ECS">
-      <UniqueIdentifier>{46486f35-b58b-413c-b087-6341eb30475a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Time">
-      <UniqueIdentifier>{24a5c727-81cf-446f-8412-be8268fd4453}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Attorneys">
-      <UniqueIdentifier>{2e38a58a-2b68-401a-8ebb-49809082dcc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems">
-      <UniqueIdentifier>{79d6d4dc-a74c-4961-9da7-cf6371e14d24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Input">
-      <UniqueIdentifier>{f212ef75-6239-4dfc-8397-10871b12b866}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Scene">
-      <UniqueIdentifier>{8c6c86e0-bdf5-46ee-9bbb-635fe77aceeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Command">
-      <UniqueIdentifier>{2db54995-0aa9-4080-a034-b2ee79373c91}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Command\Commands">
-      <UniqueIdentifier>{fa4f55a4-baa0-49f6-bd64-7534d232e598}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Command\Commands\Scene">
-      <UniqueIdentifier>{a1bd05df-d169-4be4-bf2b-0862c5cd2d1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Misc">
-      <UniqueIdentifier>{7beb0b48-0817-410d-9584-6e966d9bf6fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Main">
-      <UniqueIdentifier>{b016f993-7717-4488-93e5-e2d2ab015ea2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\GraphicsContext">
-      <UniqueIdentifier>{505e5aa6-8377-418e-95c2-085c3ef210d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Render">
-      <UniqueIdentifier>{fc67491a-e6ee-42f7-936a-c6df8e1dc490}</UniqueIdentifier>
-    </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{f67f2003-bbc2-4e74-a27c-bfb61cd405b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="assets\shaders">
       <UniqueIdentifier>{66467979-800a-418c-9ee5-71330f35929a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Lighting">
-      <UniqueIdentifier>{bd989961-9dc8-473e-a574-fcabfc95d28b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Misc\Tools">
-      <UniqueIdentifier>{8849de83-96c8-4db1-887b-9beef5621efd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Misc\Scripts">
-      <UniqueIdentifier>{c574b757-cb16-4e57-9f7c-f8145891526a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Libraries\imgui">
       <UniqueIdentifier>{d1b2a22e-c1de-4ba2-941a-3f60cf8a708f}</UniqueIdentifier>
@@ -119,29 +62,83 @@
     <Filter Include="Libraries\imgui\backends">
       <UniqueIdentifier>{21b02c3d-b0dd-477e-ab0f-f3565db82814}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Editor">
-      <UniqueIdentifier>{ffa96cdc-c33d-4160-b3c0-f415b5ee3e90}</UniqueIdentifier>
+    <Filter Include="src\Asset">
+      <UniqueIdentifier>{4d192563-3af2-4779-bda2-2349d4105190}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Editor\ShowEditor">
-      <UniqueIdentifier>{90ea2b98-3cad-4d63-b982-fb157d7fc51e}</UniqueIdentifier>
+    <Filter Include="src\Asset\Loaders">
+      <UniqueIdentifier>{d6e3166f-f8b7-4655-9eb8-37efd464f376}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Command\Commands\Entity">
-      <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Systems\Render\Skeletal">
-      <UniqueIdentifier>{a95ded5a-1861-4a33-be46-d729ded8984c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Engine\Asset\SkeletalAnimation">
+    <Filter Include="src\Asset\SkeletalAnimation">
       <UniqueIdentifier>{6fc28bbc-949a-4a4c-aabc-2f70b20a21d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Scripting">
+    <Filter Include="src\Attorneys">
+      <UniqueIdentifier>{2e38a58a-2b68-401a-8ebb-49809082dcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ECS">
+      <UniqueIdentifier>{46486f35-b58b-413c-b087-6341eb30475a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ECS\Components">
+      <UniqueIdentifier>{a38b264f-c259-4cd9-bd74-5f678e6089b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GraphicsContext">
+      <UniqueIdentifier>{505e5aa6-8377-418e-95c2-085c3ef210d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Main">
+      <UniqueIdentifier>{b016f993-7717-4488-93e5-e2d2ab015ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Misc">
+      <UniqueIdentifier>{7beb0b48-0817-410d-9584-6e966d9bf6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Misc\Tools">
+      <UniqueIdentifier>{8849de83-96c8-4db1-887b-9beef5621efd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Misc\Scripts">
+      <UniqueIdentifier>{c574b757-cb16-4e57-9f7c-f8145891526a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems">
+      <UniqueIdentifier>{79d6d4dc-a74c-4961-9da7-cf6371e14d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Input">
+      <UniqueIdentifier>{f212ef75-6239-4dfc-8397-10871b12b866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Scene">
+      <UniqueIdentifier>{8c6c86e0-bdf5-46ee-9bbb-635fe77aceeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Command">
+      <UniqueIdentifier>{2db54995-0aa9-4080-a034-b2ee79373c91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Command\Commands">
+      <UniqueIdentifier>{fa4f55a4-baa0-49f6-bd64-7534d232e598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Command\Commands\Scene">
+      <UniqueIdentifier>{a1bd05df-d169-4be4-bf2b-0862c5cd2d1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Command\Commands\Entity">
+      <UniqueIdentifier>{38b30ccc-70c5-4194-aec3-0856663f578d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Render">
+      <UniqueIdentifier>{fc67491a-e6ee-42f7-936a-c6df8e1dc490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Render\Skeletal">
+      <UniqueIdentifier>{a95ded5a-1861-4a33-be46-d729ded8984c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Lighting">
+      <UniqueIdentifier>{bd989961-9dc8-473e-a574-fcabfc95d28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Editor">
+      <UniqueIdentifier>{ffa96cdc-c33d-4160-b3c0-f415b5ee3e90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Editor\ShowEditor">
+      <UniqueIdentifier>{90ea2b98-3cad-4d63-b982-fb157d7fc51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Systems\Scripting">
       <UniqueIdentifier>{4a8f0807-5fb8-45e1-a5df-f90f00f3a0ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\Systems\Physics">
+    <Filter Include="src\Systems\Physics">
       <UniqueIdentifier>{41b0175c-367d-4430-8149-9dfe2765d4fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Engine\ECS\Components">
-      <UniqueIdentifier>{a38b264f-c259-4cd9-bd74-5f678e6089b4}</UniqueIdentifier>
+    <Filter Include="src\Time">
+      <UniqueIdentifier>{24a5c727-81cf-446f-8412-be8268fd4453}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,97 +146,97 @@
       <Filter>Libraries\glad\src</Filter>
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClCompile>
     <ClCompile Include="src\ShaderLoader.cpp">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClCompile>
     <ClCompile Include="src\TextureLoader.cpp">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Window.cpp">
-      <Filter>src\Engine\GraphicsContext</Filter>
+      <Filter>src\GraphicsContext</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClCompile>
     <ClCompile Include="src\Entity.cpp">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClCompile>
     <ClCompile Include="src\Model.cpp">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClCompile>
     <ClCompile Include="src\Timer.cpp">
-      <Filter>src\Engine\Time</Filter>
+      <Filter>src\Time</Filter>
     </ClCompile>
     <ClCompile Include="external\base64\include\base64.cpp">
       <Filter>Libraries\base64</Filter>
     </ClCompile>
     <ClCompile Include="src\ModelLoader.cpp">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Input.cpp">
-      <Filter>src\Engine\Systems\Input</Filter>
+      <Filter>src\Systems\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\TimeManager.cpp">
-      <Filter>src\Engine\Time</Filter>
+      <Filter>src\Time</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneManager.cpp">
-      <Filter>src\Engine\Systems\Scene</Filter>
+      <Filter>src\Systems\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\CommandBroker.cpp">
-      <Filter>src\Engine\Systems\Command</Filter>
+      <Filter>src\Systems\Command</Filter>
     </ClCompile>
     <ClCompile Include="src\AddScriptCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands</Filter>
+      <Filter>src\Systems\Command\Commands</Filter>
     </ClCompile>
     <ClCompile Include="src\EntityRegCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
+      <Filter>src\Systems\Command\Commands\Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\EntityDeregCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
+      <Filter>src\Systems\Command\Commands\Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneChangeCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+      <Filter>src\Systems\Command\Commands\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneChangeNullCmd.cpp">
-      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+      <Filter>src\Systems\Command\Commands\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\gpch.cpp">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer.cpp">
-      <Filter>src\Engine\Systems\Render</Filter>
+      <Filter>src\Systems\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer2D.cpp">
-      <Filter>src\Engine\Systems\Render</Filter>
+      <Filter>src\Systems\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\Lighting.cpp">
-      <Filter>src\Engine\Systems\Lighting</Filter>
+      <Filter>src\Systems\Lighting</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneGraph.cpp">
-      <Filter>src\Engine\Systems\Scene</Filter>
+      <Filter>src\Systems\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\CameraControllerScript.cpp">
-      <Filter>src\Engine\Misc\Scripts</Filter>
+      <Filter>src\Misc\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="src\Colors.cpp">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\WeakPtr.cpp">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\Font.cpp">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClCompile>
     <ClCompile Include="src\FontLoader.cpp">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp">
       <Filter>Libraries\imgui</Filter>
@@ -263,88 +260,88 @@
       <Filter>Libraries\imgui\backends</Filter>
     </ClCompile>
     <ClCompile Include="src\EditorLayer.cpp">
-      <Filter>src\Engine\Systems\Editor</Filter>
+      <Filter>src\Systems\Editor</Filter>
     </ClCompile>
     <ClCompile Include="src\Framebuffer.cpp">
-      <Filter>src\Engine\GraphicsContext</Filter>
+      <Filter>src\GraphicsContext</Filter>
     </ClCompile>
     <ClCompile Include="src\ShowEditorDont.cpp">
-      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+      <Filter>src\Systems\Editor\ShowEditor</Filter>
     </ClCompile>
     <ClCompile Include="src\ShowEditorNull.cpp">
-      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+      <Filter>src\Systems\Editor\ShowEditor</Filter>
     </ClCompile>
     <ClCompile Include="src\SkeletalAnimation.cpp">
-      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+      <Filter>src\Asset\SkeletalAnimation</Filter>
     </ClCompile>
     <ClCompile Include="src\Bone.cpp">
-      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+      <Filter>src\Asset\SkeletalAnimation</Filter>
     </ClCompile>
     <ClCompile Include="src\SkeletalAnimationLoader.cpp">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClCompile>
     <ClCompile Include="src\Animator.cpp">
-      <Filter>src\Engine\Systems\Render\Skeletal</Filter>
+      <Filter>src\Systems\Render\Skeletal</Filter>
     </ClCompile>
     <ClCompile Include="src\GMathTools.cpp">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\UUID.cpp">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\Script.cpp">
-      <Filter>src\Engine\Systems\Scripting</Filter>
+      <Filter>src\Systems\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics.cpp">
-      <Filter>src\Engine\Systems\Physics</Filter>
+      <Filter>src\Systems\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Logger.cpp">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\NameComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\TransformComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\CameraComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\ScriptComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\SpriteComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\MeshComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\SkeletalMeshComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\SkeletalAnimationComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\MaterialComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\DirectionalLightComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\SkyboxComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\RigidbodyComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Application.cpp">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClCompile>
     <ClCompile Include="src\CharacterControllerComponent.cpp">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\DynamicCharacterController.cpp">
-      <Filter>src\Engine\Systems\Physics</Filter>
+      <Filter>src\Systems\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -364,40 +361,40 @@
       <Filter>Libraries\glm-0.9.9.8</Filter>
     </ClInclude>
     <ClInclude Include="src\Shader.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="src\ShaderLoader.h">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="external\stb\stb_image.h">
       <Filter>Libraries\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureLoader.h">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClInclude>
     <ClInclude Include="src\Window.h">
-      <Filter>src\Engine\GraphicsContext</Filter>
+      <Filter>src\GraphicsContext</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\Components.h">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="external\entt-3.10.3\src\entt\entt.hpp">
       <Filter>Libraries\entt-3.10.3</Filter>
     </ClInclude>
     <ClInclude Include="src\Entity.h">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\Model.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="src\Timer.h">
-      <Filter>src\Engine\Time</Filter>
+      <Filter>src\Time</Filter>
     </ClInclude>
     <ClInclude Include="external\base64\include\base64.h">
       <Filter>Libraries\base64</Filter>
@@ -406,118 +403,115 @@
       <Filter>Libraries\JSON for Modern C++</Filter>
     </ClInclude>
     <ClInclude Include="src\VertexTypes.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="src\ModelLoader.h">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClInclude>
     <ClInclude Include="src\ModelLoaderAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureLoaderAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\ShaderLoaderAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="external\MemTracker\Framework.h">
       <Filter>Libraries\MemTracker</Filter>
     </ClInclude>
     <ClInclude Include="src\Input.h">
-      <Filter>src\Engine\Systems\Input</Filter>
+      <Filter>src\Systems\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\KeyCodes.h">
-      <Filter>src\Engine\Systems\Input</Filter>
+      <Filter>src\Systems\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\TimeManager.h">
-      <Filter>src\Engine\Time</Filter>
+      <Filter>src\Time</Filter>
     </ClInclude>
     <ClInclude Include="src\TimeManagerAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer2DAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\InputAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GlacierAPI.h">
-      <Filter>src\Engine</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneManager.h">
-      <Filter>src\Engine\Systems\Scene</Filter>
+      <Filter>src\Systems\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneManagerAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\CommandBroker.h">
-      <Filter>src\Engine\Systems\Command</Filter>
+      <Filter>src\Systems\Command</Filter>
     </ClInclude>
     <ClInclude Include="src\Command.h">
-      <Filter>src\Engine\Systems\Command</Filter>
+      <Filter>src\Systems\Command</Filter>
     </ClInclude>
     <ClInclude Include="src\ScriptAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\AddScriptCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands</Filter>
+      <Filter>src\Systems\Command\Commands</Filter>
     </ClInclude>
     <ClInclude Include="src\EmplaceComponentCommand.h">
-      <Filter>src\Engine\Systems\Command\Commands</Filter>
+      <Filter>src\Systems\Command\Commands</Filter>
     </ClInclude>
     <ClInclude Include="src\RegistrationState.h">
-      <Filter>src\Engine\ECS</Filter>
+      <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityRegCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
+      <Filter>src\Systems\Command\Commands\Entity</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityDeregCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\Entity</Filter>
+      <Filter>src\Systems\Command\Commands\Entity</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneChangeCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+      <Filter>src\Systems\Command\Commands\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneChangeNullCmd.h">
-      <Filter>src\Engine\Systems\Command\Commands\Scene</Filter>
+      <Filter>src\Systems\Command\Commands\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\gpch.h">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer2D.h">
-      <Filter>src\Engine\Systems\Render</Filter>
+      <Filter>src\Systems\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
-      <Filter>src\Engine\Systems\Render</Filter>
+      <Filter>src\Systems\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\Lighting.h">
-      <Filter>src\Engine\Systems\Lighting</Filter>
+      <Filter>src\Systems\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneGraph.h">
-      <Filter>src\Engine\Systems\Scene</Filter>
+      <Filter>src\Systems\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraControllerScript.h">
-      <Filter>src\Engine\Misc\Scripts</Filter>
+      <Filter>src\Misc\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\Colors.h">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\WeakPtr.h">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\RendererAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\Font.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="src\FontLoader.h">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClInclude>
     <ClInclude Include="src\FontLoaderAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="external\imgui\imconfig.h">
       <Filter>Libraries\imgui</Filter>
@@ -544,109 +538,112 @@
       <Filter>Libraries\imgui\backends</Filter>
     </ClInclude>
     <ClInclude Include="src\EditorLayer.h">
-      <Filter>src\Engine\Systems\Editor</Filter>
+      <Filter>src\Systems\Editor</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\Framebuffer.h">
-      <Filter>src\Engine\GraphicsContext</Filter>
+      <Filter>src\GraphicsContext</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\ShowEditorDont.h">
-      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+      <Filter>src\Systems\Editor\ShowEditor</Filter>
     </ClInclude>
     <ClInclude Include="src\ShowEditorNull.h">
-      <Filter>src\Engine\Systems\Editor\ShowEditor</Filter>
+      <Filter>src\Systems\Editor\ShowEditor</Filter>
     </ClInclude>
     <ClInclude Include="src\Prefab.h">
-      <Filter>src\Engine\Systems</Filter>
+      <Filter>src\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\ModelAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\SkeletalAnimation.h">
-      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+      <Filter>src\Asset\SkeletalAnimation</Filter>
     </ClInclude>
     <ClInclude Include="src\Bone.h">
-      <Filter>src\Engine\Asset\SkeletalAnimation</Filter>
+      <Filter>src\Asset\SkeletalAnimation</Filter>
     </ClInclude>
     <ClInclude Include="src\SkeletalAnimationLoader.h">
-      <Filter>src\Engine\Asset\Loaders</Filter>
+      <Filter>src\Asset\Loaders</Filter>
     </ClInclude>
     <ClInclude Include="src\SkeletalAnimationLoaderAtt.h">
-      <Filter>src\Engine\Attorneys</Filter>
+      <Filter>src\Attorneys</Filter>
     </ClInclude>
     <ClInclude Include="src\Animator.h">
-      <Filter>src\Engine\Systems\Render\Skeletal</Filter>
+      <Filter>src\Systems\Render\Skeletal</Filter>
     </ClInclude>
     <ClInclude Include="src\GMathTools.h">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\UUID.h">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\Script.h">
-      <Filter>src\Engine\Systems\Scripting</Filter>
+      <Filter>src\Systems\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics.h">
-      <Filter>src\Engine\Systems\Physics</Filter>
+      <Filter>src\Systems\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Logger.h">
-      <Filter>src\Engine\Misc\Tools</Filter>
+      <Filter>src\Misc\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\NameComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\TransformComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\ScriptComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\SpriteComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\MeshComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\SkeletalMeshComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\SkeletalAnimationComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\MaterialComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\DirectionalLightComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\SkyboxComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\RigidbodyComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Application.h">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClInclude>
     <ClInclude Include="src\GlacierCore.h">
-      <Filter>src\Engine\Main</Filter>
+      <Filter>src\Main</Filter>
     </ClInclude>
     <ClInclude Include="src\GlacierFileHdr.h">
-      <Filter>src\Engine\Asset</Filter>
+      <Filter>src\Asset</Filter>
     </ClInclude>
     <ClInclude Include="src\CharacterControllerComponent.h">
-      <Filter>src\Engine\ECS\Components</Filter>
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\DynamicCharacterController.h">
-      <Filter>src\Engine\Systems\Physics</Filter>
+      <Filter>src\Systems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlacierAPI.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

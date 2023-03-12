@@ -11,6 +11,8 @@ public:
 
 	virtual void OnUpdate(float dt) override;
 
+	virtual void OnScreenResize(int width, int height) override;
+
 private:
 	glm::vec3 camRot{ 0.0f, glm::pi<float>(), 0.0f };
 };

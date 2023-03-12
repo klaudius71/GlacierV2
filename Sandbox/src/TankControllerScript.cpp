@@ -103,7 +103,7 @@ void TankControllerScript::OnUpdate(float dt)
 	Renderer2D::PrintText(FontLoader::Get("CascadiaMono20"), 0.0f, 20.0f, Colors::Black, "%d", sphere->GetComponent<const NameComponent>().id);
 }
 
-void TankControllerScript::OnScreenResize(const int& width, const int& height)
+void TankControllerScript::OnScreenResize(int width, int height)
 {
 	CameraComponent::ResetProjectionToSize(GetGameObject()->GetComponent<CameraComponent>(), width, height);
 }
