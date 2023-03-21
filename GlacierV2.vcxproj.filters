@@ -343,6 +343,18 @@
     <ClCompile Include="src\DynamicCharacterController.cpp">
       <Filter>src\Systems\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\PlaneColliderComponent.cpp">
+      <Filter>src\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TriangleMeshColliderComponent.cpp">
+      <Filter>src\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoxColliderComponent.cpp">
+      <Filter>src\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SphereColliderComponent.cpp">
+      <Filter>src\ECS\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -644,6 +656,18 @@
     </ClInclude>
     <ClInclude Include="src\GlacierAPI.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlaneColliderComponent.h">
+      <Filter>src\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TriangleMeshColliderComponent.h">
+      <Filter>src\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoxColliderComponent.h">
+      <Filter>src\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SphereColliderComponent.h">
+      <Filter>src\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

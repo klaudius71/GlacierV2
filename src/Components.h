@@ -12,7 +12,10 @@
 #include "MaterialComponent.h"
 #include "DirectionalLightComponent.h"
 #include "SkyboxComponent.h"
-#include "RigidbodyComponent.h"
 #include "CharacterControllerComponent.h"
+#include "PlaneColliderComponent.h"
+#include "BoxColliderComponent.h"
+#include "SphereColliderComponent.h"
+#include "TriangleMeshColliderComponent.h"
 
 #endif

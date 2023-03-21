@@ -139,7 +139,25 @@ void EditorLayer::showEditor()
 	ImGui::Begin("Properties");
 	if (!selected_go.isExpired())
 	{
-		auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, material, dir_light, skybox, rigidbody, character_controller] = selected_go->TryGetComponent<NameComponent, TransformComponent, CameraComponent, ScriptComponent, SpriteComponent, MeshComponent, SkeletalMeshComponent, SkeletalAnimationComponent, MaterialComponent, DirectionalLightComponent, SkyboxComponent, RigidbodyComponent, CharacterControllerComponent>();
+		auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, material, dir_light, skybox, character_controller, plane_collider, box_collider, sphere_collider, trianglemesh_collider] =
+			selected_go->TryGetComponent<
+			NameComponent,
+			TransformComponent,
+			CameraComponent,
+			ScriptComponent,
+			SpriteComponent,
+			MeshComponent,
+			SkeletalMeshComponent,
+			SkeletalAnimationComponent,
+			MaterialComponent,
+			DirectionalLightComponent,
+			SkyboxComponent,
+			CharacterControllerComponent,
+			PlaneColliderComponent,
+			BoxColliderComponent,
+			SphereColliderComponent,
+			TriangleMeshColliderComponent
+			>();
 
 		if (ImGui::TreeNode("Name Component"))
 		{
@@ -220,7 +238,22 @@ void EditorLayer::showEditor()
 			ImGui::TreePop();
 		}
 
-		if (rigidbody && ImGui::TreeNode("Rigidbody Component"))
+		if (plane_collider && ImGui::TreeNode("Plane Collider Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (box_collider && ImGui::TreeNode("Box Collider Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (sphere_collider && ImGui::TreeNode("Box Collider Component"))
+		{
+			ImGui::TreePop();
+		}
+
+		if (trianglemesh_collider && ImGui::TreeNode("Triangle Mesh Collider Component"))
 		{
 			ImGui::TreePop();
 		}

@@ -152,6 +152,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile Include="src\AddScriptCmd.cpp" />
     <ClCompile Include="src\Animator.cpp" />
     <ClCompile Include="src\Bone.cpp" />
+    <ClCompile Include="src\BoxColliderComponent.cpp" />
     <ClCompile Include="src\CameraComponent.cpp" />
     <ClCompile Include="src\CameraControllerScript.cpp" />
     <ClCompile Include="src\CharacterControllerComponent.cpp" />
@@ -186,6 +187,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile Include="src\ModelLoader.cpp" />
     <ClCompile Include="src\NameComponent.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\PlaneColliderComponent.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="src\RigidbodyComponent.cpp" />
@@ -205,8 +207,10 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile Include="src\SkeletalAnimationLoader.cpp" />
     <ClCompile Include="src\SkeletalMeshComponent.cpp" />
     <ClCompile Include="src\SkyboxComponent.cpp" />
+    <ClCompile Include="src\SphereColliderComponent.cpp" />
     <ClCompile Include="src\SpriteComponent.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
+    <ClCompile Include="src\TriangleMeshColliderComponent.cpp" />
     <ClCompile Include="src\UUID.cpp" />
     <ClCompile Include="src\WeakPtr.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -237,6 +241,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\AddScriptCmd.h" />
     <ClInclude Include="src\Animator.h" />
     <ClInclude Include="src\Bone.h" />
+    <ClInclude Include="src\BoxColliderComponent.h" />
     <ClInclude Include="src\CameraComponent.h" />
     <ClInclude Include="src\CameraControllerScript.h" />
     <ClInclude Include="src\CharacterControllerComponent.h" />
@@ -275,6 +280,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\ModelLoaderAtt.h" />
     <ClInclude Include="src\NameComponent.h" />
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\PlaneColliderComponent.h" />
     <ClInclude Include="src\Prefab.h" />
     <ClInclude Include="src\RendererAtt.h" />
     <ClInclude Include="src\RigidbodyComponent.h" />
@@ -288,9 +294,11 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\SkeletalAnimationLoaderAtt.h" />
     <ClInclude Include="src\SkeletalMeshComponent.h" />
     <ClInclude Include="src\SkyboxComponent.h" />
+    <ClInclude Include="src\SphereColliderComponent.h" />
     <ClInclude Include="src\SpriteComponent.h" />
     <ClInclude Include="src\TextureAtt.h" />
     <ClInclude Include="src\TransformComponent.h" />
+    <ClInclude Include="src\TriangleMeshColliderComponent.h" />
     <ClInclude Include="src\UUID.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />

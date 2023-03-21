@@ -39,7 +39,7 @@ void MainScene::InitializeScene()
 	GameObject terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
-	terrain->EmplaceComponent<RigidbodyComponent>(ModelLoader::Get("TempTerrain"));
+	terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
 	terrain->RegisterToScene();
 
 	RigidbodyComponent* rigidbody;
@@ -53,7 +53,7 @@ void MainScene::InitializeScene()
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
 				.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
 	
-			rigidbody = &cube->EmplaceComponent<RigidbodyComponent>(BOX_SHAPE, 15.0f, 15.0f, 15.0f);
+			rigidbody = &cube->EmplaceComponent<BoxColliderComponent>(glm::vec3(15.0f, 15.0f, 15.0f), .1f, .25f, .5f);
 			rigidbody->SetWorldPosition(glm::vec3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f);
 			cube->RegisterToScene();
 		}
@@ -63,7 +63,7 @@ void MainScene::InitializeScene()
 	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
-	rigidbody = &sphere->EmplaceComponent<RigidbodyComponent>(SPHERE_SHAPE, 20.0f);
+	rigidbody = &sphere->EmplaceComponent<SphereColliderComponent>(20.0f);
 	rigidbody->SetWorldPosition(glm::vec3(150.0f, 500.0f, 100.0f));
 	sphere->AddScript<RotatingScript>();
 	sphere->RegisterToScene();

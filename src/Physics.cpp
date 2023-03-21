@@ -52,16 +52,32 @@ void Physics::simulatePhysics(const float& timestep, const int& max_substeps, co
 	btTransform transf; 
 	glm::mat4 mat;
 	entt::registry& registry = scn.GetRegistry();
-	auto group = registry.group<RigidbodyComponent, TransformComponent>();
-	for (auto&& [entity, rigidbody, transform] : group.each())
+	auto box_colliders_view = registry.view<BoxColliderComponent>();
+	for (auto&& [entity, box_colliders] : box_colliders_view.each())
 	{
-		rigidbody.motion_state->getWorldTransform(transf);
+		box_colliders.motion_state->getWorldTransform(transf);
 		transf.getOpenGLMatrix(glm::value_ptr(mat));
-		transform.SetWorldMatrixKeepScale(mat);
+		registry.get<TransformComponent>(entity).SetWorldMatrixKeepScale(mat);
 	}
 
-	auto view = registry.view<CharacterControllerComponent>();
-	for (auto&& [entity, character_controller] : view.each())
+	auto sphere_colliders_view = registry.view<SphereColliderComponent>();
+	for (auto&& [entity, sphere_collider] : sphere_colliders_view.each())
+	{
+		sphere_collider.motion_state->getWorldTransform(transf);
+		transf.getOpenGLMatrix(glm::value_ptr(mat));
+		registry.get<TransformComponent>(entity).SetWorldMatrixKeepScale(mat);
+	}
+
+	auto triangles_colliders_view = registry.view<TriangleMeshColliderComponent>();
+	for (auto&& [entity, triangles_collider] : triangles_colliders_view.each())
+	{
+		triangles_collider.motion_state->getWorldTransform(transf);
+		transf.getOpenGLMatrix(glm::value_ptr(mat));
+		registry.get<TransformComponent>(entity).SetWorldMatrixKeepScale(mat);
+	}
+
+	auto character_view = registry.view<CharacterControllerComponent>();
+	for (auto&& [entity, character_controller] : character_view.each())
 	{
 		character_controller.m_controller->GetMotionState()->getWorldTransform(transf);
 		transf.getOpenGLMatrix(glm::value_ptr(mat));

@@ -21,9 +21,9 @@ void RotatingScript::OnUpdate(float dt)
 	if (Input::GetKeyDown(GLACIER_KEY::KEY_F) && !key_pressed)
 	{
 		key_pressed = true;
-		RigidbodyComponent& rigidbody = GetGameObject()->GetComponent<RigidbodyComponent>();
-		rigidbody.ApplyCentralImpulse(glm::vec3(0.0f, 40000.0f, -150000.0f));
-		rigidbody.ApplyTorqueImpulse(glm::vec3(0.0f, 500000.0f, 0.0f));
+		//RigidbodyComponent& rigidbody = GetGameObject()->GetComponent<RigidbodyComponent>();
+		//rigidbody.ApplyCentralImpulse(glm::vec3(0.0f, 40000.0f, -150000.0f));
+		//rigidbody.ApplyTorqueImpulse(glm::vec3(0.0f, 500000.0f, 0.0f));
 	}
 	else if(!Input::GetKeyDown(GLACIER_KEY::KEY_F))
 	{
