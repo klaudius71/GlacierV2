@@ -12,20 +12,18 @@ enum class PREMADE_MODELS
 class GLACIER_API Model
 {
 public:
-	// Load a model from a glTF file
+	// Load a model from a glTF or .glacier file
 	Model(const std::string& file_name);
-	// Load a model from the .glacier file
-	Model(const std::string& file_name, bool glacier);
 	// Load a model from a given set of vertex and triangle data
 	Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<VertexTypes::VertexTriangle>& triangles);
 	// Load a model from a premade set
-	Model(PREMADE_MODELS premade_model, const float& scale);
+	Model(PREMADE_MODELS premade_model, float scale);
 	// Load terrain from 16-bit heightmap
-	Model(const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v);
+	Model(const std::string& file_name, float xz_size, float max_height, float u, float v);
 	// Load a unit sphere model given a number of vertical and horizontal slices
-	Model(const uint32_t& v_slices, const uint32_t& h_slices);
+	Model(uint32_t v_slices, uint32_t h_slices);
 	// Load a flat plane given a xz size and uv repeats
-	Model(const float& xz_size, const float& u, const float& v);
+	Model(float xz_size, float u, float v);
 
 	Model(const Model&) = delete;
 	Model& operator=(const Model&) = delete;
@@ -48,6 +46,9 @@ public:
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;
 
 private:
+	void load_gltf(const std::string& file_name);
+	void load_glacier(const std::string& file_name);
+
 	inline void calculate_tangents();
 	inline void calculate_bsphere();
 

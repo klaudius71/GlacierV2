@@ -26,18 +26,6 @@ ModelLoader::ModelLoader()
 	ModelAtt::LoadGPUData(skybox_mod);
 }
 
-Model& ModelLoader::load_async_file2(const std::string& name, const std::string& file_name, const bool& glacier)
-{
-	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
-	Model mod(MODEL_PATH + file_name, glacier);
-	std::lock_guard<std::mutex> lock(load_mutex);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-void ModelLoader::load(const std::string& name, const std::string& file_name, const bool& glacier)
-{
-	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_file2, this, name, file_name, glacier));
-}
 Model& ModelLoader::load_async_file(const std::string& name, const std::string& file_name)
 {
 	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
