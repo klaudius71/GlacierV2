@@ -65,10 +65,20 @@ ShaderLoader::ShaderLoader()
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "sprite").first->second;
 }
 
-void ShaderLoader::load(const char* const name, const char* const file_name)
+void ShaderLoader::load(const std::string& name, const std::string& file_name)
 {
 	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
 	shaders.emplace(name, SHADER_PATH + file_name);
+}
+void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name)
+{
+	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
+	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + fragment_shader_file_name));
+}
+void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name)
+{
+	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
+	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + geometry_shader_file_name, SHADER_PATH + fragment_shader_file_name));
 }
 
 Shader* const ShaderLoader::get(const PRELOADED_SHADERS shader)

@@ -25,7 +25,7 @@ public:
 
 private:
 	void load_shader(const char* const vertex_shader, const char* const fragment_shader);
-	void load_with_geometry_shader(const char* const vertex_shader, const char* const fragment_shader, const char* const geometry_shader);
+	void load_shader(const char* const vertex_shader, const char* const geometry_shader, const char* const fragment_shader);
 
 	GLuint program_id = 0;
 };

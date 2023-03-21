@@ -43,7 +43,10 @@ private:
 	GLuint ubo_DirLight;
 	GLuint ubo_LightspaceMatrices;
 
-	void load(const char* const name, const char* const file_name);
+	void load(const std::string& name, const std::string& file_name);
+	void load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name);
+	void load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name);
+
 	Shader* const get(const PRELOADED_SHADERS shader);
 	Shader* const get(const std::string& name);
 
@@ -56,7 +59,9 @@ private:
 	friend class ShaderLoaderAtt;
 
 public:
-	static void Load(const char* const name, const char* const file_name) { Instance().load(name, file_name); }
+	static void Load(const std::string& name, const std::string& file_name) { Instance().load(name, file_name); }
+	static void Load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name) { Instance().load(name, vertex_shader_file_name, fragment_shader_file_name); }
+	static void Load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name) { Instance().load(name, vertex_shader_file_name, geometry_shader_file_name, fragment_shader_file_name); }
 
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }

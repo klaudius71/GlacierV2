@@ -25,7 +25,7 @@ Shader::Shader(const std::string& file_name)
 	{
 		strm << file.rdbuf();
 		std::string geo(std::move(strm.str()));
-		load_with_geometry_shader(vert.c_str(), frag.c_str(), geo.c_str());
+		load_shader(vert.c_str(), geo.c_str(), frag.c_str());
 	}
 	else
 	{
@@ -53,6 +53,35 @@ Shader::Shader(const std::string& vertex_shader_file_name, const std::string& fr
 	file.clear();
 
 	load_shader(vert.c_str(), frag.c_str());
+}
+Shader::Shader(const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name)
+{
+	std::ifstream file(vertex_shader_file_name, std::ios::in);
+	assert(file.is_open() && "File not found!");
+	std::stringstream strm;
+	strm << file.rdbuf();
+	std::string vert(strm.str());
+	strm.str("");
+	file.close();
+	file.clear();
+
+	file.open(geometry_shader_file_name, std::ios::in);
+	assert(file.is_open() && "File not found!");
+	strm << file.rdbuf();
+	std::string geo(strm.str());
+	strm.str("");
+	file.close();
+	file.clear();
+
+	file.open(fragment_shader_file_name, std::ios::in);
+	assert(file.is_open() && "File not found!");
+	strm << file.rdbuf();
+	std::string frag(strm.str());
+	strm.str("");
+	file.close();
+	file.clear();
+
+	load_shader(vert.c_str(), geo.c_str(), frag.c_str());
 }
 Shader::~Shader()
 {
@@ -108,7 +137,7 @@ void Shader::load_shader(const char* const vertex_shader, const char* const frag
 	glDeleteShader(vert_shad);
 	glDeleteShader(frag_shad);
 }
-void Shader::load_with_geometry_shader(const char* const vertex_shader, const char* const fragment_shader, const char* const geometry_shader)
+void Shader::load_shader(const char* const vertex_shader, const char* const geometry_shader, const char* const fragment_shader)
 {
 	GLuint vert_shad = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vert_shad, 1, &vertex_shader, nullptr);
@@ -133,8 +162,7 @@ void Shader::load_with_geometry_shader(const char* const vertex_shader, const ch
 		assert(false);
 	}
 
-	GLuint geo_shad;
-	geo_shad = glCreateShader(GL_GEOMETRY_SHADER);
+	GLuint geo_shad = glCreateShader(GL_GEOMETRY_SHADER);
 	glShaderSource(geo_shad, 1, &geometry_shader, nullptr);
 	glCompileShader(geo_shad);
 	glGetShaderInfoLog(vert_shad, 512, &length, log);
