@@ -88,7 +88,7 @@ Shader::~Shader()
 	glDeleteProgram(program_id);
 }
 
-const GLuint& Shader::GetProgramID() const
+GLuint Shader::GetProgramID() const
 {
 	return program_id;
 }
@@ -100,7 +100,9 @@ void Shader::Bind() const
 
 const GLint Shader::GetUniformLocation(const std::string& name) const
 {
-	return glGetUniformLocation(program_id, name.c_str());
+	auto it = uniform_locations.find(name);
+	assert(it != uniform_locations.cend());
+	return it->second;
 }
 
 void Shader::load_shader(const char* const vertex_shader, const char* const fragment_shader)
@@ -136,6 +138,8 @@ void Shader::load_shader(const char* const vertex_shader, const char* const frag
 
 	glDeleteShader(vert_shad);
 	glDeleteShader(frag_shad);
+
+	load_uniforms();
 }
 void Shader::load_shader(const char* const vertex_shader, const char* const geometry_shader, const char* const fragment_shader)
 {
@@ -183,4 +187,22 @@ void Shader::load_shader(const char* const vertex_shader, const char* const geom
 	glDeleteShader(vert_shad);
 	glDeleteShader(frag_shad);
 	glDeleteShader(geo_shad);
+
+	load_uniforms();
+}
+void Shader::load_uniforms()
+{
+	int count;
+	glGetProgramiv(program_id, GL_ACTIVE_UNIFORMS, &count);
+
+	GLsizei length;
+	GLint size;
+	GLenum type;
+	GLchar name[64];
+	GLsizei bufSize = 64;
+	for (int i = 0; i < count; i++)
+	{
+		glGetActiveUniform(program_id, (GLuint)i, bufSize, &length, &size, &type, name);
+		uniform_locations.emplace(name, glGetUniformLocation(program_id, name));
+	}
 }

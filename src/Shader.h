@@ -15,7 +15,7 @@ public:
 	Shader& operator=(Shader&&) = delete;
 	~Shader();
 
-	const GLuint& GetProgramID() const;
+	GLuint GetProgramID() const;
 
 	void Bind() const;
 
@@ -26,8 +26,10 @@ public:
 private:
 	void load_shader(const char* const vertex_shader, const char* const fragment_shader);
 	void load_shader(const char* const vertex_shader, const char* const geometry_shader, const char* const fragment_shader);
+	void load_uniforms();
 
 	GLuint program_id = 0;
+	std::unordered_map<std::string, GLuint> uniform_locations;
 };
 
 #endif _SHADER

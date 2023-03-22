@@ -37,16 +37,16 @@ void Renderer::RenderLit(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT)->GetProgramID();
-	glUseProgram(curr_shader);
-	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
-	GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	curr_shader->Bind();
+	GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
+	GLint material_ambient_uniform_loc = curr_shader->GetUniformLocation("material.ambient");
 	GLint material_diffuse_uniform_loc = material_ambient_uniform_loc + 1;
 	GLint material_specular_uniform_loc = material_diffuse_uniform_loc + 1;
-	GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
-	glUniform1iv(glGetUniformLocation(curr_shader, "textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
-	glUniform1i(glGetUniformLocation(curr_shader, "normal_map"), 4);
-	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 5);
+	GLint color_uniform_loc = curr_shader->GetUniformLocation("color");
+	glUniform1iv(curr_shader->GetUniformLocation("textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
+	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
+	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
 
@@ -73,18 +73,18 @@ void Renderer::RenderLit(Scene& scn)
 void Renderer::RenderSkinned(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
-	
-	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT)->GetProgramID();
-	glUseProgram(curr_shader);
-	const GLint bone_matrices_uniform_loc = glGetUniformLocation(curr_shader, "bone_matrices[0]");
-	const GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
-	const GLint material_ambient_uniform_loc = glGetUniformLocation(curr_shader, "material.ambient");
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
+	curr_shader->Bind();
+	const GLint bone_matrices_uniform_loc = curr_shader->GetUniformLocation("bone_matrices[0]");
+	const GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
+	const GLint material_ambient_uniform_loc = curr_shader->GetUniformLocation("material.ambient");
 	const GLint material_diffuse_uniform_loc = material_ambient_uniform_loc + 1;
 	const GLint material_specular_uniform_loc = material_diffuse_uniform_loc + 1;
-	const GLint color_uniform_loc = glGetUniformLocation(curr_shader, "color");
-	glUniform1iv(glGetUniformLocation(curr_shader, "textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
-	glUniform1i(glGetUniformLocation(curr_shader, "normal_map"), 4);
-	glUniform1i(glGetUniformLocation(curr_shader, "dir_shadow_map"), 5);
+	const GLint color_uniform_loc = curr_shader->GetUniformLocation("color");
+	glUniform1iv(curr_shader->GetUniformLocation("textures[0]"), 4, std::array<GLint, 4>({ 0, 1, 2, 3 }).data());
+	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
+	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
 
@@ -117,10 +117,10 @@ void Renderer::RenderUnlit(Scene& scn)
 {
 	// Render meshes without materials
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	const GLuint& shader = ShaderLoader::Get(PRELOADED_SHADERS::COLOR)->GetProgramID();
-	glUseProgram(shader);
-	GLint world_matrix_uniform_loc = glGetUniformLocation(shader, "world_matrix");
-	glUniform4fv(glGetUniformLocation(shader, "color"), 1, (const GLfloat*)&Colors::White);
+	auto shader = ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
+	shader->Bind();
+	GLint world_matrix_uniform_loc = shader->GetUniformLocation("world_matrix");
+	glUniform4fv(shader->GetUniformLocation("color"), 1, (const GLfloat*)&Colors::White);
 	auto render_group = scn.GetRegistry().group(entt::get<MeshComponent, TransformComponent>, entt::exclude<MaterialComponent>);
 	for (auto&& [entity, mesh, transform] : render_group.each())
 	{
@@ -138,8 +138,8 @@ void Renderer::RenderSkybox(Scene& scn)
 		glDepthFunc(GL_LEQUAL);
 		glCullFace(GL_FRONT);
 
-		const GLuint& curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SKYBOX)->GetProgramID();
-		glUseProgram(curr_shader);
+		auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SKYBOX);
+		curr_shader->Bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
 		Model* skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);

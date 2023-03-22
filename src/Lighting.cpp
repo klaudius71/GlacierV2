@@ -74,10 +74,10 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &lightspace);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	GLuint curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP)->GetProgramID();
-	glUseProgram(curr_shader);
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
+	curr_shader->Bind();
 
-	GLint world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
+	GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
 	auto mesh_transform_group = scene_registry.group<MeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, mesh, transform] : mesh_transform_group.each())
 	{
@@ -89,10 +89,11 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 		}
 	}
 
-	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED)->GetProgramID();
-	glUseProgram(curr_shader);
-	world_matrix_uniform_loc = glGetUniformLocation(curr_shader, "world_matrix");
-	GLint bone_matrices_uniform_loc = glGetUniformLocation(curr_shader, "bone_matrices[0]");
+	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED);
+	curr_shader->Bind();
+
+	world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
+	GLint bone_matrices_uniform_loc = curr_shader->GetUniformLocation("bone_matrices[0]");
 	auto skel_mesh_anim_group = scene_registry.group<SkeletalMeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, skel_mesh, transform] : skel_mesh_anim_group.each())
 	{

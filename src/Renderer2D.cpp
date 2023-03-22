@@ -78,12 +78,12 @@ void Renderer2D::renderComponents(Scene& scn)
 	glViewport(0, 0, viewport_size.x, viewport_size.y);
 	framebuffer.Bind();
 
-	const GLuint shad = *ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
-	glUseProgram(shad);
-	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
-	glUniform1i(glGetUniformLocation(shad, "sprite_texture"), 0);
-	const GLint sprite_data_uniform_loc = glGetUniformLocation(shad, "sprite_data");
-	const GLint world_matrix_uniform_loc = glGetUniformLocation(shad, "world_matrix");
+	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
+	shad->Bind();
+	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
+	glUniform1i(shad->GetUniformLocation("sprite_texture"), 0);
+	const GLint sprite_data_uniform_loc = shad->GetUniformLocation("sprite_data");
+	const GLint world_matrix_uniform_loc = shad->GetUniformLocation("world_matrix");
 	glm::mat4 curr_world_matrix;
 
 	const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
@@ -107,6 +107,7 @@ void Renderer2D::renderComponents(Scene& scn)
 	glCullFace(GL_FRONT);
 	for (const auto& entry : debug_text_queue)
 		RenderTextInstanced(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
+
 	glCullFace(GL_BACK);
 	glDisable(GL_BLEND);
 
@@ -122,19 +123,19 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	// Get the quad model
 	Model* const quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
-	GLuint shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT)->GetProgramID();
-	glUseProgram(shad);
+	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
+	shad->Bind();
 
 	// Set the bitmap texture
-	glUniform1i(glGetUniformLocation(shad, "bitmap"), 0);
+	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, font->GetBitmapID());
 	
 	// Set the color and projection matrix uniforms
-	glUniform4fv(glGetUniformLocation(shad, "color"), 1, (const GLfloat*)&color);
-	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
+	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
+	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
 	// Get the world_matrix uniform location
-	const GLint world_matrix_uniform_loc = glGetUniformLocation(shad, "world_matrix");
+	const GLint world_matrix_uniform_loc = shad->GetUniformLocation("world_matrix");
 	
 	// Set up the current x position and world_matrix
 	float xpos = x - (text.cbegin() != text.cend() ? font->GetGlyph(*text.cbegin()).advance * 0.5f : 0.0f);
@@ -144,7 +145,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	glEnable(GL_BLEND);
 	glCullFace(GL_FRONT);
 	glBindVertexArray(quad->GetVAO());
-	const GLint sprite_data_uniform_loc = glGetUniformLocation(shad, "sprite_data");
+	const GLint sprite_data_uniform_loc = shad->GetUniformLocation("sprite_data");
 	for (auto it = text.cbegin(); it != text.cend(); ++it)
 	{
 		const Glyph& glyph = font->GetGlyph(*it);
@@ -172,24 +173,24 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	// Get the quad model
 	Model* const quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
-	GLuint shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED)->GetProgramID();
-	glUseProgram(shad);
+	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED);
+	shad->Bind();
 
 	// Set the bitmap texture
-	glUniform1i(glGetUniformLocation(shad, "bitmap"), 0);
+	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, font->GetBitmapID());
 
 	// Set the color and projection matrix uniforms
-	glUniform4fv(glGetUniformLocation(shad, "color"), 1, (const GLfloat*)&color);
-	glUniformMatrix4fv(glGetUniformLocation(shad, "proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
+	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
+	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
 
 	// Get the glyph_data uniform location
-	const GLint glyph_data_uniform_loc = glGetUniformLocation(shad, "glyph_data[0]");
+	const GLint glyph_data_uniform_loc = shad->GetUniformLocation("glyph_data[0]");
 	assert(glyph_data_uniform_loc != -1);
 
 	// Get the world_data uniform location
-	const GLint world_data_uniform_loc = glGetUniformLocation(shad, "world_data[0]");
+	const GLint world_data_uniform_loc = shad->GetUniformLocation("world_data[0]");
 	assert(world_data_uniform_loc != -1);
 
 	// Set up the current x offset
@@ -199,7 +200,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	const Glyph& glyph_with_max_height = font->GetGlyphWithMaxHeight();
 	const float y_offset = glyph_with_max_height.size.y - glyph_with_max_height.bearing_y;
 	const glm::mat4 world_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(x - x_offset, y - y_offset, 0.0f)), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-	glUniformMatrix4fv(glGetUniformLocation(shad, "world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
+	glUniformMatrix4fv(shad->GetUniformLocation("world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
 
 	// Fill up the instance buffers
 	const size_t num_characters = text.size() > 100 ? 100 : text.size();
