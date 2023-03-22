@@ -33,14 +33,14 @@ public:
 
 	void Bind() const;
 
-	const GLuint& GetVAO() const;
-	const GLuint& GetVBO() const;
-	const GLuint& GetEBO() const;
-	const uint32_t& GetNumVertices() const;
-	const uint32_t& GetNumTriangles() const;
-	const uint32_t& GetNumBones() const;
+	const GLuint GetVAO() const;
+	const GLuint GetVBO() const;
+	const GLuint GetEBO() const;
+	const uint32_t GetNumVertices() const;
+	const uint32_t GetNumTriangles() const;
+	const uint32_t GetNumBones() const;
 	const glm::vec3& GetBSphereCenter() const;
-	const float& GetBSphereRadius() const;
+	float GetBSphereRadius() const;
 	const std::vector<VertexTypes::Vertex>& GetVertexData() const;
 	const std::vector<glm::mat4>& GetInverseBindMatrices() const;
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;

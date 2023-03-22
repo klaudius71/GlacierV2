@@ -3,8 +3,8 @@
 
 #include "GlacierCore.h"
 
-#define RESERVED_DEBUG_TEXT_QUERIES 20
-#define MAX_CHARACTERS 100
+constexpr auto RESERVED_DEBUG_TEXT_QUERIES = 20;
+constexpr auto MAX_CHARACTERS = 100;
 
 class Scene;
 class Font;
@@ -27,6 +27,12 @@ public:
 
 private:
 	static Renderer2D* instance;
+	static Renderer2D& Instance()
+	{
+		assert(instance != nullptr);
+		return *instance;
+	}
+
 	Renderer2D();
 	~Renderer2D() = default;
 
@@ -40,7 +46,7 @@ private:
 		std::string text;
 		glm::vec4 color;
 
-		DebugTextQueueEntry(const Font* const font, const float& x, const float& y, const std::string& text, const glm::vec4& color)
+		DebugTextQueueEntry(const Font* const font, float x, float y, const std::string& text, const glm::vec4& color)
 			: font(font), pos(x, y), text(text), color(color)
 		{}
 	};

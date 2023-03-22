@@ -45,23 +45,24 @@ Renderer2D::Renderer2D()
 
 void Renderer2D::Initialize()
 {
+	assert(instance == nullptr);
 	instance = new Renderer2D;
 }
 void Renderer2D::UpdateViewportSize(const int& width, const int& height)
 {
-	Renderer2D& Instance = *instance;
+	Renderer2D& inst = Instance();
 
-	Instance.proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+	inst.proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
 
-	Instance.anchors[0] = { 0.0f, height };
-	Instance.anchors[1] = { width * 0.5f, height };
-	Instance.anchors[2] = { width, height };
-	Instance.anchors[3] = { 0.0f, height * 0.5f };
-	Instance.anchors[4] = { width * 0.5f, height * 0.5f };
-	Instance.anchors[5] = { width, height * 0.5f };
-	Instance.anchors[6] = { 0.0f, 0.0f };
-	Instance.anchors[7] = { width * 0.5f, 0.0f };
-	Instance.anchors[8] = { width, 0.0f };
+	inst.anchors[0] = { 0.0f, height };
+	inst.anchors[1] = { width * 0.5f, height };
+	inst.anchors[2] = { width, height };
+	inst.anchors[3] = { 0.0f, height * 0.5f };
+	inst.anchors[4] = { width * 0.5f, height * 0.5f };
+	inst.anchors[5] = { width, height * 0.5f };
+	inst.anchors[6] = { 0.0f, 0.0f };
+	inst.anchors[7] = { width * 0.5f, 0.0f };
+	inst.anchors[8] = { width, 0.0f };
 }
 void Renderer2D::Terminate()
 {
@@ -121,7 +122,7 @@ void Renderer2D::renderComponents(Scene& scn)
 void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
 {
 	// Get the quad model
-	Model* const quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
 	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
 	shad->Bind();
@@ -168,10 +169,10 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 }
 void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
 {
-	Renderer2D& renderer_instance = *instance;
+	Renderer2D& renderer_instance = Instance();
 
 	// Get the quad model
-	Model* const quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
 	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED);
 	shad->Bind();

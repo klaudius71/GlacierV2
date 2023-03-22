@@ -133,7 +133,7 @@ void Renderer::RenderUnlit(Scene& scn)
 void Renderer::RenderSkybox(Scene& scn)
 {
 	// Render skybox
-	if (SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
+	if (const SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
 	{
 		glDepthFunc(GL_LEQUAL);
 		glCullFace(GL_FRONT);
@@ -142,7 +142,7 @@ void Renderer::RenderSkybox(Scene& scn)
 		curr_shader->Bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
-		Model* skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
+		const Model* skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		glBindVertexArray(skybox_model->GetVAO());
 		glDrawElements(GL_TRIANGLES, skybox_model->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
 

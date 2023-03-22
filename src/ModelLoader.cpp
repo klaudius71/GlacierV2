@@ -38,58 +38,58 @@ void ModelLoader::load(const std::string& name, const std::string& file_name)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_file, this, name, file_name));
 }
-Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, const float& scale)
+Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
 	Model mod(premade_model, scale);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
-void ModelLoader::load(const std::string& name, PREMADE_MODELS premade_model, const float& scale)
+void ModelLoader::load(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_pre, this, name, premade_model, scale));
 }
-Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v)
+Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
 {
 	Model mod(file_name, xz_size, max_height, u, v);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
-void ModelLoader::load(const std::string& name, const std::string& file_name, const float& xz_size, const float& max_height, const float& u, const float& v)
+void ModelLoader::load(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_hgtmap, this, name, file_name, xz_size, max_height, u, v));
 }
-Model& ModelLoader::load_async_plane(const std::string& name, const float& xz_size, const float& u, const float& v)
+Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
 {
 	Model mod(xz_size, u, v);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
-void ModelLoader::load(const std::string& name, const float& xz_size, const float& u, const float& v)
+void ModelLoader::load(const std::string& name, float xz_size, float u, float v)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_plane, this, name, xz_size, u, v));
 }
-Model& ModelLoader::load_async_sphere(const std::string& name, const uint32_t& v_slices, const uint32_t& h_slices)
+Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
 {
 	Model mod(v_slices, h_slices);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
-void ModelLoader::load(const std::string& name, const uint32_t& v_slices, const uint32_t& h_slices)
+void ModelLoader::load(const std::string& name, uint32_t v_slices, uint32_t h_slices)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_sphere, this, name, v_slices, h_slices));
 }
 
-Model* const ModelLoader::get(const PRELOADED_MODELS model)
+const Model* const ModelLoader::get(const PRELOADED_MODELS model) const
 {
 	return &preloaded_models.at(model);
 }
-Model* const ModelLoader::get(const std::string& name)
+const Model* const ModelLoader::get(const std::string& name) const
 {
-	const auto it = models.find(name);
+	auto it = models.find(name);
 	assert(it != models.cend() && "Model not found!");
 	return &it->second;
 }
@@ -100,7 +100,7 @@ void ModelLoader::WaitForThreadsAndLoadGPUData()
 	{
 		for (auto v = futures.begin(); v != futures.end(); v++)
 		{
-			if (v->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+			if (v->wait_for(std::chrono::milliseconds(10)) == std::future_status::ready)
 			{
 				ModelAtt::LoadGPUData(v->get());
 				futures.erase(v);

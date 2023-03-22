@@ -479,27 +479,27 @@ void Model::Bind() const
 	glBindVertexArray(vao);
 }
 
-const GLuint& Model::GetVAO() const
+const GLuint Model::GetVAO() const
 {
 	return vao;
 }
-const GLuint& Model::GetVBO() const
+const GLuint Model::GetVBO() const
 {
 	return vbo;
 }
-const GLuint& Model::GetEBO() const
+const GLuint Model::GetEBO() const
 {
 	return ebo;
 }
-const uint32_t& Model::GetNumVertices() const
+const uint32_t Model::GetNumVertices() const
 {
 	return num_vertices;
 }
-const uint32_t& Model::GetNumTriangles() const
+const uint32_t Model::GetNumTriangles() const
 {
 	return num_triangles;
 }
-const uint32_t& Model::GetNumBones() const
+const uint32_t Model::GetNumBones() const
 {
 	return num_joints;
 }
@@ -507,7 +507,7 @@ const glm::vec3& Model::GetBSphereCenter() const
 {
 	return bsphere_center;
 }
-const float& Model::GetBSphereRadius() const
+float Model::GetBSphereRadius() const
 {
 	return bsphere_radius;
 }
