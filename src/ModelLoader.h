@@ -33,8 +33,8 @@ private:
 	std::unordered_map<PRELOADED_MODELS, Model> preloaded_models;
 	std::unordered_map<std::string, Model> models;
 
-	static std::vector<std::future<Model&>> futures;
-	static std::mutex load_mutex;
+	std::vector<std::future<Model&>> futures;
+	std::mutex load_mtx;
 
 	Model& load_async_file(const std::string& name, const std::string& file_name);
 	void load(const std::string& name, const std::string& file_name);
@@ -50,7 +50,9 @@ private:
 	const Model* const get(const PRELOADED_MODELS model) const;
 	const Model* const get(const std::string & name) const;
 
-	static void WaitForThreadsAndLoadGPUData();
+	void wait_for_threads_and_load_gpu_data();
+
+	static void WaitForThreadsAndLoadGPUData() { Instance().wait_for_threads_and_load_gpu_data(); }
 	static void Terminate();
 
 	friend class ModelLoaderAtt;

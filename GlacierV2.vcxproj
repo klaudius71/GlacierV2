@@ -272,6 +272,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\KeyCodes.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\Logger.h" />
+    <ClInclude Include="src\LoggerAtt.h" />
     <ClInclude Include="src\MaterialComponent.h" />
     <ClInclude Include="src\MeshComponent.h" />
     <ClInclude Include="src\Model.h" />
@@ -300,6 +301,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TriangleMeshColliderComponent.h" />
     <ClInclude Include="src\UUID.h" />
+    <ClInclude Include="src\UUIDAtt.h" />
     <ClInclude Include="src\WeakPtr.h" />
     <ClInclude Include="src\RegistrationState.h" />
     <ClInclude Include="src\Renderer.h" />

@@ -5,8 +5,6 @@
 
 ModelLoader* ModelLoader::instance = nullptr;
 const std::string ModelLoader::MODEL_PATH = "assets/models/";
-std::vector<std::future<Model&>> ModelLoader::futures;
-std::mutex ModelLoader::load_mutex;
 
 ModelLoader::ModelLoader()
 {
@@ -30,7 +28,7 @@ Model& ModelLoader::load_async_file(const std::string& name, const std::string& 
 {
 	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
 	Model mod(MODEL_PATH + file_name);
-	std::lock_guard<std::mutex> lock(load_mutex);
+	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
@@ -41,7 +39,7 @@ void ModelLoader::load(const std::string& name, const std::string& file_name)
 Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
 	Model mod(premade_model, scale);
-	std::lock_guard<std::mutex> lock(load_mutex);
+	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
@@ -52,7 +50,7 @@ void ModelLoader::load(const std::string& name, PREMADE_MODELS premade_model, fl
 Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
 {
 	Model mod(file_name, xz_size, max_height, u, v);
-	std::lock_guard<std::mutex> lock(load_mutex);
+	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
@@ -63,7 +61,7 @@ void ModelLoader::load(const std::string& name, const std::string& file_name, fl
 Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
 {
 	Model mod(xz_size, u, v);
-	std::lock_guard<std::mutex> lock(load_mutex);
+	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
@@ -74,7 +72,7 @@ void ModelLoader::load(const std::string& name, float xz_size, float u, float v)
 Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
 {
 	Model mod(v_slices, h_slices);
-	std::lock_guard<std::mutex> lock(load_mutex);
+	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
@@ -94,13 +92,13 @@ const Model* const ModelLoader::get(const std::string& name) const
 	return &it->second;
 }
 
-void ModelLoader::WaitForThreadsAndLoadGPUData()
+void ModelLoader::wait_for_threads_and_load_gpu_data()
 {
 	while (!futures.empty())
 	{
-		for (auto v = futures.begin(); v != futures.end(); v++)
+		for (auto v = futures.begin(); v != futures.end(); ++v)
 		{
-			if (v->wait_for(std::chrono::milliseconds(10)) == std::future_status::ready)
+			if (v->wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 			{
 				ModelAtt::LoadGPUData(v->get());
 				futures.erase(v);
@@ -109,6 +107,7 @@ void ModelLoader::WaitForThreadsAndLoadGPUData()
 		}
 	}
 }
+
 void ModelLoader::Terminate()
 {
 	delete instance;

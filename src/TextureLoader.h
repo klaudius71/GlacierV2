@@ -32,8 +32,8 @@ private:
 	std::unordered_map<PRELOADED_TEXTURES, Texture> preloaded_textures;
 	std::unordered_map<std::string, Texture> textures;
 
-	static std::list<std::future<Texture&>> futures;
-	static std::mutex load_mutex;
+	std::list<std::future<Texture&>> futures;
+	std::mutex load_mutex;
 
 	Texture& load_async_reg(const std::string& name, const std::string& file_path, const TextureParameters& tex_params);
 	void load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params);

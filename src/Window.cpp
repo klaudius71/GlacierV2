@@ -56,6 +56,7 @@ Window::Window(const int& width, const int& height, const char* const icon_path)
 		assert(img);
 		GLFWimage glfwImg{ x, y, img };
 		glfwSetWindowIcon(window, 1, &glfwImg);
+		stbi_image_free(img);
 	}
 	
 

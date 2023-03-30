@@ -4,8 +4,6 @@
 
 TextureLoader* TextureLoader::instance = nullptr;
 const std::string TextureLoader::TEXTURE_PATH = "assets/textures/";
-std::list<std::future<Texture&>> TextureLoader::futures;
-std::mutex TextureLoader::load_mutex;
 
 TextureLoader::TextureLoader()
 	: textures()
@@ -39,7 +37,15 @@ Texture& TextureLoader::load_async_cube(const std::string& name, const std::arra
 }
 void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params)
 {
-	const std::array<std::string, 6>& file_paths { TEXTURE_PATH + file_names[0], TEXTURE_PATH + file_names[1], TEXTURE_PATH + file_names[2], TEXTURE_PATH + file_names[3], TEXTURE_PATH + file_names[4], TEXTURE_PATH + file_names[5] };
+	const std::array<std::string, 6>& file_paths 
+	{ 
+		TEXTURE_PATH + file_names[0], 
+		TEXTURE_PATH + file_names[1], 
+		TEXTURE_PATH + file_names[2], 
+		TEXTURE_PATH + file_names[3], 
+		TEXTURE_PATH + file_names[4], 
+		TEXTURE_PATH + file_names[5] 
+	};
 	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths, tex_params));
 }
 
@@ -81,14 +87,15 @@ Texture& TextureLoader::mod_get(const std::string& name)
 
 void TextureLoader::WaitForThreadsAndLoadGPUData()
 {
-	while (!futures.empty())
+	TextureLoader& inst = Instance();
+	while (!inst.futures.empty())
 	{
-		for (auto it = futures.begin(); it != futures.end(); it = std::next(it))
+		for (auto it = inst.futures.begin(); it != inst.futures.end(); it = std::next(it))
 		{
 			if (it->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
 			{
 				TextureAtt::LoadGPUData(it->get());
-				futures.erase(it);
+				inst.futures.erase(it);
 				break;
 			}
 		}
@@ -96,6 +103,7 @@ void TextureLoader::WaitForThreadsAndLoadGPUData()
 }
 void TextureLoader::Terminate()
 {
+	assert(instance && "TextureLoader instance wasn't created!");
 	delete instance;
 	instance = nullptr;
 }

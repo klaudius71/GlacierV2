@@ -25,15 +25,17 @@ private:
 
 	std::unordered_map<std::string, SkeletalAnimation> animations;
 
-	static std::vector<std::future<void>> futures;
-	static std::mutex load_mutex;
+	std::vector<std::future<void>> futures;
+	std::mutex load_mutex;
 
 	void load_async(const std::string& name, const std::string& file_name);
 	void load(const std::string& name, const std::string& file_name);
 
 	const SkeletalAnimation* get(const std::string& name);
 
-	static void WaitForThreads();
+	void wait_for_threads();
+
+	static void WaitForThreads() { Instance().wait_for_threads(); }
 	static void Terminate();
 
 	friend class SkeletalAnimationLoaderAtt;

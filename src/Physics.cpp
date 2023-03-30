@@ -7,10 +7,17 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 #include "DynamicCharacterController.h"
 
-Physics& Physics::Instance()
+Physics* Physics::instance = nullptr;
+
+void Physics::Initialize()
 {
-    static Physics instance;
-    return instance;
+	assert(!instance && "Physics already initialized!");
+	instance = new Physics;
+}
+void Physics::Terminate()
+{
+	assert(instance && "Physics not initialized!");	
+	delete instance;
 }
 
 Physics::Physics()

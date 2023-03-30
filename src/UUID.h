@@ -9,7 +9,12 @@ namespace Tools
 	class GLACIER_API UUID
 	{
 	private:
-		static UUID& Instance();
+		static UUID* instance;
+		static UUID& Instance()
+		{
+			assert(instance && "UUID not initialized!");
+			return *instance;
+		}
 		UUID();
 		UUID(const UUID&) = delete;
 		UUID& operator=(const UUID&) = delete;
@@ -22,6 +27,11 @@ namespace Tools
 		std::unordered_set<uint64_t> uuids;
 
 		uint64_t genUUID();
+
+		static void Initialize();
+		static void Terminate();
+
+		friend class UUIDAtt;
 
 	public:
 		static const uint64_t GenUUID() { return Instance().genUUID(); }

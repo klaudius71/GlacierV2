@@ -6,7 +6,12 @@ class Scene;
 class Physics
 {
 private:
-	static Physics& Instance();
+	static Physics* instance;
+	static Physics& Instance()
+	{
+		assert(instance && "Physics not initialized!");
+		return *instance;
+	}
 	Physics();
 	Physics(const Physics&) = delete;
 	Physics& operator=(const Physics&) = delete;
@@ -28,7 +33,7 @@ private:
 	//void resetScene();
 
 public:
-	static void Initialize() { Instance(); }
+	static void Initialize();
 	static void SimulatePhysics(const float& timestep, const int& max_substeps, const float& fixed_timestep, Scene& scn) { Instance().simulatePhysics(timestep, max_substeps, fixed_timestep, scn); }
 	static void AddCollisionObject(btCollisionObject* const obj, const int& collisionFilterGroup = btBroadphaseProxy::StaticFilter, const int& collisionFilterMask = btBroadphaseProxy::AllFilter ^ btBroadphaseProxy::StaticFilter) { Instance().addCollisionObject(obj, collisionFilterGroup, collisionFilterMask); }
 	static void AddAction(btActionInterface* const action) { Instance().addAction(action); }
@@ -37,6 +42,7 @@ public:
 	static void RemoveAction(btActionInterface* const action) { Instance().removeAction(action); }
 	static void RemoveRigidbodyFromWorld(btRigidBody* const rigidbody) { Instance().removeRigidbodyFromWorld(rigidbody); }
 	//static void ResetScene() { Instance().resetScene(); }
+	static void Terminate();
 };
 
 #endif

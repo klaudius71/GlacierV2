@@ -14,6 +14,8 @@
 #include "InputAtt.h"
 #include "EditorLayer.h"
 #include "Physics.h"
+#include "LoggerAtt.h"
+#include "UUIDAtt.h"
 
 namespace Glacier {
 
@@ -81,6 +83,8 @@ namespace Glacier {
 		SceneManagerAtt::Engine::Initialize();
 		EditorLayer::Initialize();
 		Physics::Initialize();
+		LoggerAtt::Initialize();
+		Tools::UUIDAtt::Initialize();
 
 		// Loads user defined assets
 		LoadResources();
@@ -128,6 +132,9 @@ namespace Glacier {
 		// Terminate all of the singletons
 		EditorLayer::Terminate();
 		SceneManagerAtt::Engine::Terminate();
+		Tools::UUIDAtt::Terminate();
+		LoggerAtt::Terminate();
+		Physics::Terminate();
 		RendererAtt::Terminate();
 		Renderer2DAtt::Terminate();
 		TimeManagerAtt::Terminate();

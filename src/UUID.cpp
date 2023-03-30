@@ -3,10 +3,17 @@
 
 namespace Tools
 {
-	UUID& UUID::Instance()
+	UUID* UUID::instance = nullptr;
+
+	void UUID::Initialize()
 	{
-		static UUID instance;
-		return instance;
+		assert(!instance && "UUID already initialized!");
+		instance = new UUID;
+	}
+	void UUID::Terminate()
+	{
+		assert(instance && "UUID not initialized!");
+		delete instance;
 	}
 
 	UUID::UUID()

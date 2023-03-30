@@ -669,6 +669,12 @@
     <ClInclude Include="src\SphereColliderComponent.h">
       <Filter>src\ECS\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\LoggerAtt.h">
+      <Filter>src\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UUIDAtt.h">
+      <Filter>src\Attorneys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">

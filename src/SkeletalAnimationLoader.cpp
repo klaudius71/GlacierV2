@@ -4,8 +4,6 @@
 
 SkeletalAnimationLoader* SkeletalAnimationLoader::instance = nullptr;
 const std::string SkeletalAnimationLoader::ANIMATION_PATH = "assets/animations/";
-std::vector<std::future<void>> SkeletalAnimationLoader::futures;
-std::mutex SkeletalAnimationLoader::load_mutex;
 
 SkeletalAnimationLoader::SkeletalAnimationLoader()
 	: animations()
@@ -33,11 +31,12 @@ const SkeletalAnimation* SkeletalAnimationLoader::get(const std::string& name)
 	return &it->second;
 }
 
-void SkeletalAnimationLoader::WaitForThreads()
+void SkeletalAnimationLoader::wait_for_threads()
 {
 	while (futures.size() != 0)
 		futures.pop_back();
 }
+
 void SkeletalAnimationLoader::Terminate()
 {
 	delete instance;
