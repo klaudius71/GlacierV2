@@ -24,6 +24,11 @@
 #include "WeakPtr.h"
 #include "GMathTools.h"
 
+#if GLACIER_DIRECTX
+#include <d3d11.h>
+#pragma comment (lib, "d3d11.lib")
+#endif
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #if _WIN32

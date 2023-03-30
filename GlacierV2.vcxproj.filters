@@ -361,6 +361,15 @@
     <ClCompile Include="src\SphereColliderComponent.cpp">
       <Filter>src\ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\WindowDirectX.cpp">
+      <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowOpenGL.cpp">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DX.cpp">
+      <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -680,6 +689,15 @@
     </ClInclude>
     <ClInclude Include="src\UUIDAtt.h">
       <Filter>src\Attorneys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowDirectX.h">
+      <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowOpenGL.h">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DX.h">
+      <Filter>src\GraphicsContext\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

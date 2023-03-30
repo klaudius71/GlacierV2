@@ -273,6 +273,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
     <ClCompile Include="src\DirectionalLightComponent.cpp" />
+    <ClCompile Include="src\DX.cpp" />
     <ClCompile Include="src\DynamicCharacterController.cpp" />
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Font.cpp" />
@@ -337,6 +338,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClCompile Include="src\TimeManager.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\WindowDirectX.cpp" />
+    <ClCompile Include="src\WindowOpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\base64\include\base64.h" />
@@ -368,6 +371,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClInclude Include="src\Command.h" />
     <ClInclude Include="src\CommandBroker.h" />
     <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\DX.h" />
     <ClInclude Include="src\DirectionalLightComponent.h" />
     <ClInclude Include="src\DynamicCharacterController.h" />
     <ClInclude Include="src\EditorLayer.h" />
@@ -445,6 +449,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\VertexTypes.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\WindowDirectX.h" />
+    <ClInclude Include="src\WindowOpenGL.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl" />

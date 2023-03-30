@@ -47,7 +47,7 @@ EditorLayer::EditorLayer()
 	}
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(Glacier::GetWindow().GetNativeWindow(), true);
+	ImGui_ImplGlfw_InitForOpenGL(Glacier::GetWindow().GetGLFWWindow(), true);
 	ImGui_ImplOpenGL3_Init("#version 130");
 }
 EditorLayer::~EditorLayer()

@@ -1,6 +1,7 @@
 #include "gpch.h"
 #include "Application.h"
-#include "Window.h"
+#include "WindowDirectX.h"
+#include "WindowOpenGL.h"
 #include "ShaderLoaderAtt.h"
 #include "TextureLoaderAtt.h"
 #include "ModelLoaderAtt.h"
@@ -16,6 +17,9 @@
 #include "Physics.h"
 #include "LoggerAtt.h"
 #include "UUIDAtt.h"
+#if GLACIER_DIRECTX
+#include "DX.h"
+#endif
 
 namespace Glacier {
 
@@ -35,7 +39,8 @@ namespace Glacier {
 		assert(instance == nullptr);
 		instance = this;
 
-		window = new Window(window_width, window_height, icon_path);
+#if GLACIER_OPENGL
+		window = new WindowOpenGL(window_width, window_height, icon_path);
 
 		// Initializes GLAD
 		initialize_OpenGL();
@@ -57,6 +62,10 @@ namespace Glacier {
 		glCullFace(GL_BACK);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+#elif GLACIER_DIRECTX
+		window = new WindowDirectX(window_width, window_height, icon_path);
+#endif
 	}
 	Application::~Application()
 	{
@@ -77,6 +86,7 @@ namespace Glacier {
 	}
 	void Application::Run()
 	{
+#if GLACIER_OPENGL
 		// Initialize some singletons
 		Renderer2DAtt::Initialize();
 		RendererAtt::Initialize();
@@ -143,6 +153,19 @@ namespace Glacier {
 		TextureLoaderAtt::Terminate();
 		FontLoaderAtt::Terminate();
 		SkeletalAnimationLoaderAtt::Terminate();
+#elif GLACIER_DIRECTX
+		DX::Initialize(*window);
+
+		// Main loop
+		while (!window->IsOpen())
+		{
+			window->Clear();
+			window->SwapBuffers();
+			window->PollEvents();
+		}
+
+		DX::Terminate();
+#endif
 	}
 
 	const Window& Application::GetWindow()

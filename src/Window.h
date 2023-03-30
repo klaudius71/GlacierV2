@@ -5,36 +5,42 @@
 
 class GLACIER_API Window
 {
+protected:
+	Window(const int width, const int height);
 public:
-	Window(const int width = 1280, const int height = 720, const char* const icon_path = nullptr);
+	Window() = delete;
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	Window(Window&&) = delete;
 	Window& operator=(Window&&) = delete;
-	~Window();
+	virtual ~Window();
 
 	const int GetWindowWidth() const;
 	const int GetWindowHeight() const;
+	GLFWwindow* const GetGLFWWindow() const;
 	void SetWindowTitle(const char* const name) const;
-	void SetClearColor(const float red, const float green, const float blue, const float alpha = 1.0f) const;
 	void HideCursor() const;
 	void ShowCursor() const;
 
-	HWND GetWin32Window() const;
-	GLFWwindow* const GetNativeWindow() const;
+	void SetWindowIcon(const char* const icon_path);
+	NATIVE_WINDOW GetNativeWindow() const;
 
 	const bool IsOpen();
-	void Clear();
-	void SwapBuffers();
 	void PollEvents();
-	void ToggleFullscreen();
 
-private:
+	virtual void SetClearColor(const float red, const float green, const float blue, const float alpha = 1.0f) const = 0;
+	virtual void Clear() = 0;
+	virtual void SwapBuffers() = 0;
+	virtual void ToggleFullscreen() = 0;
+
+protected:
 	static void glfw_window_resize_callback(GLFWwindow* window, int width, int height);
 	static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	int prev_window_pos_x;
 	int prev_window_pos_y;
+	int prev_window_width;
+	int prev_window_height;
 	int window_width;
 	int window_height;
 	GLFWwindow* window;
