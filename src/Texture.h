@@ -53,6 +53,7 @@ public:
 	Texture(const std::string& file_name, const TextureParameters& tex_params);
 	Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params);
 	Texture(const glm::vec4& color);
+	Texture(const int width, const int height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params);
 
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
@@ -65,11 +66,11 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	const GLuint& GetID() const;
+	const GLuint GetID() const;
 
-	const int& GetWidth() const;
-	const int& GetHeight() const;
-	const int& GetNumChannels() const;
+	const int GetWidth() const;
+	const int GetHeight() const;
+	const int GetNumChannels() const;
 	const TextureParameters& GetTextureParameters() const;
 	const std::string& GetFilePath() const;
 

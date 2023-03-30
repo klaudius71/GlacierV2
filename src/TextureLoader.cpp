@@ -45,9 +45,19 @@ void TextureLoader::load(const std::string& name, const std::array<std::string, 
 
 void TextureLoader::load(const std::string& name, const glm::vec4& color)
 {
+	Texture tex(color);
+	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(textures.find(name) == textures.end());
-	Texture& tex = textures.emplace(name, color).first->second;
-	TextureAtt::LoadGPUData(tex);
+	Texture& ref = textures.emplace(name, color).first->second;
+	TextureAtt::LoadGPUData(ref);
+}
+void TextureLoader::load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params)
+{
+	Texture tex(width, height, num_channels, data, tex_params);
+	std::lock_guard<std::mutex> lock(load_mutex);
+	assert(textures.find(name) == textures.end());
+	Texture& ref = textures.emplace(name, std::move(tex)).first->second;
+	TextureAtt::LoadGPUData(ref);
 }
 
 const Texture& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
@@ -56,16 +66,16 @@ const Texture& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
 	assert(it != preloaded_textures.cend());
 	return it->second;
 }
-Texture& TextureLoader::get(const std::string& name)
+const Texture& TextureLoader::get(const std::string& name) const
 {
 	auto it = textures.find(name);
 	assert(it != textures.cend());
 	return it->second;
 }
-const Texture& TextureLoader::get_const(const std::string& name) const
+Texture& TextureLoader::mod_get(const std::string& name)
 {
 	auto it = textures.find(name);
-	assert(it != textures.cend());
+	assert(it != textures.end());
 	return it->second;
 }
 

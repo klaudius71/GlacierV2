@@ -51,7 +51,7 @@ void MainScene::InitializeScene()
 			cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
 			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
-				.norm_tex_id.x = TextureLoader::GetConst("CrateNormal");
+				.norm_tex_id.x = TextureLoader::Get("CrateNormal");
 	
 			rigidbody = &cube->EmplaceComponent<BoxColliderComponent>(glm::vec3(15.0f, 15.0f, 15.0f), .1f, .25f, .5f);
 			rigidbody->SetWorldPosition(glm::vec3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f);

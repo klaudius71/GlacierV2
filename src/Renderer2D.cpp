@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Framebuffer.h"
 #include "Components.h"
+#include "Texture.h"
 #include "Application.h"
 #include "Window.h"
 #include "Scene.h"
@@ -130,7 +131,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, font->GetBitmapID());
+	glBindTexture(GL_TEXTURE_2D, font->GetTexture()->GetID());
 	
 	// Set the color and projection matrix uniforms
 	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
@@ -180,7 +181,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, font->GetBitmapID());
+	glBindTexture(GL_TEXTURE_2D, font->GetTexture()->GetID());
 
 	// Set the color and projection matrix uniforms
 	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);

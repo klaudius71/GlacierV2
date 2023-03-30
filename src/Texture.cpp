@@ -38,9 +38,10 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 	width = width_height_channels[0];
 	height = width_height_channels[1];
 	channels = width_height_channels[2];
+	file_path = file_paths[0] + "\n" + file_paths[1] + "\n" + file_paths[2] + "\n" + file_paths[3] + "\n" + file_paths[4] + "\n" + file_paths[5];
 
 	const size_t indiv_img_buffer_size = width * height * channels;
-	img = (uint8_t*)malloc(indiv_img_buffer_size * 6);
+	img = new uint8_t[indiv_img_buffer_size * 6];
 	for (int i = 0; i < 6; i++)
 	{
 		memcpy(img + i * indiv_img_buffer_size, imgs[i], indiv_img_buffer_size);
@@ -58,6 +59,17 @@ Texture::Texture(const glm::vec4& color)
 	glm::ivec4 color_bytes = color * 255.0f;
 	for (int i = 0; i < 4; i++)
 		img[i] = (uint8_t)color_bytes[i];
+	file_path = "color";
+}
+Texture::Texture(const int width, const int height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params)
+	: id(0), width(width), height(height), channels(num_channels), tex_params(tex_params), file_path("N\\A")
+{
+	assert(data);
+	assert(num_channels > 0 && num_channels <= 4);
+
+	this->tex_params.type = TEXTURE_TYPE::REGULAR;
+	img = new uint8_t[width * height * num_channels];
+	memcpy(img, data, width * height * num_channels);
 }
 
 Texture::Texture(Texture&& o) noexcept
@@ -91,10 +103,10 @@ Texture& Texture::operator=(Texture&& o)
 }
 Texture::~Texture()
 {
-	if (img != nullptr)
+	if (id != 0)
 	{
-		// Frees the memory that stb_image used to hold the image
-		free(img);
+		// Frees the memory that was created to hold the image
+		delete[] img;
 		glDeleteTextures(1, &id);
 	}
 }
@@ -108,20 +120,20 @@ void Texture::Unbind() const
 	glBindTexture((GLenum)tex_params.type, 0);
 }
 
-const GLuint& Texture::GetID() const
+const GLuint Texture::GetID() const
 {
 	return id;
 }
 
-const int& Texture::GetWidth() const
+const int Texture::GetWidth() const
 {
 	return width;
 }
-const int& Texture::GetHeight() const
+const int Texture::GetHeight() const
 {
 	return height;
 }
-const int& Texture::GetNumChannels() const
+const int Texture::GetNumChannels() const
 {
 	return channels;
 }
@@ -169,7 +181,7 @@ void Texture::load_gpu_data()
 {
 	// Load the image into the driver
 	glGenTextures(1, &id);
-	const auto format = channels == 3 ? GL_RGB : GL_RGBA;
+	const auto format = channels == 4 ? GL_RGBA : channels == 3 ? GL_RGB : GL_RED;
 	Bind();
 	switch (tex_params.type)
 	{

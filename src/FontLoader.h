@@ -25,9 +25,6 @@ private:
 
 	std::unordered_map<std::string, Font> fonts;
 
-	static std::vector<std::future<void>> futures;
-	static std::mutex load_mutex;
-
 	void load(const std::string& name, const std::string& file_name, const int& size);
 	const Font& get(const std::string& name);
 

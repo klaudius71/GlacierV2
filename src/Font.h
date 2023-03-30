@@ -3,6 +3,8 @@
 
 #include "GlacierCore.h"
 
+class Texture;
+
 struct GLACIER_API Glyph
 {
 	glm::vec2 bitmap_origin;
@@ -28,17 +30,17 @@ public:
 	Font& operator=(Font&&) = delete;
 	~Font();
 
-	const GLuint& GetBitmapID() const;
+	const Texture* GetTexture() const;
 
-	const uint32_t& GetBitmapWidth() const;
-	const uint32_t& GetBitmapHeight() const;
+	const uint32_t GetBitmapWidth() const;
+	const uint32_t GetBitmapHeight() const;
 
 	const Glyph& GetGlyph(char c) const;
 
 	const Glyph& GetGlyphWithMaxHeight() const;
 
 private:
-	GLuint tex;
+	const Texture* tex;
 	uint32_t bitmap_width;
 	uint32_t bitmap_height;
 	Glyph* glyphs;

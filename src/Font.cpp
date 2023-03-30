@@ -1,5 +1,6 @@
 #include "gpch.h"
 #include "Font.h"
+#include "TextureLoader.h"
 
 Font::Font(const std::string& file_name, const int& font_size)
 	: glyphs(new Glyph[128]), max_height_glyph(glyphs)
@@ -68,17 +69,9 @@ Font::Font(const std::string& file_name, const int& font_size)
 		}
 	}
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, bitmap_width, bitmap_height, 0, GL_RED, GL_UNSIGNED_BYTE, buf);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	TextureLoader::Load(file_name, bitmap_width, bitmap_height, 1, buf,
+		TextureParameters(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR, TEXTURE_WRAP::CLAMP_TO_BORDER, TEXTURE_WRAP::CLAMP_TO_BORDER));
+	tex = &TextureLoader::Get(file_name);
 
 	delete[] buf;
 	FT_Done_Face(face);
@@ -86,20 +79,19 @@ Font::Font(const std::string& file_name, const int& font_size)
 }
 Font::~Font()
 {
-	glDeleteTextures(1, &tex);
 	delete[] glyphs;
 }
 
-const GLuint& Font::GetBitmapID() const
+const Texture* Font::GetTexture() const
 {
 	return tex;
 }
 
-const uint32_t& Font::GetBitmapWidth() const
+const uint32_t Font::GetBitmapWidth() const
 {
 	return bitmap_width;
 }
-const uint32_t& Font::GetBitmapHeight() const
+const uint32_t Font::GetBitmapHeight() const
 {
 	return bitmap_height;
 }
