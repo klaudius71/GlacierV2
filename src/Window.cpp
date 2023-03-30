@@ -24,15 +24,17 @@ void Window::glfw_key_callback(GLFWwindow* window, int key, int scancode, int ac
 		static_cast<Window*>(glfwGetWindowUserPointer(window))->ToggleFullscreen();
 }
 
-Window::Window(const int& width, const int& height, const char* const icon_path)
+Window::Window(const int width, const int height, const char* const icon_path)
 	: window_width(width), window_height(height), is_fullscreen(false)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#if _DEBUG
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#if _DEBUG && GLACIER_OPENGL
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#elif GLACIER_DIRECTX
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #endif
 	
 	window = glfwCreateWindow(width, height, "Glacier V2", nullptr, nullptr);
@@ -66,11 +68,11 @@ Window::~Window()
 	glfwTerminate();
 }
 
-const int& Window::GetWindowWidth() const
+const int Window::GetWindowWidth() const
 {
 	return window_width;
 }
-const int& Window::GetWindowHeight() const
+const int Window::GetWindowHeight() const
 {
 	return window_height;
 }
@@ -78,7 +80,7 @@ void Window::SetWindowTitle(const char* const name) const
 {
 	glfwSetWindowTitle(window, name);
 }
-void Window::SetClearColor(const float& red, const float& green, const float& blue, const float& alpha) const
+void Window::SetClearColor(const float red, const float green, const float blue, const float alpha) const
 {
 	glClearColor(red, green, blue, alpha);
 }
@@ -89,6 +91,10 @@ void Window::HideCursor() const
 void Window::ShowCursor() const
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+HWND Window::GetWin32Window() const
+{
+	return glfwGetWin32Window(window);
 }
 GLFWwindow* const Window::GetNativeWindow() const
 {

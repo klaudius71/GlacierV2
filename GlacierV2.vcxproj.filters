@@ -140,6 +140,12 @@
     <Filter Include="src\Time">
       <UniqueIdentifier>{24a5c727-81cf-446f-8412-be8268fd4453}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GraphicsContext\OpenGL">
+      <UniqueIdentifier>{a5a3136f-0dca-4ca9-9113-a22586484404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GraphicsContext\DirectX">
+      <UniqueIdentifier>{8573f511-a589-476d-86e6-e9ae3a8975e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">

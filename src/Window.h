@@ -6,19 +6,21 @@
 class GLACIER_API Window
 {
 public:
-	Window(const int& width = 1280, const int& height = 720, const char* const icon_path = nullptr);
+	Window(const int width = 1280, const int height = 720, const char* const icon_path = nullptr);
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	Window(Window&&) = delete;
 	Window& operator=(Window&&) = delete;
 	~Window();
 
-	const int& GetWindowWidth() const;
-	const int& GetWindowHeight() const;
+	const int GetWindowWidth() const;
+	const int GetWindowHeight() const;
 	void SetWindowTitle(const char* const name) const;
-	void SetClearColor(const float& red, const float& green, const float& blue, const float& alpha = 1.0f) const;
+	void SetClearColor(const float red, const float green, const float blue, const float alpha = 1.0f) const;
 	void HideCursor() const;
 	void ShowCursor() const;
+
+	HWND GetWin32Window() const;
 	GLFWwindow* const GetNativeWindow() const;
 
 	const bool IsOpen();
