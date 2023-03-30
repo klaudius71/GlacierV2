@@ -12,7 +12,7 @@ struct GLACIER_API MeshComponent
 	uint32_t num_indices;
 	bool cast_shadow;
 
-	MeshComponent(const Model* const mod, const bool& cast_shadow = true);
+	MeshComponent(const Model* const mod, const bool cast_shadow = true);
 	MeshComponent(MeshComponent&& o);
 	MeshComponent& operator=(MeshComponent&& o);
 

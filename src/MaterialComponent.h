@@ -14,10 +14,10 @@ struct GLACIER_API MaterialComponent
 
 	MaterialComponent();
 	MaterialComponent(const VertexTypes::PhongADS& ads, const glm::uvec4& tex_id, const glm::uvec4& norm_tex_id, const glm::vec4& color = Colors::White);
-	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const glm::vec4& color = Colors::White);
-	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const glm::vec4& color = Colors::White);
-	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const glm::vec4& color = Colors::White);
-	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint& tex0, const GLuint& tex1, const GLuint& tex2, const GLuint& tex3, const glm::vec4& color = Colors::White);
+	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint tex0, const glm::vec4& color = Colors::White);
+	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint tex0, const GLuint tex1, const glm::vec4& color = Colors::White);
+	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint tex0, const GLuint tex1, const GLuint tex2, const glm::vec4& color = Colors::White);
+	MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint tex0, const GLuint tex1, const GLuint tex2, const GLuint tex3, const glm::vec4& color = Colors::White);
 	MaterialComponent(MaterialComponent&& o) = default;
 	MaterialComponent& operator=(MaterialComponent&& o) = default;
 

@@ -1,7 +1,7 @@
 #include "gpch.h"
 #include "SkeletalAnimationComponent.h"
 
-SkeletalAnimationComponent::SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float& playback_speed)
+SkeletalAnimationComponent::SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float playback_speed)
 	: anim(anim),
 	playback_time(0.0f), playback_speed(playback_speed)
 {}

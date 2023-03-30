@@ -2,7 +2,7 @@
 #include "SkeletalMeshComponent.h"
 #include "Model.h"
 
-SkeletalMeshComponent::SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow)
+SkeletalMeshComponent::SkeletalMeshComponent(const Model* const mod, const bool cast_shadow)
 	: mod(mod), vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), num_joints(mod->GetNumBones()),
 	bone_matrices(new glm::mat4[MAX_BONES]),
 	cast_shadow(cast_shadow)

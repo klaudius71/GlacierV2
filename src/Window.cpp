@@ -58,7 +58,6 @@ Window::Window(const int& width, const int& height, const char* const icon_path)
 		glfwSetWindowIcon(window, 1, &glfwImg);
 		stbi_image_free(img);
 	}
-	
 
 	glfwSwapInterval(1);
 }

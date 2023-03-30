@@ -9,7 +9,7 @@ struct GLACIER_API ScriptComponent
 {
 	Script* script = nullptr;
 
-	ScriptComponent(Script* script);
+	ScriptComponent(Script* const script);
 };
 
 #endif

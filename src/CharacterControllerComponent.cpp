@@ -52,7 +52,7 @@
 //	}
 //}
 
-CharacterControllerComponent::CharacterControllerComponent(const float& radius, const float& height)
+CharacterControllerComponent::CharacterControllerComponent(const float radius, const float height)
 	: m_controller(new DynamicCharacterController(height, radius))
 {
 	m_controller->AddToScene();

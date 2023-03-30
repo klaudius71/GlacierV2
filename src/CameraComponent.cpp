@@ -2,7 +2,7 @@
 #include "CameraComponent.h"
 #include "Renderer.h"
 
-CameraComponent::CameraComponent(const glm::mat4& proj, const glm::vec3& cam_pos, const glm::vec3& cam_dir, const float& fov, const float& near_plane, const float& far_plane)
+CameraComponent::CameraComponent(const glm::mat4& proj, const glm::vec3& cam_pos, const glm::vec3& cam_dir, const float fov, const float near_plane, const float far_plane)
 	: proj(proj), cam_pos(cam_pos), cam_dir(cam_dir), fov(fov), near_plane(near_plane), far_plane(far_plane)
 {}
 

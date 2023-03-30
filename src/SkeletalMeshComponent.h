@@ -15,7 +15,7 @@ struct GLACIER_API SkeletalMeshComponent
 	glm::mat4* bone_matrices;
 	bool cast_shadow;
 
-	SkeletalMeshComponent(const Model* const mod, const bool& cast_shadow = true);
+	SkeletalMeshComponent(const Model* const mod, const bool cast_shadow = true);
 	SkeletalMeshComponent(const SkeletalMeshComponent& o) = delete;
 	SkeletalMeshComponent& operator=(const SkeletalMeshComponent&) = delete;
 	SkeletalMeshComponent(SkeletalMeshComponent&& o);

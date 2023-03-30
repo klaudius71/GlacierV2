@@ -11,7 +11,7 @@ struct GLACIER_API SkeletalAnimationComponent
 	float playback_time;
 	float playback_speed;
 
-	SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float& playback_speed = 1.0f);
+	SkeletalAnimationComponent(const SkeletalAnimation* const anim, const float playback_speed = 1.0f);
 	SkeletalAnimationComponent(SkeletalAnimationComponent&& o);
 	SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&& o);
 };

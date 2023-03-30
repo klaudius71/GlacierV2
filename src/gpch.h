@@ -26,6 +26,10 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#if _WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#endif
+#include "GLFW/glfw3native.h"
 
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #define GLM_FORCE_INTRINSICS

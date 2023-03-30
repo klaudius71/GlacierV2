@@ -40,7 +40,7 @@ public:
 	const uint32_t GetNumTriangles() const;
 	const uint32_t GetNumBones() const;
 	const glm::vec3& GetBSphereCenter() const;
-	float GetBSphereRadius() const;
+	const float GetBSphereRadius() const;
 	const std::vector<VertexTypes::Vertex>& GetVertexData() const;
 	const std::vector<glm::mat4>& GetInverseBindMatrices() const;
 	const std::vector<VertexTypes::VertexTriangle>& GetTriangles() const;

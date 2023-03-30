@@ -9,7 +9,7 @@ struct GLACIER_API CharacterControllerComponent
 {
 	DynamicCharacterController* m_controller;
 
-	CharacterControllerComponent(const float& radius = 10.0f, const float& height = 60.0f);
+	CharacterControllerComponent(const float radius = 10.0f, const float height = 60.0f);
 
 	CharacterControllerComponent(const CharacterControllerComponent&) = delete;
 	CharacterControllerComponent& operator=(const CharacterControllerComponent&) = delete;

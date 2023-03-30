@@ -507,7 +507,7 @@ const glm::vec3& Model::GetBSphereCenter() const
 {
 	return bsphere_center;
 }
-float Model::GetBSphereRadius() const
+const float Model::GetBSphereRadius() const
 {
 	return bsphere_radius;
 }

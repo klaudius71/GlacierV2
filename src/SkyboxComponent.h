@@ -8,7 +8,7 @@ struct GLACIER_API SkyboxComponent
 	GLuint tex_id = 0xFFFFFFF;
 
 	SkyboxComponent() = default;
-	SkyboxComponent(const GLuint& tex);
+	SkyboxComponent(const GLuint tex);
 };
 
 #endif
