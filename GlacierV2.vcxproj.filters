@@ -146,6 +146,18 @@
     <Filter Include="src\GraphicsContext\DirectX">
       <UniqueIdentifier>{8573f511-a589-476d-86e6-e9ae3a8975e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\shaders\opengl">
+      <UniqueIdentifier>{eb282a92-23ea-4e6d-a953-95a5733296cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\shaders\dx11">
+      <UniqueIdentifier>{9d5cdbe8-b25a-4508-92e5-a79621d41ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Asset\OpenGL">
+      <UniqueIdentifier>{9d1dc2a5-df58-4de1-a7e4-d19bc710c58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Asset\DirectX">
+      <UniqueIdentifier>{899919ec-9f70-4a09-b82e-6a3952a48302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c">
@@ -369,6 +381,12 @@
     </ClCompile>
     <ClCompile Include="src\DX.cpp">
       <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderOpenGL.cpp">
+      <Filter>src\Asset\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderDirectX.cpp">
+      <Filter>src\Asset\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -699,61 +717,72 @@
     <ClInclude Include="src\DX.h">
       <Filter>src\GraphicsContext\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShaderOpenGL.h">
+      <Filter>src\Asset\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderDirectX.h">
+      <Filter>src\Asset\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\color.fs.glsl">
-      <Filter>assets\shaders</Filter>
+      <Filter>assets\shaders\opengl</Filter>
     </None>
     <None Include="assets\shaders\color.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\texture.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\texture.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\texture_lit.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\texture_lit.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\shadow_map.vs.glsl">
-      <Filter>assets\shaders</Filter>
+      <Filter>assets\shaders\opengl</Filter>
     </None>
     <None Include="assets\shaders\shadow_map.fs.glsl">
-      <Filter>assets\shaders</Filter>
+      <Filter>assets\shaders\opengl</Filter>
     </None>
-    <None Include="assets\shaders\skybox.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\skybox.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\text.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\text.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\text_instanced.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\text_instanced.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\sprite.vs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\sprite.fs.glsl">
-      <Filter>assets\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\texture_skinned_lit.vs.glsl">
-      <Filter>assets\shaders</Filter>
+    <None Include="assets\shaders\shadow_map.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
     </None>
     <None Include="assets\shaders\shadow_map_skinned.vs.glsl">
-      <Filter>assets\shaders</Filter>
+      <Filter>assets\shaders\opengl</Filter>
     </None>
+    <None Include="assets\shaders\skybox.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\skybox.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\sprite.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\sprite.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\text.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\text.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\text_instanced.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\text_instanced.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\texture.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\texture.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\texture_lit.fs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\texture_lit.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+    <None Include="assets\shaders\texture_skinned_lit.vs.glsl">
+      <Filter>assets\shaders\opengl</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="assets\shaders\dx11\Texture.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

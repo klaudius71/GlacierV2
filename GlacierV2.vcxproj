@@ -319,7 +319,9 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClCompile Include="src\Script.cpp" />
     <ClCompile Include="src\ScriptComponent.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShaderDirectX.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
+    <ClCompile Include="src\ShaderOpenGL.cpp" />
     <ClCompile Include="src\ShowEditorDont.cpp" />
     <ClCompile Include="src\ShowEditorNull.cpp" />
     <ClCompile Include="src\SkeletalAnimation.cpp" />
@@ -410,6 +412,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClInclude Include="src\RigidbodyComponent.h" />
     <ClInclude Include="src\SceneAtt.h" />
     <ClInclude Include="src\ScriptComponent.h" />
+    <ClInclude Include="src\ShaderDirectX.h" />
+    <ClInclude Include="src\ShaderOpenGL.h" />
     <ClInclude Include="src\ShowEditorDont.h" />
     <ClInclude Include="src\ShowEditorNull.h" />
     <ClInclude Include="src\SkeletalAnimation.h" />
@@ -482,6 +486,14 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ProjectReference Include="external\bullet3-3.24\src\LinearMath\LinearMath.vcxproj">
       <Project>{f9b7a0e3-5a7d-3546-b655-597f29ad2113}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="assets\shaders\dx11\Texture.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_DX|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_DX|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

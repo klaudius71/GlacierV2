@@ -40,7 +40,9 @@ public:
 
 #if GLACIER_DIRECTX
 	static IDXGISwapChain* const GetSwapchain() { return Instance().swapchain; }
+	static ID3D11Device* const GetDevice() { return Instance().dev; }
 	static ID3D11DeviceContext* const GetDeviceContext() { return Instance().devcon; }
+	static ID3D11RenderTargetView* const GetBackBuffer() { return Instance().backbuffer; }
 #endif
 
 	static void Terminate();

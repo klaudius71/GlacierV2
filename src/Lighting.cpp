@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Components.h"
 #include "ShaderLoader.h"
-#include "Shader.h"
+#include "ShaderOpenGL.h"
 #include "Application.h"
 #include "Window.h"
 #include "Model.h"
@@ -74,7 +74,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &lightspace);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
+	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
 	curr_shader->Bind();
 
 	GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
@@ -89,7 +89,7 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 		}
 	}
 
-	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED);
+	curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED);
 	curr_shader->Bind();
 
 	world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");

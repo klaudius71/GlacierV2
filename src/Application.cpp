@@ -155,6 +155,7 @@ namespace Glacier {
 		SkeletalAnimationLoaderAtt::Terminate();
 #elif GLACIER_DIRECTX
 		DX::Initialize(*window);
+		ShaderLoaderAtt::Initialize();
 
 		// Main loop
 		while (!window->IsOpen())
@@ -164,6 +165,7 @@ namespace Glacier {
 			window->PollEvents();
 		}
 
+		ShaderLoaderAtt::Terminate();
 		DX::Terminate();
 #endif
 	}

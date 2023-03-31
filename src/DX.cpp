@@ -21,8 +21,13 @@ DX::DX(const Window& window)
 	scd.SampleDesc.Count = 1;
 	scd.Windowed = true;
 
+	UINT createDeviceFlags = 0;
+#if _DEBUG
+	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
 	HRESULT result;
-	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, NULL, nullptr, NULL, D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon);
+	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, nullptr, NULL, D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon);
 	printf("%d\n", result);
 	assert(swapchain);
 	assert(dev);
@@ -52,8 +57,19 @@ DX::~DX()
 #if GLACIER_DIRECTX
 	swapchain->Release();
 	backbuffer->Release();
-	dev->Release();
 	devcon->Release();
+
+#ifdef _DEBUG
+	HRESULT hr;
+	ID3D11Debug* debugDev;
+	hr = dev->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDev));
+	assert(SUCCEEDED(hr));
+
+	debugDev->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+	debugDev->Release();
+#endif
+
+	dev->Release();
 #endif
 }
 

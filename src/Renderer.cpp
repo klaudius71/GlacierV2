@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "Window.h"
 #include "ShaderLoader.h"
-#include "Shader.h"
+#include "ShaderOpenGL.h"
 #include "TextureLoader.h"
 #include "ModelLoader.h"
 #include "Lighting.h"
@@ -21,11 +21,14 @@ Renderer::Renderer()
 
 void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
+	UNREFERENCED_PARAMETER(camera);
+#if GLACIER_OPENGL
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))};
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, &proj_view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+#endif
 }
 void Renderer::UpdateViewportSize(const int& width, const int& height)
 {
@@ -37,7 +40,7 @@ void Renderer::RenderLit(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	curr_shader->Bind();
 	GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
 	GLint material_ambient_uniform_loc = curr_shader->GetUniformLocation("material.ambient");
@@ -74,7 +77,7 @@ void Renderer::RenderSkinned(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
+	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
 	curr_shader->Bind();
 	const GLint bone_matrices_uniform_loc = curr_shader->GetUniformLocation("bone_matrices[0]");
 	const GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
@@ -117,7 +120,7 @@ void Renderer::RenderUnlit(Scene& scn)
 {
 	// Render meshes without materials
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	auto shader = ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
+	auto shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
 	shader->Bind();
 	GLint world_matrix_uniform_loc = shader->GetUniformLocation("world_matrix");
 	glUniform4fv(shader->GetUniformLocation("color"), 1, (const GLfloat*)&Colors::White);

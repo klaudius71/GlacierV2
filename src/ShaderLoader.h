@@ -2,7 +2,8 @@
 #define _SHADER_LOADER
 
 #include "GlacierCore.h"
-#include "Shader.h"
+#include "ShaderOpenGL.h"
+#include "ShaderDirectX.h"
 
 enum class PRELOADED_SHADERS
 {
@@ -18,6 +19,7 @@ enum class PRELOADED_SHADERS
 	SPRITE
 };
 
+#if GLACIER_OPENGL
 class GLACIER_API ShaderLoader
 {
 private:
@@ -37,8 +39,8 @@ private:
 	ShaderLoader& operator=(ShaderLoader&&) = delete;
 	~ShaderLoader() = default;
 	
-	std::unordered_map<PRELOADED_SHADERS, Shader> preloaded_shaders;
-	std::unordered_map<std::string, Shader> shaders;
+	std::unordered_map<PRELOADED_SHADERS, ShaderOpenGL> preloaded_shaders;
+	std::unordered_map<std::string, ShaderOpenGL> shaders;
 	GLuint ubo_Matrices;
 	GLuint ubo_DirLight;
 	GLuint ubo_LightspaceMatrices;
@@ -50,9 +52,9 @@ private:
 	Shader* const get(const PRELOADED_SHADERS shader);
 	Shader* const get(const std::string& name);
 
-	void load_matrix_binding(const Shader* shader);
-	void load_light_bindings(const Shader* shader);
-	void load_lightspace_bindings(const Shader* shader);
+	void load_matrix_binding(const ShaderOpenGL* shader);
+	void load_light_bindings(const ShaderOpenGL* shader);
+	void load_lightspace_bindings(const ShaderOpenGL* shader);
 
 	static void Terminate();
 
@@ -69,5 +71,44 @@ public:
 	static const GLuint& GetDirLightUBO() { return instance->ubo_DirLight; }
 	static const GLuint& GetLightspaceMatricesUBO() { return instance->ubo_LightspaceMatrices; }
 };
+#elif GLACIER_DIRECTX
+class GLACIER_API ShaderLoader
+{
+private:
+	static const std::string SHADER_PATH;
+
+	static ShaderLoader* instance;
+	static ShaderLoader& Instance()
+	{
+		if (!instance)
+			instance = new ShaderLoader;
+		return *instance;
+	}
+	ShaderLoader();
+	ShaderLoader(const ShaderLoader&) = delete;
+	ShaderLoader& operator=(const ShaderLoader&) = delete;
+	ShaderLoader(ShaderLoader&&) = delete;
+	ShaderLoader& operator=(ShaderLoader&&) = delete;
+	~ShaderLoader() = default;
+
+	std::unordered_map<PRELOADED_SHADERS, ShaderDirectX> preloaded_shaders;
+	std::unordered_map<std::string, ShaderDirectX> shaders;
+
+	void load(const std::string& name, const std::string& file_name);
+
+	Shader* const get(const PRELOADED_SHADERS shader);
+	Shader* const get(const std::string& name);
+
+	static void Terminate();
+
+	friend class ShaderLoaderAtt;
+
+public:
+	static void Load(const std::string& name, const std::string& file_name) { Instance().load(name, file_name); }
+
+	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
+	static Shader* Get(const std::string& name) { return instance->get(name); }
+};
+#endif
 
 #endif _SHADER_LOADER

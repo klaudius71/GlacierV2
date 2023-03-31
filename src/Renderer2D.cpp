@@ -10,7 +10,7 @@
 #include "ModelLoader.h"
 #include "Font.h"
 #include "ShaderLoader.h"
-#include "Shader.h"
+#include "ShaderOpenGL.h"
 #include "Logger.h"
 
 Renderer2D* Renderer2D::instance = nullptr;
@@ -80,7 +80,7 @@ void Renderer2D::renderComponents(Scene& scn)
 	glViewport(0, 0, viewport_size.x, viewport_size.y);
 	framebuffer.Bind();
 
-	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
+	auto shad = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
 	shad->Bind();
 	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
 	glUniform1i(shad->GetUniformLocation("sprite_texture"), 0);
@@ -125,7 +125,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	// Get the quad model
 	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
-	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
+	auto shad = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
 	shad->Bind();
 
 	// Set the bitmap texture
@@ -175,7 +175,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	// Get the quad model
 	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
-	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED);
+	auto shad = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED);
 	shad->Bind();
 
 	// Set the bitmap texture

@@ -3,6 +3,7 @@
 #include "VertexTypes.h"
 #include "Lighting.h"
 
+#if GLACIER_OPENGL
 ShaderLoader* ShaderLoader::instance = nullptr;
 const std::string ShaderLoader::SHADER_PATH = "assets/shaders/";
 
@@ -92,17 +93,17 @@ Shader* const ShaderLoader::get(const std::string& name)
 	return &it->second;
 }
 
-void ShaderLoader::load_matrix_binding(const Shader* shader)
+void ShaderLoader::load_matrix_binding(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "Matrices"), 0);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_Matrices);
 }
-void ShaderLoader::load_light_bindings(const Shader* shader)
+void ShaderLoader::load_light_bindings(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "DirLight"), 1);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_DirLight);
 }
-void ShaderLoader::load_lightspace_bindings(const Shader* shader)
+void ShaderLoader::load_lightspace_bindings(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "LightspaceMatrices"), 2);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 2, ubo_LightspaceMatrices);
@@ -113,3 +114,36 @@ void ShaderLoader::Terminate()
 	delete instance;
 	instance = nullptr;
 }
+#elif GLACIER_DIRECTX
+ShaderLoader* ShaderLoader::instance = nullptr;
+const std::string ShaderLoader::SHADER_PATH = "assets/shaders/dx11/";
+
+ShaderLoader::ShaderLoader()
+{
+	// --Load in the default shaders used by the engine--
+	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
+}
+
+void ShaderLoader::load(const std::string& name, const std::string& file_name)
+{
+	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
+	shaders.emplace(name, SHADER_PATH + file_name);
+}
+
+Shader* const ShaderLoader::get(const PRELOADED_SHADERS shader)
+{
+	return &preloaded_shaders.at(shader);
+}
+Shader* const ShaderLoader::get(const std::string& name)
+{
+	const auto it = shaders.find(name);
+	assert(it != shaders.cend() && "Shader not found!");
+	return &it->second;
+}
+
+void ShaderLoader::Terminate()
+{
+	delete instance;
+	instance = nullptr;
+}
+#endif

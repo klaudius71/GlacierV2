@@ -1,0 +1,67 @@
+#include "gpch.h"
+#include "ShaderDirectX.h"
+#include "DX.h"
+
+#if GLACIER_DIRECTX
+
+ShaderDirectX::ShaderDirectX(const std::string& file_name)
+	: mpVertexShader(nullptr), mpPixelShader(nullptr), mpVertexLayout(nullptr), pVSBlob(nullptr), pPSBlob(nullptr)
+{
+	UNREFERENCED_PARAMETER(file_name);
+	ID3D11Device* dev = DX::GetDevice();
+	std::wstring filename(file_name.cbegin(), file_name.cend());
+
+	HRESULT hr; 
+	ID3DBlob* error_blob = nullptr;
+
+	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#ifdef _DEBUG
+	dwShaderFlags |= D3DCOMPILE_DEBUG;
+	dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "VS", vsModel, dwShaderFlags, 0, &pVSBlob, &error_blob);
+	if (FAILED(hr))
+	{
+		PrintShaderError(error_blob);
+		assert(false);
+	}
+
+	hr = dev->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &mpVertexShader);
+	assert(SUCCEEDED(hr));
+
+	pPSBlob = nullptr;
+	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "PS", psModel, dwShaderFlags, 0, &pPSBlob, &error_blob);
+	if (FAILED(hr))
+	{
+		PrintShaderError(error_blob);
+		assert(false);
+	}
+
+	// Create the pixel shader
+	hr = dev->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &mpPixelShader);
+	assert(SUCCEEDED(hr));
+}
+ShaderDirectX::~ShaderDirectX()
+{
+	pVSBlob->Release();
+	pPSBlob->Release();
+	mpVertexShader->Release();
+	mpPixelShader->Release();
+	//mpVertexLayout->Release();
+}
+
+void ShaderDirectX::Bind() const
+{
+}
+
+void ShaderDirectX::PrintShaderError(ID3DBlob* const blob)
+{
+	if (blob)
+	{
+		OutputDebugString(reinterpret_cast<const char*>(blob->GetBufferPointer()));
+		blob->Release();
+	}
+}
+
+#endif

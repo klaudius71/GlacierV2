@@ -22,6 +22,12 @@
 #include "../external/glad/include/glad/glad.h"
 #include "../external/glfw-3.3.8/include/GLFW/glfw3.h"
 
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <d3dcommon.h>
+#pragma comment (lib, "d3d11.lib")
+#pragma comment (lib, "d3dcompiler.lib")
+
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #define GLM_FORCE_INTRINSICS
 #define GLM_FORCE_SSE42

@@ -26,7 +26,10 @@
 
 #if GLACIER_DIRECTX
 #include <d3d11.h>
+#include <d3dcompiler.h>
+#include <d3dcommon.h>
 #pragma comment (lib, "d3d11.lib")
+#pragma comment (lib, "d3dcompiler.lib")
 #endif
 
 #include "glad/glad.h"
