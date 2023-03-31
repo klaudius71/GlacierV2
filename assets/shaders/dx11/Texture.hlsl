@@ -22,12 +22,6 @@ struct VS_INPUT
 {
 	float3 Pos : POSITION;
 	float2 Tex : TEXCOORD;
-	uint TexId : TEXID;
-	float3 normal : NORMAL;
-	float3 tangent : TANGENT;
-	float3 bitangent : TANGENT1;
-	uint4 joint_ids : BLENDINDICES;
-	float4 joint_weights : BLENDWEIGHT;
 };
 
 struct VS_OUTPUT
