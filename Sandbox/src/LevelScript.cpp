@@ -23,7 +23,7 @@ void LevelScript::OnUpdate(float dt)
 			//cube2->AddScript<RotatingScript>(glm::vec3(1.0f, 0.0f, 0.0f));
 			cube2->GetComponent<TransformComponent>().position() = glm::vec3(-10.0f, 0.0f, 0.0f);
 			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
-			cube2->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+			cube2->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Box"));
 		}
 		cube2->RegisterToScene();
 	}

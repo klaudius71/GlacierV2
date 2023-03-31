@@ -37,9 +37,9 @@ void MainScene::InitializeScene()
 	skybox->RegisterToScene();
 
 	GameObject terrain = CreateGameObject("Terrain");
-	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
+	terrain->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("TempTerrain"), false);
 	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
-	terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
+	terrain->EmplaceComponent<TriangleMeshColliderComponent>((const ModelOpenGL*)ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
 	terrain->RegisterToScene();
 
 	RigidbodyComponent* rigidbody;
@@ -49,7 +49,7 @@ void MainScene::InitializeScene()
 		{
 			GameObject cube = CreateGameObject("Cube1");
 			cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
-			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+			cube->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Box"));
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
 				.norm_tex_id.x = TextureLoader::Get("CrateNormal");
 	
@@ -60,7 +60,7 @@ void MainScene::InitializeScene()
 	}
 	
 	GameObject sphere = CreateGameObject("Sphere");
-	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
+	sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
 	rigidbody = &sphere->EmplaceComponent<SphereColliderComponent>(20.0f);
@@ -69,7 +69,7 @@ void MainScene::InitializeScene()
 	sphere->RegisterToScene();
 
 	GameObject vampire = CreateGameObject("Vampire");
-	vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
+	vampire->EmplaceComponent<SkeletalMeshComponent>((const ModelOpenGL*)ModelLoader::Get("Vampire"));
 	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 40.0f, 0.0f);
 	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
 	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));

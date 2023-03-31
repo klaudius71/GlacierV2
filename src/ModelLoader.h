@@ -3,7 +3,8 @@
 
 #include "GlacierCore.h"
 #include "VertexTypes.h"
-#include "Model.h"
+#include "ModelOpenGL.h"
+#include "ModelDirectX.h"
 
 enum class PRELOADED_MODELS
 {
@@ -30,21 +31,26 @@ private:
 	ModelLoader& operator=(ModelLoader&&) = delete;
 	~ModelLoader() = default;
 
-	std::unordered_map<PRELOADED_MODELS, Model> preloaded_models;
-	std::unordered_map<std::string, Model> models;
+#if GLACIER_OPENGL
+	std::unordered_map<PRELOADED_MODELS, ModelOpenGL> preloaded_models;
+	std::unordered_map<std::string, ModelOpenGL> models;
+#elif GLACIER_DIRECTX
+	std::unordered_map<PRELOADED_MODELS, ModelDirectX> preloaded_models;
+	std::unordered_map<std::string, ModelDirectX> models;
+#endif
 
 	std::vector<std::future<Model&>> futures;
 	std::mutex load_mtx;
 
 	Model& load_async_file(const std::string& name, const std::string& file_name);
-	void load(const std::string& name, const std::string& file_name);
 	Model& load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale);
-	void load(const std::string& name, PREMADE_MODELS premade_model, float scale);
 	Model& load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v);
-	void load(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v);
 	Model& load_async_plane(const std::string& name, float xz_size, float u, float v);
-	void load(const std::string& name, float xz_size, float u, float v);
 	Model& load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices);
+	void load(const std::string& name, const std::string& file_name);
+	void load(const std::string& name, PREMADE_MODELS premade_model, float scale);
+	void load(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v);
+	void load(const std::string& name, float xz_size, float u, float v);
 	void load(const std::string& name, uint32_t v_slices, uint32_t h_slices);
 
 	const Model* const get(const PRELOADED_MODELS model) const;

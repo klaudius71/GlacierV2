@@ -1,8 +1,8 @@
 #include "gpch.h"
 #include "MeshComponent.h"
-#include "Model.h"
+#include "ModelOpenGL.h"
 
-MeshComponent::MeshComponent(const Model* const mod, const bool cast_shadow)
+MeshComponent::MeshComponent(const ModelOpenGL* const mod, const bool cast_shadow)
 	: mod(mod), vao(mod->GetVAO()), num_indices(mod->GetNumTriangles() * 3), cast_shadow(cast_shadow)
 {}
 MeshComponent::MeshComponent(MeshComponent&& o)

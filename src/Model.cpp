@@ -24,7 +24,6 @@ Model::Model(const std::vector<VertexTypes::Vertex>& verts, const std::vector<Ve
 	: vertex_data(verts), triangles(triangles), num_vertices((uint32_t)verts.size()), num_triangles((uint32_t)triangles.size())
 {
 	assert(triangles.size() > 0 && verts.size() > 0);
-	load_gpu_data();
 	calculate_bsphere();
 }
 Model::Model(PREMADE_MODELS premade_model, float scale)
@@ -256,21 +255,14 @@ Model::Model(float xz_size, float u, float v)
 }
 
 Model::Model(Model&& o) noexcept
-	: vao(o.vao), vbo(o.vbo), ebo(o.ebo),
-	num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_joints(o.num_joints),
+	: num_vertices(o.num_vertices), num_triangles(o.num_triangles), num_joints(o.num_joints),
 	bsphere_center(o.bsphere_center), bsphere_radius(o.bsphere_radius),
 	vertex_data(std::move(o.vertex_data)), inverse_bind_matrices(std::move(o.inverse_bind_matrices)),
 	triangles(std::move(o.triangles))
 {
-	o.vao = 0;
-	o.vbo = 0;
-	o.ebo = 0;
 }
 Model& Model::operator=(Model&& o)
 {
-	vao = o.vao;
-	vbo = o.vbo;
-	ebo = o.ebo;
 	num_vertices = o.num_vertices;
 	num_triangles = o.num_triangles;
 	num_joints = o.num_joints;
@@ -279,20 +271,7 @@ Model& Model::operator=(Model&& o)
 	vertex_data = std::move(o.vertex_data);
 	inverse_bind_matrices = std::move(o.inverse_bind_matrices);
 	triangles = std::move(o.triangles);
-
-	o.vao = 0;
-	o.vbo = 0;
-	o.ebo = 0;
 	return *this;
-}
-Model::~Model()
-{
-	// By default OpenGL silently ignores buffer 0, but this destructor is called in a separate thread so I can't call gl functions at all
-	if (vao != 0) 
-	{
-		glDeleteBuffers(2, &vbo);
-		glDeleteVertexArrays(1, &vao);
-	}
 }
 
 void Model::load_gltf(const std::string& file_name)
@@ -474,23 +453,6 @@ void Model::load_glacier(const std::string& file_name)
 	delete[] buf;
 }
 
-void Model::Bind() const
-{
-	glBindVertexArray(vao);
-}
-
-const GLuint Model::GetVAO() const
-{
-	return vao;
-}
-const GLuint Model::GetVBO() const
-{
-	return vbo;
-}
-const GLuint Model::GetEBO() const
-{
-	return ebo;
-}
 const uint32_t Model::GetNumVertices() const
 {
 	return num_vertices;
@@ -607,51 +569,4 @@ inline void Model::calculate_bsphere()
 			bsphere_center += glm::normalize(diff) * d_half;
 		}
 	}
-}
-
-void Model::load_gpu_data()
-{
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(2, &vbo);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexTypes::Vertex) * num_vertices, vertex_data.data(), GL_STATIC_DRAW);
-
-	// Position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)0);
-
-	// UVs
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3)));
-
-	// Tex_ID
-	glEnableVertexAttribArray(2);
-	glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2)));
-
-	// Normal
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t)));
-
-	// Tangent
-	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3)));
-
-	// Bitangent
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 2));
-
-	// Joint IDs
-	glEnableVertexAttribArray(6);
-	glVertexAttribIPointer(6, 4, GL_UNSIGNED_INT, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 3));
-
-	// Joint Weights
-	glEnableVertexAttribArray(7);
-	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(VertexTypes::Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(uint32_t) + sizeof(glm::vec3) * 3 + sizeof(glm::uvec4)));
-
-	// Index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * GetNumTriangles(), triangles.data(), GL_STATIC_DRAW);
 }

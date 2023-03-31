@@ -4,7 +4,7 @@
 #include "Components.h"
 #include "TimeManager.h"
 #include "SkeletalAnimation.h"
-#include "Model.h"
+#include "ModelOpenGL.h"
 
 void Animator::UpdateAnimationComponents(Scene& scn)
 {

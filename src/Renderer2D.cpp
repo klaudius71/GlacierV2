@@ -88,7 +88,7 @@ void Renderer2D::renderComponents(Scene& scn)
 	const GLint world_matrix_uniform_loc = shad->GetUniformLocation("world_matrix");
 	glm::mat4 curr_world_matrix;
 
-	const GLuint quad = ModelLoader::Get(PRELOADED_MODELS::QUAD)->GetVAO();
+	const GLuint quad = ((const ModelOpenGL*)ModelLoader::Get(PRELOADED_MODELS::QUAD))->GetVAO();
 	glBindVertexArray(quad);
 	glActiveTexture(GL_TEXTURE0);
 
@@ -123,7 +123,7 @@ void Renderer2D::renderComponents(Scene& scn)
 void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
 {
 	// Get the quad model
-	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+	const ModelOpenGL* quad = (const ModelOpenGL*)ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
 	auto shad = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
 	shad->Bind();
@@ -173,7 +173,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	Renderer2D& renderer_instance = Instance();
 
 	// Get the quad model
-	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+	const ModelOpenGL* quad = (const ModelOpenGL*)ModelLoader::Get(PRELOADED_MODELS::QUAD);
 	// Get the text shader
 	auto shad = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED);
 	shad->Bind();

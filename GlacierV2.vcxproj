@@ -304,7 +304,9 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClCompile Include="src\MaterialComponent.cpp" />
     <ClCompile Include="src\MeshComponent.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\ModelDirectX.cpp" />
     <ClCompile Include="src\ModelLoader.cpp" />
+    <ClCompile Include="src\ModelOpenGL.cpp" />
     <ClCompile Include="src\NameComponent.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\PlaneColliderComponent.cpp" />
@@ -402,8 +404,10 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClInclude Include="src\MeshComponent.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelAtt.h" />
+    <ClInclude Include="src\ModelDirectX.h" />
     <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\ModelLoaderAtt.h" />
+    <ClInclude Include="src\ModelOpenGL.h" />
     <ClInclude Include="src\NameComponent.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\PlaneColliderComponent.h" />

@@ -3,16 +3,16 @@
 
 #include "GlacierCore.h"
 
-class Model;
+class ModelOpenGL;
 
 struct GLACIER_API MeshComponent
 {
-	const Model* mod;
+	const ModelOpenGL* mod;
 	GLuint vao;
 	uint32_t num_indices;
 	bool cast_shadow;
 
-	MeshComponent(const Model* const mod, const bool cast_shadow = true);
+	MeshComponent(const ModelOpenGL* const mod, const bool cast_shadow = true);
 	MeshComponent(MeshComponent&& o);
 	MeshComponent& operator=(MeshComponent&& o);
 

@@ -29,13 +29,10 @@ public:
 	Model& operator=(const Model&) = delete;
 	Model(Model&& o) noexcept;
 	Model& operator=(Model&& o);
-	~Model();
+	virtual ~Model() = default;
 
-	void Bind() const;
+	virtual void Bind() const = 0;
 
-	const GLuint GetVAO() const;
-	const GLuint GetVBO() const;
-	const GLuint GetEBO() const;
 	const uint32_t GetNumVertices() const;
 	const uint32_t GetNumTriangles() const;
 	const uint32_t GetNumBones() const;
@@ -52,14 +49,11 @@ private:
 	inline void calculate_tangents();
 	inline void calculate_bsphere();
 
-	void load_gpu_data();
+	virtual void load_gpu_data() = 0;
 
 	friend class ModelAtt;
 
-private:
-	GLuint vao = 0;
-	GLuint vbo = 0;
-	GLuint ebo = 0;
+protected:
 	uint32_t num_vertices;
 	uint32_t num_triangles;
 	uint32_t num_joints;
