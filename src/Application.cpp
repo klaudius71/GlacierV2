@@ -163,21 +163,24 @@ namespace Glacier {
 		//TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
 		//SkeletalAnimationLoaderAtt::WaitForThreads();
 
+		TimeManagerAtt::Initialize();
+
 		ID3D11DeviceContext* context = DX::GetDeviceContext();
 		TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
-		const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+		const Model* cube = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
 
 		auto matrixCBuffer = ShaderLoader::GetMatrixConstantBuffer();
 		auto instanceCBuffer = ShaderLoader::GetInstanceConstantBuffer();
 
 		const glm::mat4 cam_matrices[] = {
-			glm::ortho(0.0f, (float)window->GetWindowWidth(), 0.0f, (float)window->GetWindowHeight()),
-			glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f))
+			glm::perspective(glm::radians(90.0f), 16.0f / 9.0f, 0.1f, 1000.0f),
+			//glm::ortho(0.0f, (float)window->GetWindowWidth(), 0.0f, (float)window->GetWindowHeight()),
+			glm::lookAt(glm::vec3(0.0f, 0.0f, 20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f))
 		};
 		context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
 
-		const glm::mat4 world = glm::translate(glm::vec3(window->GetWindowWidth() * 0.5f, window->GetWindowHeight() * 0.5f, 0.0f)) * glm::scale(glm::vec3(256.0f, 256.0f, 1.0f));
+		glm::mat4 world = glm::scale(glm::vec3(10.0f, 10.0f, 10.0f));
 		context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
 
 		// Main loop
@@ -185,10 +188,17 @@ namespace Glacier {
 		{
 			window->Clear();
 
+			TimeManagerAtt::ProcessTime();
+
+			world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
+			world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+			world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
+			context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
+
 			shad->Bind();
 			tex->Bind();
-			quad->Bind();
-			context->DrawIndexed(quad->GetNumTriangles() * 3, 0, 0);
+			cube->Bind();
+			context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
 
 			window->SwapBuffers();
 			window->PollEvents();
