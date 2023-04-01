@@ -19,6 +19,7 @@ DX::DX(const Window& window)
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow = window.GetNativeWindow();
 	scd.SampleDesc.Count = 1;
+	scd.SampleDesc.Quality = (UINT)D3D11_CENTER_MULTISAMPLE_PATTERN;
 	scd.Windowed = true;
 
 	UINT createDeviceFlags = 0;
@@ -26,9 +27,8 @@ DX::DX(const Window& window)
 	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-	HRESULT result;
-	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, nullptr, NULL, D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon);
-	printf("%d\n", result);
+	HRESULT hr;
+	hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, nullptr, NULL, D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon);
 	assert(swapchain);
 	assert(dev);
 	assert(devcon);
@@ -41,8 +41,7 @@ DX::DX(const Window& window)
 	pBackBuffer->Release();
 	assert(backbuffer);
 
-	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
-
+	// Rasterizer
 	D3D11_RASTERIZER_DESC rd;
 	rd.FillMode = D3D11_FILL_SOLID;
 	rd.CullMode = D3D11_CULL_BACK;
@@ -58,18 +57,54 @@ DX::DX(const Window& window)
 	dev->CreateRasterizerState(&rd, &rasterizer_state);
 	devcon->RSSetState(rasterizer_state);
 
+	// Depth stencil
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory(&descDepth, sizeof(D3D11_TEXTURE2D_DESC));
+	descDepth.Width = window.GetWindowWidth();
+	descDepth.Height = window.GetWindowHeight();
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = (UINT)D3D11_CENTER_MULTISAMPLE_PATTERN;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+
+	ID3D11Texture2D* depthStencilTexture;
+	hr = dev->CreateTexture2D(&descDepth, NULL, &depthStencilTexture);
+	assert(SUCCEEDED(hr));
+
+	// Create the depth stencil view
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory(&descDSV, sizeof(descDSV));
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+	descDSV.Texture2D.MipSlice = 0;
+
+	hr = dev->CreateDepthStencilView(depthStencilTexture, &descDSV, &depth_stencil_view);
+	assert(SUCCEEDED(hr));
+	depthStencilTexture->Release();
+
+	// Set the render target, including the depth stencil
+	devcon->OMSetRenderTargets(1, &backbuffer, depth_stencil_view);
+
+	// Setting the viewport
 	D3D11_VIEWPORT viewport{ 0 };
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.Width = (FLOAT)window.GetWindowWidth();
 	viewport.Height = (FLOAT)window.GetWindowHeight();
-
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
 	devcon->RSSetViewports(1, &viewport);
 #endif
 }
 DX::~DX()
 {
 #if GLACIER_DIRECTX
+	depth_stencil_view->Release();
 	rasterizer_state->Release();
 	swapchain->Release();
 	backbuffer->Release();
@@ -100,6 +135,7 @@ void DX::clear()
 {
 #if GLACIER_DIRECTX
 	devcon->ClearRenderTargetView(backbuffer, clear_color);
+	devcon->ClearDepthStencilView(depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 #endif
 }
 

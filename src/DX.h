@@ -26,6 +26,7 @@ private:
 	IDXGISwapChain* swapchain = nullptr;
 	ID3D11RenderTargetView* backbuffer = nullptr;
 	ID3D11RasterizerState* rasterizer_state = nullptr;
+	ID3D11DepthStencilView* depth_stencil_view = nullptr;
 #endif
 
 	void setClearColor(const float red, const float green, const float blue, const float alpha);

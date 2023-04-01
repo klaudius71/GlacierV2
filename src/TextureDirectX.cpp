@@ -86,7 +86,7 @@ void TextureDirectX::load_gpu_data()
 	hr = dev->CreateShaderResourceView(mpTexture2D, nullptr, &mpTextureRV);
 	assert(SUCCEEDED(hr));
 
-	DX::GetDeviceContext()->GenerateMips(mpTextureRV);
+	//DX::GetDeviceContext()->GenerateMips(mpTextureRV);
 	
 	// Temp settings
 	D3D11_SAMPLER_DESC samp;
