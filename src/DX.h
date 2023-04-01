@@ -21,10 +21,11 @@ private:
 
 	float clear_color[4];
 #if GLACIER_DIRECTX
-	IDXGISwapChain* swapchain = nullptr;
 	ID3D11Device* dev = nullptr;
 	ID3D11DeviceContext* devcon = nullptr;
+	IDXGISwapChain* swapchain = nullptr;
 	ID3D11RenderTargetView* backbuffer = nullptr;
+	ID3D11RasterizerState* rasterizer_state = nullptr;
 #endif
 
 	void setClearColor(const float red, const float green, const float blue, const float alpha);

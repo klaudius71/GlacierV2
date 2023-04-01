@@ -163,13 +163,21 @@ namespace Glacier {
 		//TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
 		//SkeletalAnimationLoaderAtt::WaitForThreads();
 
+		ID3D11DeviceContext* context = DX::GetDeviceContext();
 		TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
-		
+		const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
 
 		// Main loop
 		while (!window->IsOpen())
 		{
 			window->Clear();
+
+			shad->Bind();
+			tex->Bind();
+			quad->Bind();
+			context->DrawIndexed(quad->GetNumTriangles() * 3, 0, 0);
+
 			window->SwapBuffers();
 			window->PollEvents();
 		}

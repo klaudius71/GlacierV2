@@ -36,9 +36,10 @@ struct VS_OUTPUT
 VS_OUTPUT VS( VS_INPUT input)
 {
 	VS_OUTPUT output;
-	output.Pos = mul(input.Pos, World);
-	output.Pos = mul(output.Pos, View);
-	output.Pos = mul(output.Pos, Projection);
+	//output.Pos = mul(input.Pos, World);
+	//output.Pos = mul(output.Pos, View);
+	//output.Pos = mul(output.Pos, Projection);
+	output.Pos = float4(input.Pos, 1.0);
 	output.Tex = input.Tex;
 	return output;
 }

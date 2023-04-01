@@ -10,12 +10,12 @@ Texture::Texture(const std::string& file_name, const TextureParameters& tex_para
 	// Vertically flips all loaded textures
 	stbi_set_flip_vertically_on_load(true);
 	// Load a texture into memory as bytes
-	img = stbi_load(file_name.c_str(), &width, &height, &channels, 0);
+	img = stbi_load(file_name.c_str(), &width, &height, &channels, 4);
 	if (!img)
 	{
 		printf("Failed to load image %s\n", file_name.c_str());
 		printf("Loading default image...\n");
-		img = stbi_load("default.tga", &width, &height, &channels, 0);
+		img = stbi_load("default.tga", &width, &height, &channels, 4);
 	}
 }
 Texture::Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params)

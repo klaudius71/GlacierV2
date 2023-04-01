@@ -14,8 +14,8 @@ DX::DX(const Window& window)
 	backbuffer = nullptr;
 
 	DXGI_SWAP_CHAIN_DESC scd{ 0 };
-	scd.BufferCount = 1;
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	scd.BufferCount = 2;
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow = window.GetNativeWindow();
 	scd.SampleDesc.Count = 1;
@@ -43,6 +43,21 @@ DX::DX(const Window& window)
 
 	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
 
+	D3D11_RASTERIZER_DESC rd;
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.CullMode = D3D11_CULL_BACK;
+	rd.FrontCounterClockwise = true;
+	rd.DepthBias = 0;
+	rd.SlopeScaledDepthBias = 0.0f;
+	rd.DepthBiasClamp = 0.0f;
+	rd.DepthClipEnable = true;
+	rd.ScissorEnable = false;
+	rd.MultisampleEnable = true; 
+	rd.AntialiasedLineEnable = false;
+
+	dev->CreateRasterizerState(&rd, &rasterizer_state);
+	devcon->RSSetState(rasterizer_state);
+
 	D3D11_VIEWPORT viewport{ 0 };
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
@@ -55,6 +70,7 @@ DX::DX(const Window& window)
 DX::~DX()
 {
 #if GLACIER_DIRECTX
+	rasterizer_state->Release();
 	swapchain->Release();
 	backbuffer->Release();
 	devcon->Release();

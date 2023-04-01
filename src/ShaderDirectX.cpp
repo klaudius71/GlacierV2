@@ -62,6 +62,10 @@ ShaderDirectX::~ShaderDirectX()
 
 void ShaderDirectX::Bind() const
 {
+	auto context = DX::GetDeviceContext();
+	context->VSSetShader(mpVertexShader, nullptr, 0);
+	context->PSSetShader(mpPixelShader, nullptr, 0);
+	context->IASetInputLayout(mpVertexLayout);
 }
 
 void ShaderDirectX::PrintShaderError(ID3DBlob* const blob)

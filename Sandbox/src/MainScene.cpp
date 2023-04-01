@@ -32,9 +32,9 @@ void MainScene::InitializeScene()
 	//dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
 
-	GameObject skybox = CreateGameObject("Skybox");
-	skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));
-	skybox->RegisterToScene();
+	//GameObject skybox = CreateGameObject("Skybox");
+	//skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));
+	//skybox->RegisterToScene();
 
 	GameObject terrain = CreateGameObject("Terrain");
 	terrain->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("TempTerrain"), false);
