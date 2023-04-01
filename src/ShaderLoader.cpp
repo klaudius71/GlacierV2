@@ -2,9 +2,11 @@
 #include "ShaderLoader.h"
 #include "VertexTypes.h"
 #include "Lighting.h"
+#include "DX.h"
+
+ShaderLoader* ShaderLoader::instance = nullptr;
 
 #if GLACIER_OPENGL
-ShaderLoader* ShaderLoader::instance = nullptr;
 const std::string ShaderLoader::SHADER_PATH = "assets/shaders/";
 
 ShaderLoader::ShaderLoader()
@@ -115,13 +117,45 @@ void ShaderLoader::Terminate()
 	instance = nullptr;
 }
 #elif GLACIER_DIRECTX
-ShaderLoader* ShaderLoader::instance = nullptr;
 const std::string ShaderLoader::SHADER_PATH = "assets/shaders/dx11/";
 
 ShaderLoader::ShaderLoader()
 {
 	// --Load in the default shaders used by the engine--
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
+
+	auto dev = DX::GetDevice();
+
+	// Create the constant buffers
+	HRESULT hr;
+	// View Projection buffer
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(glm::mat4) * 2;
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;
+	bd.MiscFlags = 0;
+	bd.StructureByteStride = 0;
+	hr = dev->CreateBuffer(&bd, nullptr, &matrixCBuffer);
+	assert(SUCCEEDED(hr));
+
+	bd.ByteWidth = sizeof(glm::mat4);
+	hr = dev->CreateBuffer(&bd, nullptr, &instanceCBuffer);
+	assert(SUCCEEDED(hr));
+	
+	// Set the constant buffers to context
+	auto context = DX::GetDeviceContext();
+	context->VSSetConstantBuffers(0, 1, &matrixCBuffer);
+	context->VSSetConstantBuffers(1, 1, &instanceCBuffer);
+
+	context->PSSetConstantBuffers(0, 1, &matrixCBuffer);
+	context->PSSetConstantBuffers(1, 1, &instanceCBuffer);
+}
+ShaderLoader::~ShaderLoader()
+{
+	matrixCBuffer->Release();
+	instanceCBuffer->Release();
 }
 
 void ShaderLoader::load(const std::string& name, const std::string& file_name)

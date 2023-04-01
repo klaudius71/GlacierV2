@@ -67,9 +67,9 @@ public:
 
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }
-	static const GLuint& GetMatricesUBO() { return instance->ubo_Matrices; }
-	static const GLuint& GetDirLightUBO() { return instance->ubo_DirLight; }
-	static const GLuint& GetLightspaceMatricesUBO() { return instance->ubo_LightspaceMatrices; }
+	static const GLuint GetMatricesUBO() { return instance->ubo_Matrices; }
+	static const GLuint GetDirLightUBO() { return instance->ubo_DirLight; }
+	static const GLuint GetLightspaceMatricesUBO() { return instance->ubo_LightspaceMatrices; }
 };
 #elif GLACIER_DIRECTX
 class GLACIER_API ShaderLoader
@@ -89,10 +89,13 @@ private:
 	ShaderLoader& operator=(const ShaderLoader&) = delete;
 	ShaderLoader(ShaderLoader&&) = delete;
 	ShaderLoader& operator=(ShaderLoader&&) = delete;
-	~ShaderLoader() = default;
+	~ShaderLoader();
 
 	std::unordered_map<PRELOADED_SHADERS, ShaderDirectX> preloaded_shaders;
 	std::unordered_map<std::string, ShaderDirectX> shaders;
+
+	ID3D11Buffer* matrixCBuffer;
+	ID3D11Buffer* instanceCBuffer;
 
 	void load(const std::string& name, const std::string& file_name);
 
@@ -108,6 +111,9 @@ public:
 
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }
+
+	static ID3D11Buffer* GetMatrixConstantBuffer() { return instance->matrixCBuffer; }
+	static ID3D11Buffer* GetInstanceConstantBuffer() { return instance->instanceCBuffer; }
 };
 #endif
 

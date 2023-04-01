@@ -168,6 +168,18 @@ namespace Glacier {
 		const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
 		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
 
+		auto matrixCBuffer = ShaderLoader::GetMatrixConstantBuffer();
+		auto instanceCBuffer = ShaderLoader::GetInstanceConstantBuffer();
+
+		const glm::mat4 cam_matrices[] = {
+			glm::ortho(0.0f, (float)window->GetWindowWidth(), 0.0f, (float)window->GetWindowHeight()),
+			glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f))
+		};
+		context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
+
+		const glm::mat4 world = glm::translate(glm::vec3(window->GetWindowWidth() * 0.5f, window->GetWindowHeight() * 0.5f, 0.0f)) * glm::scale(glm::vec3(256.0f, 256.0f, 1.0f));
+		context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
+
 		// Main loop
 		while (!window->IsOpen())
 		{
