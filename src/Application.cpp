@@ -163,6 +163,9 @@ namespace Glacier {
 		//TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
 		//SkeletalAnimationLoaderAtt::WaitForThreads();
 
+		TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
+		
+
 		// Main loop
 		while (!window->IsOpen())
 		{
@@ -171,6 +174,8 @@ namespace Glacier {
 			window->PollEvents();
 		}
 		
+		delete tex;
+
 		ModelLoaderAtt::Terminate();
 		ShaderLoaderAtt::Terminate();
 		DX::Terminate();

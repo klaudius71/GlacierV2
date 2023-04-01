@@ -32,7 +32,6 @@ private:
 	GLuint id;
 
 	virtual void load_gpu_data() override;
-
 };
 
 #endif

@@ -17,7 +17,7 @@ TextureLoader::TextureLoader()
 	TextureAtt::LoadGPUData(*tex);
 }
 
-#if GLACIER_OPENGL
+#if 1
 Texture& TextureLoader::load_async_reg(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
 {
 	TextureOpenGL tex(file_name, tex_params);
@@ -132,7 +132,6 @@ void TextureLoader::load(const std::string& name, const uint32_t width, const ui
 	Texture& ref = textures.emplace(name, std::move(tex)).first->second;
 	TextureAtt::LoadGPUData(ref);
 }
-
 const TextureDirectX& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
 {
 	auto it = preloaded_textures.find(preloaded_tex);

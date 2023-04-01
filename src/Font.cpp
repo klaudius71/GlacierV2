@@ -71,7 +71,7 @@ Font::Font(const std::string& file_name, const int& font_size)
 
 	TextureLoader::Load(file_name, bitmap_width, bitmap_height, 1, buf,
 		TextureParameters(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR, TEXTURE_WRAP::CLAMP_TO_BORDER, TEXTURE_WRAP::CLAMP_TO_BORDER));
-	tex = &TextureLoader::Get(file_name);
+	tex = (TextureOpenGL*) & TextureLoader::Get(file_name);
 
 	delete[] buf;
 	FT_Done_Face(face);

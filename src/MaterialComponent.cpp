@@ -39,7 +39,7 @@ void MaterialComponent::SetTextures(const TextureOpenGL& tex0, const TextureOpen
 	tex_id.z = tex2;
 	tex_id.w = tex3;
 }
-void MaterialComponent::SetColor(const glm::vec4 & color)
+void MaterialComponent::SetColor(const glm::vec4& color)
 {
 	col = color;
 }

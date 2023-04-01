@@ -138,8 +138,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
       <AdditionalLibraryDirectories>;$(ProjectDir)external\bullet3-3.24\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug\Sandbox\"
-xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug\Sandbox\"</Command>
+      <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Configuration)\Sandbox\"
+xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Configuration)\Sandbox\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -197,7 +197,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
       <AdditionalLibraryDirectories>;$(ProjectDir)external\bullet3-3.24\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(ProjectDir)Sandbox\bin\$(Platform)\Release\Sandbox\"</Command>
+      <Command>xcopy /y /d "$(OutDir)GlacierV2.dll" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Configuration)\Sandbox\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
