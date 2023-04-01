@@ -333,6 +333,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClCompile Include="src\SkyboxComponent.cpp" />
     <ClCompile Include="src\SphereColliderComponent.cpp" />
     <ClCompile Include="src\SpriteComponent.cpp" />
+    <ClCompile Include="src\TextureDirectX.cpp" />
+    <ClCompile Include="src\TextureOpenGL.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\TriangleMeshColliderComponent.cpp" />
     <ClCompile Include="src\UUID.cpp" />
@@ -429,6 +431,8 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\Debug
     <ClInclude Include="src\SphereColliderComponent.h" />
     <ClInclude Include="src\SpriteComponent.h" />
     <ClInclude Include="src\TextureAtt.h" />
+    <ClInclude Include="src\TextureDirectX.h" />
+    <ClInclude Include="src\TextureOpenGL.h" />
     <ClInclude Include="src\TransformComponent.h" />
     <ClInclude Include="src\TriangleMeshColliderComponent.h" />
     <ClInclude Include="src\UUID.h" />

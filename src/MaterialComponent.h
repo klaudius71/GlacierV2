@@ -3,7 +3,7 @@
 
 #include "GlacierCore.h"
 
-class Texture;
+class TextureOpenGL;
 
 struct GLACIER_API MaterialComponent
 {
@@ -23,8 +23,8 @@ struct GLACIER_API MaterialComponent
 
 	void SetAmbientDiffuseSpecular(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const float& shininess);
 	void SetAmbientDiffuseSpecular(const VertexTypes::PhongADS& mat);
-	void SetTexture(const uint32_t index, const Texture& tex);
-	void SetTextures(const Texture& tex0, const Texture& tex1, const Texture& tex2, const Texture& tex3);
+	void SetTexture(const uint32_t index, const TextureOpenGL& tex);
+	void SetTextures(const TextureOpenGL& tex0, const TextureOpenGL& tex1, const TextureOpenGL& tex2, const TextureOpenGL& tex3);
 	void SetColor(const glm::vec4& color);
 };
 

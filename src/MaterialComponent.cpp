@@ -1,7 +1,7 @@
 #include "gpch.h"
 #include "MaterialComponent.h"
 #include "TextureLoader.h"
-#include "Texture.h"
+#include "TextureOpenGL.h"
 
 MaterialComponent::MaterialComponent()
 	: ads(), tex_id(TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal")), col(Colors::White) {}
@@ -27,12 +27,12 @@ void MaterialComponent::SetAmbientDiffuseSpecular(const VertexTypes::PhongADS & 
 {
 	ads = mat;
 }
-void MaterialComponent::SetTexture(const uint32_t index, const Texture& tex)
+void MaterialComponent::SetTexture(const uint32_t index, const TextureOpenGL& tex)
 {
 	assert(index >= 0 && index < 4);
 	tex_id[index] = tex;
 }
-void MaterialComponent::SetTextures(const Texture& tex0, const Texture& tex1, const Texture& tex2, const Texture& tex3)
+void MaterialComponent::SetTextures(const TextureOpenGL& tex0, const TextureOpenGL& tex1, const TextureOpenGL& tex2, const TextureOpenGL& tex3)
 {
 	tex_id.x = tex0;
 	tex_id.y = tex1;

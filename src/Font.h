@@ -3,7 +3,7 @@
 
 #include "GlacierCore.h"
 
-class Texture;
+class TextureOpenGL;
 
 struct GLACIER_API Glyph
 {
@@ -30,7 +30,7 @@ public:
 	Font& operator=(Font&&) = delete;
 	~Font();
 
-	const Texture* GetTexture() const;
+	const TextureOpenGL* GetTexture() const;
 
 	const uint32_t GetBitmapWidth() const;
 	const uint32_t GetBitmapHeight() const;
@@ -40,7 +40,7 @@ public:
 	const Glyph& GetGlyphWithMaxHeight() const;
 
 private:
-	const Texture* tex;
+	const TextureOpenGL* tex;
 	uint32_t bitmap_width;
 	uint32_t bitmap_height;
 	Glyph* glyphs;

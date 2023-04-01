@@ -394,6 +394,12 @@
     <ClCompile Include="src\ModelDirectX.cpp">
       <Filter>src\Asset\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="src\TextureDirectX.cpp">
+      <Filter>src\Asset\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureOpenGL.cpp">
+      <Filter>src\Asset\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -734,6 +740,12 @@
     </ClInclude>
     <ClInclude Include="src\ModelDirectX.h">
       <Filter>src\Asset\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureDirectX.h">
+      <Filter>src\Asset\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureOpenGL.h">
+      <Filter>src\Asset\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

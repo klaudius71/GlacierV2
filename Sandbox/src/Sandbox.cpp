@@ -21,7 +21,7 @@ void Sandbox::LoadResources()
 	ModelLoader::Load("TempTerrain", "level1_grayscale.png", 3500.0f, 300.0f, 25.0f, 25.0f);
 	ModelLoader::Load("TempTerrain1", 3500.0f, 25.0f, 25.0f);
 
-	/*
+#if GLACIER_OPENGL
 	TextureLoader::Load("Skybox", { "teide/posx.jpg", "teide/negx.jpg", "teide/posy.jpg", "teide/negy.jpg", "teide/posz.jpg", "teide/negz.jpg" });
 	TextureLoader::Load("Crate", "crate_diffuse.tga");
 	TextureLoader::Load("CrateNormal", "crate_normal.tga", { TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR });
@@ -47,5 +47,5 @@ void Sandbox::LoadResources()
 	//SkeletalAnimationLoader::Load("DudeIdle", "dude_standing idle.gltf");
 
 	SceneManager::SetNextScene(new MainScene);
-	*/
+#endif
 }

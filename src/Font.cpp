@@ -82,7 +82,7 @@ Font::~Font()
 	delete[] glyphs;
 }
 
-const Texture* Font::GetTexture() const
+const TextureOpenGL* Font::GetTexture() const
 {
 	return tex;
 }
