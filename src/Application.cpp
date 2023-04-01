@@ -155,7 +155,13 @@ namespace Glacier {
 		SkeletalAnimationLoaderAtt::Terminate();
 #elif GLACIER_DIRECTX
 		DX::Initialize(*window);
-		ShaderLoaderAtt::Initialize();
+
+		// Loads user defined assets
+		LoadResources();
+		ShaderLoaderAtt::Initialize(); // Fallback for if the user did not load their own shaders
+		ModelLoaderAtt::WaitForThreadsAndLoadGPUData();
+		//TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
+		//SkeletalAnimationLoaderAtt::WaitForThreads();
 
 		// Main loop
 		while (!window->IsOpen())
@@ -164,7 +170,8 @@ namespace Glacier {
 			window->SwapBuffers();
 			window->PollEvents();
 		}
-
+		
+		ModelLoaderAtt::Terminate();
 		ShaderLoaderAtt::Terminate();
 		DX::Terminate();
 #endif

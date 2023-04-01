@@ -22,6 +22,9 @@ public:
 	virtual void Bind() const override;
 
 private:
+	const UINT stride = sizeof(VertexTypes::Vertex);
+	const UINT offset = 0;
+
 	ID3D11Buffer* mpVertexBuffer;
 	ID3D11Buffer* mpIndexBuffer;
 
