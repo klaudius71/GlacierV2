@@ -21,6 +21,8 @@ public:
 	void Bind() const;
 
 private:
+	static const D3D11_INPUT_ELEMENT_DESC layout[];
+
 	ID3D11VertexShader* mpVertexShader;
 	ID3D11PixelShader* mpPixelShader;
 	ID3D11InputLayout* mpVertexLayout;
