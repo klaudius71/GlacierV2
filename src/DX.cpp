@@ -8,7 +8,6 @@ DX* DX::instance = nullptr;
 DX::DX(const Window& window)
 	: clear_color{ 0.471f, 0.694f, 0.749f, 1.0f }
 {
-#if GLACIER_DIRECTX
 	swapchain = nullptr;
 	dev = nullptr; 
 	devcon = nullptr;
@@ -124,7 +123,6 @@ DX::DX(const Window& window)
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	devcon->RSSetViewports(1, &viewport);
-#endif
 }
 DX::~DX()
 {

@@ -156,7 +156,7 @@ namespace Glacier {
 #elif GLACIER_DIRECTX
 		DX::Initialize(*window);
 		Renderer2DAtt::Initialize();
-		//RendererAtt::Initialize();
+		RendererAtt::Initialize();
 		SceneManagerAtt::Engine::Initialize();
 		Physics::Initialize();
 		LoggerAtt::Initialize();
@@ -193,16 +193,16 @@ namespace Glacier {
 
 			window->Clear();
 
-			world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-			world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-			world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-			
-			context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
-			context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
-			shad->Bind();
-			tex.Bind();
-			cube->Bind();
-			context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
+			//world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
+			//world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+			//world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
+			//
+			//context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
+			//context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
+			//shad->Bind();
+			//tex.Bind();
+			//cube->Bind();
+			//context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
 			
 			TimeManagerAtt::ProcessTime();
 			InputAtt::ProcessMouseData();
@@ -225,7 +225,7 @@ namespace Glacier {
 		Tools::UUIDAtt::Terminate();
 		LoggerAtt::Terminate();
 		Physics::Terminate();
-		//RendererAtt::Terminate();
+		RendererAtt::Terminate();
 		Renderer2DAtt::Terminate();
 		TimeManagerAtt::Terminate();
 		ShaderLoaderAtt::Terminate();

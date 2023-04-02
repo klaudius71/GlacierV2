@@ -21,7 +21,6 @@ private:
 	~DX();
 
 	float clear_color[4];
-#if GLACIER_DIRECTX
 	ID3D11Device* dev = nullptr;
 	ID3D11DeviceContext* devcon = nullptr;
 	IDXGISwapChain* swapchain = nullptr;
@@ -30,7 +29,6 @@ private:
 	ID3D11RasterizerState* rasterizer_state_front_cull = nullptr;
 	ID3D11DepthStencilView* depth_stencil_view = nullptr;
 	ID3D11BlendState* blend_state = nullptr;
-#endif
 
 	void setClearColor(const float red, const float green, const float blue, const float alpha);
 	void clear();

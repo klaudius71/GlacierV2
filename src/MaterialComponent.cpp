@@ -17,17 +17,6 @@ MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLu
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const GLuint tex0, const GLuint tex1, const GLuint tex2, const GLuint tex3, const glm::vec4& color)
 	: ads(ads), tex_id(tex0, tex1, tex2, tex3), norm_tex_id(TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color) {}
 
-void MaterialComponent::SetAmbientDiffuseSpecular(const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, const float& shininess)
-{
-	ads.ambient = ambient;
-	ads.diffuse = diffuse;
-	ads.specular = specular;
-	ads.shininess = shininess;
-}
-void MaterialComponent::SetAmbientDiffuseSpecular(const VertexTypes::PhongADS & mat)
-{
-	ads = mat;
-}
 void MaterialComponent::SetTexture(const uint32_t index, const TextureOpenGL& tex)
 {
 	assert(index >= 0 && index < 4);
@@ -40,8 +29,32 @@ void MaterialComponent::SetTextures(const TextureOpenGL& tex0, const TextureOpen
 	tex_id.z = tex2;
 	tex_id.w = tex3;
 }
+#elif GLACIER_DIRECTX
+MaterialComponent::MaterialComponent()
+	: ads(), tex(&TextureLoader::Get(PRELOADED_TEXTURES::DEFAULT)), norm_tex(&TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(Colors::White)
+{}
+MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const Texture& tex0, const glm::vec4& color)
+	: ads(ads), tex(&tex0), norm_tex(&TextureLoader::Get(PRELOADED_TEXTURES::NORMAL_DEFAULT)), col(color)
+{}
+
+void MaterialComponent::SetTexture(const Texture& tex0)
+{
+	tex = &tex0;
+}
+#endif
+
+void MaterialComponent::SetAmbientDiffuseSpecular(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const float& shininess)
+{
+	ads.ambient = ambient;
+	ads.diffuse = diffuse;
+	ads.specular = specular;
+	ads.shininess = shininess;
+}
+void MaterialComponent::SetAmbientDiffuseSpecular(const VertexTypes::PhongADS& mat)
+{
+	ads = mat;
+}
 void MaterialComponent::SetColor(const glm::vec4& color)
 {
 	col = color;
 }
-#endif

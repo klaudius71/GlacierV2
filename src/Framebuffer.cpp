@@ -6,6 +6,7 @@
 Framebuffer::Framebuffer(const int& width, const int& height)
 	: fbo(0), tex_id(0), size(width, height)
 {
+#if GLACIER_OPENGL
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -26,6 +27,7 @@ Framebuffer::Framebuffer(const int& width, const int& height)
 	assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#endif
 }
 Framebuffer::Framebuffer(Framebuffer&& o)
 	: fbo(o.fbo), tex_id(o.tex_id), size(o.size)
@@ -46,8 +48,10 @@ Framebuffer& Framebuffer::operator=(Framebuffer&& o)
 }
 Framebuffer::~Framebuffer()
 {
+#if GLACIER_OPENGL
 	glDeleteFramebuffers(1, &fbo);
 	glDeleteTextures(1, &tex_id);
+#endif
 }
 
 void Framebuffer::Bind() const

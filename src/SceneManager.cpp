@@ -43,9 +43,7 @@ void SceneManager::renderCurrentScene()
 	GLACIER_LOG_FUNC_TIMER("draw");
 	assert(curr_scene);
 
-#if GLACIER_OPENGL
 	RendererAtt::RenderScene(*curr_scene);
-#endif
 	Renderer2DAtt::RenderComponents(*curr_scene);
 }
 void SceneManager::screenSizeChanged(const int& width, const int& height)

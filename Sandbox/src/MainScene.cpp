@@ -21,13 +21,12 @@ void MainScene::InitializeScene()
 	//camera->AddScript<CameraControllerScript>();
 	//camera->RegisterToScene();
 
-	//GameObject character = CreatePrefab<FPSCharacterControllerPrefab>();
-	////character->GetComponent<CharacterControllerComponent>().m_controller->setWorldTransform(btTransform(btMatrix3x3::getIdentity(), btVector3(0.0f, 500.0f, 0.0f)));
-	//character->RegisterToScene();
+	GameObject character = CreatePrefab<FPSCharacterControllerPrefab>();
+	character->RegisterToScene();
 
 	GameObject crosshair = CreateGameObject("Crosshair");
 	crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), Renderer2D::SCREEN_ANCHOR::MIDDLE_CENTER);
-	crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(4.0f, 4.0f, 1.0f);
+	crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
 	crosshair->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");
@@ -37,14 +36,14 @@ void MainScene::InitializeScene()
 	//dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
 
-	//GameObject skybox = CreateGameObject("Skybox");
-	//skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));
-	//skybox->RegisterToScene();
+	GameObject skybox = CreateGameObject("Skybox");
+	skybox->EmplaceComponent<SkyboxComponent>(TextureLoader::Get("Skybox"));
+	skybox->RegisterToScene();
 
 	GameObject terrain = CreateGameObject("Terrain");
-	//terrain->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("TempTerrain"), false);
-	//terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
-	//terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
+	terrain->EmplaceComponent<MeshComponent>(ModelLoader::Get("TempTerrain"), false);
+	terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
+	terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
 	terrain->RegisterToScene();
 
 	RigidbodyComponent* rigidbody;
@@ -54,9 +53,8 @@ void MainScene::InitializeScene()
 		{
 			GameObject cube = CreateGameObject("Cube1");
 			cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
-			//cube->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Box"));
-			//cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"))
-			//	.norm_tex_id.x = TextureLoader::Get("CrateNormal");
+			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
+			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
 	
 			rigidbody = &cube->EmplaceComponent<BoxColliderComponent>(glm::vec3(15.0f, 15.0f, 15.0f), .1f, .25f, .5f);
 			rigidbody->SetWorldPosition(glm::vec3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f);
@@ -65,8 +63,8 @@ void MainScene::InitializeScene()
 	}
 	
 	GameObject sphere = CreateGameObject("Sphere");
-	//sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
-	//sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock")).norm_tex_id.x = TextureLoader::Get("RockNormal");
+	sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
+	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock"));
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
 	rigidbody = &sphere->EmplaceComponent<SphereColliderComponent>(20.0f);
 	rigidbody->SetWorldPosition(glm::vec3(150.0f, 500.0f, 100.0f));

@@ -814,5 +814,8 @@
     <FxCompile Include="assets\shaders\dx11\Sprite.hlsl">
       <Filter>assets\shaders\dx11</Filter>
     </FxCompile>
+    <FxCompile Include="assets\shaders\dx11\TextureLit.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

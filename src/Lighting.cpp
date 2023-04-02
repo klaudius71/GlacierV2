@@ -54,6 +54,7 @@ void Lighting::UpdateBuffers(const Scene& curr_scene)
 
 void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)
 {
+#if GLACIER_OPENGL
 	entt::registry& scene_registry = curr_scene->GetRegistry();
 
 	auto dir_light = curr_scene->GetFirstComponent<DirectionalLightComponent>();
@@ -114,4 +115,5 @@ void Lighting::RenderSceneShadows(Scene* const curr_scene, const CameraComponent
 	ImGui::Text("DirLight Shadow Texture:");
 	ImGui::Image((ImTextureID)(uint64_t)DirShadow_tex, ImVec2{256, 256}, ImVec2{0,0}, ImVec2{1,1});
 	ImGui::End();*/
+#endif
 }

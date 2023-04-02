@@ -12,8 +12,10 @@
 #include "Animator.h"
 #include "SkeletalAnimation.h"
 #include "Logger.h"
+#include "DX.h"
 
 Renderer* Renderer::instance = nullptr;
+
 Renderer::Renderer()
 	: main_framebuffer(Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight())
 {
@@ -21,13 +23,15 @@ Renderer::Renderer()
 
 void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
-	UNREFERENCED_PARAMETER(camera);
 #if GLACIER_OPENGL
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
-	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))};
+	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, &proj_view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+#elif GLACIER_DIRECTX
+	const VertexTypes::CamData CamData{ camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
+	DX::GetDeviceContext()->UpdateSubresource(ShaderLoader::GetCamDataConstantBuffer(), 0, nullptr, &CamData, 0, 0);
 #endif
 }
 void Renderer::UpdateViewportSize(const int& width, const int& height)
@@ -72,6 +76,26 @@ void Renderer::RenderLit(Scene& scn)
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&transform.GetWorldMatrix());
 		glBindVertexArray(mesh.vao);
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
+	}
+#elif GLACIER_DIRECTX
+	entt::registry& registry = scn.GetRegistry();
+
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	curr_shader->Bind();
+
+	// Render meshes with materials
+	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, material, mesh, transform] : render_group_material.each())
+	{
+		material.tex->Bind();
+		//material.norm_tex->Bind(1);
+		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &transform.GetWorldMatrix(), 0, 0);
+		mesh.mod->Bind();
+		devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
 	}
 #endif
 }
@@ -141,6 +165,7 @@ void Renderer::RenderUnlit(Scene& scn)
 }
 void Renderer::RenderSkybox(Scene& scn)
 {
+#if GLACIER_OPENGL
 	// Render skybox
 	if (const SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
 	{
@@ -158,6 +183,7 @@ void Renderer::RenderSkybox(Scene& scn)
 		glCullFace(GL_BACK);
 		glDepthFunc(GL_LESS);
 	}
+#endif
 }
 
 const Framebuffer& Renderer::GetMainFramebuffer()
@@ -187,6 +213,7 @@ void Renderer::RenderScene(Scene& scn)
 
 	CullScene(scn, camera);
 
+#if GLACIER_OPENGL
 	Lighting::RenderSceneShadows(&scn, camera);
 	
 	const Framebuffer& framebuffer = instance->main_framebuffer;
@@ -202,6 +229,9 @@ void Renderer::RenderScene(Scene& scn)
 	framebuffer.Unbind();
 	const Window& window = Glacier::GetWindow();
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
+#elif GLACIER_DIRECTX
+	RenderLit(scn);
+#endif
 }
 
 void Renderer::Initialize()

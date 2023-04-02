@@ -25,6 +25,7 @@ WindowDirectX::WindowDirectX(const int width, const int height, const char* cons
 		this->SetWindowIcon(icon_path);
 }
 
+#if GLACIER_DIRECTX
 void WindowDirectX::SetClearColor(const float red, const float green, const float blue, const float alpha) const
 {
 	DX::SetClearColor(red, green, blue, alpha);
@@ -43,3 +44,17 @@ void WindowDirectX::ToggleFullscreen()
 
 	// Something DX related to fullscreen
 }
+#elif GLACIER_OPENGL
+void WindowDirectX::SetClearColor(const float, const float, const float, const float) const
+{
+}
+void WindowDirectX::Clear()
+{
+}
+void WindowDirectX::SwapBuffers()
+{
+}
+void WindowDirectX::ToggleFullscreen()
+{
+}
+#endif
