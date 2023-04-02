@@ -272,9 +272,8 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	VertexTypes::InstanceData instance_data{ glm::mat4(1.0f) };
 
 	// Render the text
-	//glEnable(GL_BLEND);
-	//glCullFace(GL_FRONT);
 	DX::EnableBlending();
+	DX::EnableFrontFaceCulling();
 	for (auto it = text.cbegin(); it != text.cend(); ++it)
 	{
 		const Glyph& glyph = font->GetGlyph(*it);
@@ -293,9 +292,8 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 
 		xpos += glyph.advance * 0.5f;
 	}
+	DX::EnableBackFaceCulling();
 	DX::DisableBlending();
-	//glCullFace(GL_BACK);
-	//glDisable(GL_BLEND);
 }
 #endif
 

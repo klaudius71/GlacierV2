@@ -39,7 +39,7 @@ void MainScene::InitializeScene()
 	GameObject terrain = CreateGameObject("Terrain");
 	//terrain->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("TempTerrain"), false);
 	//terrain->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(.5f), 4.0f), TextureLoader::Get("Sand"));
-	terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
+	//terrain->EmplaceComponent<TriangleMeshColliderComponent>(ModelLoader::Get("TempTerrain"), 10.0f, 10.0f, 0.5f);
 	terrain->RegisterToScene();
 
 	RigidbodyComponent* rigidbody;

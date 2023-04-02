@@ -26,6 +26,7 @@ private:
 	IDXGISwapChain* swapchain = nullptr;
 	ID3D11RenderTargetView* backbuffer = nullptr;
 	ID3D11RasterizerState* rasterizer_state = nullptr;
+	ID3D11RasterizerState* rasterizer_state_front_cull = nullptr;
 	ID3D11DepthStencilView* depth_stencil_view = nullptr;
 	ID3D11BlendState* blend_state = nullptr;
 #endif
@@ -37,6 +38,9 @@ private:
 	void enableBlending();
 	void disableBlending();
 
+	void enableFrontFaceCulling();
+	void enableBackFaceCulling();
+
 public:
 	static void Initialize(const Window& window);
 
@@ -46,6 +50,9 @@ public:
 
 	static void EnableBlending() { Instance().enableBlending(); }
 	static void DisableBlending() { Instance().disableBlending(); }
+
+	static void EnableFrontFaceCulling() { Instance().enableFrontFaceCulling(); }
+	static void EnableBackFaceCulling() { Instance().enableBackFaceCulling(); }
 
 #if GLACIER_DIRECTX
 	static IDXGISwapChain* const GetSwapchain() { return Instance().swapchain; }

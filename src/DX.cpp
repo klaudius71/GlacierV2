@@ -41,10 +41,10 @@ DX::DX(const Window& window)
 	pBackBuffer->Release();
 	assert(backbuffer);
 
-	// Rasterizer
+	// Rasterizers
 	D3D11_RASTERIZER_DESC rd;
 	rd.FillMode = D3D11_FILL_SOLID;
-	rd.CullMode = D3D11_CULL_FRONT;
+	rd.CullMode = D3D11_CULL_BACK;
 	rd.FrontCounterClockwise = true;
 	rd.DepthBias = 0;
 	rd.SlopeScaledDepthBias = 0.0f;
@@ -53,9 +53,13 @@ DX::DX(const Window& window)
 	rd.ScissorEnable = false;
 	rd.MultisampleEnable = true; 
 	rd.AntialiasedLineEnable = false;
-
-	dev->CreateRasterizerState(&rd, &rasterizer_state);
+	hr = dev->CreateRasterizerState(&rd, &rasterizer_state);
+	assert(SUCCEEDED(hr));
 	devcon->RSSetState(rasterizer_state);
+
+	rd.CullMode = D3D11_CULL_FRONT;
+	hr = dev->CreateRasterizerState(&rd, &rasterizer_state_front_cull);
+	assert(SUCCEEDED(hr));
 
 	// Depth stencil
 	D3D11_TEXTURE2D_DESC descDepth;
@@ -126,6 +130,7 @@ DX::~DX()
 #if GLACIER_DIRECTX
 	blend_state->Release();
 	depth_stencil_view->Release();
+	rasterizer_state_front_cull->Release();
 	rasterizer_state->Release();
 	swapchain->Release();
 	backbuffer->Release();
@@ -177,6 +182,19 @@ void DX::disableBlending()
 {
 #if GLACIER_DIRECTX
 	devcon->OMSetBlendState(nullptr, nullptr, 0xFFFFFFF);
+#endif
+}
+
+void DX::enableFrontFaceCulling()
+{
+#if GLACIER_DIRECTX
+	devcon->RSSetState(rasterizer_state_front_cull);
+#endif
+}
+void DX::enableBackFaceCulling()
+{
+#if GLACIER_DIRECTX
+	devcon->RSSetState(rasterizer_state);
 #endif
 }
 

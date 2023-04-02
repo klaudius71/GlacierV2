@@ -173,7 +173,7 @@ namespace Glacier {
 		TimeManagerAtt::Initialize();
 
 		ID3D11DeviceContext* context = DX::GetDeviceContext();
-		//TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
+		const TextureDirectX& tex = TextureLoader::Get("Crate");
 		const Model* cube = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
 
@@ -193,27 +193,19 @@ namespace Glacier {
 		// Main loop
 		while (!window->IsOpen())
 		{
-			/*window->Clear();
-
-			TimeManagerAtt::ProcessTime();
-
-			world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-			world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-			world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-			context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
-
-			shad->Bind();
-			tex->Bind();
-			cube->Bind();
-			context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
-
-			window->SwapBuffers();
-			window->PollEvents();*/
-
 			GLACIER_LOG_FUNC_TIMER("frame_time");
 
 			window->Clear();
-			//Renderer::GetMainFramebuffer().Clear();
+
+			world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
+			world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+			world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
+			context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
+			context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
+			shad->Bind();
+			tex.Bind();
+			cube->Bind();
+			context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
 
 			TimeManagerAtt::ProcessTime();
 			InputAtt::ProcessMouseData();
@@ -228,8 +220,6 @@ namespace Glacier {
 			window->PollEvents();
 		}
 		
-		//delete tex;
-
 		ModelLoaderAtt::Terminate();
 		ShaderLoaderAtt::Terminate();
 
