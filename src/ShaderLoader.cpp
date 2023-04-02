@@ -123,6 +123,7 @@ ShaderLoader::ShaderLoader()
 {
 	// --Load in the default shaders used by the engine--
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
+	preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "Sprite.hlsl");
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "Text.hlsl");
 
 	auto dev = DX::GetDevice();
@@ -145,11 +146,11 @@ ShaderLoader::ShaderLoader()
 	hr = dev->CreateBuffer(&bd, nullptr, &instanceDataCBuffer);
 	assert(SUCCEEDED(hr));
 
-	bd.ByteWidth = 48;
+	bd.ByteWidth = sizeof(VertexTypes::SpriteData);
 	hr = dev->CreateBuffer(&bd, nullptr, &spriteDataCBuffer);
 	assert(SUCCEEDED(hr));
 	
-	// Set the constant buffers to context
+	// Set the common constant buffers to context
 	auto context = DX::GetDeviceContext();
 	context->VSSetConstantBuffers(0, 1, &camDataCBuffer);
 	context->VSSetConstantBuffers(1, 1, &instanceDataCBuffer);

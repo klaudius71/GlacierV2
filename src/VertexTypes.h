@@ -81,21 +81,24 @@ namespace VertexTypes
 		{}
 	};
 
-	struct CamData
+#if GLACIER_DIRECTX
+	struct ALIGN16 CamData
 	{
 		glm::mat4 Projection;
 		glm::mat4 View;
 	};
-	struct InstanceData
+	struct ALIGN16 InstanceData
 	{
 		glm::mat4 World;
 	};
-	struct SpriteData
+	struct ALIGN16 SpriteData
 	{
-		glm::vec4 SpriteData;
+		glm::vec2 TexelPos;
+		glm::vec2 Size;
 		glm::vec4 Color;
 		glm::vec2 TexSize;
 	};
+#endif
 }
 
 #endif

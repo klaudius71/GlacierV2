@@ -201,6 +201,7 @@ void EditorLayer::showEditor()
 			ImGui::TreePop();
 		}
 
+#if GLACIER_OPENGL
 		if (sprite && ImGui::TreeNode("Sprite Component"))
 		{
 			ImGui::Text("Texture:");
@@ -215,6 +216,7 @@ void EditorLayer::showEditor()
 			}
 			ImGui::TreePop();
 		}
+#endif
 
 		if(mesh && ImGui::TreeNode("Mesh Component"))
 		{

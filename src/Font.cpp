@@ -69,9 +69,14 @@ Font::Font(const std::string& file_name, const int& font_size)
 		}
 	}
 
-	TextureLoader::Load(file_name, bitmap_width, bitmap_height, 1, buf,
-		TextureParameters(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR, TEXTURE_WRAP::CLAMP_TO_BORDER, TEXTURE_WRAP::CLAMP_TO_BORDER));
-	tex = (TextureOpenGL*) & TextureLoader::Get(file_name);
+	TextureParameters params;
+	params.min_filter = TEXTURE_MIN_FILTER::LINEAR;
+	params.mag_filter = TEXTURE_MAG_FILTER::LINEAR;
+	params.wrap_s = TEXTURE_WRAP::CLAMP_TO_BORDER;
+	params.wrap_t = TEXTURE_WRAP::CLAMP_TO_BORDER;
+
+	TextureLoader::Load(file_name, bitmap_width, bitmap_height, 1, buf, params);
+	tex = &TextureLoader::Get(file_name);
 
 	delete[] buf;
 	FT_Done_Face(face);
@@ -82,7 +87,7 @@ Font::~Font()
 	delete[] glyphs;
 }
 
-const TextureOpenGL* Font::GetTexture() const
+const Texture* Font::GetTexture() const
 {
 	return tex;
 }

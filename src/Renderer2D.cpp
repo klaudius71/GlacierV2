@@ -3,16 +3,20 @@
 #include "Renderer.h"
 #include "Framebuffer.h"
 #include "Components.h"
-#include "TextureOpenGL.h"
 #include "Application.h"
 #include "Window.h"
 #include "Scene.h"
 #include "ModelLoader.h"
 #include "Font.h"
 #include "ShaderLoader.h"
-#include "ShaderOpenGL.h"
 #include "Logger.h"
+#if GLACIER_OPENGL
+#include "ShaderOpenGL.h"
+#include "TextureOpenGL.h"
+#elif GLACIER_DIRECTX
 #include "DX.h"
+#include "TextureDirectX.h"
+#endif
 
 Renderer2D* Renderer2D::instance = nullptr;
 
@@ -121,6 +125,49 @@ void Renderer2D::renderComponents(Scene& scn)
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 	framebuffer.Unbind();
 #elif GLACIER_DIRECTX
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto sprite_data_cbuffer = ShaderLoader::GetSpriteDataConstantBuffer();
+	
+	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::SPRITE);
+	shad->Bind();
+
+	// Set the camera matrices
+	VertexTypes::CamData CamData{ instance->proj, glm::mat4(1.0f) };
+	devcon->UpdateSubresource(ShaderLoader::GetCamDataConstantBuffer(), 0, nullptr, &CamData, 0, 0);
+
+	// More setup
+	devcon->VSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
+	devcon->PSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
+	ModelLoader::Get(PRELOADED_MODELS::QUAD)->Bind();
+	VertexTypes::InstanceData InstanceData;
+	VertexTypes::SpriteData SpriteData{ glm::vec2(0.0f), glm::vec2(0.0f), Colors::White, glm::vec2(0.0f) };
+
+	DX::EnableBlending();
+	auto group = scn.GetRegistry().group<SpriteComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, render, transform] : group.each())
+	{
+		// World matrix
+		InstanceData.World = glm::translate(glm::mat4(1.0f), transform.pos);
+		InstanceData.World *= glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		InstanceData.World *= glm::scale(glm::mat4(1.0f), transform.scl);
+		(glm::vec2&)InstanceData.World[3] += anchors[(uint32_t)render.anchor];
+		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &InstanceData, 0, 0);
+
+		// Sprite data
+		SpriteData.TexelPos = render.texel_origin;
+		SpriteData.Size = render.size;
+		SpriteData.TexSize = { render.tex->GetWidth(), render.tex->GetHeight() };
+		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &SpriteData, 0, 0);
+
+		// Bind texture
+		render.tex->Bind();
+
+		// Draw
+		devcon->DrawIndexed(6, 0, 0);
+	}
+	DX::DisableBlending();
+
 	for (const auto& entry : debug_text_queue)
 		RenderText(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
 
@@ -263,7 +310,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	devcon->UpdateSubresource(cam_data_cbuffer, 0, nullptr, &cam_data, 0, 0);
 
 	// Set up the sprite data structure
-	VertexTypes::SpriteData sprite_data{ glm::vec4(0.0f), color, glm::vec2(font->GetBitmapWidth(), font->GetBitmapHeight())};
+	VertexTypes::SpriteData sprite_data{ glm::vec2(0.0f), glm::vec2(0.0f), color, glm::vec2(font->GetBitmapWidth(), font->GetBitmapHeight())};
 	devcon->VSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
 	devcon->PSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
 
@@ -279,7 +326,8 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 		const Glyph& glyph = font->GetGlyph(*it);
 
 		xpos += glyph.advance * 0.5f;
-		sprite_data.SpriteData = { glyph.bitmap_origin.x, glyph.bitmap_origin.y, glyph.size.x, glyph.size.y };
+		sprite_data.TexelPos = { glyph.bitmap_origin.x, glyph.bitmap_origin.y };
+		sprite_data.Size = { glyph.size.x, glyph.size.y	};
 		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &sprite_data, 0, 0);
 
 		instance_data.World[0].x = glyph.size.x * 0.5f;

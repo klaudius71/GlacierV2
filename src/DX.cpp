@@ -2,6 +2,7 @@
 #include "DX.h"
 #include "Window.h"
 
+#if GLACIER_DIRECTX
 DX* DX::instance = nullptr;
 
 DX::DX(const Window& window)
@@ -127,7 +128,6 @@ DX::DX(const Window& window)
 }
 DX::~DX()
 {
-#if GLACIER_DIRECTX
 	blend_state->Release();
 	depth_stencil_view->Release();
 	rasterizer_state_front_cull->Release();
@@ -147,7 +147,6 @@ DX::~DX()
 #endif
 
 	dev->Release();
-#endif
 }
 
 void DX::setClearColor(const float red, const float green, const float blue, const float alpha)
@@ -159,43 +158,31 @@ void DX::setClearColor(const float red, const float green, const float blue, con
 }
 void DX::clear()
 {
-#if GLACIER_DIRECTX
 	devcon->ClearRenderTargetView(backbuffer, clear_color);
 	devcon->ClearDepthStencilView(depth_stencil_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-#endif
 }
 
 void DX::swapBuffers()
 {
-#if GLACIER_DIRECTX
 	swapchain->Present(1, 0);
-#endif
 }
 
 void DX::enableBlending()
 {
-#if GLACIER_DIRECTX
 	devcon->OMSetBlendState(blend_state, nullptr, 0xFFFFFFFF);
-#endif
 }
 void DX::disableBlending()
 {
-#if GLACIER_DIRECTX
 	devcon->OMSetBlendState(nullptr, nullptr, 0xFFFFFFF);
-#endif
 }
 
 void DX::enableFrontFaceCulling()
 {
-#if GLACIER_DIRECTX
 	devcon->RSSetState(rasterizer_state_front_cull);
-#endif
 }
 void DX::enableBackFaceCulling()
 {
-#if GLACIER_DIRECTX
 	devcon->RSSetState(rasterizer_state);
-#endif
 }
 
 void DX::Initialize(const Window& window)
@@ -208,3 +195,4 @@ void DX::Terminate()
 	assert(instance && "DirectX not initialized!");
 	delete instance;
 }
+#endif
