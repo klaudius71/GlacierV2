@@ -43,6 +43,7 @@ void TextureDirectX::Bind() const
 
 void TextureDirectX::SetTextureWrapS(TEXTURE_WRAP wrap)
 {
+	
 }
 void TextureDirectX::SetTextureWrapT(TEXTURE_WRAP wrap)
 {
@@ -62,7 +63,7 @@ void TextureDirectX::load_gpu_data()
 	ID3D11Device* dev = DX::GetDevice();
 	HRESULT hr;
 
-	D3D11_TEXTURE2D_DESC texDesc{ 0 };
+	D3D11_TEXTURE2D_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(D3D11_TEXTURE2D_DESC));
 	texDesc.Width = width;
 	texDesc.Height = height;
@@ -91,15 +92,48 @@ void TextureDirectX::load_gpu_data()
 	// Temp settings
 	D3D11_SAMPLER_DESC samp;
 	ZeroMemory(&samp, sizeof(D3D11_SAMPLER_DESC));
-	samp.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	samp.MaxAnisotropy = 1;
-	samp.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	samp.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	samp.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samp.Filter = ConvertToDirectXFilter(tex_params.min_filter, tex_params.mag_filter);
+	samp.MaxAnisotropy = 16;
+	samp.AddressU = ConvertToDirectXWrapMode(tex_params.wrap_s);
+	samp.AddressV = ConvertToDirectXWrapMode(tex_params.wrap_t);
+	samp.AddressW = ConvertToDirectXWrapMode(tex_params.wrap_r);
 	samp.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	samp.MinLOD = 0;
 	samp.MaxLOD = D3D11_FLOAT32_MAX;
 	hr = dev->CreateSamplerState(&samp, &mpSampler);
 	assert(SUCCEEDED(hr));
+}
+
+const std::map<std::pair<TEXTURE_MIN_FILTER, TEXTURE_MAG_FILTER>, D3D11_FILTER> TextureDirectX::filter_map = {
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_MAG_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_NEIGHBOR, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_MAG_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR},
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::NEAREST_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT},
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_MAG_MIP_LINEAR}
+};
+const std::unordered_map<TEXTURE_WRAP, D3D11_TEXTURE_ADDRESS_MODE> TextureDirectX::wrap_map = {
+	{TEXTURE_WRAP::REPEAT, D3D11_TEXTURE_ADDRESS_WRAP},
+	{TEXTURE_WRAP::MIRRORED_REPEAT, D3D11_TEXTURE_ADDRESS_MIRROR},
+	{TEXTURE_WRAP::CLAMP_TO_EDGE, D3D11_TEXTURE_ADDRESS_CLAMP},
+	{TEXTURE_WRAP::CLAMP_TO_BORDER, D3D11_TEXTURE_ADDRESS_BORDER}
+};
+D3D11_FILTER TextureDirectX::ConvertToDirectXFilter(TEXTURE_MIN_FILTER min, TEXTURE_MAG_FILTER mag) const
+{
+	auto it = filter_map.find({ min, mag });
+	assert(it != filter_map.cend());
+	return it->second;
+}
+D3D11_TEXTURE_ADDRESS_MODE TextureDirectX::ConvertToDirectXWrapMode(TEXTURE_WRAP wrap) const
+{
+	auto it = wrap_map.find(wrap);
+	assert(it != wrap_map.cend());
+	return it->second;
 }
 #endif
