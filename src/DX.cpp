@@ -61,7 +61,36 @@ DX::DX(const Window& window)
 	hr = dev->CreateRasterizerState(&rd, &rasterizer_state_front_cull);
 	assert(SUCCEEDED(hr));
 
-	// Depth stencil
+	// Depth stencil states
+	D3D11_DEPTH_STENCIL_DESC dsDesc;
+	dsDesc.DepthEnable = true;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	dsDesc.StencilEnable = true;
+	dsDesc.StencilReadMask = 0xFF;
+	dsDesc.StencilWriteMask = 0xFF;
+
+	dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	hr = dev->CreateDepthStencilState(&dsDesc, &depth_stencil_less);
+	assert(SUCCEEDED(hr));
+
+	devcon->OMSetDepthStencilState(depth_stencil_less, 1);
+
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	hr = dev->CreateDepthStencilState(&dsDesc, &depth_stencil_lequal);
+	assert(SUCCEEDED(hr));
+
+	// Depth stencil texture
 	D3D11_TEXTURE2D_DESC descDepth;
 	ZeroMemory(&descDepth, sizeof(D3D11_TEXTURE2D_DESC));
 	descDepth.Width = window.GetWindowWidth();
@@ -85,7 +114,7 @@ DX::DX(const Window& window)
 	ZeroMemory(&descDSV, sizeof(descDSV));
 	descDSV.Format = descDepth.Format;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-	descDSV.Texture2D.MipSlice = 0;
+	descDSV.Texture2D.MipSlice = 0;	
 
 	hr = dev->CreateDepthStencilView(depthStencilTexture, &descDSV, &depth_stencil_view);
 	assert(SUCCEEDED(hr));
@@ -181,6 +210,15 @@ void DX::enableFrontFaceCulling()
 void DX::enableBackFaceCulling()
 {
 	devcon->RSSetState(rasterizer_state);
+}
+
+void DX::setDepthFunctionToLessEqual()
+{
+	devcon->OMSetDepthStencilState(depth_stencil_lequal, 1);
+}
+void DX::setDepthFunctionToLess()
+{
+	devcon->OMSetDepthStencilState(depth_stencil_less, 1);
 }
 
 void DX::Initialize(const Window& window)

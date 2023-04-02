@@ -5,20 +5,17 @@
 #if GLACIER_DIRECTX
 TextureDirectX::TextureDirectX(TextureDirectX&& o) noexcept
 	: Texture(std::move(o)), 
-	mpTexture2D(o.mpTexture2D), mpTextureRV(o.mpTextureRV), mpSampler(o.mpSampler)
+	mpTextureRV(o.mpTextureRV), mpSampler(o.mpSampler)
 {
-	o.mpTexture2D = nullptr;
 	o.mpTextureRV = nullptr;
 	o.mpSampler = nullptr;
 }
 TextureDirectX& TextureDirectX::operator=(TextureDirectX&& o)
 {
 	Texture::operator=(std::move(o));
-	mpTexture2D = o.mpTexture2D;
 	mpTextureRV = o.mpTextureRV;
 	mpSampler = o.mpSampler;
 
-	o.mpTexture2D = nullptr;
 	o.mpTextureRV = nullptr;
 	o.mpSampler = nullptr;
 
@@ -30,7 +27,6 @@ TextureDirectX::~TextureDirectX()
 	{
 		mpSampler->Release();
 		mpTextureRV->Release();
-		mpTexture2D->Release();
 	}
 }
 
@@ -68,28 +64,42 @@ void TextureDirectX::load_gpu_data()
 	texDesc.Width = width;
 	texDesc.Height = height;
 	texDesc.MipLevels = 1;
-	texDesc.ArraySize = 1;
+	texDesc.ArraySize = tex_params.type == TEXTURE_TYPE::REGULAR ? 1 : 6;
 	texDesc.Format = channels == 4 ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8_UNORM;
 	texDesc.SampleDesc.Count = 1;
 	texDesc.SampleDesc.Quality = 0;
 	texDesc.Usage = D3D11_USAGE_DEFAULT;
 	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	texDesc.MiscFlags = tex_params.type == TEXTURE_TYPE::CUBE_MAP ? D3D11_RESOURCE_MISC_TEXTURECUBE : 0;
 	//texDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
-	D3D11_SUBRESOURCE_DATA subresData;
-	ZeroMemory(&subresData, sizeof(D3D11_SUBRESOURCE_DATA));
-	subresData.pSysMem = img;
-	subresData.SysMemPitch = width * channels;
+	D3D11_SUBRESOURCE_DATA* subresData = new D3D11_SUBRESOURCE_DATA[texDesc.ArraySize];
+	ZeroMemory(subresData, sizeof(D3D11_SUBRESOURCE_DATA));
+	for (int i = 0; i < texDesc.ArraySize; i++)
+	{
+		subresData[i].pSysMem = img + i * width * height * channels;
+		subresData[i].SysMemPitch = width * channels;
+	}
 
-	hr = dev->CreateTexture2D(&texDesc, &subresData, &mpTexture2D);
-	assert(SUCCEEDED(hr));	
-
-	hr = dev->CreateShaderResourceView(mpTexture2D, nullptr, &mpTextureRV);
+	ID3D11Texture2D* tex2D;
+	hr = dev->CreateTexture2D(&texDesc, subresData, &tex2D);
 	assert(SUCCEEDED(hr));
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC shdrResourceDesc;
+	ZeroMemory(&shdrResourceDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	shdrResourceDesc.Format = texDesc.Format;
+	shdrResourceDesc.ViewDimension = tex_params.type == TEXTURE_TYPE::CUBE_MAP ? D3D11_SRV_DIMENSION_TEXTURECUBE : D3D11_SRV_DIMENSION_TEXTURE2D;
+	shdrResourceDesc.Texture2D.MostDetailedMip = 0;
+	shdrResourceDesc.Texture2D.MipLevels = 1;
+
+	hr = dev->CreateShaderResourceView(tex2D, &shdrResourceDesc, &mpTextureRV);
+	assert(SUCCEEDED(hr));
+	tex2D->Release();
+
+	delete[] subresData;
 
 	//DX::GetDeviceContext()->GenerateMips(mpTextureRV);
 	
-	// Temp settings
 	D3D11_SAMPLER_DESC samp;
 	ZeroMemory(&samp, sizeof(D3D11_SAMPLER_DESC));
 	samp.Filter = ConvertToDirectXFilter(tex_params.min_filter, tex_params.mag_filter);

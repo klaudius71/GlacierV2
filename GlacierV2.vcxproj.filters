@@ -817,5 +817,8 @@
     <FxCompile Include="assets\shaders\dx11\TextureLit.hlsl">
       <Filter>assets\shaders\dx11</Filter>
     </FxCompile>
+    <FxCompile Include="assets\shaders\dx11\Skybox.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

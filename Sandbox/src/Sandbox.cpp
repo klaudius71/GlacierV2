@@ -36,7 +36,6 @@ void Sandbox::LoadResources()
 	//TextureLoader::Load("Dude", "dude_packed0_diffuse.png");
 	//TextureLoader::Load("DudeNormal", "dude_packed0_normal.png");
 	
-
 	FontLoader::Load("Times40", "times.ttf", 40);
 	FontLoader::Load("CascadiaMono20", "CascadiaMono.ttf", 20);
 	

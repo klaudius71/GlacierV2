@@ -124,6 +124,7 @@ ShaderLoader::ShaderLoader()
 	// --Load in the default shaders used by the engine--
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_LIT, SHADER_PATH + "TextureLit.hlsl");
+	preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "Skybox.hlsl");
 	preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "Sprite.hlsl");
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "Text.hlsl");
 

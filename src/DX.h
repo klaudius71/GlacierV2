@@ -27,6 +27,8 @@ private:
 	ID3D11RenderTargetView* backbuffer = nullptr;
 	ID3D11RasterizerState* rasterizer_state = nullptr;
 	ID3D11RasterizerState* rasterizer_state_front_cull = nullptr;
+	ID3D11DepthStencilState* depth_stencil_less = nullptr;
+	ID3D11DepthStencilState* depth_stencil_lequal = nullptr;
 	ID3D11DepthStencilView* depth_stencil_view = nullptr;
 	ID3D11BlendState* blend_state = nullptr;
 
@@ -40,6 +42,9 @@ private:
 	void enableFrontFaceCulling();
 	void enableBackFaceCulling();
 
+	void setDepthFunctionToLessEqual();
+	void setDepthFunctionToLess();
+
 public:
 	static void Initialize(const Window& window);
 
@@ -52,6 +57,9 @@ public:
 
 	static void EnableFrontFaceCulling() { Instance().enableFrontFaceCulling(); }
 	static void EnableBackFaceCulling() { Instance().enableBackFaceCulling(); }
+
+	static void SetDepthFunctionToLessEqual() { Instance().setDepthFunctionToLessEqual(); }
+	static void SetDepthFunctionToLess() { Instance().setDepthFunctionToLess(); }
 
 	static IDXGISwapChain* const GetSwapchain() { return Instance().swapchain; }
 	static ID3D11Device* const GetDevice() { return Instance().dev; }

@@ -17,6 +17,7 @@ Texture::Texture(const std::string& file_name, const TextureParameters& tex_para
 		printf("Loading default image...\n");
 		img = stbi_load("default.tga", &width, &height, &channels, 4);
 	}
+	channels = 4;
 }
 Texture::Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params)
 	: tex_params(tex_params)
@@ -29,7 +30,7 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 	uint8_t* imgs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	int width_height_channels[3 * 6];
 	for (int i = 0; i < 6; i++)
-		imgs[i] = stbi_load(file_paths[i].c_str(), &width_height_channels[i * 3], &width_height_channels[i * 3 + 1], &width_height_channels[i * 3 + 2], 0);
+		imgs[i] = stbi_load(file_paths[i].c_str(), &width_height_channels[i * 3], &width_height_channels[i * 3 + 1], &width_height_channels[i * 3 + 2], 4);
 
 	assert(imgs[0] && imgs[1] && imgs[2] && imgs[3] && imgs[4] && imgs[5]);
 	assert(width_height_channels[0] == width_height_channels[1] && width_height_channels[3] == width_height_channels[4] && width_height_channels[6] == width_height_channels[7] && width_height_channels[9] == width_height_channels[10] && width_height_channels[12] == width_height_channels[13]);
@@ -37,7 +38,7 @@ Texture::Texture(const std::array<std::string, 6>& file_paths, const TexturePara
 
 	width = width_height_channels[0];
 	height = width_height_channels[1];
-	channels = width_height_channels[2];
+	channels = 4;
 	file_path = file_paths[0] + "\n" + file_paths[1] + "\n" + file_paths[2] + "\n" + file_paths[3] + "\n" + file_paths[4] + "\n" + file_paths[5];
 
 	const size_t indiv_img_buffer_size = width * height * channels;

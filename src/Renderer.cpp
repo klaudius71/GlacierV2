@@ -165,8 +165,8 @@ void Renderer::RenderUnlit(Scene& scn)
 }
 void Renderer::RenderSkybox(Scene& scn)
 {
-#if GLACIER_OPENGL
 	// Render skybox
+#if GLACIER_OPENGL
 	if (const SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
 	{
 		glDepthFunc(GL_LEQUAL);
@@ -182,6 +182,25 @@ void Renderer::RenderSkybox(Scene& scn)
 
 		glCullFace(GL_BACK);
 		glDepthFunc(GL_LESS);
+	}
+#elif GLACIER_DIRECTX
+	if (const SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
+	{
+		DX::EnableFrontFaceCulling();
+		DX::SetDepthFunctionToLessEqual();
+
+		auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SKYBOX);
+		curr_shader->Bind();
+		
+		auto skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
+		skybox_model->Bind();
+		
+		skybox->tex->Bind();
+
+		DX::GetDeviceContext()->DrawIndexed(skybox_model->GetNumTriangles() * 3, 0, 0);
+
+		DX::SetDepthFunctionToLess();
+		DX::EnableBackFaceCulling();
 	}
 #endif
 }
@@ -231,6 +250,8 @@ void Renderer::RenderScene(Scene& scn)
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 #elif GLACIER_DIRECTX
 	RenderLit(scn);
+
+	RenderSkybox(scn);
 #endif
 }
 

@@ -27,7 +27,6 @@ public:
 	virtual void SetTextureMagFilter(TEXTURE_MAG_FILTER filter) override;
 
 private:
-	ID3D11Texture2D* mpTexture2D;
 	ID3D11ShaderResourceView* mpTextureRV;
 	ID3D11SamplerState* mpSampler;
 
