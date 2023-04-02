@@ -65,6 +65,9 @@ void MainScene::InitializeScene()
 	GameObject sphere = CreateGameObject("Sphere");
 	sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock"));
+#if GLACIER_OPENGL
+	sphere->GetComponent<MaterialComponent>().norm_tex_id.x = TextureLoader::Get("RockNormal");
+#endif
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
 	rigidbody = &sphere->EmplaceComponent<SphereColliderComponent>(20.0f);
 	rigidbody->SetWorldPosition(glm::vec3(150.0f, 500.0f, 100.0f));

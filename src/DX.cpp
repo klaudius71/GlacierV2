@@ -156,6 +156,8 @@ DX::DX(const Window& window)
 DX::~DX()
 {
 	blend_state->Release();
+	depth_stencil_lequal->Release();
+	depth_stencil_less->Release();
 	depth_stencil_view->Release();
 	rasterizer_state_front_cull->Release();
 	rasterizer_state->Release();
