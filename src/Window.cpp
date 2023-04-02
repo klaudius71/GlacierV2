@@ -11,10 +11,8 @@ void Window::glfw_window_resize_callback(GLFWwindow* window, int width, int heig
 	Window* glacier_window = static_cast<Window*>(glfwGetWindowUserPointer(window));
 	glacier_window->window_width = width;
 	glacier_window->window_height = height;
-#ifdef GLACIER_OPENGL
 #ifndef SHOW_EDITOR
 	SceneManagerAtt::Callback::ScreenSizeChanged(width, height);
-#endif
 #endif
 }
 void Window::glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

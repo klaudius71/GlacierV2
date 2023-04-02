@@ -27,11 +27,15 @@ private:
 	ID3D11RenderTargetView* backbuffer = nullptr;
 	ID3D11RasterizerState* rasterizer_state = nullptr;
 	ID3D11DepthStencilView* depth_stencil_view = nullptr;
+	ID3D11BlendState* blend_state = nullptr;
 #endif
 
 	void setClearColor(const float red, const float green, const float blue, const float alpha);
 	void clear();
 	void swapBuffers();
+
+	void enableBlending();
+	void disableBlending();
 
 public:
 	static void Initialize(const Window& window);
@@ -39,6 +43,9 @@ public:
 	static void SetClearColor(const float red, const float green, const float blue, const float alpha) { Instance().setClearColor(red, green, blue, alpha); }
 	static void Clear() { Instance().clear(); }
 	static void SwapBuffers() { Instance().swapBuffers(); }
+
+	static void EnableBlending() { Instance().enableBlending(); }
+	static void DisableBlending() { Instance().disableBlending(); }
 
 #if GLACIER_DIRECTX
 	static IDXGISwapChain* const GetSwapchain() { return Instance().swapchain; }

@@ -80,6 +80,22 @@ namespace VertexTypes
 			: light_properties(ads), direction(dir)
 		{}
 	};
+
+	struct CamData
+	{
+		glm::mat4 Projection;
+		glm::mat4 View;
+	};
+	struct InstanceData
+	{
+		glm::mat4 World;
+	};
+	struct SpriteData
+	{
+		glm::vec4 SpriteData;
+		glm::vec4 Color;
+		glm::vec2 TexSize;
+	};
 }
 
 #endif

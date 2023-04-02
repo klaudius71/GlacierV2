@@ -123,6 +123,7 @@ ShaderLoader::ShaderLoader()
 {
 	// --Load in the default shaders used by the engine--
 	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
+	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "Text.hlsl");
 
 	auto dev = DX::GetDevice();
 
@@ -132,30 +133,35 @@ ShaderLoader::ShaderLoader()
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(glm::mat4) * 2;
+	bd.ByteWidth = sizeof(VertexTypes::CamData);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
 	bd.StructureByteStride = 0;
-	hr = dev->CreateBuffer(&bd, nullptr, &matrixCBuffer);
+	hr = dev->CreateBuffer(&bd, nullptr, &camDataCBuffer);
 	assert(SUCCEEDED(hr));
 
-	bd.ByteWidth = sizeof(glm::mat4);
-	hr = dev->CreateBuffer(&bd, nullptr, &instanceCBuffer);
+	bd.ByteWidth = sizeof(VertexTypes::InstanceData);
+	hr = dev->CreateBuffer(&bd, nullptr, &instanceDataCBuffer);
+	assert(SUCCEEDED(hr));
+
+	bd.ByteWidth = 48;
+	hr = dev->CreateBuffer(&bd, nullptr, &spriteDataCBuffer);
 	assert(SUCCEEDED(hr));
 	
 	// Set the constant buffers to context
 	auto context = DX::GetDeviceContext();
-	context->VSSetConstantBuffers(0, 1, &matrixCBuffer);
-	context->VSSetConstantBuffers(1, 1, &instanceCBuffer);
+	context->VSSetConstantBuffers(0, 1, &camDataCBuffer);
+	context->VSSetConstantBuffers(1, 1, &instanceDataCBuffer);
 
-	context->PSSetConstantBuffers(0, 1, &matrixCBuffer);
-	context->PSSetConstantBuffers(1, 1, &instanceCBuffer);
+	context->PSSetConstantBuffers(0, 1, &camDataCBuffer);
+	context->PSSetConstantBuffers(1, 1, &instanceDataCBuffer);
 }
 ShaderLoader::~ShaderLoader()
 {
-	matrixCBuffer->Release();
-	instanceCBuffer->Release();
+	camDataCBuffer->Release();
+	instanceDataCBuffer->Release();
+	spriteDataCBuffer->Release();
 }
 
 void ShaderLoader::load(const std::string& name, const std::string& file_name)

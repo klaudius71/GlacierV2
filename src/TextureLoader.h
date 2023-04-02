@@ -30,7 +30,7 @@ private:
 	TextureLoader& operator=(TextureLoader&&) = delete;
 	~TextureLoader() = default;
 
-#if 1
+#if GLACIER_OPENGL
 	std::unordered_map<PRELOADED_TEXTURES, TextureOpenGL> preloaded_textures;
 	std::unordered_map<std::string, TextureOpenGL> textures;
 #elif GLACIER_DIRECTX
@@ -48,7 +48,7 @@ private:
 	void load(const std::string& name, const glm::vec4& color);
 	void load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params);
 	
-#if 1
+#if GLACIER_OPENGL
 	const TextureOpenGL& get(const PRELOADED_TEXTURES preloaded_tex);
 	const TextureOpenGL& get(const std::string& name) const;
 	TextureOpenGL& mod_get(const std::string& name);
@@ -75,7 +75,7 @@ public:
 	static void Load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params = TextureParameters())
 		{ Instance().load(name, width, height, num_channels, data, tex_params); }
 	
-#if 1
+#if GLACIER_OPENGL
 	static const TextureOpenGL& Get(const PRELOADED_TEXTURES preloaded_tex) 
 		{ assert(instance && "TextureLoader not initialized!"); return instance->get(preloaded_tex); }
 	static const TextureOpenGL& Get(const std::string& name)

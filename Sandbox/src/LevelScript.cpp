@@ -22,7 +22,7 @@ void LevelScript::OnUpdate(float dt)
 			cube2 = CreateGameObject("Cube3", cube1);
 			//cube2->AddScript<RotatingScript>(glm::vec3(1.0f, 0.0f, 0.0f));
 			cube2->GetComponent<TransformComponent>().position() = glm::vec3(-10.0f, 0.0f, 0.0f);
-			cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
+			//cube2->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("default"));
 			cube2->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Box"));
 		}
 		cube2->RegisterToScene();
@@ -57,16 +57,16 @@ void LevelScript::OnUpdate(float dt)
 	}
 	frames++;
 
-	const Framebuffer& fb = Renderer::GetMainFramebuffer();
+	const Window& window = Glacier::GetWindow();
 	const Font& font = FontLoader::Get("CascadiaMono20");
-	const float screen_y = (float)fb.GetSize().y - font.GetGlyphWithMaxHeight().size.y * 0.5f;
+	const float screen_y = (float)window.GetWindowHeight() - font.GetGlyphWithMaxHeight().size.y;
 	Renderer2D::PrintText(font, 0.0f, screen_y, Colors::White, "update: %.4fms", update);
 	Renderer2D::PrintText(font, 200.0f, screen_y, Colors::White, "physics: %.4fms", physics);
 	Renderer2D::PrintText(font, 420.0f, screen_y, Colors::White, "draw: %.4fms", draw);
 	Renderer2D::PrintText(font, 600.0f, screen_y, Colors::White, "3d: %.4fms", three);
 	Renderer2D::PrintText(font, 750.0f, screen_y, Colors::White, "2d: %.4fms", two);
 	Renderer2D::PrintText(font, 910.0f, screen_y, Colors::White, "animation: %.4fms", animation);
-	Renderer2D::PrintText(font, 0.0f, (float)fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 0.5f) * 3.0f, Colors::Blue, "frame_time: %.4fms", frame_time);
+	Renderer2D::PrintText(font, 0.0f, (float)window.GetWindowHeight() - (font.GetGlyphWithMaxHeight().size.y) * 2.0f, Colors::Blue, "frame_time: %.4fms", frame_time);
 }
 void LevelScript::OnSceneExit()
 {

@@ -17,7 +17,7 @@ TextureLoader::TextureLoader()
 	TextureAtt::LoadGPUData(*tex);
 }
 
-#if 1
+#if GLACIER_OPENGL
 Texture& TextureLoader::load_async_reg(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
 {
 	TextureOpenGL tex(file_name, tex_params);

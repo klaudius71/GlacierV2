@@ -155,23 +155,30 @@ namespace Glacier {
 		SkeletalAnimationLoaderAtt::Terminate();
 #elif GLACIER_DIRECTX
 		DX::Initialize(*window);
+		Renderer2DAtt::Initialize();
+		//RendererAtt::Initialize();
+		SceneManagerAtt::Engine::Initialize();
+		//EditorLayer::Initialize();
+		Physics::Initialize();
+		LoggerAtt::Initialize();
+		Tools::UUIDAtt::Initialize();
 
 		// Loads user defined assets
 		LoadResources();
 		ShaderLoaderAtt::Initialize(); // Fallback for if the user did not load their own shaders
 		ModelLoaderAtt::WaitForThreadsAndLoadGPUData();
-		//TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
-		//SkeletalAnimationLoaderAtt::WaitForThreads();
+		TextureLoaderAtt::WaitForThreadsAndLoadGPUData();
+		SkeletalAnimationLoaderAtt::WaitForThreads();
 
 		TimeManagerAtt::Initialize();
 
 		ID3D11DeviceContext* context = DX::GetDeviceContext();
-		TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
+		//TextureDirectX* tex = new TextureDirectX("assets/textures/crate_diffuse.tga", TextureParameters());
 		const Model* cube = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
 
-		auto matrixCBuffer = ShaderLoader::GetMatrixConstantBuffer();
-		auto instanceCBuffer = ShaderLoader::GetInstanceConstantBuffer();
+		auto matrixCBuffer = ShaderLoader::GetCamDataConstantBuffer();
+		auto instanceCBuffer = ShaderLoader::GetInstanceDataConstantBuffer();
 
 		const glm::mat4 cam_matrices[] = {
 			glm::perspective(glm::radians(90.0f), 16.0f / 9.0f, 0.1f, 1000.0f),
@@ -186,7 +193,7 @@ namespace Glacier {
 		// Main loop
 		while (!window->IsOpen())
 		{
-			window->Clear();
+			/*window->Clear();
 
 			TimeManagerAtt::ProcessTime();
 
@@ -201,13 +208,45 @@ namespace Glacier {
 			context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
 
 			window->SwapBuffers();
+			window->PollEvents();*/
+
+			GLACIER_LOG_FUNC_TIMER("frame_time");
+
+			window->Clear();
+			//Renderer::GetMainFramebuffer().Clear();
+
+			TimeManagerAtt::ProcessTime();
+			InputAtt::ProcessMouseData();
+
+			// update
+			SceneManagerAtt::Engine::UpdateCurrentScene();
+
+			// render
+			SceneManagerAtt::Engine::RenderCurrentScene();
+
+			window->SwapBuffers();
 			window->PollEvents();
 		}
 		
-		delete tex;
+		//delete tex;
 
 		ModelLoaderAtt::Terminate();
 		ShaderLoaderAtt::Terminate();
+
+		// Terminate all of the singletons
+		SceneManagerAtt::Engine::Terminate();
+		Tools::UUIDAtt::Terminate();
+		LoggerAtt::Terminate();
+		Physics::Terminate();
+		//RendererAtt::Terminate();
+		Renderer2DAtt::Terminate();
+		TimeManagerAtt::Terminate();
+		ShaderLoaderAtt::Terminate();
+		ModelLoaderAtt::Terminate();
+		TextureLoaderAtt::Terminate();
+		FontLoaderAtt::Terminate();
+		SkeletalAnimationLoaderAtt::Terminate();
+
 		DX::Terminate();
 #endif
 	}

@@ -94,8 +94,9 @@ private:
 	std::unordered_map<PRELOADED_SHADERS, ShaderDirectX> preloaded_shaders;
 	std::unordered_map<std::string, ShaderDirectX> shaders;
 
-	ID3D11Buffer* matrixCBuffer;
-	ID3D11Buffer* instanceCBuffer;
+	ID3D11Buffer* camDataCBuffer;
+	ID3D11Buffer* instanceDataCBuffer;
+	ID3D11Buffer* spriteDataCBuffer;
 
 	void load(const std::string& name, const std::string& file_name);
 
@@ -112,8 +113,9 @@ public:
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }
 
-	static ID3D11Buffer* GetMatrixConstantBuffer() { return instance->matrixCBuffer; }
-	static ID3D11Buffer* GetInstanceConstantBuffer() { return instance->instanceCBuffer; }
+	static ID3D11Buffer* GetCamDataConstantBuffer() { return instance->camDataCBuffer; }
+	static ID3D11Buffer* GetInstanceDataConstantBuffer() { return instance->instanceDataCBuffer; }
+	static ID3D11Buffer* GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
 };
 #endif
 

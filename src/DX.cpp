@@ -44,7 +44,7 @@ DX::DX(const Window& window)
 	// Rasterizer
 	D3D11_RASTERIZER_DESC rd;
 	rd.FillMode = D3D11_FILL_SOLID;
-	rd.CullMode = D3D11_CULL_BACK;
+	rd.CullMode = D3D11_CULL_FRONT;
 	rd.FrontCounterClockwise = true;
 	rd.DepthBias = 0;
 	rd.SlopeScaledDepthBias = 0.0f;
@@ -90,6 +90,26 @@ DX::DX(const Window& window)
 	// Set the render target, including the depth stencil
 	devcon->OMSetRenderTargets(1, &backbuffer, depth_stencil_view);
 
+	// Create a blend state
+	D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+	ZeroMemory(&rtbd, sizeof(D3D11_RENDER_TARGET_BLEND_DESC));
+	rtbd.BlendEnable = true;
+	rtbd.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	rtbd.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	rtbd.BlendOp = D3D11_BLEND_OP_ADD;
+	rtbd.SrcBlendAlpha = D3D11_BLEND_ONE;
+	rtbd.DestBlendAlpha = D3D11_BLEND_ZERO;
+	rtbd.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	rtbd.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	D3D11_BLEND_DESC blendStateDesc;
+	ZeroMemory(&blendStateDesc, sizeof(D3D11_BLEND_DESC));
+	blendStateDesc.AlphaToCoverageEnable = true;
+	blendStateDesc.IndependentBlendEnable = true;
+	blendStateDesc.RenderTarget[0] = rtbd;
+	hr = dev->CreateBlendState(&blendStateDesc, &blend_state);
+	assert(SUCCEEDED(hr));
+
 	// Setting the viewport
 	D3D11_VIEWPORT viewport{ 0 };
 	viewport.TopLeftX = 0;
@@ -104,6 +124,7 @@ DX::DX(const Window& window)
 DX::~DX()
 {
 #if GLACIER_DIRECTX
+	blend_state->Release();
 	depth_stencil_view->Release();
 	rasterizer_state->Release();
 	swapchain->Release();
@@ -143,6 +164,19 @@ void DX::swapBuffers()
 {
 #if GLACIER_DIRECTX
 	swapchain->Present(1, 0);
+#endif
+}
+
+void DX::enableBlending()
+{
+#if GLACIER_DIRECTX
+	devcon->OMSetBlendState(blend_state, nullptr, 0xFFFFFFFF);
+#endif
+}
+void DX::disableBlending()
+{
+#if GLACIER_DIRECTX
+	devcon->OMSetBlendState(nullptr, nullptr, 0xFFFFFFF);
 #endif
 }
 

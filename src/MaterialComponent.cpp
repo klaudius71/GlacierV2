@@ -3,6 +3,7 @@
 #include "TextureLoader.h"
 #include "TextureOpenGL.h"
 
+#if GLACIER_OPENGL
 MaterialComponent::MaterialComponent()
 	: ads(), tex_id(TextureLoader::Get("default").GetID()), norm_tex_id(TextureLoader::Get("default_normal")), col(Colors::White) {}
 MaterialComponent::MaterialComponent(const VertexTypes::PhongADS& ads, const glm::uvec4& tex_id, const glm::uvec4& norm_tex_id, const glm::vec4& color)
@@ -43,3 +44,4 @@ void MaterialComponent::SetColor(const glm::vec4& color)
 {
 	col = color;
 }
+#endif

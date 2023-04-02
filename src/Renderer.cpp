@@ -38,6 +38,7 @@ void Renderer::UpdateViewportSize(const int& width, const int& height)
 
 void Renderer::RenderLit(Scene& scn)
 {
+#if GLACIER_OPENGL
 	entt::registry& registry = scn.GetRegistry();
 
 	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
@@ -72,9 +73,11 @@ void Renderer::RenderLit(Scene& scn)
 		glBindVertexArray(mesh.vao);
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
+#endif
 }
 void Renderer::RenderSkinned(Scene& scn)
 {
+#if GLACIER_OPENGL
 	entt::registry& registry = scn.GetRegistry();
 
 	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
@@ -115,9 +118,11 @@ void Renderer::RenderSkinned(Scene& scn)
 	}
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
+#endif
 }
 void Renderer::RenderUnlit(Scene& scn)
 {
+#if GLACIER_OPENGL
 	// Render meshes without materials
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	auto shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
@@ -132,6 +137,7 @@ void Renderer::RenderUnlit(Scene& scn)
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
 }
 void Renderer::RenderSkybox(Scene& scn)
 {

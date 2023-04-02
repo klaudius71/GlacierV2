@@ -10,8 +10,8 @@ public:
 	TextureOpenGL(Args&&... args)
 		: Texture(std::forward<Args>(args)...), id(0)
 	{}
-	TextureOpenGL(const TextureOpenGL&) = delete;
-	TextureOpenGL& operator=(const TextureOpenGL&) = delete;
+	TextureOpenGL(const TextureOpenGL&);
+	TextureOpenGL& operator=(const TextureOpenGL&);
 	TextureOpenGL(TextureOpenGL&& o) noexcept;
 	TextureOpenGL& operator=(TextureOpenGL&& o);
 	~TextureOpenGL();

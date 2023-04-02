@@ -12,6 +12,7 @@
 #include "ShaderLoader.h"
 #include "ShaderOpenGL.h"
 #include "Logger.h"
+#include "DX.h"
 
 Renderer2D* Renderer2D::instance = nullptr;
 
@@ -75,6 +76,7 @@ void Renderer2D::renderComponents(Scene& scn)
 {
 	GLACIER_LOG_FUNC_TIMER("2d");
 
+#if GLACIER_OPENGL
 	const Framebuffer& framebuffer = Renderer::GetMainFramebuffer();
 	const glm::ivec2& viewport_size = framebuffer.GetSize();
 	glViewport(0, 0, viewport_size.x, viewport_size.y);
@@ -118,8 +120,15 @@ void Renderer2D::renderComponents(Scene& scn)
 	const Window& window = Glacier::GetWindow();
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 	framebuffer.Unbind();
+#elif GLACIER_DIRECTX
+	for (const auto& entry : debug_text_queue)
+		RenderText(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
+
+	debug_text_queue.clear();
+#endif
 }
 
+#if GLACIER_OPENGL
 void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
 {
 	// Get the quad model
@@ -232,6 +241,63 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	glBindVertexArray(quad->GetVAO());
 	glDrawElementsInstanced(GL_TRIANGLES, quad->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr, (GLsizei)text.size());
 }
+#elif GLACIER_DIRECTX
+void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
+{
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto cam_data_cbuffer = ShaderLoader::GetCamDataConstantBuffer();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto sprite_data_cbuffer = ShaderLoader::GetSpriteDataConstantBuffer();
+	// Get the quad model
+	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
+	quad->Bind();
+	// Get the text shader
+	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
+	shad->Bind();
+	// Bind the bitmap texture
+	font->GetTexture()->Bind();
+
+	// Set the camera matrices
+	VertexTypes::CamData cam_data{ instance->proj, glm::mat4(1.0f) };
+	devcon->UpdateSubresource(cam_data_cbuffer, 0, nullptr, &cam_data, 0, 0);
+
+	// Set up the sprite data structure
+	VertexTypes::SpriteData sprite_data{ glm::vec4(0.0f), color, glm::vec2(font->GetBitmapWidth(), font->GetBitmapHeight())};
+	devcon->VSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
+	devcon->PSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
+
+	// Set up the current x position and world_matrix
+	float xpos = x;
+	VertexTypes::InstanceData instance_data{ glm::mat4(1.0f) };
+
+	// Render the text
+	//glEnable(GL_BLEND);
+	//glCullFace(GL_FRONT);
+	DX::EnableBlending();
+	for (auto it = text.cbegin(); it != text.cend(); ++it)
+	{
+		const Glyph& glyph = font->GetGlyph(*it);
+
+		xpos += glyph.advance * 0.5f;
+		sprite_data.SpriteData = { glyph.bitmap_origin.x, glyph.bitmap_origin.y, glyph.size.x, glyph.size.y };
+		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &sprite_data, 0, 0);
+
+		instance_data.World[0].x = glyph.size.x * 0.5f;
+		instance_data.World[1].y = glyph.size.y * -0.5f;
+		instance_data.World[3].x = xpos;
+		instance_data.World[3].y = y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
+		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &instance_data, 0, 0);
+
+		devcon->DrawIndexed(quad->GetNumTriangles() * 3, 0, 0);
+
+		xpos += glyph.advance * 0.5f;
+	}
+	DX::DisableBlending();
+	//glCullFace(GL_BACK);
+	//glDisable(GL_BLEND);
+}
+#endif
 
 void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
 {

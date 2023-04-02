@@ -34,20 +34,26 @@ void SceneManager::updateCurrentScene()
 	Script::ExecuteAllOnUpdate(scn);
 	scn.scn_graph.UpdateTransforms();
 	Animator::UpdateAnimationComponents(scn);
+#if GLACIER_OPENGL
 	Lighting::UpdateBuffers(scn);
+#endif
 }
 void SceneManager::renderCurrentScene()
 {
 	GLACIER_LOG_FUNC_TIMER("draw");
 	assert(curr_scene);
 
+#if GLACIER_OPENGL
 	RendererAtt::RenderScene(*curr_scene);
+#endif
 	Renderer2DAtt::RenderComponents(*curr_scene);
 }
 void SceneManager::screenSizeChanged(const int& width, const int& height)
 {
 	Renderer2DAtt::UpdateViewportSize(width, height);
+#if GLACIER_OPENGL
 	RendererAtt::UpdateViewportSize(width, height);
+#endif
 	Script::ExecuteAllOnScreenResize(*curr_scene, width, height);
 }
 void SceneManager::enqueueCommand(Command* const cmd)

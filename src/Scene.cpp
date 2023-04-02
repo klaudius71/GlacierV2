@@ -100,7 +100,7 @@ const CameraComponent& Scene::GetActiveCamera() const
 
 void Scene::switch_entity_registry(const entt::entity& id, entt::registry& from, entt::registry& to)
 {
-	auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, material, dir_light, skybox, character_controller, plane_collider, box_collider, sphere_collider, trianglemesh_collider] = 
+	auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim,/* material,*/ dir_light, skybox, character_controller, plane_collider, box_collider, sphere_collider, trianglemesh_collider] = 
 		from.try_get<
 		NameComponent, 
 		TransformComponent, 
@@ -110,7 +110,7 @@ void Scene::switch_entity_registry(const entt::entity& id, entt::registry& from,
 		MeshComponent, 
 		SkeletalMeshComponent, 
 		SkeletalAnimationComponent, 
-		MaterialComponent, 
+		//MaterialComponent, 
 		DirectionalLightComponent, 
 		SkyboxComponent, 
 		CharacterControllerComponent,
@@ -154,11 +154,11 @@ void Scene::switch_entity_registry(const entt::entity& id, entt::registry& from,
 		to.emplace<SkeletalAnimationComponent>(id, std::move(*anim));
 		from.erase<SkeletalAnimationComponent>(id);
 	}
-	if (material)
+	/*if (material)
 	{
 		to.emplace<MaterialComponent>(id, std::move(*material));
 		from.erase<MaterialComponent>(id);
-	}
+	}*/
 	if (dir_light)
 	{
 		to.emplace<DirectionalLightComponent>(id, std::move(*dir_light));
