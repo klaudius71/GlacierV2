@@ -39,19 +39,23 @@ void TextureDirectX::Bind() const
 
 void TextureDirectX::SetTextureWrapS(TEXTURE_WRAP wrap)
 {
-	
+	UNREFERENCED_PARAMETER(wrap);
 }
 void TextureDirectX::SetTextureWrapT(TEXTURE_WRAP wrap)
 {
+	UNREFERENCED_PARAMETER(wrap);
 }
 void TextureDirectX::SetTextureWrapR(TEXTURE_WRAP wrap)
 {
+	UNREFERENCED_PARAMETER(wrap);
 }
 void TextureDirectX::SetTextureMinFilter(TEXTURE_MIN_FILTER filter)
 {
+	UNREFERENCED_PARAMETER(filter);
 }
 void TextureDirectX::SetTextureMagFilter(TEXTURE_MAG_FILTER filter)
 {
+	UNREFERENCED_PARAMETER(filter);
 }
 
 void TextureDirectX::load_gpu_data()
@@ -63,42 +67,53 @@ void TextureDirectX::load_gpu_data()
 	ZeroMemory(&texDesc, sizeof(D3D11_TEXTURE2D_DESC));
 	texDesc.Width = width;
 	texDesc.Height = height;
-	texDesc.MipLevels = 1;
+	texDesc.MipLevels = 0;
 	texDesc.ArraySize = tex_params.type == TEXTURE_TYPE::REGULAR ? 1 : 6;
 	texDesc.Format = channels == 4 ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8_UNORM;
 	texDesc.SampleDesc.Count = 1;
-	texDesc.SampleDesc.Quality = 0;
 	texDesc.Usage = D3D11_USAGE_DEFAULT;
-	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	texDesc.MiscFlags = tex_params.type == TEXTURE_TYPE::CUBE_MAP ? D3D11_RESOURCE_MISC_TEXTURECUBE : 0;
-	//texDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
-
-	D3D11_SUBRESOURCE_DATA* subresData = new D3D11_SUBRESOURCE_DATA[texDesc.ArraySize];
-	ZeroMemory(subresData, sizeof(D3D11_SUBRESOURCE_DATA));
-	for (int i = 0; i < texDesc.ArraySize; i++)
-	{
-		subresData[i].pSysMem = img + i * width * height * channels;
-		subresData[i].SysMemPitch = width * channels;
-	}
+	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	texDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	texDesc.MiscFlags |= tex_params.type == TEXTURE_TYPE::CUBE_MAP ? D3D11_RESOURCE_MISC_TEXTURECUBE : 0;
 
 	ID3D11Texture2D* tex2D;
-	hr = dev->CreateTexture2D(&texDesc, subresData, &tex2D);
-	assert(SUCCEEDED(hr));
+	if (texDesc.ArraySize == 6)
+	{
+		texDesc.MipLevels = 1;
+		texDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+		D3D11_SUBRESOURCE_DATA* subresData = new D3D11_SUBRESOURCE_DATA[texDesc.ArraySize];
+		ZeroMemory(subresData, sizeof(D3D11_SUBRESOURCE_DATA) * texDesc.ArraySize);
+		for (UINT i = 0; i < texDesc.ArraySize; i++)
+		{
+			subresData[i].pSysMem = img + i * width * height * channels;
+			subresData[i].SysMemPitch = width * channels;
+		}
+		hr = dev->CreateTexture2D(&texDesc, subresData, &tex2D);
+		assert(SUCCEEDED(hr));
+		delete[] subresData;
+	}
+	else
+	{
+		hr = dev->CreateTexture2D(&texDesc, nullptr, &tex2D);
+		assert(SUCCEEDED(hr));
+		DX::GetDeviceContext()->UpdateSubresource(tex2D, 0, nullptr, img, width * channels, 0);
+	}
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC shdrResourceDesc;
 	ZeroMemory(&shdrResourceDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 	shdrResourceDesc.Format = texDesc.Format;
 	shdrResourceDesc.ViewDimension = tex_params.type == TEXTURE_TYPE::CUBE_MAP ? D3D11_SRV_DIMENSION_TEXTURECUBE : D3D11_SRV_DIMENSION_TEXTURE2D;
 	shdrResourceDesc.Texture2D.MostDetailedMip = 0;
-	shdrResourceDesc.Texture2D.MipLevels = 1;
+	shdrResourceDesc.Texture2D.MipLevels = (UINT)-1;
 
 	hr = dev->CreateShaderResourceView(tex2D, &shdrResourceDesc, &mpTextureRV);
 	assert(SUCCEEDED(hr));
 	tex2D->Release();
 
-	delete[] subresData;
+	//delete[] subresData;
 
-	//DX::GetDeviceContext()->GenerateMips(mpTextureRV);
+	if(texDesc.ArraySize == 1)
+		DX::GetDeviceContext()->GenerateMips(mpTextureRV);
 	
 	D3D11_SAMPLER_DESC samp;
 	ZeroMemory(&samp, sizeof(D3D11_SAMPLER_DESC));
@@ -126,7 +141,7 @@ const std::map<std::pair<TEXTURE_MIN_FILTER, TEXTURE_MAG_FILTER>, D3D11_FILTER> 
 	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT},
 	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::NEAREST_NEIGHBOR), D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR},
 	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_NEAREST, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT},
-	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR), D3D11_FILTER_MIN_MAG_MIP_LINEAR}
+	{std::make_pair(TEXTURE_MIN_FILTER::LINEAR_MIPMAP_LINEAR, TEXTURE_MAG_FILTER::LINEAR), /*D3D11_FILTER_MIN_MAG_MIP_LINEAR*/ D3D11_FILTER_ANISOTROPIC}
 };
 const std::unordered_map<TEXTURE_WRAP, D3D11_TEXTURE_ADDRESS_MODE> TextureDirectX::wrap_map = {
 	{TEXTURE_WRAP::REPEAT, D3D11_TEXTURE_ADDRESS_WRAP},

@@ -152,6 +152,8 @@ void Renderer::RenderSkinned(Scene& scn)
 	}
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
+#elif GLACIER_DIRECTX
+	UNREFERENCED_PARAMETER(scn);
 #endif
 }
 void Renderer::RenderUnlit(Scene& scn)
@@ -171,6 +173,8 @@ void Renderer::RenderUnlit(Scene& scn)
 		glDrawElements(GL_TRIANGLES, mesh.num_indices, GL_UNSIGNED_INT, nullptr);
 	}
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#elif GLACIER_DIRECTX
+	UNREFERENCED_PARAMETER(scn);
 #endif
 }
 void Renderer::RenderSkybox(Scene& scn)

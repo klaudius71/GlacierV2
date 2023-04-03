@@ -101,7 +101,8 @@ Texture& TextureLoader::load_async_cube(const std::string& name, const std::arra
 }
 void TextureLoader::load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
 {
-	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_reg, this, name, TEXTURE_PATH + file_name, tex_params));
+	//futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_reg, this, name, TEXTURE_PATH + file_name, tex_params));
+	load_async_reg(name, TEXTURE_PATH + file_name, tex_params);
 }
 void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params)
 {
@@ -114,7 +115,8 @@ void TextureLoader::load(const std::string& name, const std::array<std::string, 
 		TEXTURE_PATH + file_names[4],
 		TEXTURE_PATH + file_names[5]
 	};
-	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths, tex_params));
+	//futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths, tex_params));
+	load_async_cube(name, file_paths, tex_params);
 }
 void TextureLoader::load(const std::string& name, const glm::vec4& color)
 {

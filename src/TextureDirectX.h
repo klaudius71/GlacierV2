@@ -10,8 +10,10 @@ class GLACIER_API TextureDirectX : public Texture
 public:
 	template<typename... Args>
 	TextureDirectX(Args&&... args)
-		: Texture(std::forward<Args>(args)...)
-	{}
+		: Texture(std::forward<Args>(args)...), mpTextureRV(nullptr), mpSampler(nullptr)
+	{
+		load_gpu_data();
+	}
 	TextureDirectX(const TextureDirectX&) = delete;
 	TextureDirectX& operator=(const TextureDirectX&) = delete;
 	TextureDirectX(TextureDirectX&& o) noexcept;
