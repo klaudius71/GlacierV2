@@ -34,7 +34,7 @@ void Renderer::UpdateCameraData(const CameraComponent& camera)
 	DX::GetDeviceContext()->UpdateSubresource(ShaderLoader::GetCamDataConstantBuffer(), 0, nullptr, &CamData, 0, 0);
 #endif
 }
-void Renderer::UpdateViewportSize(const int& width, const int& height)
+void Renderer::UpdateViewportSize(const int width, const int height)
 {
 	assert(instance);
 	instance->main_framebuffer.Resize(width, height);
@@ -56,7 +56,7 @@ void Renderer::RenderLit(Scene& scn)
 	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
 	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
+	glBindTexture(GL_TEXTURE_2D, Lighting::Instance().DirShadow_tex);
 
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
@@ -83,9 +83,18 @@ void Renderer::RenderLit(Scene& scn)
 	// Get the DX variables
 	auto devcon = DX::GetDeviceContext();
 	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto material_data_cbuffer = ShaderLoader::GetMaterialDataConstantBuffer();
+	auto dirlight_cbuffer = ShaderLoader::GetDirectionalLightConstantBuffer();
 
 	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	curr_shader->Bind();
+
+	devcon->VSSetConstantBuffers(1, 1, &instance_data_cbuffer);
+	devcon->PSSetConstantBuffers(1, 1, &instance_data_cbuffer);
+	devcon->VSSetConstantBuffers(2, 1, &material_data_cbuffer);
+	devcon->PSSetConstantBuffers(2, 1, &material_data_cbuffer);
+	devcon->VSSetConstantBuffers(3, 1, &dirlight_cbuffer);
+	devcon->PSSetConstantBuffers(3, 1, &dirlight_cbuffer);
 
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
@@ -93,6 +102,7 @@ void Renderer::RenderLit(Scene& scn)
 	{
 		material.tex->Bind();
 		//material.norm_tex->Bind(1);
+		devcon->UpdateSubresource(material_data_cbuffer, 0, nullptr, &material.ads, 0, 0);
 		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &transform.GetWorldMatrix(), 0, 0);
 		mesh.mod->Bind();
 		devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
@@ -116,7 +126,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
 	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
+	glBindTexture(GL_TEXTURE_2D, Lighting::Instance().DirShadow_tex);
 
 	// Render meshes with materials
 	glDisable(GL_CULL_FACE);
@@ -249,6 +259,8 @@ void Renderer::RenderScene(Scene& scn)
 	const Window& window = Glacier::GetWindow();
 	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 #elif GLACIER_DIRECTX
+	Lighting::RenderSceneShadows(&scn, camera);
+
 	RenderLit(scn);
 
 	RenderSkybox(scn);

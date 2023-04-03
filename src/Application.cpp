@@ -17,6 +17,7 @@
 #include "Physics.h"
 #include "LoggerAtt.h"
 #include "UUIDAtt.h"
+#include "Lighting.h"
 #if GLACIER_DIRECTX
 #include "DX.h"
 #endif
@@ -90,6 +91,7 @@ namespace Glacier {
 		// Initialize some singletons
 		Renderer2DAtt::Initialize();
 		RendererAtt::Initialize();
+		Lighting::Initialize();
 		SceneManagerAtt::Engine::Initialize();
 		EditorLayer::Initialize();
 		Physics::Initialize();
@@ -145,6 +147,7 @@ namespace Glacier {
 		Tools::UUIDAtt::Terminate();
 		LoggerAtt::Terminate();
 		Physics::Terminate();
+		Lighting::Terminate();
 		RendererAtt::Terminate();
 		Renderer2DAtt::Terminate();
 		TimeManagerAtt::Terminate();
@@ -157,6 +160,7 @@ namespace Glacier {
 		DX::Initialize(*window);
 		Renderer2DAtt::Initialize();
 		RendererAtt::Initialize();
+		Lighting::Initialize();
 		SceneManagerAtt::Engine::Initialize();
 		Physics::Initialize();
 		LoggerAtt::Initialize();
@@ -171,38 +175,12 @@ namespace Glacier {
 
 		TimeManagerAtt::Initialize();
 
-		ID3D11DeviceContext* context = DX::GetDeviceContext();
-		const TextureDirectX& tex = TextureLoader::Get("Crate");
-		const Model* cube = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
-		const Shader* shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE);
-
-		auto matrixCBuffer = ShaderLoader::GetCamDataConstantBuffer();
-		auto instanceCBuffer = ShaderLoader::GetInstanceDataConstantBuffer();
-
-		const glm::mat4 cam_matrices[] = {
-			glm::perspective(glm::radians(90.0f), 16.0f / 9.0f, 0.1f, 1000.0f),
-			//glm::ortho(0.0f, (float)window->GetWindowWidth(), 0.0f, (float)window->GetWindowHeight()),
-			glm::lookAt(glm::vec3(0.0f, 0.0f, 20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f))
-		};
-		glm::mat4 world = glm::scale(glm::vec3(10.0f, 10.0f, 10.0f));
-
 		// Main loop
 		while (!window->IsOpen())
 		{
 			GLACIER_LOG_FUNC_TIMER("frame_time");
 
 			window->Clear();
-
-			//world *= glm::rotate(0.5f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-			//world *= glm::rotate(TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-			//world *= glm::rotate(0.25f * TimeManager::GetDeltaTime(), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-			//
-			//context->UpdateSubresource(matrixCBuffer, 0, nullptr, cam_matrices, 0, 0);
-			//context->UpdateSubresource(instanceCBuffer, 0, nullptr, &world, 0, 0);
-			//shad->Bind();
-			//tex.Bind();
-			//cube->Bind();
-			//context->DrawIndexed(cube->GetNumTriangles() * 3, 0, 0);
 			
 			TimeManagerAtt::ProcessTime();
 			InputAtt::ProcessMouseData();
@@ -229,6 +207,7 @@ namespace Glacier {
 		Renderer2DAtt::Terminate();
 		TimeManagerAtt::Terminate();
 		ShaderLoaderAtt::Terminate();
+		Lighting::Terminate();
 		ModelLoaderAtt::Terminate();
 		TextureLoaderAtt::Terminate();
 		FontLoaderAtt::Terminate();

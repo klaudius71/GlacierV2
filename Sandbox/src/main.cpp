@@ -18,7 +18,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	freopen_s(&fpstderr, "CONOUT$", "w", stderr);
 #endif
 
-	Sandbox* sandbox = new Sandbox(1600, 900);
+	Sandbox* sandbox = new Sandbox(1920, 1080);
 	sandbox->Run();
 	delete sandbox;
 	return 0;

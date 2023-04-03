@@ -11,23 +11,11 @@ const std::string ShaderLoader::SHADER_PATH = "assets/shaders/";
 
 ShaderLoader::ShaderLoader()
 {
-	// Set up the uniform buffer objects and their default values
-	glGenBuffers(3, &ubo_Matrices);
+	glGenBuffers(1, &ubo_Matrices);
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo_Matrices);
 	const glm::mat4 idents[2] = { glm::mat4(1.0f), glm::mat4(1.0f) };
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, idents, GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_UNIFORM_BUFFER, ubo_DirLight);
-	const VertexTypes::DirectionalLight dir_light(VertexTypes::PhongADS(glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(1.0f), 32.0f), glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)));
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(VertexTypes::DirectionalLight), &dir_light, GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_UNIFORM_BUFFER, ubo_LightspaceMatrices);
-	const glm::mat4 ident(1.0f);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), &ident, GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	Lighting::SetBuffers(ubo_DirLight, ubo_LightspaceMatrices);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_Matrices);
 
 	// --Load in the default shaders used by the engine--
 	auto curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::COLOR, SHADER_PATH + "color").first->second;
@@ -98,17 +86,14 @@ Shader* const ShaderLoader::get(const std::string& name)
 void ShaderLoader::load_matrix_binding(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "Matrices"), 0);
-	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_Matrices);
 }
 void ShaderLoader::load_light_bindings(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "DirLight"), 1);
-	glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_DirLight);
 }
 void ShaderLoader::load_lightspace_bindings(const ShaderOpenGL* shader)
 {
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "LightspaceMatrices"), 2);
-	glBindBufferBase(GL_UNIFORM_BUFFER, 2, ubo_LightspaceMatrices);
 }
 
 void ShaderLoader::Terminate()
@@ -151,7 +136,15 @@ ShaderLoader::ShaderLoader()
 	bd.ByteWidth = sizeof(VertexTypes::SpriteData);
 	hr = dev->CreateBuffer(&bd, nullptr, &spriteDataCBuffer);
 	assert(SUCCEEDED(hr));
-	
+
+	bd.ByteWidth = sizeof(VertexTypes::PhongADS);
+	hr = dev->CreateBuffer(&bd, nullptr, &materialDataCBuffer);
+	assert(SUCCEEDED(hr));
+
+	bd.ByteWidth = sizeof(VertexTypes::DirectionalLight);
+	hr = dev->CreateBuffer(&bd, nullptr, &directionalLightCBuffer);
+	assert(SUCCEEDED(hr));
+
 	// Set the common constant buffers to context
 	auto context = DX::GetDeviceContext();
 	context->VSSetConstantBuffers(0, 1, &camDataCBuffer);
@@ -165,6 +158,8 @@ ShaderLoader::~ShaderLoader()
 	camDataCBuffer->Release();
 	instanceDataCBuffer->Release();
 	spriteDataCBuffer->Release();
+	materialDataCBuffer->Release();
+	directionalLightCBuffer->Release();
 }
 
 void ShaderLoader::load(const std::string& name, const std::string& file_name)

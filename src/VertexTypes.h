@@ -54,7 +54,7 @@ namespace VertexTypes
 
 	};
 
-	struct GLACIER_API PhongADS
+	struct GLACIER_API ALIGN16 PhongADS
 	{
 		glm::vec3 ambient = glm::vec3(1.0f);
 		float pad0 = 0.0f;
@@ -69,7 +69,7 @@ namespace VertexTypes
 		{}
 		PhongADS(const PhongADS&) = default;
 	};
-	struct GLACIER_API DirectionalLight
+	struct GLACIER_API ALIGN16 DirectionalLight
 	{
 		PhongADS light_properties;
 		glm::vec3 direction = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)); // world direction

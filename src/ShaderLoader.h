@@ -42,8 +42,6 @@ private:
 	std::unordered_map<PRELOADED_SHADERS, ShaderOpenGL> preloaded_shaders;
 	std::unordered_map<std::string, ShaderOpenGL> shaders;
 	GLuint ubo_Matrices;
-	GLuint ubo_DirLight;
-	GLuint ubo_LightspaceMatrices;
 
 	void load(const std::string& name, const std::string& file_name);
 	void load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name);
@@ -68,8 +66,6 @@ public:
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }
 	static const GLuint GetMatricesUBO() { return instance->ubo_Matrices; }
-	static const GLuint GetDirLightUBO() { return instance->ubo_DirLight; }
-	static const GLuint GetLightspaceMatricesUBO() { return instance->ubo_LightspaceMatrices; }
 };
 #elif GLACIER_DIRECTX
 class GLACIER_API ShaderLoader
@@ -97,6 +93,8 @@ private:
 	ID3D11Buffer* camDataCBuffer;
 	ID3D11Buffer* instanceDataCBuffer;
 	ID3D11Buffer* spriteDataCBuffer;
+	ID3D11Buffer* materialDataCBuffer;
+	ID3D11Buffer* directionalLightCBuffer;
 
 	void load(const std::string& name, const std::string& file_name);
 
@@ -116,6 +114,8 @@ public:
 	static ID3D11Buffer* GetCamDataConstantBuffer() { return instance->camDataCBuffer; }
 	static ID3D11Buffer* GetInstanceDataConstantBuffer() { return instance->instanceDataCBuffer; }
 	static ID3D11Buffer* GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
+	static ID3D11Buffer* GetMaterialDataConstantBuffer() { return instance->materialDataCBuffer; }
+	static ID3D11Buffer* GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
 };
 #endif
 

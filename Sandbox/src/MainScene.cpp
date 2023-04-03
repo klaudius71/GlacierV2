@@ -75,9 +75,14 @@ void MainScene::InitializeScene()
 	sphere->RegisterToScene();
 
 	GameObject vampire = CreateGameObject("Vampire");
-	//vampire->EmplaceComponent<SkeletalMeshComponent>((const ModelOpenGL*)ModelLoader::Get("Vampire"));
+#if GLACIER_OPENGL
+	vampire->EmplaceComponent<SkeletalMeshComponent>((const ModelOpenGL*)ModelLoader::Get("Vampire"));
+#endif
 	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 40.0f, 0.0f);
-	//vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse")).norm_tex_id.x = TextureLoader::Get("VampireNormal");
+	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse"));
+#if GLACIER_OPENGL
+	vampire->GetComponent<MaterialComponent>().norm_tex_id.x = TextureLoader::Get("VampireNormal");
+#endif
 	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
 	vampire->RegisterToScene();
 

@@ -34,9 +34,7 @@ void SceneManager::updateCurrentScene()
 	Script::ExecuteAllOnUpdate(scn);
 	scn.scn_graph.UpdateTransforms();
 	Animator::UpdateAnimationComponents(scn);
-#if GLACIER_OPENGL
 	Lighting::UpdateBuffers(scn);
-#endif
 }
 void SceneManager::renderCurrentScene()
 {
