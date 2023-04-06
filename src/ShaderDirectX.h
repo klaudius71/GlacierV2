@@ -8,6 +8,8 @@
 
 #if GLACIER_DIRECTX
 
+class ConstantBuffer;
+
 class ShaderDirectX : public Shader
 {
 public:
@@ -17,6 +19,8 @@ public:
 	ShaderDirectX(ShaderDirectX&&) = delete;
 	ShaderDirectX& operator=(ShaderDirectX&&) = delete;
 	~ShaderDirectX();
+
+	void AddConstantBuffer(ConstantBuffer* const buf, const uint32_t index);
 
 	void Bind() const;
 
@@ -28,6 +32,7 @@ private:
 	ID3D11InputLayout* mpVertexLayout;
 	ID3DBlob* pVSBlob;
 	ID3DBlob* pPSBlob;
+	std::vector<std::pair<ConstantBuffer*, uint32_t>> buffers;
 
 	void PrintShaderError(ID3DBlob* const blob);
 };

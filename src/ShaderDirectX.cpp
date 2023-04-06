@@ -1,6 +1,7 @@
 #include "gpch.h"
 #include "ShaderDirectX.h"
 #include "DX.h"
+#include "ConstantBuffer.h"
 
 #if GLACIER_DIRECTX
 
@@ -67,12 +68,21 @@ ShaderDirectX::~ShaderDirectX()
 	mpVertexLayout->Release();
 }
 
+void ShaderDirectX::AddConstantBuffer(ConstantBuffer* const buf, const uint32_t index)
+{
+	assert(buf && index < D3D11_COMMONSHADER_CONSTANT_BUFFER_HW_SLOT_COUNT);
+	buffers.emplace_back(buf, index);
+}
+
 void ShaderDirectX::Bind() const
 {
 	auto context = DX::GetDeviceContext();
 	context->VSSetShader(mpVertexShader, nullptr, 0);
 	context->PSSetShader(mpPixelShader, nullptr, 0);
 	context->IASetInputLayout(mpVertexLayout);
+
+	for (const auto& buf : buffers)
+		buf.first->Bind(buf.second);
 }
 
 void ShaderDirectX::PrintShaderError(ID3DBlob* const blob)

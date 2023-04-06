@@ -36,7 +36,7 @@ ConstantBuffer::~ConstantBuffer()
 	buf->Release();
 }
 
-void ConstantBuffer::Bind(const uint32_t index)
+void ConstantBuffer::Bind(const uint32_t index) const
 {
 	auto devcon = DX::GetDeviceContext();
 	devcon->VSSetConstantBuffers(index, 1, &buf);

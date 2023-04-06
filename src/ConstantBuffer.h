@@ -13,7 +13,7 @@ public:
 	ConstantBuffer& operator=(ConstantBuffer&& o);
 	~ConstantBuffer();
 
-	void Bind(const uint32_t index);
+	void Bind(const uint32_t index) const;
 
 private:
 	ID3D11Buffer* buf;
