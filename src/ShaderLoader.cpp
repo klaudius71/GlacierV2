@@ -3,6 +3,7 @@
 #include "VertexTypes.h"
 #include "Lighting.h"
 #include "DX.h"
+#include "ConstantBuffer.h"
 
 ShaderLoader* ShaderLoader::instance = nullptr;
 
@@ -106,60 +107,50 @@ const std::string ShaderLoader::SHADER_PATH = "assets/shaders/dx11/";
 
 ShaderLoader::ShaderLoader()
 {
+	// Create the constant buffers
+	camDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::CamData));
+	instanceDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::InstanceData));
+	spriteDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::SpriteData));
+	materialDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::PhongADS));
+	directionalLightCBuffer = new ConstantBuffer(sizeof(VertexTypes::DirectionalLight));
+	
 	// --Load in the default shaders used by the engine--
-	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl");
-	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_LIT, SHADER_PATH + "TextureLit.hlsl");
-	preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "Skybox.hlsl");
-	preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "Sprite.hlsl");
-	preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "Text.hlsl");
+	auto curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_LIT, SHADER_PATH + "TextureLit.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
+	curr_shader->AddConstantBuffer(directionalLightCBuffer, 3);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "Skybox.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "Sprite.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(spriteDataCBuffer, 2);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT, SHADER_PATH + "Text.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(spriteDataCBuffer, 2);
 
 	auto dev = DX::GetDevice();
 
-	// Create the constant buffers
-	HRESULT hr;
-	// View Projection buffer
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(VertexTypes::CamData);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	bd.MiscFlags = 0;
-	bd.StructureByteStride = 0;
-	hr = dev->CreateBuffer(&bd, nullptr, &camDataCBuffer);
-	assert(SUCCEEDED(hr));
-
-	bd.ByteWidth = sizeof(VertexTypes::InstanceData);
-	hr = dev->CreateBuffer(&bd, nullptr, &instanceDataCBuffer);
-	assert(SUCCEEDED(hr));
-
-	bd.ByteWidth = sizeof(VertexTypes::SpriteData);
-	hr = dev->CreateBuffer(&bd, nullptr, &spriteDataCBuffer);
-	assert(SUCCEEDED(hr));
-
-	bd.ByteWidth = sizeof(VertexTypes::PhongADS);
-	hr = dev->CreateBuffer(&bd, nullptr, &materialDataCBuffer);
-	assert(SUCCEEDED(hr));
-
-	bd.ByteWidth = sizeof(VertexTypes::DirectionalLight);
-	hr = dev->CreateBuffer(&bd, nullptr, &directionalLightCBuffer);
-	assert(SUCCEEDED(hr));
-
 	// Set the common constant buffers to context
-	auto context = DX::GetDeviceContext();
-	context->VSSetConstantBuffers(0, 1, &camDataCBuffer);
-	context->VSSetConstantBuffers(1, 1, &instanceDataCBuffer);
-
-	context->PSSetConstantBuffers(0, 1, &camDataCBuffer);
-	context->PSSetConstantBuffers(1, 1, &instanceDataCBuffer);
+	camDataCBuffer->Bind(0);
+	instanceDataCBuffer->Bind(1);
 }
 ShaderLoader::~ShaderLoader()
 {
-	camDataCBuffer->Release();
-	instanceDataCBuffer->Release();
-	spriteDataCBuffer->Release();
-	materialDataCBuffer->Release();
-	directionalLightCBuffer->Release();
+	delete camDataCBuffer;
+	delete instanceDataCBuffer;
+	delete spriteDataCBuffer;
+	delete materialDataCBuffer;
+	delete directionalLightCBuffer;
 }
 
 void ShaderLoader::load(const std::string& name, const std::string& file_name)

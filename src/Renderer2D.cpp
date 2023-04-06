@@ -16,6 +16,7 @@
 #elif GLACIER_DIRECTX
 #include "DX.h"
 #include "TextureDirectX.h"
+#include "ConstantBuffer.h"
 #endif
 
 Renderer2D* Renderer2D::instance = nullptr;
@@ -134,11 +135,9 @@ void Renderer2D::renderComponents(Scene& scn)
 
 	// Set the camera matrices
 	VertexTypes::CamData CamData{ instance->proj, glm::mat4(1.0f) };
-	devcon->UpdateSubresource(ShaderLoader::GetCamDataConstantBuffer(), 0, nullptr, &CamData, 0, 0);
+	ShaderLoader::GetCamDataConstantBuffer()->UpdateData(devcon, &CamData, sizeof(VertexTypes::CamData));
 
 	// More setup
-	devcon->VSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
-	devcon->PSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
 	ModelLoader::Get(PRELOADED_MODELS::QUAD)->Bind();
 	VertexTypes::InstanceData InstanceData;
 	VertexTypes::SpriteData SpriteData{ glm::vec2(0.0f), glm::vec2(0.0f), Colors::White, glm::vec2(0.0f) };
@@ -152,13 +151,13 @@ void Renderer2D::renderComponents(Scene& scn)
 		InstanceData.World *= glm::rotate(glm::mat4(1.0f), transform.rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
 		InstanceData.World *= glm::scale(glm::mat4(1.0f), transform.scl);
 		(glm::vec2&)InstanceData.World[3] += anchors[(uint32_t)render.anchor];
-		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &InstanceData, 0, 0);
+		instance_data_cbuffer->UpdateData(devcon, &InstanceData, sizeof(VertexTypes::InstanceData));
 
 		// Sprite data
 		SpriteData.TexelPos = render.texel_origin;
 		SpriteData.Size = render.size;
 		SpriteData.TexSize = { render.tex->GetWidth(), render.tex->GetHeight() };
-		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &SpriteData, 0, 0);
+		sprite_data_cbuffer->UpdateData(devcon, &SpriteData, sizeof(VertexTypes::SpriteData));
 
 		// Bind texture
 		render.tex->Bind(0);
@@ -186,8 +185,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	font->GetTexture()->Bind();
+	font->GetTexture()->Bind(0);
 	
 	// Set the color and projection matrix uniforms
 	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
@@ -236,8 +234,7 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	font->GetTexture()->Bind();
+	font->GetTexture()->Bind(0);
 
 	// Set the color and projection matrix uniforms
 	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
@@ -307,12 +304,10 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 
 	// Set the camera matrices
 	VertexTypes::CamData cam_data{ instance->proj, glm::mat4(1.0f) };
-	devcon->UpdateSubresource(cam_data_cbuffer, 0, nullptr, &cam_data, 0, 0);
+	cam_data_cbuffer->UpdateData(devcon, &cam_data, sizeof(VertexTypes::CamData));
 
 	// Set up the sprite data structure
 	VertexTypes::SpriteData sprite_data{ glm::vec2(0.0f), glm::vec2(0.0f), color, glm::vec2(font->GetBitmapWidth(), font->GetBitmapHeight())};
-	devcon->VSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
-	devcon->PSSetConstantBuffers(2, 1, &sprite_data_cbuffer);
 
 	// Set up the current x position and world_matrix
 	float xpos = x;
@@ -328,13 +323,13 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 		xpos += glyph.advance * 0.5f;
 		sprite_data.TexelPos = { glyph.bitmap_origin.x, glyph.bitmap_origin.y };
 		sprite_data.Size = { glyph.size.x, glyph.size.y	};
-		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &sprite_data, 0, 0);
+		sprite_data_cbuffer->UpdateData(devcon, &sprite_data, sizeof(VertexTypes::SpriteData));
 
 		instance_data.World[0].x = glyph.size.x * 0.5f;
 		instance_data.World[1].y = glyph.size.y * -0.5f;
 		instance_data.World[3].x = xpos;
 		instance_data.World[3].y = y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
-		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &instance_data, 0, 0);
+		instance_data_cbuffer->UpdateData(devcon, &instance_data, sizeof(VertexTypes::InstanceData));
 
 		devcon->DrawIndexed(quad->GetNumTriangles() * 3, 0, 0);
 

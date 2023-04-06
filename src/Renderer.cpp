@@ -13,6 +13,7 @@
 #include "SkeletalAnimation.h"
 #include "Logger.h"
 #include "DX.h"
+#include "ConstantBuffer.h"
 
 Renderer* Renderer::instance = nullptr;
 
@@ -31,7 +32,7 @@ void Renderer::UpdateCameraData(const CameraComponent& camera)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 #elif GLACIER_DIRECTX
 	const VertexTypes::CamData CamData{ camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
-	DX::GetDeviceContext()->UpdateSubresource(ShaderLoader::GetCamDataConstantBuffer(), 0, nullptr, &CamData, 0, 0);
+	ShaderLoader::GetCamDataConstantBuffer()->UpdateData(DX::GetDeviceContext(), &CamData, sizeof(VertexTypes::CamData));
 #endif
 }
 void Renderer::UpdateViewportSize(const int width, const int height)
@@ -84,17 +85,9 @@ void Renderer::RenderLit(Scene& scn)
 	auto devcon = DX::GetDeviceContext();
 	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
 	auto material_data_cbuffer = ShaderLoader::GetMaterialDataConstantBuffer();
-	auto dirlight_cbuffer = ShaderLoader::GetDirectionalLightConstantBuffer();
 
 	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	curr_shader->Bind();
-
-	devcon->VSSetConstantBuffers(1, 1, &instance_data_cbuffer);
-	devcon->PSSetConstantBuffers(1, 1, &instance_data_cbuffer);
-	devcon->VSSetConstantBuffers(2, 1, &material_data_cbuffer);
-	devcon->PSSetConstantBuffers(2, 1, &material_data_cbuffer);
-	devcon->VSSetConstantBuffers(3, 1, &dirlight_cbuffer);
-	devcon->PSSetConstantBuffers(3, 1, &dirlight_cbuffer);
 
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
@@ -102,8 +95,8 @@ void Renderer::RenderLit(Scene& scn)
 	{
 		material.tex->Bind(0);
 		//material.norm_tex->Bind(1);
-		devcon->UpdateSubresource(material_data_cbuffer, 0, nullptr, &material.ads, 0, 0);
-		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &transform.GetWorldMatrix(), 0, 0);
+		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
+		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4)); // not exactly safe yet
 		mesh.mod->Bind();
 		devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
 	}

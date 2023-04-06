@@ -20,7 +20,6 @@ const D3D11_INPUT_ELEMENT_DESC ShaderDirectX::layout[] =
 ShaderDirectX::ShaderDirectX(const std::string& file_name)
 	: mpVertexShader(nullptr), mpPixelShader(nullptr), mpVertexLayout(nullptr), pVSBlob(nullptr), pPSBlob(nullptr)
 {
-	UNREFERENCED_PARAMETER(file_name);
 	ID3D11Device* dev = DX::GetDevice();
 	std::wstring filename(file_name.cbegin(), file_name.cend());
 

@@ -68,6 +68,8 @@ public:
 	static const GLuint GetMatricesUBO() { return instance->ubo_Matrices; }
 };
 #elif GLACIER_DIRECTX
+class ConstantBuffer;
+
 class GLACIER_API ShaderLoader
 {
 private:
@@ -90,11 +92,11 @@ private:
 	std::unordered_map<PRELOADED_SHADERS, ShaderDirectX> preloaded_shaders;
 	std::unordered_map<std::string, ShaderDirectX> shaders;
 
-	ID3D11Buffer* camDataCBuffer;
-	ID3D11Buffer* instanceDataCBuffer;
-	ID3D11Buffer* spriteDataCBuffer;
-	ID3D11Buffer* materialDataCBuffer;
-	ID3D11Buffer* directionalLightCBuffer;
+	ConstantBuffer* camDataCBuffer;
+	ConstantBuffer* instanceDataCBuffer;
+	ConstantBuffer* spriteDataCBuffer;
+	ConstantBuffer* materialDataCBuffer;
+	ConstantBuffer* directionalLightCBuffer;
 
 	void load(const std::string& name, const std::string& file_name);
 
@@ -111,11 +113,11 @@ public:
 	static Shader* Get(const PRELOADED_SHADERS shader) { return instance->get(shader); }
 	static Shader* Get(const std::string& name) { return instance->get(name); }
 
-	static ID3D11Buffer* GetCamDataConstantBuffer() { return instance->camDataCBuffer; }
-	static ID3D11Buffer* GetInstanceDataConstantBuffer() { return instance->instanceDataCBuffer; }
-	static ID3D11Buffer* GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
-	static ID3D11Buffer* GetMaterialDataConstantBuffer() { return instance->materialDataCBuffer; }
-	static ID3D11Buffer* GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
+	static ConstantBuffer* const GetCamDataConstantBuffer() { return instance->camDataCBuffer; }
+	static ConstantBuffer* const GetInstanceDataConstantBuffer() { return instance->instanceDataCBuffer; }
+	static ConstantBuffer* const GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
+	static ConstantBuffer* const GetMaterialDataConstantBuffer() { return instance->materialDataCBuffer; }
+	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
 };
 #endif
 

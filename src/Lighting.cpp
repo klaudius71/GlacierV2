@@ -8,6 +8,7 @@
 #include "Window.h"
 #include "ModelOpenGL.h"
 #include "DX.h"
+#include "ConstantBuffer.h"
 
 Lighting* Lighting::instance = nullptr;
 const DirectionalLightComponent Lighting::default_dir_light = DirectionalLightComponent(VertexTypes::PhongADS(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), 0.0f), glm::vec3(0.0f));
@@ -146,9 +147,9 @@ void Lighting::updateBuffers(const Scene& curr_scene)
 {
 	auto devcon = DX::GetDeviceContext();
 	if (const DirectionalLightComponent* dir_light = curr_scene.GetFirstComponent<DirectionalLightComponent>())
-		devcon->UpdateSubresource(ShaderLoader::GetDirectionalLightConstantBuffer(), 0, nullptr, &dir_light->light, 0, 0);
+		ShaderLoader::GetDirectionalLightConstantBuffer()->UpdateData(devcon, &dir_light->light, sizeof(VertexTypes::DirectionalLight));
 	else
-		devcon->UpdateSubresource(ShaderLoader::GetDirectionalLightConstantBuffer(), 0, nullptr, &default_dir_light.light, 0, 0);
+		ShaderLoader::GetDirectionalLightConstantBuffer()->UpdateData(devcon, &default_dir_light.light, sizeof(VertexTypes::DirectionalLight));
 }
 
 void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)
