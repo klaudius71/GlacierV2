@@ -10,13 +10,13 @@ public:
 	TextureOpenGL(Args&&... args)
 		: Texture(std::forward<Args>(args)...), id(0)
 	{}
-	TextureOpenGL(const TextureOpenGL&);
-	TextureOpenGL& operator=(const TextureOpenGL&);
+	TextureOpenGL(const TextureOpenGL&) = delete;
+	TextureOpenGL& operator=(const TextureOpenGL&) = delete;
 	TextureOpenGL(TextureOpenGL&& o) noexcept;
 	TextureOpenGL& operator=(TextureOpenGL&& o);
 	~TextureOpenGL();
 
-	virtual void Bind() const override;
+	virtual void Bind(const uint32_t index) const override;
 	void Unbind() const;
 
 	operator const GLuint () const { return id; }

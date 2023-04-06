@@ -30,11 +30,11 @@ TextureDirectX::~TextureDirectX()
 	}
 }
 
-void TextureDirectX::Bind() const
+void TextureDirectX::Bind(const uint32_t index) const
 {
 	ID3D11DeviceContext* devcon = DX::GetDeviceContext();
-	devcon->PSSetShaderResources(0, 1, &mpTextureRV);
-	devcon->PSSetSamplers(0, 1, &mpSampler);
+	devcon->PSSetShaderResources(index, 1, &mpTextureRV);
+	devcon->PSSetSamplers(index, 1, &mpSampler);
 }
 
 void TextureDirectX::SetTextureWrapS(TEXTURE_WRAP wrap)

@@ -161,7 +161,7 @@ void Renderer2D::renderComponents(Scene& scn)
 		devcon->UpdateSubresource(sprite_data_cbuffer, 0, nullptr, &SpriteData, 0, 0);
 
 		// Bind texture
-		render.tex->Bind();
+		render.tex->Bind(0);
 
 		// Draw
 		devcon->DrawIndexed(6, 0, 0);
@@ -303,7 +303,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
 	shad->Bind();
 	// Bind the bitmap texture
-	font->GetTexture()->Bind();
+	font->GetTexture()->Bind(0);
 
 	// Set the camera matrices
 	VertexTypes::CamData cam_data{ instance->proj, glm::mat4(1.0f) };

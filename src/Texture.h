@@ -60,7 +60,7 @@ protected:
 	virtual ~Texture();
 
 public:
-	virtual void Bind() const = 0;
+	virtual void Bind(const uint32_t index) const = 0;
 
 	const int GetWidth() const;
 	const int GetHeight() const;

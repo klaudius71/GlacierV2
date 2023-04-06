@@ -100,7 +100,7 @@ void Renderer::RenderLit(Scene& scn)
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, material, mesh, transform] : render_group_material.each())
 	{
-		material.tex->Bind();
+		material.tex->Bind(0);
 		//material.norm_tex->Bind(1);
 		devcon->UpdateSubresource(material_data_cbuffer, 0, nullptr, &material.ads, 0, 0);
 		devcon->UpdateSubresource(instance_data_cbuffer, 0, nullptr, &transform.GetWorldMatrix(), 0, 0);
@@ -209,7 +209,7 @@ void Renderer::RenderSkybox(Scene& scn)
 		auto skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		skybox_model->Bind();
 		
-		skybox->tex->Bind();
+		skybox->tex->Bind(0);
 
 		DX::GetDeviceContext()->DrawIndexed(skybox_model->GetNumTriangles() * 3, 0, 0);
 

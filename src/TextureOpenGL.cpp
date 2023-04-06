@@ -21,8 +21,9 @@ TextureOpenGL::~TextureOpenGL()
 		glDeleteTextures(1, &id);
 }
 
-void TextureOpenGL::Bind() const
+void TextureOpenGL::Bind(const uint32_t index) const
 {
+	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture((GLenum)tex_params.type, id);
 }
 void TextureOpenGL::Unbind() const
@@ -37,31 +38,31 @@ const GLuint TextureOpenGL::GetID() const
 
 void TextureOpenGL::SetTextureWrapS(TEXTURE_WRAP wrap)
 {
-	Bind();
+	Bind(0);
 	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_S, (GLint)wrap);
 	Unbind();
 }
 void TextureOpenGL::SetTextureWrapT(TEXTURE_WRAP wrap)
 {
-	Bind();
+	Bind(0);
 	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_T, (GLint)wrap);
 	Unbind();
 }
 void TextureOpenGL::SetTextureWrapR(TEXTURE_WRAP wrap)
 {
-	Bind();
+	Bind(0);
 	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_WRAP_R, (GLint)wrap);
 	Unbind();
 }
 void TextureOpenGL::SetTextureMinFilter(TEXTURE_MIN_FILTER filter)
 {
-	Bind();
+	Bind(0);
 	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_MIN_FILTER, (GLint)filter);
 	Unbind();
 }
 void TextureOpenGL::SetTextureMagFilter(TEXTURE_MAG_FILTER filter)
 {
-	Bind();
+	Bind(0);
 	glTexParameteri((GLuint)tex_params.type, GL_TEXTURE_MAG_FILTER, (GLint)filter);
 	Unbind();
 }
@@ -71,7 +72,7 @@ void TextureOpenGL::load_gpu_data()
 	// Load the image into the driver
 	glGenTextures(1, &id);
 	const auto format = channels == 4 ? GL_RGBA : channels == 3 ? GL_RGB : GL_RED;
-	Bind();
+	Bind(0);
 	switch (tex_params.type)
 	{
 	case TEXTURE_TYPE::REGULAR:

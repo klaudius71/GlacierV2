@@ -20,7 +20,7 @@ public:
 	TextureDirectX& operator=(TextureDirectX&& o);
 	~TextureDirectX();
 
-	virtual void Bind() const override;
+	virtual void Bind(const uint32_t index) const override;
 
 	virtual void SetTextureWrapS(TEXTURE_WRAP wrap) override;
 	virtual void SetTextureWrapT(TEXTURE_WRAP wrap) override;
