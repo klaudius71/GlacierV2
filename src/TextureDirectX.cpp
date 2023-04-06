@@ -39,23 +39,33 @@ void TextureDirectX::Bind(const uint32_t index) const
 
 void TextureDirectX::SetTextureWrapS(TEXTURE_WRAP wrap)
 {
-	UNREFERENCED_PARAMETER(wrap);
+	tex_params.wrap_s = wrap;
+	mpSampler->Release();
+	load_sampler(DX::GetDevice());
 }
 void TextureDirectX::SetTextureWrapT(TEXTURE_WRAP wrap)
 {
-	UNREFERENCED_PARAMETER(wrap);
+	tex_params.wrap_t = wrap;
+	mpSampler->Release();
+	load_sampler(DX::GetDevice());
 }
 void TextureDirectX::SetTextureWrapR(TEXTURE_WRAP wrap)
 {
-	UNREFERENCED_PARAMETER(wrap);
+	tex_params.wrap_r = wrap;
+	mpSampler->Release();
+	load_sampler(DX::GetDevice());
 }
 void TextureDirectX::SetTextureMinFilter(TEXTURE_MIN_FILTER filter)
 {
-	UNREFERENCED_PARAMETER(filter);
+	tex_params.min_filter = filter;
+	mpSampler->Release();
+	load_sampler(DX::GetDevice());
 }
 void TextureDirectX::SetTextureMagFilter(TEXTURE_MAG_FILTER filter)
 {
-	UNREFERENCED_PARAMETER(filter);
+	tex_params.mag_filter = filter;
+	mpSampler->Release();
+	load_sampler(DX::GetDevice());
 }
 
 void TextureDirectX::load_gpu_data()
@@ -110,11 +120,15 @@ void TextureDirectX::load_gpu_data()
 	assert(SUCCEEDED(hr));
 	tex2D->Release();
 
-	//delete[] subresData;
-
 	if(texDesc.ArraySize == 1)
 		DX::GetDeviceContext()->GenerateMips(mpTextureRV);
 	
+	// Create the sampler object
+	load_sampler(dev);
+}
+
+void TextureDirectX::load_sampler(ID3D11Device* const dev)
+{
 	D3D11_SAMPLER_DESC samp;
 	ZeroMemory(&samp, sizeof(D3D11_SAMPLER_DESC));
 	samp.Filter = ConvertToDirectXFilter(tex_params.min_filter, tex_params.mag_filter);
@@ -125,7 +139,7 @@ void TextureDirectX::load_gpu_data()
 	samp.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	samp.MinLOD = 0;
 	samp.MaxLOD = D3D11_FLOAT32_MAX;
-	hr = dev->CreateSamplerState(&samp, &mpSampler);
+	HRESULT hr = dev->CreateSamplerState(&samp, &mpSampler);
 	assert(SUCCEEDED(hr));
 }
 

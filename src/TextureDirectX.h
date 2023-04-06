@@ -33,6 +33,8 @@ private:
 
 	virtual void load_gpu_data() override;
 
+	void load_sampler(ID3D11Device* const dev);
+
 	static const std::map<std::pair<TEXTURE_MIN_FILTER, TEXTURE_MAG_FILTER>, D3D11_FILTER> filter_map;
 	static const std::unordered_map<TEXTURE_WRAP, D3D11_TEXTURE_ADDRESS_MODE> wrap_map;
 	inline D3D11_FILTER ConvertToDirectXFilter(TEXTURE_MIN_FILTER min, TEXTURE_MAG_FILTER mag) const;
