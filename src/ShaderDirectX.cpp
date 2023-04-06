@@ -18,7 +18,7 @@ const D3D11_INPUT_ELEMENT_DESC ShaderDirectX::layout[] =
 };
 
 ShaderDirectX::ShaderDirectX(const std::string& file_name)
-	: mpVertexShader(nullptr), mpPixelShader(nullptr), mpVertexLayout(nullptr), pVSBlob(nullptr), pPSBlob(nullptr)
+	: mpVertexShader(nullptr), mpPixelShader(nullptr), mpVertexLayout(nullptr)
 {
 	ID3D11Device* dev = DX::GetDevice();
 	std::wstring filename(file_name.cbegin(), file_name.cend());
@@ -32,6 +32,7 @@ ShaderDirectX::ShaderDirectX(const std::string& file_name)
 	dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
+	ID3DBlob* pVSBlob = nullptr;
 	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "VS", vsModel, dwShaderFlags, 0, &pVSBlob, &error_blob);
 	if (FAILED(hr))
 	{
@@ -42,7 +43,7 @@ ShaderDirectX::ShaderDirectX(const std::string& file_name)
 	hr = dev->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &mpVertexShader);
 	assert(SUCCEEDED(hr));
 
-	pPSBlob = nullptr;
+	ID3DBlob* pPSBlob = nullptr;
 	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "PS", psModel, dwShaderFlags, 0, &pPSBlob, &error_blob);
 	if (FAILED(hr))
 	{
@@ -57,11 +58,12 @@ ShaderDirectX::ShaderDirectX(const std::string& file_name)
 	// Create the input layout
 	hr = dev->CreateInputLayout(layout, ARRAYSIZE(layout), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &mpVertexLayout);
 	assert(SUCCEEDED(hr));
+
+	pVSBlob->Release();
+	pPSBlob->Release();
 }
 ShaderDirectX::~ShaderDirectX()
 {
-	pVSBlob->Release();
-	pPSBlob->Release();
 	mpVertexShader->Release();
 	mpPixelShader->Release();
 	mpVertexLayout->Release();

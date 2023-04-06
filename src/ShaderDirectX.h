@@ -30,8 +30,6 @@ private:
 	ID3D11VertexShader* mpVertexShader;
 	ID3D11PixelShader* mpPixelShader;
 	ID3D11InputLayout* mpVertexLayout;
-	ID3DBlob* pVSBlob;
-	ID3DBlob* pPSBlob;
 	std::vector<std::pair<ConstantBuffer*, uint32_t>> buffers;
 
 	void PrintShaderError(ID3DBlob* const blob);

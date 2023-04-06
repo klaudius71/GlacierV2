@@ -126,7 +126,6 @@ void TextureDirectX::load_gpu_data()
 	// Create the sampler object
 	load_sampler(dev);
 }
-
 void TextureDirectX::load_sampler(ID3D11Device* const dev)
 {
 	D3D11_SAMPLER_DESC samp;

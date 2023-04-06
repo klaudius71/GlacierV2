@@ -11,8 +11,7 @@ public:
 	template<typename... Args>
 	TextureDirectX(Args&&... args)
 		: Texture(std::forward<Args>(args)...), mpTextureRV(nullptr), mpSampler(nullptr)
-	{
-	}
+	{}
 	TextureDirectX(const TextureDirectX&) = delete;
 	TextureDirectX& operator=(const TextureDirectX&) = delete;
 	TextureDirectX(TextureDirectX&& o) noexcept;
@@ -32,7 +31,6 @@ private:
 	ID3D11SamplerState* mpSampler;
 
 	virtual void load_gpu_data() override;
-
 	void load_sampler(ID3D11Device* const dev);
 
 	static const std::map<std::pair<TEXTURE_MIN_FILTER, TEXTURE_MAG_FILTER>, D3D11_FILTER> filter_map;

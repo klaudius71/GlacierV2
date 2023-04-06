@@ -138,8 +138,6 @@ ShaderLoader::ShaderLoader()
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(spriteDataCBuffer, 2);
 
-	auto dev = DX::GetDevice();
-
 	// Set the common constant buffers to context
 	camDataCBuffer->Bind(0);
 	instanceDataCBuffer->Bind(1);
