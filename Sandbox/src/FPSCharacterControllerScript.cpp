@@ -63,10 +63,10 @@ void FPSCharacterControllerScript::OnUpdate(float dt)
 	cam->cam_pos = glm::vec3(world_pos.x, world_pos.y + 25.0f, world_pos.z);
 
 	const Font& font = FontLoader::Get("CascadiaMono20");
-	const Framebuffer& fb = Renderer::GetMainFramebuffer();
-	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 3.0f), Colors::Black, "Camera Controls:");
-	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 4.0f), Colors::Black, "Movement: WASD");
-	Renderer2D::PrintText(font, 0.0f, fb.GetSize().y - (font.GetGlyphWithMaxHeight().size.y * 5.0f), Colors::Black, "View: RMB + Mouse");
+	int height = Glacier::GetWindow().GetWindowHeight();
+	Renderer2D::PrintText(font, 0.0f, height - (font.GetGlyphWithMaxHeight().size.y * 3.0f), Colors::Black, "Camera Controls:");
+	Renderer2D::PrintText(font, 0.0f, height - (font.GetGlyphWithMaxHeight().size.y * 4.0f), Colors::Black, "Movement: WASD");
+	Renderer2D::PrintText(font, 0.0f, height - (font.GetGlyphWithMaxHeight().size.y * 5.0f), Colors::Black, "View: RMB + Mouse");
 }
 
 void FPSCharacterControllerScript::OnScreenResize(int width, int height)

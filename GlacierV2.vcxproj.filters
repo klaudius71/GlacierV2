@@ -400,6 +400,9 @@
     <ClCompile Include="src\TextureOpenGL.cpp">
       <Filter>src\Asset\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConstantBuffer.cpp">
+      <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\include\glad\glad.h">
@@ -746,6 +749,9 @@
     </ClInclude>
     <ClInclude Include="src\TextureOpenGL.h">
       <Filter>src\Asset\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConstantBuffer.h">
+      <Filter>src\GraphicsContext\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

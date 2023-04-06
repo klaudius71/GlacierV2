@@ -272,6 +272,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile Include="src\CharacterControllerComponent.cpp" />
     <ClCompile Include="src\Colors.cpp" />
     <ClCompile Include="src\CommandBroker.cpp" />
+    <ClCompile Include="src\ConstantBuffer.cpp" />
     <ClCompile Include="src\DirectionalLightComponent.cpp" />
     <ClCompile Include="src\DX.cpp" />
     <ClCompile Include="src\DynamicCharacterController.cpp" />
@@ -377,6 +378,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\Command.h" />
     <ClInclude Include="src\CommandBroker.h" />
     <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\ConstantBuffer.h" />
     <ClInclude Include="src\DX.h" />
     <ClInclude Include="src\DirectionalLightComponent.h" />
     <ClInclude Include="src\DynamicCharacterController.h" />
