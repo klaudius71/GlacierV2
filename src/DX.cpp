@@ -15,7 +15,7 @@ DX::DX(const Window& window)
 
 	DXGI_SWAP_CHAIN_DESC scd{ 0 };
 	scd.BufferCount = 2;
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow = window.GetNativeWindow();
 	scd.SampleDesc.Count = 1;

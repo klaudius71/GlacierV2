@@ -94,7 +94,7 @@ void Renderer::RenderLit(Scene& scn)
 	for (auto&& [entity, material, mesh, transform] : render_group_material.each())
 	{
 		material.tex->Bind(0);
-		//material.norm_tex->Bind(1);
+		material.norm_tex->Bind(1);
 		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
 		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4)); // not exactly safe yet
 		mesh.mod->Bind();
@@ -164,7 +164,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	for (auto&& [entity, skel_mesh, transform, material] : render_group.each())
 	{
 		material.tex->Bind(0);
-		//material.norm_tex->Bind(1);
+		material.norm_tex->Bind(1);
 		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
 		joint_data_cbuffer->UpdateData(devcon, skel_mesh.bone_matrices, sizeof(VertexTypes::JointData));
 		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4));

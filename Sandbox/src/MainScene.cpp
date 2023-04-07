@@ -55,7 +55,7 @@ void MainScene::InitializeScene()
 			cube->GetComponent<TransformComponent>().scale() = glm::vec3(3.0f);
 			cube->EmplaceComponent<MeshComponent>(ModelLoader::Get("Box"));
 			cube->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Crate"));
-	
+
 			rigidbody = &cube->EmplaceComponent<BoxColliderComponent>(glm::vec3(15.0f, 15.0f, 15.0f), .1f, .25f, .5f);
 			rigidbody->SetWorldPosition(glm::vec3(25.0f + float(j * 2 - (6 - i) + 1), 25.0f + float(i * 2 + 1), 0.0f) * 15.0f);
 			cube->RegisterToScene();
@@ -65,9 +65,7 @@ void MainScene::InitializeScene()
 	GameObject sphere = CreateGameObject("Sphere");
 	sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock"));
-#if GLACIER_OPENGL
-	sphere->GetComponent<MaterialComponent>().norm_tex_id.x = TextureLoader::Get("RockNormal");
-#endif
+	sphere->GetComponent<MaterialComponent>().SetNormalTexture(TextureLoader::Get("RockNormal"));
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
 	rigidbody = &sphere->EmplaceComponent<SphereColliderComponent>(20.0f);
 	rigidbody->SetWorldPosition(glm::vec3(150.0f, 500.0f, 100.0f));
@@ -76,11 +74,9 @@ void MainScene::InitializeScene()
 
 	GameObject vampire = CreateGameObject("Vampire");
 	vampire->EmplaceComponent<SkeletalMeshComponent>((const ModelOpenGL*)ModelLoader::Get("Vampire"));
-	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-155.0f, 40.0f, 0.0f);
+	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-105.0f, 48.0f, 0.0f);
 	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse"));
-#if GLACIER_OPENGL
-	vampire->GetComponent<MaterialComponent>().norm_tex_id.x = TextureLoader::Get("VampireNormal");
-#endif
+	vampire->GetComponent<MaterialComponent>().SetNormalTexture(TextureLoader::Get("VampireNormal"));
 	vampire->EmplaceComponent<SkeletalAnimationComponent>(SkeletalAnimationLoader::Get("VampireIdle"));
 	vampire->RegisterToScene();
 

@@ -16,6 +16,9 @@ struct DirLight
 Texture2D mainTexture : register(t0);
 SamplerState aSampler : register(s0);
 
+Texture2D normalTexture : register(t1);
+SamplerState nSampler : register(s1);
+
 cbuffer CamData : register(b0)
 {
     float4x4 Projection;
@@ -56,7 +59,7 @@ struct VS_OUTPUT
     float4 Pos : SV_POSITION;
     float4 Pos_CameraSpace : POSITION;
     float2 Tex : TEXCOORD;
-    float4 Normal_CameraSpace : NORMAL;
+    float3x3 TBN_CameraSpace : NORMAL;
 };
 
 //--------------------------------------------------------------------------------------
@@ -73,8 +76,12 @@ VS_OUTPUT VS(VS_INPUT input)
     
     output.Tex = input.Tex;
     
-    output.Normal_CameraSpace = mul(float4(input.Normal, 0.0), World);
-    output.Normal_CameraSpace = normalize(mul(output.Normal_CameraSpace, View));
+    float4x4 normal_matrix = mul(World, View);
+    
+    output.TBN_CameraSpace[0] = normalize(mul(float4(input.Tangent, 0.0), normal_matrix));
+    output.TBN_CameraSpace[1] = normalize(mul(float4(input.Bitangent, 0.0), normal_matrix));
+    output.TBN_CameraSpace[2] = normalize(mul(float4(input.Normal, 0.0), normal_matrix));
+    
     return output;
 }
 
@@ -112,11 +119,14 @@ float3 CalcDirectionalLight(PhongADS mat, DirLight light, float3 normal, float3 
 // Pixel Shader
 //--------------------------------------------------------------------------------------
 float4 PS(VS_OUTPUT input) : SV_Target
-{
+{   
+    float4 Normal_TangentSpace = (normalTexture.Sample(nSampler, input.Tex) * 2.0) - 1.0;
+    float3 Normal_CameraSpace = normalize(mul(Normal_TangentSpace.xyz, input.TBN_CameraSpace));
+    
     const float3 eyeDir = normalize(-input.Pos_CameraSpace).xyz;
     
     float3 outColor = float3(0.0, 0.0, 0.0);
-    outColor += CalcDirectionalLight(Material, DirectionalLight, input.Normal_CameraSpace.xyz, eyeDir);
+    outColor += CalcDirectionalLight(Material, DirectionalLight, Normal_CameraSpace, eyeDir);
     
     return mainTexture.Sample(aSampler, input.Tex) * float4(outColor, 1.0f);
 }

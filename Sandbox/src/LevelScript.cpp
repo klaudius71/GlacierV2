@@ -60,12 +60,7 @@ void LevelScript::OnUpdate(float dt)
 	const Window& window = Glacier::GetWindow();
 	const Font& font = FontLoader::Get("CascadiaMono20");
 	const float screen_y = (float)window.GetWindowHeight() - font.GetGlyphWithMaxHeight().size.y;
-	Renderer2D::PrintText(font, 0.0f, screen_y, Colors::White, "update: %.4fms", update);
-	Renderer2D::PrintText(font, 200.0f, screen_y, Colors::White, "physics: %.4fms", physics);
-	Renderer2D::PrintText(font, 420.0f, screen_y, Colors::White, "draw: %.4fms", draw);
-	Renderer2D::PrintText(font, 600.0f, screen_y, Colors::White, "3d: %.4fms", three);
-	Renderer2D::PrintText(font, 750.0f, screen_y, Colors::White, "2d: %.4fms", two);
-	Renderer2D::PrintText(font, 910.0f, screen_y, Colors::White, "animation: %.4fms", animation);
+	Renderer2D::PrintText(font, 0.0f, screen_y, Colors::White, "update: %.4fms physics: %.4fms draw: %.4fms 3d: %.4fms 2d: %.4fms animation: %.4fms", update, physics, draw, three, two, animation);
 	Renderer2D::PrintText(font, 0.0f, (float)window.GetWindowHeight() - (font.GetGlyphWithMaxHeight().size.y) * 2.0f, Colors::Blue, "frame_time: %.4fms", frame_time);
 }
 void LevelScript::OnSceneExit()

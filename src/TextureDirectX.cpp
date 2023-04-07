@@ -79,7 +79,7 @@ void TextureDirectX::load_gpu_data()
 	texDesc.Height = height;
 	texDesc.MipLevels = 0;
 	texDesc.ArraySize = tex_params.type == TEXTURE_TYPE::REGULAR ? 1 : 6;
-	texDesc.Format = channels == 4 ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8_UNORM;
+	texDesc.Format = channels == 4 ? DXGI_FORMAT_R8G8B8A8_UNORM : DXGI_FORMAT_R8_UNORM;
 	texDesc.SampleDesc.Count = 1;
 	texDesc.Usage = D3D11_USAGE_DEFAULT;
 	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
