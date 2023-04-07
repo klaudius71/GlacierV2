@@ -47,7 +47,7 @@ void ConstantBuffer::Bind(const uint32_t index) const
 
 void ConstantBuffer::UpdateData(ID3D11DeviceContext* const devcon, const void* data, const uint32_t data_size) const
 {
-	assert(data_size >= size);
+	assert(data_size <= size);
 	devcon->UpdateSubresource(buf, 0, nullptr, data, 0, 0);
 }
 #endif GLACIER_DIRECTX

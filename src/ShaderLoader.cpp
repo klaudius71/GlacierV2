@@ -113,7 +113,8 @@ ShaderLoader::ShaderLoader()
 	spriteDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::SpriteData));
 	materialDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::PhongADS));
 	directionalLightCBuffer = new ConstantBuffer(sizeof(VertexTypes::DirectionalLight));
-	
+	jointDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::JointData));
+
 	// --Load in the default shaders used by the engine--
 	auto curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE, SHADER_PATH + "Texture.hlsl").first->second;
 	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
@@ -124,6 +125,13 @@ ShaderLoader::ShaderLoader()
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
 	curr_shader->AddConstantBuffer(directionalLightCBuffer, 3);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT, SHADER_PATH + "SkinnedTextureLit.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
+	curr_shader->AddConstantBuffer(directionalLightCBuffer, 3);
+	curr_shader->AddConstantBuffer(jointDataCBuffer, 4);
 
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "Skybox.hlsl").first->second;
 	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
@@ -149,6 +157,7 @@ ShaderLoader::~ShaderLoader()
 	delete spriteDataCBuffer;
 	delete materialDataCBuffer;
 	delete directionalLightCBuffer;
+	delete jointDataCBuffer;
 }
 
 void ShaderLoader::load(const std::string& name, const std::string& file_name)

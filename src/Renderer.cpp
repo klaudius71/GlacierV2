@@ -146,7 +146,33 @@ void Renderer::RenderSkinned(Scene& scn)
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 #elif GLACIER_DIRECTX
-	UNREFERENCED_PARAMETER(scn);
+	entt::registry& registry = scn.GetRegistry();
+
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto material_data_cbuffer = ShaderLoader::GetMaterialDataConstantBuffer();
+	auto joint_data_cbuffer = ShaderLoader::GetJointDataConstantBuffer();
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
+	curr_shader->Bind();
+
+	// Render meshes with materials
+	//DX::DisableCulling();
+	//DX::EnableBlending();
+	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
+	for (auto&& [entity, skel_mesh, transform, material] : render_group.each())
+	{
+		material.tex->Bind(0);
+		//material.norm_tex->Bind(1);
+		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
+		joint_data_cbuffer->UpdateData(devcon, skel_mesh.bone_matrices, sizeof(VertexTypes::JointData));
+		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4));
+		skel_mesh.mod->Bind();
+		devcon->DrawIndexed(skel_mesh.mod->GetNumTriangles() * 3, 0, 0);
+	}
+	//DX::DisableBlending();
+	//DX::EnableCulling();
 #endif
 }
 void Renderer::RenderUnlit(Scene& scn)
@@ -259,6 +285,7 @@ void Renderer::RenderScene(Scene& scn)
 	Lighting::RenderSceneShadows(&scn, camera);
 
 	RenderLit(scn);
+	RenderSkinned(scn);
 
 	RenderSkybox(scn);
 #endif

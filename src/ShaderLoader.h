@@ -97,6 +97,7 @@ private:
 	ConstantBuffer* spriteDataCBuffer;
 	ConstantBuffer* materialDataCBuffer;
 	ConstantBuffer* directionalLightCBuffer;
+	ConstantBuffer* jointDataCBuffer;
 
 	void load(const std::string& name, const std::string& file_name);
 
@@ -118,6 +119,7 @@ public:
 	static ConstantBuffer* const GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
 	static ConstantBuffer* const GetMaterialDataConstantBuffer() { return instance->materialDataCBuffer; }
 	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
+	static ConstantBuffer* const GetJointDataConstantBuffer() { return instance->jointDataCBuffer; }
 };
 #endif
 

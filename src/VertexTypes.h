@@ -1,6 +1,8 @@
 #ifndef _VERTEX_TYPES
 #define _VERTEX_TYPES
 
+#define MAX_BONES 100
+
 #include "GlacierCore.h"
 #include "glm/glm.hpp"
 
@@ -97,6 +99,10 @@ namespace VertexTypes
 		glm::vec2 Size;
 		glm::vec4 Color;
 		glm::vec2 TexSize;
+	};
+	struct ALIGN16 JointData
+	{
+		glm::mat4 JointMatrices[MAX_BONES];
 	};
 #endif
 }
