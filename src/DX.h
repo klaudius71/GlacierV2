@@ -45,6 +45,10 @@ private:
 	void setDepthFunctionToLessEqual();
 	void setDepthFunctionToLess();
 
+	void setViewport(const float x, const float y, const float width, const float height);
+
+	void resetRenderTarget();
+
 public:
 	static void Initialize(const Window& window);
 
@@ -60,6 +64,10 @@ public:
 
 	static void SetDepthFunctionToLessEqual() { Instance().setDepthFunctionToLessEqual(); }
 	static void SetDepthFunctionToLess() { Instance().setDepthFunctionToLess(); }
+
+	static void SetViewport(const float x, const float y, const float width, const float height) { Instance().setViewport(x, y, width, height); }
+
+	static void ResetRenderTarget() { Instance().resetRenderTarget(); }
 
 	static IDXGISwapChain* const GetSwapchain() { return Instance().swapchain; }
 	static ID3D11Device* const GetDevice() { return Instance().dev; }

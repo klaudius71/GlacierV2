@@ -125,13 +125,24 @@ ShaderLoader::ShaderLoader()
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
 	curr_shader->AddConstantBuffer(Lighting::GetDirectionalLightConstantBuffer(), 3);
+	curr_shader->AddConstantBuffer(Lighting::GetLightspaceMatrixConstantBuffer(), 4);
 
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT, SHADER_PATH + "SkinnedTextureLit.hlsl").first->second;
 	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
 	curr_shader->AddConstantBuffer(Lighting::GetDirectionalLightConstantBuffer(), 3);
-	curr_shader->AddConstantBuffer(jointDataCBuffer, 4);
+	curr_shader->AddConstantBuffer(Lighting::GetLightspaceMatrixConstantBuffer(), 4);
+	curr_shader->AddConstantBuffer(jointDataCBuffer, 5);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SHADOW_MAP, SHADER_PATH + "Shadow.hlsl").first->second;
+	curr_shader->AddConstantBuffer(Lighting::GetLightspaceMatrixConstantBuffer(), 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SHADOW_MAP_SKINNED, SHADER_PATH + "SkinnedShadow.hlsl").first->second;
+	curr_shader->AddConstantBuffer(Lighting::GetLightspaceMatrixConstantBuffer(), 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(jointDataCBuffer, 2);
 
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SKYBOX, SHADER_PATH + "Skybox.hlsl").first->second;
 	curr_shader->AddConstantBuffer(camDataCBuffer, 0);

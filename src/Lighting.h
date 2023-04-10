@@ -56,6 +56,7 @@ public:
 	static GLuint GetLightspaceMatricesUBO() { return Instance().LightspaceMatrices_ubo; }
 #elif GLACIER_DIRECTX
 	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
+	static ConstantBuffer* const GetLightspaceMatrixConstantBuffer() { return instance->lightspaceMatrixCBuffer; }
 #endif
 
 	friend class SceneManager;

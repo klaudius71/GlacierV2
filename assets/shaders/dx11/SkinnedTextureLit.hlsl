@@ -44,7 +44,12 @@ cbuffer DirectionalLightData : register(b3)
     DirLight DirectionalLight;
 }
 
-cbuffer JointData : register(b4)
+cbuffer LightspaceData : register(b4)
+{
+    float4x4 Lightspace;
+}
+
+cbuffer JointData : register(b5)
 {
     float4x4 JointMatrices[NUM_BONES];
 }

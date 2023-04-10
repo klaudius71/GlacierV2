@@ -829,5 +829,11 @@
     <FxCompile Include="assets\shaders\dx11\SkinnedTextureLit.hlsl">
       <Filter>assets\shaders\dx11</Filter>
     </FxCompile>
+    <FxCompile Include="assets\shaders\dx11\Shadow.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
+    <FxCompile Include="assets\shaders\dx11\SkinnedShadow.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

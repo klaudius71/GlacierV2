@@ -149,8 +149,8 @@ Lighting::Lighting()
 
 	D3D11_TEXTURE2D_DESC descDepth;
 	ZeroMemory(&descDepth, sizeof(D3D11_TEXTURE2D_DESC));
-	descDepth.Width = 8192;
-	descDepth.Height = 8192;
+	descDepth.Width = DIR_SHADOW_MAP_SIZE;
+	descDepth.Height = DIR_SHADOW_MAP_SIZE;
 	descDepth.MipLevels = 1;
 	descDepth.ArraySize = 1;
 	descDepth.Format = DXGI_FORMAT_R32_TYPELESS;
@@ -233,6 +233,60 @@ void Lighting::updateBuffers(const Scene& curr_scene)
 
 void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)
 {
+	entt::registry& scene_registry = curr_scene->GetRegistry();
+
+	auto dir_light = curr_scene->GetFirstComponent<DirectionalLightComponent>();
+	if (!dir_light)
+		return;
+
+	auto devcon = DX::GetDeviceContext();
+	auto instanceDataCBuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto jointDataCBuffer = ShaderLoader::GetJointDataConstantBuffer();
+
+	DX::SetViewport(0, 0, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE);
+	devcon->ClearDepthStencilView(shadowDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, NULL);
+	devcon->OMSetRenderTargets(1, &shadowRenderTargetView, shadowDepthStencilView);
+	//glCullFace(GL_FRONT);
+
+	auto& dir_light_dir = dir_light->light.direction;
+	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + glm::normalize(cam.cam_dir) * 256.0f;
+	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -512.0f, 512.0f) *
+								glm::lookAt(dir_light_cam_center_pos - dir_light_dir * 128.0f, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	lightspaceMatrixCBuffer->UpdateData(devcon, &lightspace, sizeof(glm::mat4));
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
+	curr_shader->Bind();
+
+	auto mesh_transform_group = scene_registry.group<MeshComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, mesh, transform] : mesh_transform_group.each())
+	{
+		if (mesh.cast_shadow)
+		{
+			mesh.mod->Bind();
+			instanceDataCBuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4));
+			devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
+		}
+	}
+
+	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED);
+	curr_shader->Bind();
+	
+	auto skel_mesh_anim_group = scene_registry.group<SkeletalMeshComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, skel_mesh, transform] : skel_mesh_anim_group.each())
+	{
+		if (skel_mesh.cast_shadow)
+		{
+			skel_mesh.mod->Bind();
+			jointDataCBuffer->UpdateData(devcon, skel_mesh.bone_matrices, sizeof(VertexTypes::JointData));
+			instanceDataCBuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4));
+			devcon->DrawIndexed(skel_mesh.mod->GetNumTriangles() * 3, 0, 0);
+		}
+	}
+
+	//glCullFace(GL_BACK);
+	DX::ResetRenderTarget();
+	DX::SetViewport(0, 0, (float)Glacier::GetWindow().GetWindowWidth(), (float)Glacier::GetWindow().GetWindowHeight());
 }
 #endif
 
