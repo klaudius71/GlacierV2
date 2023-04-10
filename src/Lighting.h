@@ -6,6 +6,7 @@
 class Scene;
 struct DirectionalLightComponent;
 struct CameraComponent;
+class ConstantBuffer;
 
 class Lighting
 {
@@ -31,7 +32,13 @@ private:
 	GLuint DirShadow_fbo;
 	GLuint DirShadow_tex;
 #elif GLACIER_DIRECTX
-	
+	ConstantBuffer* directionalLightCBuffer;
+	ConstantBuffer* lightspaceMatrixCBuffer;
+
+	ID3D11RenderTargetView* shadowRenderTargetView;
+	ID3D11DepthStencilView* shadowDepthStencilView;
+	ID3D11ShaderResourceView* shadowShaderResourceView;
+	ID3D11SamplerState* shadowSamplerState;
 #endif
 
 	void renderSceneShadows(Scene* const curr_scene, const CameraComponent& cam);
@@ -48,7 +55,7 @@ public:
 	static GLuint GetDirLightUBO() { return Instance().DirLight_ubo; }
 	static GLuint GetLightspaceMatricesUBO() { return Instance().LightspaceMatrices_ubo; }
 #elif GLACIER_DIRECTX
-
+	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
 #endif
 
 	friend class SceneManager;

@@ -104,6 +104,10 @@ namespace VertexTypes
 	{
 		glm::mat4 JointMatrices[MAX_BONES];
 	};
+	struct ALIGN16 LightspaceData
+	{
+		glm::mat4 Lightspace;
+	};
 #endif
 }
 

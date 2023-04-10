@@ -137,19 +137,98 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 }
 #elif GLACIER_DIRECTX
 Lighting::Lighting()
+	: directionalLightCBuffer(new ConstantBuffer(sizeof(VertexTypes::DirectionalLight))),
+	lightspaceMatrixCBuffer(new ConstantBuffer(sizeof(VertexTypes::LightspaceData))),
+	shadowRenderTargetView(nullptr),
+	shadowDepthStencilView(nullptr),
+	shadowShaderResourceView(nullptr),
+	shadowSamplerState(nullptr)
 {
+	HRESULT hr;
+	ID3D11Device* dev = DX::GetDevice();
+
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory(&descDepth, sizeof(D3D11_TEXTURE2D_DESC));
+	descDepth.Width = 8192;
+	descDepth.Height = 8192;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_R32_TYPELESS;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality |= D3D11_CENTER_MULTISAMPLE_PATTERN;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+
+	ID3D11Texture2D* tex = nullptr;
+	hr = dev->CreateTexture2D(&descDepth, nullptr, &tex);
+	assert(SUCCEEDED(hr));
+
+	descDepth.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	descDepth.BindFlags = D3D11_BIND_RENDER_TARGET;
+	ID3D11Texture2D* renderTexture = nullptr;
+	hr = dev->CreateTexture2D(&descDepth, nullptr, &renderTexture);
+	assert(SUCCEEDED(hr));
+
+	hr = dev->CreateRenderTargetView(renderTexture, nullptr, &shadowRenderTargetView);
+	assert(SUCCEEDED(hr));
+	renderTexture->Release();
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory(&descDSV, sizeof(descDSV));
+	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+
+	hr = dev->CreateDepthStencilView(tex, &descDSV, &shadowDepthStencilView);
+	assert(SUCCEEDED(hr));
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
+	ZeroMemory(&viewDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	viewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	viewDesc.Texture2D.MostDetailedMip = 0;
+	viewDesc.Texture2D.MipLevels = 1;
+
+	hr = dev->CreateShaderResourceView(tex, &viewDesc, &shadowShaderResourceView);
+	assert(SUCCEEDED(hr));
+	tex->Release();
+
+	D3D11_SAMPLER_DESC samp;
+	ZeroMemory(&samp, sizeof(D3D11_SAMPLER_DESC));
+	samp.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;
+	samp.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	samp.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	samp.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	samp.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	samp.MinLOD = 0;
+	samp.MaxLOD = D3D11_FLOAT32_MAX;
+	samp.BorderColor[0] = 1.0f;
+	samp.BorderColor[1] = 1.0f;
+	samp.BorderColor[2] = 1.0f;
+	samp.BorderColor[3] = 1.0f;
+	hr = dev->CreateSamplerState(&samp, &shadowSamplerState);
+	assert(SUCCEEDED(hr));
 }
 Lighting::~Lighting()
 {
+	delete directionalLightCBuffer;
+	delete lightspaceMatrixCBuffer;
+
+	shadowRenderTargetView->Release();
+	shadowDepthStencilView->Release();
+	shadowShaderResourceView->Release();
+	shadowSamplerState->Release();
 }
 
 void Lighting::updateBuffers(const Scene& curr_scene)
 {
 	auto devcon = DX::GetDeviceContext();
 	if (const DirectionalLightComponent* dir_light = curr_scene.GetFirstComponent<DirectionalLightComponent>())
-		ShaderLoader::GetDirectionalLightConstantBuffer()->UpdateData(devcon, &dir_light->light, sizeof(VertexTypes::DirectionalLight));
+		directionalLightCBuffer->UpdateData(devcon, &dir_light->light, sizeof(VertexTypes::DirectionalLight));
 	else
-		ShaderLoader::GetDirectionalLightConstantBuffer()->UpdateData(devcon, &default_dir_light.light, sizeof(VertexTypes::DirectionalLight));
+		directionalLightCBuffer->UpdateData(devcon, &default_dir_light.light, sizeof(VertexTypes::DirectionalLight));
 }
 
 void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent& cam)

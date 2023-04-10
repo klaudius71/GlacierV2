@@ -40,6 +40,11 @@ cbuffer DirectionalLightData : register(b3)
     DirLight DirectionalLight;
 }
 
+cbuffer LightspaceData : register(b4)
+{
+    float4x4 Lightspace;
+}
+
 //--------------------------------------------------------------------------------------
 
 struct VS_INPUT
