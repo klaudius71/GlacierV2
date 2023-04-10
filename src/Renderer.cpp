@@ -89,6 +89,8 @@ void Renderer::RenderLit(Scene& scn)
 	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	curr_shader->Bind();
 
+	Lighting::BindShadowDepthTexture(2);
+
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, material, mesh, transform] : render_group_material.each())

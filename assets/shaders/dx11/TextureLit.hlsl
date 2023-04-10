@@ -19,6 +19,9 @@ SamplerState aSampler : register(s0);
 Texture2D normalTexture : register(t1);
 SamplerState nSampler : register(s1);
 
+Texture2D dirTexture : register(t2);
+SamplerState dirSampler : register(s2);
+
 cbuffer CamData : register(b0)
 {
     float4x4 Projection;
@@ -63,6 +66,7 @@ struct VS_OUTPUT
 {
     float4 Pos : SV_POSITION;
     float4 Pos_CameraSpace : POSITION;
+    float4 Pos_Lightspace : POSITION1;
     float2 Tex : TEXCOORD;
     float3x3 TBN_CameraSpace : NORMAL;
 };
@@ -74,8 +78,8 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
     output.Pos = mul(float4(input.Pos, 1.0f), World);
+    output.Pos_Lightspace = mul(output.Pos, Lightspace);
     output.Pos = mul(output.Pos, View);
-    
     output.Pos_CameraSpace = output.Pos;
     output.Pos = mul(output.Pos, Projection);
     
@@ -113,11 +117,35 @@ float3 PhongModel(PhongADS mat, PhongADS light, float3 L, float3 normal, float3 
     
     return diffuse + spec;
 }
-float3 CalcDirectionalLight(PhongADS mat, DirLight light, float3 normal, float3 eyeDir)
+
+float CalcDirectionalShadow(float4 fragPosLightSpace)
+{
+    float3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords.x = projCoords.x * 0.5f + 0.5f;
+    projCoords.y = -projCoords.y * 0.5f + 0.5f;
+    if (projCoords.z > 1.0f)
+        return 0.0f;
+    
+    uint width, height;
+    dirTexture.GetDimensions(width, height);
+    float2 texelSize = 1.0f / float2(width, height);
+    const float bias = 0.000;
+    float shadow = 0.0f;
+    for (int x = -1; x < 2; x++)
+    {
+        for (int y = -1; y < 2; y++)
+        {
+            float closestDepth = dirTexture.Sample(dirSampler, projCoords.xy + float2(x, y) * texelSize).r;
+            shadow += closestDepth + bias < projCoords.z ? 1.0f : 0.0f;
+        }
+    }
+    return shadow / 9.0f;
+}
+float3 CalcDirectionalLight(PhongADS mat, DirLight light, float3 normal, float3 eyeDir, float4 lightspace)
 {
     const float3 ambient = mat.ambient * light.LightProperties.ambient;
     const float3 lightDir_cameraspace = mul(float4(light.Direction, 0.0f), View).xyz;
-    return ambient + PhongModel(mat, light.LightProperties, lightDir_cameraspace, normal, eyeDir);
+    return ambient + PhongModel(mat, light.LightProperties, lightDir_cameraspace, normal, eyeDir) * (1.0f - CalcDirectionalShadow(lightspace));
 }
 
 //--------------------------------------------------------------------------------------
@@ -131,7 +159,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     const float3 eyeDir = normalize(-input.Pos_CameraSpace).xyz;
     
     float3 outColor = float3(0.0, 0.0, 0.0);
-    outColor += CalcDirectionalLight(Material, DirectionalLight, Normal_CameraSpace, eyeDir);
+    outColor += CalcDirectionalLight(Material, DirectionalLight, Normal_CameraSpace, eyeDir, input.Pos_Lightspace);
     
     return mainTexture.Sample(aSampler, input.Tex) * float4(outColor, 1.0f);
 }

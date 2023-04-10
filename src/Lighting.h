@@ -44,6 +44,10 @@ private:
 	void renderSceneShadows(Scene* const curr_scene, const CameraComponent& cam);
 	void updateBuffers(const Scene& curr_scene);
 
+#if GLACIER_DIRECTX
+	void bindShadowDepthTexture(const UINT index);
+#endif
+
 public:
 	static void Initialize();
 	static void Terminate();
@@ -55,6 +59,8 @@ public:
 	static GLuint GetDirLightUBO() { return Instance().DirLight_ubo; }
 	static GLuint GetLightspaceMatricesUBO() { return Instance().LightspaceMatrices_ubo; }
 #elif GLACIER_DIRECTX
+	static void BindShadowDepthTexture(const UINT index) { instance->bindShadowDepthTexture(index); }
+	
 	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
 	static ConstantBuffer* const GetLightspaceMatrixConstantBuffer() { return instance->lightspaceMatrixCBuffer; }
 #endif

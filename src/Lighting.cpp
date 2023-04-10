@@ -222,6 +222,13 @@ Lighting::~Lighting()
 	shadowSamplerState->Release();
 }
 
+void Lighting::bindShadowDepthTexture(const UINT index)
+{
+	auto devcon = DX::GetDeviceContext();
+	devcon->PSSetShaderResources(index, 1, &shadowShaderResourceView);
+	devcon->PSSetSamplers(index, 1, &shadowSamplerState);
+}
+
 void Lighting::updateBuffers(const Scene& curr_scene)
 {
 	auto devcon = DX::GetDeviceContext();
@@ -245,12 +252,14 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 
 	DX::SetViewport(0, 0, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE);
 	devcon->ClearDepthStencilView(shadowDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, NULL);
+	ID3D11ShaderResourceView* hm[]{ nullptr };
+	devcon->PSSetShaderResources(2, 1, hm);
 	devcon->OMSetRenderTargets(1, &shadowRenderTargetView, shadowDepthStencilView);
-	//glCullFace(GL_FRONT);
+	DX::EnableFrontFaceCulling();
 
 	auto& dir_light_dir = dir_light->light.direction;
 	const glm::vec3 dir_light_cam_center_pos = cam.cam_pos + glm::normalize(cam.cam_dir) * 256.0f;
-	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -512.0f, 512.0f) *
+	const glm::mat4 lightspace = glm::ortho(-512.0f, 512.0f, -512.0f, 512.0f, -1024.0f, 1024.0f) *
 								glm::lookAt(dir_light_cam_center_pos - dir_light_dir * 128.0f, dir_light_cam_center_pos, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	lightspaceMatrixCBuffer->UpdateData(devcon, &lightspace, sizeof(glm::mat4));
@@ -284,7 +293,7 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 		}
 	}
 
-	//glCullFace(GL_BACK);
+	DX::EnableBackFaceCulling();
 	DX::ResetRenderTarget();
 	DX::SetViewport(0, 0, (float)Glacier::GetWindow().GetWindowWidth(), (float)Glacier::GetWindow().GetWindowHeight());
 }
