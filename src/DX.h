@@ -25,11 +25,18 @@ private:
 	ID3D11DeviceContext* devcon = nullptr;
 	IDXGISwapChain* swapchain = nullptr;
 	ID3D11RenderTargetView* backbuffer = nullptr;
+
+	// Rasterizer States
 	ID3D11RasterizerState* rasterizer_state = nullptr;
 	ID3D11RasterizerState* rasterizer_state_front_cull = nullptr;
+	ID3D11RasterizerState* rasterizer_state_no_cull = nullptr;
+
+	// Depth Stencil States
 	ID3D11DepthStencilState* depth_stencil_less = nullptr;
 	ID3D11DepthStencilState* depth_stencil_lequal = nullptr;
 	ID3D11DepthStencilView* depth_stencil_view = nullptr;
+
+	// Blend state
 	ID3D11BlendState* blend_state = nullptr;
 
 	void setClearColor(const float red, const float green, const float blue, const float alpha);
@@ -41,6 +48,7 @@ private:
 
 	void enableFrontFaceCulling();
 	void enableBackFaceCulling();
+	void disableCulling();
 
 	void setDepthFunctionToLessEqual();
 	void setDepthFunctionToLess();
@@ -61,6 +69,7 @@ public:
 
 	static void EnableFrontFaceCulling() { Instance().enableFrontFaceCulling(); }
 	static void EnableBackFaceCulling() { Instance().enableBackFaceCulling(); }
+	static void DisableCulling() { Instance().disableCulling(); }
 
 	static void SetDepthFunctionToLessEqual() { Instance().setDepthFunctionToLessEqual(); }
 	static void SetDepthFunctionToLess() { Instance().setDepthFunctionToLess(); }

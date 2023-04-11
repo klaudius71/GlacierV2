@@ -61,6 +61,10 @@ DX::DX(const Window& window)
 	hr = dev->CreateRasterizerState(&rd, &rasterizer_state_front_cull);
 	assert(SUCCEEDED(hr));
 
+	rd.CullMode = D3D11_CULL_NONE;
+	hr = dev->CreateRasterizerState(&rd, &rasterizer_state_no_cull);
+	assert(SUCCEEDED(hr));
+
 	// Depth stencil states
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
 	dsDesc.DepthEnable = true;
@@ -159,6 +163,7 @@ DX::~DX()
 	depth_stencil_lequal->Release();
 	depth_stencil_less->Release();
 	depth_stencil_view->Release();
+	rasterizer_state_no_cull->Release();
 	rasterizer_state_front_cull->Release();
 	rasterizer_state->Release();
 	swapchain->Release();
@@ -212,6 +217,10 @@ void DX::enableFrontFaceCulling()
 void DX::enableBackFaceCulling()
 {
 	devcon->RSSetState(rasterizer_state);
+}
+void DX::disableCulling()
+{
+	devcon->RSSetState(rasterizer_state_no_cull);
 }
 
 void DX::setDepthFunctionToLessEqual()
