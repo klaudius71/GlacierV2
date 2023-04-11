@@ -139,7 +139,6 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 Lighting::Lighting()
 	: directionalLightCBuffer(new ConstantBuffer(sizeof(VertexTypes::DirectionalLight))),
 	lightspaceMatrixCBuffer(new ConstantBuffer(sizeof(VertexTypes::LightspaceData))),
-	shadowRenderTargetView(nullptr),
 	shadowDepthStencilView(nullptr),
 	shadowShaderResourceView(nullptr),
 	shadowSamplerState(nullptr)
@@ -165,16 +164,6 @@ Lighting::Lighting()
 	hr = dev->CreateTexture2D(&descDepth, nullptr, &tex);
 	assert(SUCCEEDED(hr));
 
-	descDepth.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	descDepth.BindFlags = D3D11_BIND_RENDER_TARGET;
-	ID3D11Texture2D* renderTexture = nullptr;
-	hr = dev->CreateTexture2D(&descDepth, nullptr, &renderTexture);
-	assert(SUCCEEDED(hr));
-
-	hr = dev->CreateRenderTargetView(renderTexture, nullptr, &shadowRenderTargetView);
-	assert(SUCCEEDED(hr));
-	renderTexture->Release();
-
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
 	ZeroMemory(&descDSV, sizeof(descDSV));
 	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
@@ -193,6 +182,7 @@ Lighting::Lighting()
 
 	hr = dev->CreateShaderResourceView(tex, &viewDesc, &shadowShaderResourceView);
 	assert(SUCCEEDED(hr));
+
 	tex->Release();
 
 	D3D11_SAMPLER_DESC samp;
@@ -216,7 +206,6 @@ Lighting::~Lighting()
 	delete directionalLightCBuffer;
 	delete lightspaceMatrixCBuffer;
 
-	shadowRenderTargetView->Release();
 	shadowDepthStencilView->Release();
 	shadowShaderResourceView->Release();
 	shadowSamplerState->Release();
@@ -227,6 +216,11 @@ void Lighting::bindShadowDepthTexture(const UINT index)
 	auto devcon = DX::GetDeviceContext();
 	devcon->PSSetShaderResources(index, 1, &shadowShaderResourceView);
 	devcon->PSSetSamplers(index, 1, &shadowSamplerState);
+}
+void Lighting::unbindShadowDepthTexture(const UINT index)
+{
+	ID3D11ShaderResourceView* hm[]{ nullptr }; // -_-
+	DX::GetDeviceContext()->PSSetShaderResources(index, 1, hm);
 }
 
 void Lighting::updateBuffers(const Scene& curr_scene)
@@ -252,9 +246,7 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 
 	DX::SetViewport(0, 0, DIR_SHADOW_MAP_SIZE, DIR_SHADOW_MAP_SIZE);
 	devcon->ClearDepthStencilView(shadowDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, NULL);
-	ID3D11ShaderResourceView* hm[]{ nullptr };
-	devcon->PSSetShaderResources(2, 1, hm);
-	devcon->OMSetRenderTargets(1, &shadowRenderTargetView, shadowDepthStencilView);
+	devcon->OMSetRenderTargets(0, nullptr, shadowDepthStencilView);
 	DX::EnableFrontFaceCulling();
 
 	auto& dir_light_dir = dir_light->light.direction;
@@ -266,6 +258,7 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 
 	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP);
 	curr_shader->Bind();
+	devcon->PSSetShader(nullptr, nullptr, 0);
 
 	auto mesh_transform_group = scene_registry.group<MeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, mesh, transform] : mesh_transform_group.each())
@@ -280,6 +273,7 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 
 	curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SHADOW_MAP_SKINNED);
 	curr_shader->Bind();
+	devcon->PSSetShader(nullptr, nullptr, 0);
 	
 	auto skel_mesh_anim_group = scene_registry.group<SkeletalMeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, skel_mesh, transform] : skel_mesh_anim_group.each())

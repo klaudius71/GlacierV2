@@ -35,7 +35,6 @@ private:
 	ConstantBuffer* directionalLightCBuffer;
 	ConstantBuffer* lightspaceMatrixCBuffer;
 
-	ID3D11RenderTargetView* shadowRenderTargetView;
 	ID3D11DepthStencilView* shadowDepthStencilView;
 	ID3D11ShaderResourceView* shadowShaderResourceView;
 	ID3D11SamplerState* shadowSamplerState;
@@ -46,6 +45,7 @@ private:
 
 #if GLACIER_DIRECTX
 	void bindShadowDepthTexture(const UINT index);
+	void unbindShadowDepthTexture(const UINT index);
 #endif
 
 public:
@@ -60,6 +60,7 @@ public:
 	static GLuint GetLightspaceMatricesUBO() { return Instance().LightspaceMatrices_ubo; }
 #elif GLACIER_DIRECTX
 	static void BindShadowDepthTexture(const UINT index) { instance->bindShadowDepthTexture(index); }
+	static void UnbindShadowDepthTexture(const UINT index) { instance->unbindShadowDepthTexture(index); }
 	
 	static ConstantBuffer* const GetDirectionalLightConstantBuffer() { return instance->directionalLightCBuffer; }
 	static ConstantBuffer* const GetLightspaceMatrixConstantBuffer() { return instance->lightspaceMatrixCBuffer; }

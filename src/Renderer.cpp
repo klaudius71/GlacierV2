@@ -102,6 +102,8 @@ void Renderer::RenderLit(Scene& scn)
 		mesh.mod->Bind();
 		devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
 	}
+
+	Lighting::UnbindShadowDepthTexture(2);
 #endif
 }
 void Renderer::RenderSkinned(Scene& scn)
@@ -160,6 +162,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	curr_shader->Bind();
 
 	// Render meshes with materials
+	Lighting::BindShadowDepthTexture(2);
 	//DX::DisableCulling();
 	//DX::EnableBlending();
 	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
@@ -175,6 +178,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	}
 	//DX::DisableBlending();
 	//DX::EnableCulling();
+	Lighting::UnbindShadowDepthTexture(2);
 #endif
 }
 void Renderer::RenderUnlit(Scene& scn)
