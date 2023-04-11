@@ -95,6 +95,7 @@ private:
 	ConstantBuffer* camDataCBuffer;
 	ConstantBuffer* instanceDataCBuffer;
 	ConstantBuffer* spriteDataCBuffer;
+	ConstantBuffer* glyphDataCBuffer;
 	ConstantBuffer* materialDataCBuffer;
 	
 	ConstantBuffer* jointDataCBuffer;
@@ -117,6 +118,7 @@ public:
 	static ConstantBuffer* const GetCamDataConstantBuffer() { return instance->camDataCBuffer; }
 	static ConstantBuffer* const GetInstanceDataConstantBuffer() { return instance->instanceDataCBuffer; }
 	static ConstantBuffer* const GetSpriteDataConstantBuffer() { return instance->spriteDataCBuffer;  }
+	static ConstantBuffer* const GetGlyphDataConstantBuffer() { return instance->glyphDataCBuffer; }
 	static ConstantBuffer* const GetMaterialDataConstantBuffer() { return instance->materialDataCBuffer; }
 	
 	static ConstantBuffer* const GetJointDataConstantBuffer() { return instance->jointDataCBuffer; }

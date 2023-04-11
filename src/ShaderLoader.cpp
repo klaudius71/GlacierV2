@@ -111,6 +111,7 @@ ShaderLoader::ShaderLoader()
 	camDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::CamData));
 	instanceDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::InstanceData));
 	spriteDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::SpriteData));
+	glyphDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::GlyphDataArray));
 	materialDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::PhongADS));
 	
 	jointDataCBuffer = new ConstantBuffer(sizeof(VertexTypes::JointData));
@@ -157,6 +158,11 @@ ShaderLoader::ShaderLoader()
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(spriteDataCBuffer, 2);
 
+	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXT_INSTANCED, SHADER_PATH + "TextInstanced.hlsl").first->second;
+	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
+	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
+	curr_shader->AddConstantBuffer(glyphDataCBuffer, 2);
+
 	// Set the common constant buffers to context
 	camDataCBuffer->Bind(0);
 	instanceDataCBuffer->Bind(1);
@@ -166,6 +172,7 @@ ShaderLoader::~ShaderLoader()
 	delete camDataCBuffer;
 	delete instanceDataCBuffer;
 	delete spriteDataCBuffer;
+	delete glyphDataCBuffer;
 	delete materialDataCBuffer;
 	
 	delete jointDataCBuffer;

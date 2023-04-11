@@ -83,16 +83,36 @@ namespace VertexTypes
 		{}
 	};
 
+	struct ALIGN16 GlyphData
+	{
+		glm::vec2 TexelPos;
+		glm::vec2 Size;
+	};
+	struct ALIGN16 GlyphWorldData
+	{
+		glm::vec2 ScreenPos;
+		glm::vec2 Scale;
+	};
+	struct ALIGN16 GlyphDataArray
+	{
+		GlyphData Data[128];
+		GlyphWorldData WorldData[128];
+		glm::vec4 Color;
+		glm::vec2 TexSize;
+	};
+
 #if GLACIER_DIRECTX
 	struct ALIGN16 CamData
 	{
 		glm::mat4 Projection;
 		glm::mat4 View;
 	};
+
 	struct ALIGN16 InstanceData
 	{
 		glm::mat4 World;
 	};
+
 	struct ALIGN16 SpriteData
 	{
 		glm::vec2 TexelPos;
@@ -100,14 +120,17 @@ namespace VertexTypes
 		glm::vec4 Color;
 		glm::vec2 TexSize;
 	};
+
 	struct ALIGN16 JointData
 	{
 		glm::mat4 JointMatrices[MAX_BONES];
 	};
+
 	struct ALIGN16 LightspaceData
 	{
 		glm::mat4 Lightspace;
 	};
+
 #endif
 }
 

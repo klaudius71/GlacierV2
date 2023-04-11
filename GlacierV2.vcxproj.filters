@@ -788,9 +788,6 @@
     <None Include="assets\shaders\text.vs.glsl">
       <Filter>assets\shaders\opengl</Filter>
     </None>
-    <None Include="assets\shaders\text_instanced.fs.glsl">
-      <Filter>assets\shaders\opengl</Filter>
-    </None>
     <None Include="assets\shaders\text_instanced.vs.glsl">
       <Filter>assets\shaders\opengl</Filter>
     </None>
@@ -833,6 +830,9 @@
       <Filter>assets\shaders\dx11</Filter>
     </FxCompile>
     <FxCompile Include="assets\shaders\dx11\SkinnedShadow.hlsl">
+      <Filter>assets\shaders\dx11</Filter>
+    </FxCompile>
+    <FxCompile Include="assets\shaders\dx11\TextInstanced.hlsl">
       <Filter>assets\shaders\dx11</Filter>
     </FxCompile>
   </ItemGroup>

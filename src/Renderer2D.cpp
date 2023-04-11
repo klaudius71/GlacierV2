@@ -41,13 +41,11 @@ Renderer2D::Renderer2D()
 	anchors[8] = { width, 0.0f };
 
 	debug_text_queue.reserve(RESERVED_DEBUG_TEXT_QUERIES);
-	uniform_glyph_data.reserve(MAX_CHARACTERS);
-	uniform_world_data.reserve(MAX_CHARACTERS);
-	for (int i = 0; i < MAX_CHARACTERS; i++)
-	{
-		uniform_glyph_data.emplace_back(0.0f);
-		uniform_world_data.emplace_back(0.0f);
-	}
+	glyph_data = new VertexTypes::GlyphDataArray;
+}
+Renderer2D::~Renderer2D()
+{
+	delete glyph_data;
 }
 
 void Renderer2D::Initialize()
@@ -115,7 +113,7 @@ void Renderer2D::renderComponents(Scene& scn)
 
 	glCullFace(GL_FRONT);
 	for (const auto& entry : debug_text_queue)
-		RenderTextInstanced(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
+		RenderTextInstanced(entry);
 
 	glCullFace(GL_BACK);
 	glDisable(GL_BLEND);
@@ -168,14 +166,14 @@ void Renderer2D::renderComponents(Scene& scn)
 	DX::DisableBlending();
 
 	for (const auto& entry : debug_text_queue)
-		RenderText(entry.font, entry.pos.x, entry.pos.y, entry.color, entry.text);
+		RenderTextInstanced(entry);
 
 	debug_text_queue.clear();
 #endif
 }
 
 #if GLACIER_OPENGL
-void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
+void Renderer2D::RenderText(const DebugTextQueueEntry& entry)
 {
 	// Get the quad model
 	const ModelOpenGL* quad = (const ModelOpenGL*)ModelLoader::Get(PRELOADED_MODELS::QUAD);
@@ -185,16 +183,16 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
-	font->GetTexture()->Bind(0);
+	entry.font->GetTexture()->Bind(0);
 	
 	// Set the color and projection matrix uniforms
-	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
+	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&entry.color);
 	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
 	// Get the world_matrix uniform location
 	const GLint world_matrix_uniform_loc = shad->GetUniformLocation("world_matrix");
 	
 	// Set up the current x position and world_matrix
-	float xpos = x - (text.cbegin() != text.cend() ? font->GetGlyph(*text.cbegin()).advance * 0.5f : 0.0f);
+	float xpos = entry.pos.x - (entry.text.cbegin() != entry.text.cend() ? entry.font->GetGlyph(*entry.text.cbegin()).advance * 0.5f : 0.0f);
 	glm::mat4 world_matrix(1.0f);
 
 	// Render the text
@@ -202,16 +200,16 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	glCullFace(GL_FRONT);
 	glBindVertexArray(quad->GetVAO());
 	const GLint sprite_data_uniform_loc = shad->GetUniformLocation("sprite_data");
-	for (auto it = text.cbegin(); it != text.cend(); ++it)
+	for (auto it = entry.text.cbegin(); it != entry.text.cend(); ++it)
 	{
-		const Glyph& glyph = font->GetGlyph(*it);
+		const Glyph& glyph = entry.font->GetGlyph(*it);
 
 		xpos += glyph.advance * 0.5f;
 
 		world_matrix[0].x = glyph.size.x *  0.5f;
 		world_matrix[1].y = glyph.size.y * -0.5f;
 		world_matrix[3].x = xpos;
-		world_matrix[3].y = y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
+		world_matrix[3].y = entry.pos.y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
 		
 		glUniformMatrix4fv(world_matrix_uniform_loc, 1, GL_FALSE, (const GLfloat*)&world_matrix);
 		glUniform4f(sprite_data_uniform_loc, glyph.bitmap_origin.x, glyph.bitmap_origin.y, glyph.size.x, glyph.size.y);
@@ -222,7 +220,7 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	glCullFace(GL_BACK);
 	glDisable(GL_BLEND);
 }
-void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
+void Renderer2D::RenderTextInstanced(const DebugTextQueueEntry& entry)
 {
 	Renderer2D& renderer_instance = Instance();
 
@@ -234,10 +232,10 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 
 	// Set the bitmap texture
 	glUniform1i(shad->GetUniformLocation("bitmap"), 0);
-	font->GetTexture()->Bind(0);
+	entry.font->GetTexture()->Bind(0);
 
 	// Set the color and projection matrix uniforms
-	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&color);
+	glUniform4fv(shad->GetUniformLocation("color"), 1, (const GLfloat*)&entry.color);
 	glUniformMatrix4fv(shad->GetUniformLocation("proj_matrix"), 1, GL_FALSE, (const GLfloat*)&instance->proj);
 
 	// Get the glyph_data uniform location
@@ -249,28 +247,29 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 	assert(world_data_uniform_loc != -1);
 
 	// Set up the current x offset
-	float x_offset = text.cbegin() != text.cend() ? font->GetGlyph(text.at(0)).advance * -0.5f : 0.0f;
+	float x_offset = !entry.text.empty() ? entry.font->GetGlyph(entry.text.at(0)).advance * -0.5f
+															  : 0.0f;
 
 	// Set the world_matrix uniform
-	const Glyph& glyph_with_max_height = font->GetGlyphWithMaxHeight();
+	const Glyph& glyph_with_max_height = entry.font->GetGlyphWithMaxHeight();
 	const float y_offset = glyph_with_max_height.size.y - glyph_with_max_height.bearing_y;
-	const glm::mat4 world_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(x - x_offset, y - y_offset, 0.0f)), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+	const glm::mat4 world_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(entry.pos.x - x_offset, entry.pos.y - y_offset, 0.0f)), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(shad->GetUniformLocation("world_matrix"), 1, GL_FALSE, (const GLfloat*)&world_matrix);
 
 	// Fill up the instance buffers
-	const size_t num_characters = text.size() > 100 ? 100 : text.size();
+	const size_t num_characters = entry.text.size() > MAX_CHARACTERS ? MAX_CHARACTERS : entry.text.size();
 	for (int i = 0; i < num_characters; i++)
 	{
-		const Glyph& glyph = font->GetGlyph(text.at(i));
+		const Glyph& glyph = entry.font->GetGlyph(entry.text.at(i));
 		x_offset += glyph.advance * 0.5f;
 
-		glm::vec4& glyph_data = renderer_instance.uniform_glyph_data[i];
+		glm::vec4& glyph_data = (glm::vec4&)renderer_instance.glyph_data->Data[i];
 		glyph_data.x = glyph.bitmap_origin.x;
 		glyph_data.y = glyph.bitmap_origin.y;
 		glyph_data.z = glyph.size.x;
 		glyph_data.w = glyph.size.y;
 
-		glm::vec4& world_data = renderer_instance.uniform_world_data[i];
+		glm::vec4& world_data = (glm::vec4&)renderer_instance.glyph_data->WorldData[i];
 		world_data.x = x_offset;
 		world_data.y = glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
 		world_data.z = glyph.size.x * 0.5f;
@@ -278,15 +277,15 @@ void Renderer2D::RenderTextInstanced(const Font* const font, const float& x, con
 
 		x_offset += glyph.advance * 0.5f;
 	}
-	glUniform4fv(glyph_data_uniform_loc, (GLsizei)text.size(), (const GLfloat*)renderer_instance.uniform_glyph_data.data());
-	glUniform4fv(world_data_uniform_loc, (GLsizei)text.size(), (const GLfloat*)renderer_instance.uniform_world_data.data());
+	glUniform4fv(glyph_data_uniform_loc, (GLsizei)entry.text.size(), (const GLfloat*)renderer_instance.glyph_data->Data);
+	glUniform4fv(world_data_uniform_loc, (GLsizei)entry.text.size(), (const GLfloat*)renderer_instance.glyph_data->WorldData);
 
 	// Render the text
 	glBindVertexArray(quad->GetVAO());
-	glDrawElementsInstanced(GL_TRIANGLES, quad->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr, (GLsizei)text.size());
+	glDrawElementsInstanced(GL_TRIANGLES, quad->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr, (GLsizei)entry.text.size());
 }
 #elif GLACIER_DIRECTX
-void Renderer2D::RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
+void Renderer2D::RenderText(const DebugTextQueueEntry& text)
 {
 	// Get the DX variables
 	auto devcon = DX::GetDeviceContext();
@@ -294,31 +293,29 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
 	auto sprite_data_cbuffer = ShaderLoader::GetSpriteDataConstantBuffer();
 	// Get the quad model
-	const Model* quad = ModelLoader::Get(PRELOADED_MODELS::QUAD);
-	quad->Bind();
+	ModelLoader::Get(PRELOADED_MODELS::QUAD)->Bind();
 	// Get the text shader
-	auto shad = ShaderLoader::Get(PRELOADED_SHADERS::TEXT);
-	shad->Bind();
+	ShaderLoader::Get(PRELOADED_SHADERS::TEXT)->Bind();
 	// Bind the bitmap texture
-	font->GetTexture()->Bind(0);
+	text.font->GetTexture()->Bind(0);
 
 	// Set the camera matrices
 	VertexTypes::CamData cam_data{ instance->proj, glm::mat4(1.0f) };
 	cam_data_cbuffer->UpdateData(devcon, &cam_data, sizeof(VertexTypes::CamData));
 
 	// Set up the sprite data structure
-	VertexTypes::SpriteData sprite_data{ glm::vec2(0.0f), glm::vec2(0.0f), color, glm::vec2(font->GetBitmapWidth(), font->GetBitmapHeight())};
+	VertexTypes::SpriteData sprite_data{ glm::vec2(0.0f), glm::vec2(0.0f), text.color, glm::vec2(text.font->GetBitmapWidth(), text.font->GetBitmapHeight())};
 
 	// Set up the current x position and world_matrix
-	float xpos = x;
+	float xpos = text.pos.x;
 	VertexTypes::InstanceData instance_data{ glm::mat4(1.0f) };
 
 	// Render the text
 	DX::EnableBlending();
 	DX::EnableFrontFaceCulling();
-	for (auto it = text.cbegin(); it != text.cend(); ++it)
+	for (auto it = text.text.cbegin(); it != text.text.cend(); ++it)
 	{
-		const Glyph& glyph = font->GetGlyph(*it);
+		const Glyph& glyph = text.font->GetGlyph(*it);
 
 		xpos += glyph.advance * 0.5f;
 		sprite_data.TexelPos = { glyph.bitmap_origin.x, glyph.bitmap_origin.y };
@@ -328,25 +325,91 @@ void Renderer2D::RenderText(const Font* const font, const float& x, const float&
 		instance_data.World[0].x = glyph.size.x * 0.5f;
 		instance_data.World[1].y = glyph.size.y * -0.5f;
 		instance_data.World[3].x = xpos;
-		instance_data.World[3].y = y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
+		instance_data.World[3].y = text.pos.y + glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
 		instance_data_cbuffer->UpdateData(devcon, &instance_data, sizeof(VertexTypes::InstanceData));
 
-		devcon->DrawIndexed(quad->GetNumTriangles() * 3, 0, 0);
+		devcon->DrawIndexed(6, 0, 0);
 
 		xpos += glyph.advance * 0.5f;
 	}
 	DX::EnableBackFaceCulling();
 	DX::DisableBlending();
 }
+void Renderer2D::RenderTextInstanced(const DebugTextQueueEntry& entry)
+{
+	Renderer2D& renderer_instance = Instance();
+
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto glyph_data_cbuffer = ShaderLoader::GetGlyphDataConstantBuffer();
+
+	// Bind the quad model
+	ModelLoader::Get(PRELOADED_MODELS::QUAD)->Bind();
+	// Bind the text shader
+	ShaderLoader::Get(PRELOADED_SHADERS::TEXT_INSTANCED)->Bind();
+
+	// Bind the bitmap texture
+	entry.font->GetTexture()->Bind(0);
+
+	// Set the camera matrices
+	const VertexTypes::CamData cam_data{ instance->proj, glm::mat4(1.0f) };
+	ShaderLoader::GetCamDataConstantBuffer()->UpdateData(devcon, &cam_data, sizeof(VertexTypes::CamData));
+
+	// Set the color and texture size
+	renderer_instance.glyph_data->Color = entry.color;
+	renderer_instance.glyph_data->TexSize = { entry.font->GetBitmapWidth(), entry.font->GetBitmapHeight() };
+
+	// Set up the current x offset
+	float x_offset = !entry.text.empty() ? entry.font->GetGlyph(entry.text.at(0)).advance * -0.5f
+										 : 0.0f;
+
+	// Set the world_matrix uniform
+	const Glyph& glyph_with_max_height = entry.font->GetGlyphWithMaxHeight();
+	const float y_offset = glyph_with_max_height.size.y - glyph_with_max_height.bearing_y;
+	const glm::mat4 world_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(entry.pos.x - x_offset, entry.pos.y - y_offset, 0.0f)), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+	instance_data_cbuffer->UpdateData(devcon, &world_matrix, sizeof(glm::mat4));
+
+	// Fill up the instance buffers
+	const uint32_t num_characters = std::min((int)entry.text.size(), MAX_CHARACTERS);
+	for (uint32_t i = 0; i < num_characters; i++)
+	{
+		const Glyph& glyph = entry.font->GetGlyph(entry.text.at(i));
+		x_offset += glyph.advance * 0.5f;
+
+		glm::vec4& glyph_data = (glm::vec4&)renderer_instance.glyph_data->Data[i];
+		glyph_data.x = glyph.bitmap_origin.x;
+		glyph_data.y = glyph.bitmap_origin.y;
+		glyph_data.z = glyph.size.x;
+		glyph_data.w = glyph.size.y;
+
+		glm::vec4& world_data = (glm::vec4&)renderer_instance.glyph_data->WorldData[i];
+		world_data.x = x_offset;
+		world_data.y = glyph.size.y * 0.5f - (glyph.size.y - glyph.bearing_y);
+		world_data.z = glyph.size.x * 0.5f;
+		world_data.w = glyph.size.y * -0.5f;
+
+		x_offset += glyph.advance * 0.5f;
+	}
+
+	glyph_data_cbuffer->UpdateData(devcon, renderer_instance.glyph_data, sizeof(VertexTypes::GlyphDataArray));
+
+	// Render the text
+	DX::EnableBlending();
+	DX::EnableFrontFaceCulling();
+	devcon->DrawIndexedInstanced(6, num_characters, 0, 0, 0);
+	DX::EnableBackFaceCulling();
+	DX::DisableBlending();
+}
 #endif
 
-void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text)
+void Renderer2D::PrintText(const Font& font, const float x, const float y, const glm::vec4& color, const std::string& text)
 {
 	assert(instance && "Instance not created!");
 	assert(text.length() < MAX_CHARACTERS);
 	instance->debug_text_queue.emplace_back(&font, x, y, text, color);
 }
-void Renderer2D::PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const char* const format, ...)
+void Renderer2D::PrintText(const Font& font, const float x, const float y, const glm::vec4& color, const char* const format, ...)
 {
 	va_list args;
 	va_start(args, format);
