@@ -120,7 +120,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL; GLACIER_DIRECTX</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL; GLACIER_DIRECTX; GLM_FORCE_DEPTH_ZERO_TO_ONE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)external\glfw-3.3.8\include;$(ProjectDir)external\glad\include;$(ProjectDir)external\glm-0.9.9.8;$(ProjectDir)external\stb;$(ProjectDir)external\entt-3.10.3\src;$(ProjectDir)external\JSON for Modern C++;$(ProjectDir)external\base64\include;$(ProjectDir)external\freetype\include;$(ProjectDir)external\imgui;$(ProjectDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -177,7 +177,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL; GLACIER_DIRECTX</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_SILENT_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";SOLUTION_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";GLACIER_BUILD_DLL; GLACIER_DIRECTX; GLM_FORCE_DEPTH_ZERO_TO_ONE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)external\glfw-3.3.8\include;$(ProjectDir)external\glad\include;$(ProjectDir)external\glm-0.9.9.8;$(ProjectDir)external\stb;$(ProjectDir)external\entt-3.10.3\src;$(ProjectDir)external\JSON for Modern C++;$(ProjectDir)external\base64\include;$(ProjectDir)external\freetype\include;$(ProjectDir)external\imgui;$(ProjectDir)external\bullet3-3.24\src</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>

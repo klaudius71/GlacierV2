@@ -191,7 +191,7 @@ Lighting::Lighting()
 	samp.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
 	samp.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
 	samp.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-	samp.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	samp.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
 	samp.MinLOD = 0;
 	samp.MaxLOD = D3D11_FLOAT32_MAX;
 	samp.BorderColor[0] = 1.0f;

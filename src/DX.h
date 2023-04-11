@@ -45,7 +45,7 @@ private:
 	void setDepthFunctionToLessEqual();
 	void setDepthFunctionToLess();
 
-	void setViewport(const float x, const float y, const float width, const float height);
+	void setViewport(const float x, const float y, const float width, const float height, const float minDepth, const float maxDepth);
 
 	void resetRenderTarget();
 
@@ -65,7 +65,7 @@ public:
 	static void SetDepthFunctionToLessEqual() { Instance().setDepthFunctionToLessEqual(); }
 	static void SetDepthFunctionToLess() { Instance().setDepthFunctionToLess(); }
 
-	static void SetViewport(const float x, const float y, const float width, const float height) { Instance().setViewport(x, y, width, height); }
+	static void SetViewport(const float x, const float y, const float width, const float height, const float minDepth = 0.0f, const float maxDepth = 1.0f) { Instance().setViewport(x, y, width, height, minDepth, maxDepth); }
 
 	static void ResetRenderTarget() { Instance().resetRenderTarget(); }
 

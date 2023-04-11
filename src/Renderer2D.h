@@ -4,7 +4,7 @@
 #include "GlacierCore.h"
 
 constexpr auto RESERVED_DEBUG_TEXT_QUERIES = 20;
-constexpr auto MAX_CHARACTERS = 100;
+constexpr auto MAX_CHARACTERS = 128;
 
 class Scene;
 class Font;

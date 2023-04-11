@@ -223,15 +223,15 @@ void DX::setDepthFunctionToLess()
 	devcon->OMSetDepthStencilState(depth_stencil_less, 1);
 }
 
-void DX::setViewport(const float x, const float y, const float width, const float height)
+void DX::setViewport(const float x, const float y, const float width, const float height, const float minDepth, const float maxDepth)
 {
 	static D3D11_VIEWPORT viewport;
 	viewport.TopLeftX = x;
 	viewport.TopLeftY = y;
 	viewport.Width = width;
 	viewport.Height = height;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
+	viewport.MinDepth = minDepth;
+	viewport.MaxDepth = maxDepth;
 	devcon->RSSetViewports(1, &viewport);
 }
 
