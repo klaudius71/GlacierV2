@@ -1,6 +1,8 @@
 #include "gpch.h"
 #include "ModelOpenGL.h"
 
+#if GLACIER_OPENGL
+
 ModelOpenGL::ModelOpenGL(ModelOpenGL&& o) noexcept
 	: Model(std::move(o)), vao(o.vao), vbo(o.vbo), ebo(o.ebo)
 {
@@ -94,3 +96,5 @@ void ModelOpenGL::load_gpu_data()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VertexTypes::VertexTriangle) * GetNumTriangles(), triangles.data(), GL_STATIC_DRAW);
 }
+
+#endif

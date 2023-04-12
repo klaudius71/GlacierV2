@@ -280,9 +280,6 @@
     <ClCompile Include="src\EditorLayer.cpp">
       <Filter>src\Systems\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="src\Framebuffer.cpp">
-      <Filter>src\GraphicsContext</Filter>
-    </ClCompile>
     <ClCompile Include="src\ShowEditorDont.cpp">
       <Filter>src\Systems\Editor\ShowEditor</Filter>
     </ClCompile>
@@ -402,6 +399,12 @@
     </ClCompile>
     <ClCompile Include="src\ConstantBuffer.cpp">
       <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framebuffer.cpp">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GL.cpp">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -603,9 +606,6 @@
     <ClInclude Include="src\SceneAtt.h">
       <Filter>src\Attorneys</Filter>
     </ClInclude>
-    <ClInclude Include="src\Framebuffer.h">
-      <Filter>src\GraphicsContext</Filter>
-    </ClInclude>
     <ClInclude Include="src\TextureAtt.h">
       <Filter>src\Attorneys</Filter>
     </ClInclude>
@@ -752,6 +752,15 @@
     </ClInclude>
     <ClInclude Include="src\ConstantBuffer.h">
       <Filter>src\GraphicsContext\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Framebuffer.h">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GL.h">
+      <Filter>src\GraphicsContext\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GraphicsContext.h">
+      <Filter>src\GraphicsContext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

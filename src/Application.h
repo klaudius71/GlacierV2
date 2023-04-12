@@ -22,8 +22,6 @@ namespace Glacier {
 		Application(Application&&) = delete;
 		Application& operator=(Application&&) = delete;
 	
-		void initialize_OpenGL();
-
 	public:
 		void Run();
 		

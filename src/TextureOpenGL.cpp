@@ -1,6 +1,8 @@
 #include "gpch.h"
 #include "TextureOpenGL.h"
 
+#if GLACIER_OPENGL
+
 TextureOpenGL::TextureOpenGL(TextureOpenGL&& o) noexcept
 	: Texture(std::move(o)), id(o.id)
 {
@@ -95,3 +97,5 @@ void TextureOpenGL::load_gpu_data()
 	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_MIN_FILTER, (GLint)tex_params.min_filter);
 	glTexParameteri((GLenum)tex_params.type, GL_TEXTURE_MAG_FILTER, (GLint)tex_params.mag_filter);
 }
+
+#endif

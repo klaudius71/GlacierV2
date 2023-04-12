@@ -2,6 +2,7 @@
 #define _MODEL_LOADER
 
 #include "GlacierCore.h"
+#include "GraphicsContext.h"
 #include "VertexTypes.h"
 #include "ModelOpenGL.h"
 #include "ModelDirectX.h"
@@ -31,13 +32,8 @@ private:
 	ModelLoader& operator=(ModelLoader&&) = delete;
 	~ModelLoader() = default;
 
-#if GLACIER_OPENGL
-	std::unordered_map<PRELOADED_MODELS, ModelOpenGL> preloaded_models;
-	std::unordered_map<std::string, ModelOpenGL> models;
-#elif GLACIER_DIRECTX
-	std::unordered_map<PRELOADED_MODELS, ModelDirectX> preloaded_models;
-	std::unordered_map<std::string, ModelDirectX> models;
-#endif
+	std::unordered_map<PRELOADED_MODELS, ModelContext> preloaded_models;
+	std::unordered_map<std::string, ModelContext> models;
 
 	std::vector<std::future<Model&>> futures;
 	std::mutex load_mtx;

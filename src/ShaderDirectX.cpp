@@ -20,47 +20,14 @@ const D3D11_INPUT_ELEMENT_DESC ShaderDirectX::layout[] =
 ShaderDirectX::ShaderDirectX(const std::string& file_name)
 	: mpVertexShader(nullptr), mpPixelShader(nullptr), mpVertexLayout(nullptr)
 {
-	ID3D11Device* dev = DX::GetDevice();
-	std::wstring filename(file_name.cbegin(), file_name.cend());
-
-	HRESULT hr; 
-	ID3DBlob* error_blob = nullptr;
-
-	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-	dwShaderFlags |= D3DCOMPILE_DEBUG;
-	dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-	ID3DBlob* pVSBlob = nullptr;
-	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "VS", vsModel, dwShaderFlags, 0, &pVSBlob, &error_blob);
-	if (FAILED(hr))
-	{
-		PrintShaderError(error_blob);
-		assert(false);
-	}
-
-	hr = dev->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &mpVertexShader);
-	assert(SUCCEEDED(hr));
-
-	ID3DBlob* pPSBlob = nullptr;
-	hr = D3DCompileFromFile(filename.c_str(), nullptr, nullptr, "PS", psModel, dwShaderFlags, 0, &pPSBlob, &error_blob);
-	if (FAILED(hr))
-	{
-		PrintShaderError(error_blob);
-		assert(false);
-	}
-
-	// Create the pixel shader
-	hr = dev->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &mpPixelShader);
-	assert(SUCCEEDED(hr));
-
-	// Create the input layout
-	hr = dev->CreateInputLayout(layout, ARRAYSIZE(layout), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &mpVertexLayout);
-	assert(SUCCEEDED(hr));
-
-	pVSBlob->Release();
-	pPSBlob->Release();
+	const std::wstring filename(file_name.cbegin(), file_name.cend());
+	load_data(filename.c_str(), filename.c_str());
+}
+ShaderDirectX::ShaderDirectX(const std::string& vertex_shader_file_name, const std::string& pixel_shader_file_name)
+{
+	const std::wstring vertex_shader_filename(vertex_shader_file_name.cbegin(), vertex_shader_file_name.cend());
+	const std::wstring pixel_shader_filename(pixel_shader_file_name.cbegin(), pixel_shader_file_name.cend());
+	load_data(vertex_shader_filename.c_str(), pixel_shader_filename.c_str());
 }
 ShaderDirectX::~ShaderDirectX()
 {
@@ -84,6 +51,50 @@ void ShaderDirectX::Bind() const
 
 	for (const auto& buf : buffers)
 		buf.first->Bind(buf.second);
+}
+
+void ShaderDirectX::load_data(LPCWSTR const vertex_shader, LPCWSTR const pixel_shader)
+{
+	ID3D11Device* dev = DX::GetDevice();
+
+	HRESULT hr;
+	ID3DBlob* error_blob = nullptr;
+
+	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#ifdef _DEBUG
+	dwShaderFlags |= D3DCOMPILE_DEBUG;
+	dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	ID3DBlob* pVSBlob = nullptr;
+	hr = D3DCompileFromFile(vertex_shader, nullptr, nullptr, "VS", vsModel, dwShaderFlags, 0, &pVSBlob, &error_blob);
+	if (FAILED(hr))
+	{
+		PrintShaderError(error_blob);
+		assert(false);
+	}
+
+	hr = dev->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &mpVertexShader);
+	assert(SUCCEEDED(hr));
+
+	ID3DBlob* pPSBlob = nullptr;
+	hr = D3DCompileFromFile(pixel_shader, nullptr, nullptr, "PS", psModel, dwShaderFlags, 0, &pPSBlob, &error_blob);
+	if (FAILED(hr))
+	{
+		PrintShaderError(error_blob);
+		assert(false);
+	}
+
+	// Create the pixel shader
+	hr = dev->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &mpPixelShader);
+	assert(SUCCEEDED(hr));
+
+	// Create the input layout
+	hr = dev->CreateInputLayout(layout, ARRAYSIZE(layout), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &mpVertexLayout);
+	assert(SUCCEEDED(hr));
+
+	pVSBlob->Release();
+	pPSBlob->Release();
 }
 
 void ShaderDirectX::PrintShaderError(ID3DBlob* const blob)

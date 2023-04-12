@@ -14,6 +14,7 @@ class ShaderDirectX : public Shader
 {
 public:
 	ShaderDirectX(const std::string& file_name);
+	ShaderDirectX(const std::string& vertex_shader_file_name, const std::string& pixel_shader_file_name);
 	ShaderDirectX(const ShaderDirectX&) = delete;
 	ShaderDirectX& operator=(const ShaderDirectX&) = delete;
 	ShaderDirectX(ShaderDirectX&&) = delete;
@@ -25,6 +26,8 @@ public:
 	void Bind() const;
 
 private:
+	void load_data(LPCWSTR const vertex_shader, LPCWSTR const pixel_shader);
+
 	static const D3D11_INPUT_ELEMENT_DESC layout[];
 
 	ID3D11VertexShader* mpVertexShader;

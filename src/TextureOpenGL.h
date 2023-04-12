@@ -3,6 +3,8 @@
 
 #include "Texture.h"
 
+#if GLACIER_OPENGL
+
 class GLACIER_API TextureOpenGL : public Texture
 {
 public:
@@ -33,5 +35,7 @@ private:
 
 	virtual void load_gpu_data() override;
 };
+
+#endif
 
 #endif

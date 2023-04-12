@@ -3,6 +3,8 @@
 
 #include "Shader.h"
 
+#if GLACIER_OPENGL
+
 class GLACIER_API ShaderOpenGL : public Shader
 {
 public:
@@ -31,5 +33,7 @@ private:
 	GLuint program_id = 0;
 	std::unordered_map<std::string, GLuint> uniform_locations;
 };
+
+#endif
 
 #endif

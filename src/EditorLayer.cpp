@@ -13,6 +13,8 @@
 
 EditorLayer* EditorLayer::instance = nullptr;
 
+#if GLACIER_OPENGL
+
 EditorLayer::EditorLayer()
 	: viewport_size(2, 2)
 {
@@ -277,3 +279,40 @@ void EditorLayer::showEditorDont()
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 }
+
+#elif GLACIER_DIRECTX
+
+EditorLayer::EditorLayer()
+	: viewport_size(2, 2)
+{
+	// Set whether to show the editor
+#ifdef SHOW_EDITOR
+	show_editor_cmd = new ShowEditorNull(*this);
+#else
+	show_editor_cmd = new ShowEditorDont(*this);
+#endif
+}
+EditorLayer::~EditorLayer()
+{
+	delete show_editor_cmd;
+	show_editor_cmd = nullptr;
+}
+
+void EditorLayer::newFrame()
+{
+}
+void EditorLayer::render()
+{
+}
+
+void EditorLayer::drawGraph(GameObject go)
+{
+}
+void EditorLayer::showEditor()
+{
+}
+void EditorLayer::showEditorDont()
+{
+}
+
+#endif

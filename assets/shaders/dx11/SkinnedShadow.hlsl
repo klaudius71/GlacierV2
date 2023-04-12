@@ -22,11 +22,6 @@ cbuffer JointData : register(b2)
 struct VS_INPUT
 {
     float3 Pos : POSITION;
-    float2 Tex : TEXCOORD;
-    uint Id : TEXID;
-    float3 Normal : NORMAL;
-    float3 Tangent : TANGENT;
-    float3 Bitangent : TANGENT1;
     uint4 JointIDs : BLENDINDICES;
     float4 JointWeights : BLENDWEIGHT;
 };

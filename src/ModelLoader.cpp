@@ -25,81 +25,42 @@ ModelLoader::ModelLoader()
 	ModelAtt::LoadGPUData(*mod);
 }
 
-#if GLACIER_OPENGL
 Model& ModelLoader::load_async_file(const std::string& name, const std::string& file_name)
 {
 	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
-	ModelOpenGL mod(MODEL_PATH + file_name);
+	ModelContext mod(MODEL_PATH + file_name);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
 Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
-	ModelOpenGL mod(premade_model, scale);
+	ModelContext mod(premade_model, scale);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
 Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
 {
-	ModelOpenGL mod(file_name, xz_size, max_height, u, v);
+	ModelContext mod(file_name, xz_size, max_height, u, v);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
 Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
 {
-	ModelOpenGL mod(xz_size, u, v);
+	ModelContext mod(xz_size, u, v);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
 Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
 {
-	ModelOpenGL mod(v_slices, h_slices);
+	ModelContext mod(v_slices, h_slices);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
 	return models.emplace(name, std::move(mod)).first->second;
 }
-#elif GLACIER_DIRECTX
-Model& ModelLoader::load_async_file(const std::string& name, const std::string& file_name)
-{
-	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
-	ModelDirectX mod(MODEL_PATH + file_name);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale)
-{
-	ModelDirectX mod(premade_model, scale);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
-{
-	ModelDirectX mod(file_name, xz_size, max_height, u, v);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
-{
-	ModelDirectX mod(xz_size, u, v);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
-{
-	ModelDirectX mod(v_slices, h_slices);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
-#endif
 
 void ModelLoader::load(const std::string& name, const std::string& file_name)
 {

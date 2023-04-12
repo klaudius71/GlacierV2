@@ -39,12 +39,6 @@ struct VS_INPUT
 {
     float3 Pos : POSITION;
     float2 Tex : TEXCOORD;
-    uint Id : TEXID;
-    float3 Normal : NORMAL;
-    float3 Tangent : TANGENT;
-    float3 Bitangent : TANGENT1;
-    uint4 JointIDs : BLENDINDICES;
-    float4 JointWeights : BLENDWEIGHT;
 };
 
 struct VS_OUTPUT
@@ -56,15 +50,15 @@ struct VS_OUTPUT
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
-VS_OUTPUT VS(VS_INPUT input, uint id : SV_InstanceID)
+VS_OUTPUT VS(VS_INPUT input, uint instanceID : SV_InstanceID)
 {
     VS_OUTPUT output;
-    output.Tex = (Data[id].TexelPos.xy / TexSize) + input.Tex * float2(Data[id].Size / TexSize);
+    output.Tex = (Data[instanceID].TexelPos.xy / TexSize) + input.Tex * float2(Data[instanceID].Size / TexSize);
 
     float4x4 WorldShifted = World;
-    WorldShifted[0] *= WorldData[id].Scale.x;
-    WorldShifted[1] *= WorldData[id].Scale.y;
-    WorldShifted[3] += mul(float4(WorldData[id].ScreenPos.xy, 0.0, 0.0), World);
+    WorldShifted[0] *= WorldData[instanceID].Scale.x;
+    WorldShifted[1] *= WorldData[instanceID].Scale.y;
+    WorldShifted[3] += mul(float4(WorldData[instanceID].ScreenPos.xy, 0.0, 0.0), World);
 
     output.Pos = mul(float4(input.Pos, 1.0), WorldShifted);
     output.Pos = mul(output.Pos, Projection);

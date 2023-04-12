@@ -30,8 +30,8 @@ void MainScene::InitializeScene()
 	crosshair->RegisterToScene();
 
 	GameObject dir_light = CreateGameObject("Directional Light");
-	//const glm::vec3 light_dir = glm::normalize(glm::vec3(.967f, -1.0f, 0.254f));
-	const glm::vec3 light_dir = glm::normalize(glm::vec3(-1, -1, -1));
+	const glm::vec3 light_dir = glm::normalize(glm::vec3(.967f, -1.0f, 0.254f));
+	//const glm::vec3 light_dir = glm::normalize(glm::vec3(-1, -1, -1));
 	dir_light->EmplaceComponent<DirectionalLightComponent>(VertexTypes::PhongADS(glm::vec3(.45f), glm::vec3(.85f), glm::vec3(1.0f), 0), light_dir);
 	//dir_light->AddScript<SpinningLightScript>();
 	dir_light->RegisterToScene();
@@ -63,7 +63,7 @@ void MainScene::InitializeScene()
 	}
 	
 	GameObject sphere = CreateGameObject("Sphere");
-	sphere->EmplaceComponent<MeshComponent>((const ModelOpenGL*)ModelLoader::Get("Sphere"));
+	sphere->EmplaceComponent<MeshComponent>(ModelLoader::Get("Sphere"));
 	sphere->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("Rock"));
 	sphere->GetComponent<MaterialComponent>().SetNormalTexture(TextureLoader::Get("RockNormal"));
 	sphere->GetComponent<TransformComponent>().scale() = glm::vec3(20.0f);
@@ -73,7 +73,7 @@ void MainScene::InitializeScene()
 	sphere->RegisterToScene();
 
 	GameObject vampire = CreateGameObject("Vampire");
-	vampire->EmplaceComponent<SkeletalMeshComponent>((const ModelOpenGL*)ModelLoader::Get("Vampire"));
+	vampire->EmplaceComponent<SkeletalMeshComponent>(ModelLoader::Get("Vampire"));
 	vampire->GetComponent<TransformComponent>().position() = glm::vec3(-105.0f, 48.0f, 0.0f);
 	vampire->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 64.0f), TextureLoader::Get("VampireDiffuse"));
 	vampire->GetComponent<MaterialComponent>().SetNormalTexture(TextureLoader::Get("VampireNormal"));

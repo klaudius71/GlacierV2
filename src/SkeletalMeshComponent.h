@@ -5,6 +5,8 @@
 
 #define MAX_BONES 100
 
+class Model;
+
 #if GLACIER_OPENGL
 class ModelOpenGL;
 
@@ -17,7 +19,7 @@ struct GLACIER_API SkeletalMeshComponent
 	glm::mat4* bone_matrices;
 	bool cast_shadow;
 
-	SkeletalMeshComponent(const ModelOpenGL* const mod, const bool cast_shadow = true);
+	SkeletalMeshComponent(const Model* const mod, const bool cast_shadow = true);
 	SkeletalMeshComponent(const SkeletalMeshComponent& o) = delete;
 	SkeletalMeshComponent& operator=(const SkeletalMeshComponent&) = delete;
 	SkeletalMeshComponent(SkeletalMeshComponent&& o);
@@ -30,8 +32,6 @@ private:
 	uint8_t pad2 = 0;
 };
 #elif GLACIER_DIRECTX
-class Model;
-
 struct GLACIER_API SkeletalMeshComponent
 {
 	const Model* mod;

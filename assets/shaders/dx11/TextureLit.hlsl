@@ -58,8 +58,6 @@ struct VS_INPUT
     float3 Normal : NORMAL;
     float3 Tangent : TANGENT;
     float3 Bitangent : TANGENT1;
-    uint4 JointIDs : BLENDINDICES;
-    float4 JointWeights : BLENDWEIGHT;
 };
 
 struct VS_OUTPUT

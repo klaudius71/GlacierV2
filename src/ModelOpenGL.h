@@ -3,6 +3,8 @@
 
 #include "Model.h"
 
+#if GLACIER_OPENGL
+
 class GLACIER_API ModelOpenGL : public Model
 {
 public:
@@ -30,5 +32,7 @@ private:
 
 	virtual void load_gpu_data() override;
 };
+
+#endif
 
 #endif

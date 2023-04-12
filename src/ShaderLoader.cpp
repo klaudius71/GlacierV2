@@ -6,10 +6,9 @@
 #include "ConstantBuffer.h"
 
 ShaderLoader* ShaderLoader::instance = nullptr;
+const std::string ShaderLoader::SHADER_PATH = ShaderLocation;
 
 #if GLACIER_OPENGL
-const std::string ShaderLoader::SHADER_PATH = "assets/shaders/";
-
 ShaderLoader::ShaderLoader()
 {
 	glGenBuffers(1, &ubo_Matrices);
@@ -56,32 +55,9 @@ ShaderLoader::ShaderLoader()
 
 	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::SPRITE, SHADER_PATH + "sprite").first->second;
 }
-
-void ShaderLoader::load(const std::string& name, const std::string& file_name)
+ShaderLoader::~ShaderLoader()
 {
-	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
-	shaders.emplace(name, SHADER_PATH + file_name);
-}
-void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name)
-{
-	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
-	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + fragment_shader_file_name));
-}
-void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name)
-{
-	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
-	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + geometry_shader_file_name, SHADER_PATH + fragment_shader_file_name));
-}
-
-Shader* const ShaderLoader::get(const PRELOADED_SHADERS shader)
-{
-	return &preloaded_shaders.at(shader);
-}
-Shader* const ShaderLoader::get(const std::string& name)
-{
-	const auto it = shaders.find(name);
-	assert(it != shaders.cend() && "Shader not found!");
-	return &it->second;
+	glDeleteBuffers(1, &ubo_Matrices);
 }
 
 void ShaderLoader::load_matrix_binding(const ShaderOpenGL* shader)
@@ -97,14 +73,7 @@ void ShaderLoader::load_lightspace_bindings(const ShaderOpenGL* shader)
 	glUniformBlockBinding(shader->GetProgramID(), glGetUniformBlockIndex(shader->GetProgramID(), "LightspaceMatrices"), 2);
 }
 
-void ShaderLoader::Terminate()
-{
-	delete instance;
-	instance = nullptr;
-}
 #elif GLACIER_DIRECTX
-const std::string ShaderLoader::SHADER_PATH = "assets/shaders/dx11/";
-
 ShaderLoader::ShaderLoader()
 {
 	// Create the constant buffers
@@ -128,7 +97,8 @@ ShaderLoader::ShaderLoader()
 	curr_shader->AddConstantBuffer(Lighting::GetDirectionalLightConstantBuffer(), 3);
 	curr_shader->AddConstantBuffer(Lighting::GetLightspaceMatrixConstantBuffer(), 4);
 
-	curr_shader = &preloaded_shaders.emplace(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT, SHADER_PATH + "SkinnedTextureLit.hlsl").first->second;
+	curr_shader = &preloaded_shaders.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT), 
+																	   std::forward_as_tuple(SHADER_PATH + "SkinnedTextureLit.hlsl", SHADER_PATH + "TextureLit.hlsl")).first->second;
 	curr_shader->AddConstantBuffer(camDataCBuffer, 0);
 	curr_shader->AddConstantBuffer(instanceDataCBuffer, 1);
 	curr_shader->AddConstantBuffer(materialDataCBuffer, 2);
@@ -178,11 +148,24 @@ ShaderLoader::~ShaderLoader()
 	delete jointDataCBuffer;
 }
 
+#endif
+
 void ShaderLoader::load(const std::string& name, const std::string& file_name)
 {
 	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
 	shaders.emplace(name, SHADER_PATH + file_name);
 }
+void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& fragment_shader_file_name)
+{
+	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
+	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + fragment_shader_file_name));
+}
+//void ShaderLoader::load(const std::string& name, const std::string& vertex_shader_file_name, const std::string& geometry_shader_file_name, const std::string& fragment_shader_file_name)
+//{
+//	assert(shaders.find(name) != shaders.cend() && "Attempted to create a duplicate shader!");
+//	shaders.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(SHADER_PATH + vertex_shader_file_name, SHADER_PATH + geometry_shader_file_name, SHADER_PATH + fragment_shader_file_name));
+//}
+
 
 Shader* const ShaderLoader::get(const PRELOADED_SHADERS shader)
 {
@@ -200,4 +183,3 @@ void ShaderLoader::Terminate()
 	delete instance;
 	instance = nullptr;
 }
-#endif

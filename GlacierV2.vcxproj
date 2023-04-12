@@ -284,6 +284,7 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClCompile Include="src\EntityDeregCmd.cpp" />
     <ClCompile Include="src\EntityRegCmd.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\GL.cpp" />
     <ClCompile Include="src\GMathTools.cpp" />
     <ClCompile Include="src\gpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -393,11 +394,13 @@ xcopy /y /d "$(OutDir)GlacierV2.pdb" "$(ProjectDir)Sandbox\bin\$(Platform)\$(Con
     <ClInclude Include="src\EntityDeregCmd.h" />
     <ClInclude Include="src\EntityRegCmd.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\GL.h" />
     <ClInclude Include="src\GlacierAPI.h" />
     <ClInclude Include="src\GlacierCore.h" />
     <ClInclude Include="src\GlacierFileHdr.h" />
     <ClInclude Include="src\GMathTools.h" />
     <ClInclude Include="src\gpch.h" />
+    <ClInclude Include="src\GraphicsContext.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\InputAtt.h" />
     <ClInclude Include="src\KeyCodes.h" />

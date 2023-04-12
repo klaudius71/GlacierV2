@@ -2,6 +2,7 @@
 #define _TEXTURE_LOADER
 
 #include "GlacierCore.h"
+#include "GraphicsContext.h"
 #include "TextureOpenGL.h"
 #include "TextureDirectX.h"
 
@@ -30,13 +31,8 @@ private:
 	TextureLoader& operator=(TextureLoader&&) = delete;
 	~TextureLoader() = default;
 
-#if GLACIER_OPENGL
-	std::unordered_map<PRELOADED_TEXTURES, TextureOpenGL> preloaded_textures;
-	std::unordered_map<std::string, TextureOpenGL> textures;
-#elif GLACIER_DIRECTX
-	std::unordered_map<PRELOADED_TEXTURES, TextureDirectX> preloaded_textures;
-	std::unordered_map<std::string, TextureDirectX> textures;
-#endif
+	std::unordered_map<PRELOADED_TEXTURES, TextureContext> preloaded_textures;
+	std::unordered_map<std::string, TextureContext> textures;
 
 	std::list<std::future<Texture&>> futures;
 	std::mutex load_mutex;
@@ -48,15 +44,9 @@ private:
 	void load(const std::string& name, const glm::vec4& color);
 	void load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params);
 	
-#if GLACIER_OPENGL
-	const TextureOpenGL& get(const PRELOADED_TEXTURES preloaded_tex);
-	const TextureOpenGL& get(const std::string& name) const;
-	TextureOpenGL& mod_get(const std::string& name);
-#elif GLACIER_DIRECTX
-	const TextureDirectX& get(const PRELOADED_TEXTURES preloaded_tex);
-	const TextureDirectX& get(const std::string& name) const;
-	TextureDirectX& mod_get(const std::string& name);
-#endif
+	const TextureContext& get(const PRELOADED_TEXTURES preloaded_tex);
+	const TextureContext& get(const std::string& name) const;
+	TextureContext& mod_get(const std::string& name);
 
 	static void WaitForThreadsAndLoadGPUData();
 	static void Terminate();
@@ -75,21 +65,12 @@ public:
 	static void Load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params = TextureParameters())
 		{ Instance().load(name, width, height, num_channels, data, tex_params); }
 	
-#if GLACIER_OPENGL
-	static const TextureOpenGL& Get(const PRELOADED_TEXTURES preloaded_tex) 
+	static const TextureContext& Get(const PRELOADED_TEXTURES preloaded_tex)
 		{ assert(instance && "TextureLoader not initialized!"); return instance->get(preloaded_tex); }
-	static const TextureOpenGL& Get(const std::string& name)
+	static const TextureContext& Get(const std::string& name)
 		{ assert(instance && "TextureLoader not initialized!"); return instance->get(name); }
-	static TextureOpenGL& ModGet(const std::string& name)
+	static TextureContext& ModGet(const std::string& name)
 	{ assert(instance && "TextureLoader not initialized!"); return instance->mod_get(name); }
-#elif GLACIER_DIRECTX
-	static const TextureDirectX& Get(const PRELOADED_TEXTURES preloaded_tex)
-		{ assert(instance && "TextureLoader not initialized!"); return instance->get(preloaded_tex); }
-	static const TextureDirectX& Get(const std::string& name)
-		{ assert(instance && "TextureLoader not initialized!"); return instance->get(name); }
-	static TextureDirectX& ModGet(const std::string& name)
-		{ assert(instance && "TextureLoader not initialized!"); return instance->mod_get(name); }
-#endif
 };
 
 #endif _TEXTURE_LOADER

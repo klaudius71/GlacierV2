@@ -1,6 +1,8 @@
 #include "gpch.h"
 #include "ShaderOpenGL.h"
 
+#if GLACIER_OPENGL
+
 ShaderOpenGL::ShaderOpenGL(const std::string& file_name)
 {
 	std::ifstream file(file_name + ".vs.glsl", std::ios::in);
@@ -206,3 +208,5 @@ void ShaderOpenGL::load_uniforms()
 		uniform_locations.emplace(name, glGetUniformLocation(program_id, name));
 	}
 }
+
+#endif
