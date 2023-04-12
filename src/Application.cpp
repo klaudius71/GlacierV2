@@ -44,7 +44,7 @@ namespace Glacier {
 	void Application::Run()
 	{
 		// Initialize some singletons
-		InitializeGraphicsContext(window);
+		InitializeGraphicsContext(*window);
 		Renderer2DAtt::Initialize();
 		RendererAtt::Initialize();
 		Lighting::Initialize();

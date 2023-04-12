@@ -17,7 +17,7 @@
 #elif GLACIER_DIRECTX
 
 #define WindowContext WindowDirectX
-#define InitializeGraphicsContext(window) DX::Initialize(*window)
+#define InitializeGraphicsContext(window) DX::Initialize(window)
 #define TerminateGraphicsContext DX::Terminate
 
 #define ShaderContext ShaderDirectX

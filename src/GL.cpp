@@ -2,6 +2,8 @@
 #include "GL.h"
 #include "Window.h"
 
+#if GLACIER_OPENGL
+
 void GL::glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 {
 	source, type, id, length; userParam;
@@ -11,13 +13,10 @@ void GL::glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum sever
 		OutputDebugStringA("\n");
 	}
 }
-void GL::InitializeOpenGL(Window* const window)
+void GL::InitializeOpenGL(const Window& window)
 {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		delete window;
 		throw std::exception("Failed to initialize GLAD!");
-	}
 
 #if _DEBUG
 	int flags;
@@ -31,7 +30,7 @@ void GL::InitializeOpenGL(Window* const window)
 	}
 #endif
 
-	glViewport(0, 0, window->GetWindowWidth(), window->GetWindowHeight());
+	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 	glEnable(GL_CULL_FACE);
 	glClearColor(0.471f, 0.694f, 0.749f, 1.0f);
 	glEnable(GL_CULL_FACE);
@@ -39,3 +38,5 @@ void GL::InitializeOpenGL(Window* const window)
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
+#endif
