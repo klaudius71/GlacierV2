@@ -192,7 +192,7 @@ void Renderer2D::RenderText(const DebugTextQueueEntry& entry)
 	const GLint world_matrix_uniform_loc = shad->GetUniformLocation("world_matrix");
 	
 	// Set up the current x position and world_matrix
-	float xpos = entry.pos.x - (entry.text.cbegin() != entry.text.cend() ? entry.font->GetGlyph(*entry.text.cbegin()).advance * 0.5f : 0.0f);
+	float xpos = entry.pos.x - (!entry.text.empty() ? entry.font->GetGlyph(*entry.text.cbegin()).advance * 0.5f : 0.0f);
 	glm::mat4 world_matrix(1.0f);
 
 	// Render the text

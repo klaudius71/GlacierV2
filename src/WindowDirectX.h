@@ -3,6 +3,8 @@
 
 #include "Window.h"
 
+#if GLACIER_DIRECTX
+
 class GLACIER_API WindowDirectX : public Window
 {
 public:
@@ -18,5 +20,7 @@ public:
 	virtual void SwapBuffers() override;
 	virtual void ToggleFullscreen() override;
 };
+
+#endif
 
 #endif
