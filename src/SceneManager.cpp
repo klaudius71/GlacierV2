@@ -9,6 +9,7 @@
 #include "Physics.h"
 #include "TimeManager.h"
 #include "Logger.h"
+#include "DX.h"
 
 SceneManager* SceneManager::instance = nullptr;
 
@@ -49,6 +50,8 @@ void SceneManager::screenSizeChanged(const int& width, const int& height)
 	Renderer2DAtt::UpdateViewportSize(width, height);
 #if GLACIER_OPENGL
 	RendererAtt::UpdateViewportSize(width, height);
+#elif GLACIER_DIRECTX
+	DX::ResizeBuffers(width, height);
 #endif
 	Script::ExecuteAllOnScreenResize(*curr_scene, width, height);
 }

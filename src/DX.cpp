@@ -200,6 +200,60 @@ void DX::swapBuffers()
 {
 	swapchain->Present(1, 0);
 }
+void DX::resizeBuffers(const int width, const int height)
+{
+	devcon->OMSetRenderTargets(0, nullptr, nullptr);
+	
+	backbuffer->Release();
+	depth_stencil_view->Release();
+
+	HRESULT hr;
+
+	hr = swapchain->ResizeBuffers(0, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+	assert(SUCCEEDED(hr));
+
+	ID3D11Texture2D* pBackBuffer = nullptr;
+	hr = swapchain->GetBuffer(NULL, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
+	assert(SUCCEEDED(hr));
+	assert(pBackBuffer);
+
+	dev->CreateRenderTargetView(pBackBuffer, nullptr, &backbuffer);
+	pBackBuffer->Release();
+	assert(backbuffer);
+
+	// Depth stencil texture
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory(&descDepth, sizeof(D3D11_TEXTURE2D_DESC));
+	descDepth.Width = width;
+	descDepth.Height = height;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = (UINT)D3D11_CENTER_MULTISAMPLE_PATTERN;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+
+	ID3D11Texture2D* depthStencilTexture;
+	hr = dev->CreateTexture2D(&descDepth, NULL, &depthStencilTexture);
+	assert(SUCCEEDED(hr));
+
+	// Create the depth stencil view
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory(&descDSV, sizeof(descDSV));
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+	descDSV.Texture2D.MipSlice = 0;
+
+	hr = dev->CreateDepthStencilView(depthStencilTexture, &descDSV, &depth_stencil_view);
+	assert(SUCCEEDED(hr));
+	depthStencilTexture->Release();
+
+	resetRenderTarget();
+	setViewport(0, 0, width, height, 0.0f, 1.0f);
+}
 
 void DX::enableBlending()
 {

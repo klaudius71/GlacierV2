@@ -42,6 +42,7 @@ private:
 	void setClearColor(const float red, const float green, const float blue, const float alpha);
 	void clear();
 	void swapBuffers();
+	void resizeBuffers(const int width, const int height);
 
 	void enableBlending();
 	void disableBlending();
@@ -63,6 +64,7 @@ public:
 	static void SetClearColor(const float red, const float green, const float blue, const float alpha) { Instance().setClearColor(red, green, blue, alpha); }
 	static void Clear() { Instance().clear(); }
 	static void SwapBuffers() { Instance().swapBuffers(); }
+	static void ResizeBuffers(const int width, const int height) { Instance().resizeBuffers(width, height); }
 
 	static void EnableBlending() { Instance().enableBlending(); }
 	static void DisableBlending() { Instance().disableBlending(); }
