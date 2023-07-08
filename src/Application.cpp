@@ -1,6 +1,8 @@
 #include "gpch.h"
 #include "Application.h"
-#include "Window.h"
+#include "GraphicsContext.h"
+#include "WindowDirectX.h"
+#include "WindowOpenGL.h"
 #include "ShaderLoaderAtt.h"
 #include "TextureLoaderAtt.h"
 #include "ModelLoaderAtt.h"
@@ -16,70 +18,36 @@
 #include "Physics.h"
 #include "LoggerAtt.h"
 #include "UUIDAtt.h"
+#include "Lighting.h"
+#if GLACIER_OPENGL
+#include "GL.h"
+#elif GLACIER_DIRECTX
+#include "DX.h"
+#endif
 
 namespace Glacier {
 
 	Application* Application::instance = nullptr;
 
-	void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
-	{
-		source, type, id, length; userParam;
-		if (severity == GL_DEBUG_SEVERITY_HIGH || severity == GL_DEBUG_SEVERITY_MEDIUM)
-		{
-			OutputDebugStringA(message);
-			OutputDebugStringA("\n");
-		}
-	}
 	Application::Application(const int window_width, const int window_height, const char* const icon_path)
 	{
 		assert(instance == nullptr);
 		instance = this;
 
-		window = new Window(window_width, window_height, icon_path);
-
-		// Initializes GLAD
-		initialize_OpenGL();
-
-	#if _DEBUG
-		int flags; 
-		glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-		if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
-		{
-			glEnable(GL_DEBUG_OUTPUT);
-			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-			glDebugMessageCallback(glDebugOutput, nullptr);
-			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-		}
-	#endif
-
-		glClearColor(0.471f, 0.694f, 0.749f, 1.0f);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		window = new WindowContext(window_width, window_height, icon_path);
 	}
 	Application::~Application()
 	{
 		delete window;
 	}
 
-	void Application::initialize_OpenGL()
-	{
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-			delete window;
-			assert(false && "Failed to initialize GLAD!");
-		}
-
-		glViewport(0, 0, window->GetWindowWidth(), window->GetWindowHeight());
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-	}
 	void Application::Run()
 	{
 		// Initialize some singletons
+		InitializeGraphicsContext(*window);
 		Renderer2DAtt::Initialize();
 		RendererAtt::Initialize();
+		Lighting::Initialize();
 		SceneManagerAtt::Engine::Initialize();
 		EditorLayer::Initialize();
 		Physics::Initialize();
@@ -102,11 +70,13 @@ namespace Glacier {
 			GLACIER_LOG_FUNC_TIMER("frame_time");
 
 			window->Clear();
+#if GLACIER_OPENGL
 			Renderer::GetMainFramebuffer().Clear();
+#endif
 
 			TimeManagerAtt::ProcessTime();
 			InputAtt::ProcessMouseData();
-	
+
 			EditorLayer::NewFrame();
 
 			// update
@@ -124,10 +94,12 @@ namespace Glacier {
 			window->PollEvents();
 		}
 
+#if GLACIER_OPENGL
 		// Cleanup
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+#endif
 
 		// Terminate all of the singletons
 		EditorLayer::Terminate();
@@ -135,6 +107,7 @@ namespace Glacier {
 		Tools::UUIDAtt::Terminate();
 		LoggerAtt::Terminate();
 		Physics::Terminate();
+		Lighting::Terminate();
 		RendererAtt::Terminate();
 		Renderer2DAtt::Terminate();
 		TimeManagerAtt::Terminate();
@@ -143,6 +116,7 @@ namespace Glacier {
 		TextureLoaderAtt::Terminate();
 		FontLoaderAtt::Terminate();
 		SkeletalAnimationLoaderAtt::Terminate();
+		TerminateGraphicsContext();
 	}
 
 	const Window& Application::GetWindow()

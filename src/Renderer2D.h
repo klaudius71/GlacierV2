@@ -4,10 +4,11 @@
 #include "GlacierCore.h"
 
 constexpr auto RESERVED_DEBUG_TEXT_QUERIES = 20;
-constexpr auto MAX_CHARACTERS = 100;
+constexpr auto MAX_CHARACTERS = 128;
 
 class Scene;
 class Font;
+struct GlyphDataArray;
 
 class GLACIER_API Renderer2D
 {
@@ -34,7 +35,7 @@ private:
 	}
 
 	Renderer2D();
-	~Renderer2D() = default;
+	~Renderer2D();
 
 	glm::mat4 proj;
 	glm::mat4 view;
@@ -52,8 +53,7 @@ private:
 	};
 	std::vector<DebugTextQueueEntry> debug_text_queue;
 
-	std::vector<glm::vec4> uniform_glyph_data;
-	std::vector<glm::vec4> uniform_world_data;
+	VertexTypes::GlyphDataArray* glyph_data;
 
 	glm::vec2 anchors[9];
 
@@ -64,14 +64,14 @@ private:
 	void renderComponents(Scene& scn);
 	static void RenderComponents(Scene& scn) { assert(instance && "Renderer2D not initialized!"); instance->renderComponents(scn); }
 
-	static void RenderText(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
-	static void RenderTextInstanced(const Font* const font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
+	static void RenderText(const DebugTextQueueEntry& entry);
+	static void RenderTextInstanced(const DebugTextQueueEntry& entry);
 
 	friend class Renderer2DAtt;
 
 public:
-	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const std::string& text);
-	static void PrintText(const Font& font, const float& x, const float& y, const glm::vec4& color, const char* const format, ...);
+	static void PrintText(const Font& font, const float x, const float y, const glm::vec4& color, const std::string& text);
+	static void PrintText(const Font& font, const float x, const float y, const glm::vec4& color, const char* const format, ...);
 
 	static const glm::mat4& GetCurrentProjectionMatrix() { assert(instance); return instance->proj; }
 };

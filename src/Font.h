@@ -3,8 +3,6 @@
 
 #include "GlacierCore.h"
 
-class Texture;
-
 struct GLACIER_API Glyph
 {
 	glm::vec2 bitmap_origin;
@@ -19,6 +17,8 @@ struct GLACIER_API Glyph
 		: bitmap_origin((float)bitmap_origin_x, (float)bitmap_origin_y), size((float)size_x, (float)size_y), bearing_y((float)bearing_y), advance((float)advance)
 	{}
 };
+
+class Texture;
 
 class GLACIER_API Font
 {

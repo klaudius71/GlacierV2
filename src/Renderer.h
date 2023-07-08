@@ -19,7 +19,7 @@ private:
 	static void Initialize();
 	static void Terminate();
 
-	static void UpdateViewportSize(const int& width, const int& height);
+	static void UpdateViewportSize(const int width, const int height);
 	static void UpdateCameraData(const CameraComponent& camera);
 
 	static void CullScene(Scene& scn, const CameraComponent& camera);

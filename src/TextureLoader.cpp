@@ -19,21 +19,21 @@ TextureLoader::TextureLoader()
 
 Texture& TextureLoader::load_async_reg(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
 {
-	Texture tex(file_name, tex_params);
+	TextureContext tex(file_name, tex_params);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(textures.find(name) == textures.end());
 	return textures.emplace(name, std::move(tex)).first->second;
 }
-void TextureLoader::load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
-{
-	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_reg, this, name, TEXTURE_PATH + file_name, tex_params));
-}
 Texture& TextureLoader::load_async_cube(const std::string& name, const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params)
 {
-	Texture cube_tex(file_paths, tex_params);
+	TextureContext cube_tex(file_paths, tex_params);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(textures.find(name) == textures.end());
 	return textures.emplace(name, std::move(cube_tex)).first->second;
+}
+void TextureLoader::load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params)
+{
+	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_reg, this, name, TEXTURE_PATH + file_name, tex_params));
 }
 void TextureLoader::load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params)
 {
@@ -48,10 +48,9 @@ void TextureLoader::load(const std::string& name, const std::array<std::string, 
 	};
 	futures.push_back(std::async(std::launch::async, &TextureLoader::load_async_cube, this, name, file_paths, tex_params));
 }
-
 void TextureLoader::load(const std::string& name, const glm::vec4& color)
 {
-	Texture tex(color);
+	TextureContext tex(color);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(textures.find(name) == textures.end());
 	Texture& ref = textures.emplace(name, color).first->second;
@@ -59,26 +58,26 @@ void TextureLoader::load(const std::string& name, const glm::vec4& color)
 }
 void TextureLoader::load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params)
 {
-	Texture tex(width, height, num_channels, data, tex_params);
+	TextureContext tex(width, height, num_channels, data, tex_params);
 	std::lock_guard<std::mutex> lock(load_mutex);
 	assert(textures.find(name) == textures.end());
 	Texture& ref = textures.emplace(name, std::move(tex)).first->second;
 	TextureAtt::LoadGPUData(ref);
 }
 
-const Texture& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
+const TextureContext& TextureLoader::get(const PRELOADED_TEXTURES preloaded_tex)
 {
 	auto it = preloaded_textures.find(preloaded_tex);
 	assert(it != preloaded_textures.cend());
 	return it->second;
 }
-const Texture& TextureLoader::get(const std::string& name) const
+const TextureContext& TextureLoader::get(const std::string& name) const
 {
 	auto it = textures.find(name);
 	assert(it != textures.cend());
 	return it->second;
 }
-Texture& TextureLoader::mod_get(const std::string& name)
+TextureContext& TextureLoader::mod_get(const std::string& name)
 {
 	auto it = textures.find(name);
 	assert(it != textures.end());

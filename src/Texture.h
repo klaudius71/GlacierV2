@@ -5,12 +5,10 @@
 
 enum class TEXTURE_WRAP : uint16_t
 {
-	NONE = 0,
 	CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE, 
 	CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER, 
 	MIRRORED_REPEAT = GL_MIRRORED_REPEAT, 
-	REPEAT = GL_REPEAT, 
-	MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE
+	REPEAT = GL_REPEAT
 };
 enum class TEXTURE_MIN_FILTER : uint16_t
 {
@@ -49,7 +47,7 @@ struct GLACIER_API TextureParameters
 
 class GLACIER_API Texture
 {
-public:
+protected:
 	Texture(const std::string& file_name, const TextureParameters& tex_params);
 	Texture(const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params);
 	Texture(const glm::vec4& color);
@@ -59,14 +57,10 @@ public:
 	Texture& operator=(const Texture&) = delete;
 	Texture(Texture&& o) noexcept;
 	Texture& operator=(Texture&& o);
-	~Texture();
+	virtual ~Texture();
 
-	operator const GLuint&() const { return id; }
-
-	void Bind() const;
-	void Unbind() const;
-
-	const GLuint GetID() const;
+public:
+	virtual void Bind(const uint32_t index) const = 0;
 
 	const int GetWidth() const;
 	const int GetHeight() const;
@@ -74,19 +68,18 @@ public:
 	const TextureParameters& GetTextureParameters() const;
 	const std::string& GetFilePath() const;
 
-	void SetTextureWrapS(TEXTURE_WRAP wrap);
-	void SetTextureWrapT(TEXTURE_WRAP wrap);
-	void SetTextureWrapR(TEXTURE_WRAP wrap);
-	void SetTextureMinFilter(TEXTURE_MIN_FILTER filter);
-	void SetTextureMagFilter(TEXTURE_MAG_FILTER filter);
+	virtual void SetTextureWrapS(TEXTURE_WRAP wrap) = 0;
+	virtual void SetTextureWrapT(TEXTURE_WRAP wrap) = 0;
+	virtual void SetTextureWrapR(TEXTURE_WRAP wrap) = 0;
+	virtual void SetTextureMinFilter(TEXTURE_MIN_FILTER filter) = 0;
+	virtual void SetTextureMagFilter(TEXTURE_MAG_FILTER filter) = 0;
 
 private:
-	void load_gpu_data();
+	virtual void load_gpu_data() = 0;
 
 	friend class TextureAtt;
 
-private:
-	GLuint id;
+protected:
 	int width;
 	int height;
 	int channels;

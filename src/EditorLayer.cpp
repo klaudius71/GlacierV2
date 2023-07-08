@@ -9,9 +9,11 @@
 #include "Scene.h"
 #include "SceneAtt.h"
 #include "Entity.h"
-#include "Texture.h"
+#include "TextureOpenGL.h"
 
 EditorLayer* EditorLayer::instance = nullptr;
+
+#if GLACIER_OPENGL
 
 EditorLayer::EditorLayer()
 	: viewport_size(2, 2)
@@ -47,7 +49,7 @@ EditorLayer::EditorLayer()
 	}
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(Glacier::GetWindow().GetNativeWindow(), true);
+	ImGui_ImplGlfw_InitForOpenGL(Glacier::GetWindow().GetGLFWWindow(), true);
 	ImGui_ImplOpenGL3_Init("#version 130");
 }
 EditorLayer::~EditorLayer()
@@ -139,7 +141,7 @@ void EditorLayer::showEditor()
 	ImGui::Begin("Properties");
 	if (!selected_go.isExpired())
 	{
-		auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, material, dir_light, skybox, character_controller, plane_collider, box_collider, sphere_collider, trianglemesh_collider] =
+		auto [name, transform, camera, script, sprite, mesh, skel_mesh, anim, /*material,*/ dir_light, skybox, character_controller, plane_collider, box_collider, sphere_collider, trianglemesh_collider] =
 			selected_go->TryGetComponent<
 			NameComponent,
 			TransformComponent,
@@ -149,7 +151,7 @@ void EditorLayer::showEditor()
 			MeshComponent,
 			SkeletalMeshComponent,
 			SkeletalAnimationComponent,
-			MaterialComponent,
+			//MaterialComponent,
 			DirectionalLightComponent,
 			SkyboxComponent,
 			CharacterControllerComponent,
@@ -201,6 +203,7 @@ void EditorLayer::showEditor()
 			ImGui::TreePop();
 		}
 
+#if GLACIER_OPENGL
 		if (sprite && ImGui::TreeNode("Sprite Component"))
 		{
 			ImGui::Text("Texture:");
@@ -215,16 +218,17 @@ void EditorLayer::showEditor()
 			}
 			ImGui::TreePop();
 		}
+#endif
 
 		if(mesh && ImGui::TreeNode("Mesh Component"))
 		{
 			ImGui::TreePop();
 		}
 
-		if (material && ImGui::TreeNode("Material Component"))
-		{
-			ImGui::TreePop();
-		}
+		//if (material && ImGui::TreeNode("Material Component"))
+		//{
+		//	ImGui::TreePop();
+		//}
 
 		if (dir_light && ImGui::TreeNode("Directional Light Component"))
 		{
@@ -275,3 +279,40 @@ void EditorLayer::showEditorDont()
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 }
+
+#elif GLACIER_DIRECTX
+
+EditorLayer::EditorLayer()
+	: viewport_size(2, 2)
+{
+	// Set whether to show the editor
+#ifdef SHOW_EDITOR
+	show_editor_cmd = new ShowEditorNull(*this);
+#else
+	show_editor_cmd = new ShowEditorDont(*this);
+#endif
+}
+EditorLayer::~EditorLayer()
+{
+	delete show_editor_cmd;
+	show_editor_cmd = nullptr;
+}
+
+void EditorLayer::newFrame()
+{
+}
+void EditorLayer::render()
+{
+}
+
+void EditorLayer::drawGraph(GameObject go)
+{
+}
+void EditorLayer::showEditor()
+{
+}
+void EditorLayer::showEditorDont()
+{
+}
+
+#endif

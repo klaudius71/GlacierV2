@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Sandbox.h"
+#include "WindowDirectX.h"
 
 struct MemMarker {
 	~MemMarker()

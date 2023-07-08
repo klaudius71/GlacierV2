@@ -1,6 +1,8 @@
 #ifndef _VERTEX_TYPES
 #define _VERTEX_TYPES
 
+#define MAX_BONES 100
+
 #include "GlacierCore.h"
 #include "glm/glm.hpp"
 
@@ -54,7 +56,7 @@ namespace VertexTypes
 
 	};
 
-	struct GLACIER_API PhongADS
+	struct GLACIER_API ALIGN16 PhongADS
 	{
 		glm::vec3 ambient = glm::vec3(1.0f);
 		float pad0 = 0.0f;
@@ -69,7 +71,7 @@ namespace VertexTypes
 		{}
 		PhongADS(const PhongADS&) = default;
 	};
-	struct GLACIER_API DirectionalLight
+	struct GLACIER_API ALIGN16 DirectionalLight
 	{
 		PhongADS light_properties;
 		glm::vec3 direction = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)); // world direction
@@ -80,6 +82,56 @@ namespace VertexTypes
 			: light_properties(ads), direction(dir)
 		{}
 	};
+
+	struct ALIGN16 GlyphData
+	{
+		glm::vec2 TexelPos;
+		glm::vec2 Size;
+	};
+	struct ALIGN16 GlyphWorldData
+	{
+		glm::vec2 ScreenPos;
+		glm::vec2 Scale;
+	};
+	struct ALIGN16 GlyphDataArray
+	{
+		GlyphData Data[128];
+		GlyphWorldData WorldData[128];
+		glm::vec4 Color;
+		glm::vec2 TexSize;
+	};
+
+#if GLACIER_DIRECTX
+	struct ALIGN16 CamData
+	{
+		glm::mat4 Projection;
+		glm::mat4 View;
+	};
+
+	struct ALIGN16 InstanceData
+	{
+		glm::mat4 World;
+	};
+
+	struct ALIGN16 SpriteData
+	{
+		glm::vec2 TexelPos;
+		glm::vec2 Size;
+		glm::vec4 Color;
+		glm::vec2 TexSize;
+	};
+
+	struct ALIGN16 JointData
+	{
+		glm::mat4 JointMatrices[MAX_BONES];
+	};
+
+	struct ALIGN16 LightspaceData
+	{
+		glm::mat4 Lightspace;
+	};
+
+#endif
 }
 
 #endif

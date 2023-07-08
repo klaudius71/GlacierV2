@@ -16,65 +16,67 @@ ModelLoader::ModelLoader()
 	verts.emplace_back( 1.0f, -1.0f, 0.0f, 1.0f, 0.0f);
 	tris.emplace_back(0, 2, 1);
 	tris.emplace_back(0, 3, 2);
-	preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::QUAD), std::forward_as_tuple(verts, tris));
+	auto mod = &preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::QUAD), std::forward_as_tuple(verts, tris)).first->second;
+	ModelAtt::LoadGPUData(*mod);
 	verts.clear();
 	tris.clear();
 
-	Model& skybox_mod = preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::UNIT_CUBE), std::forward_as_tuple(PREMADE_MODELS::UNIT_CUBE_REPEAT_TEXTURE, 1.0f)).first->second;
-	ModelAtt::LoadGPUData(skybox_mod);
+	mod = &preloaded_models.emplace(std::piecewise_construct, std::forward_as_tuple(PRELOADED_MODELS::UNIT_CUBE), std::forward_as_tuple(PREMADE_MODELS::UNIT_CUBE_REPEAT_TEXTURE, 1.0f)).first->second;
+	ModelAtt::LoadGPUData(*mod);
 }
 
 Model& ModelLoader::load_async_file(const std::string& name, const std::string& file_name)
 {
 	GLACIER_DEBUG_FUNC_TIMER("Loaded " + file_name + " in... ");
-	Model mod(MODEL_PATH + file_name);
+	ModelContext mod(MODEL_PATH + file_name);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
-}
-void ModelLoader::load(const std::string& name, const std::string& file_name)
-{
-	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_file, this, name, file_name));
 }
 Model& ModelLoader::load_async_pre(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
-	Model mod(premade_model, scale);
+	ModelContext mod(premade_model, scale);
 	std::lock_guard<std::mutex> lock(load_mtx);
 	assert(models.find(name) == models.cend() && "Attempted to load a duplicate model!");
 	return models.emplace(name, std::move(mod)).first->second;
+}
+Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
+{
+	ModelContext mod(file_name, xz_size, max_height, u, v);
+	std::lock_guard<std::mutex> lock(load_mtx);
+	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
+	return models.emplace(name, std::move(mod)).first->second;
+}
+Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
+{
+	ModelContext mod(xz_size, u, v);
+	std::lock_guard<std::mutex> lock(load_mtx);
+	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
+	return models.emplace(name, std::move(mod)).first->second;
+}
+Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
+{
+	ModelContext mod(v_slices, h_slices);
+	std::lock_guard<std::mutex> lock(load_mtx);
+	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
+	return models.emplace(name, std::move(mod)).first->second;
+}
+
+void ModelLoader::load(const std::string& name, const std::string& file_name)
+{
+	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_file, this, name, file_name));
 }
 void ModelLoader::load(const std::string& name, PREMADE_MODELS premade_model, float scale)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_pre, this, name, premade_model, scale));
 }
-Model& ModelLoader::load_async_hgtmap(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
-{
-	Model mod(file_name, xz_size, max_height, u, v);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
 void ModelLoader::load(const std::string& name, const std::string& file_name, float xz_size, float max_height, float u, float v)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_hgtmap, this, name, file_name, xz_size, max_height, u, v));
 }
-Model& ModelLoader::load_async_plane(const std::string& name, float xz_size, float u, float v)
-{
-	Model mod(xz_size, u, v);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
-}
 void ModelLoader::load(const std::string& name, float xz_size, float u, float v)
 {
 	futures.push_back(std::async(std::launch::async, &ModelLoader::load_async_plane, this, name, xz_size, u, v));
-}
-Model& ModelLoader::load_async_sphere(const std::string& name, uint32_t v_slices, uint32_t h_slices)
-{
-	Model mod(v_slices, h_slices);
-	std::lock_guard<std::mutex> lock(load_mtx);
-	assert(models.find(name) == models.cend() && "Attempted to load a duplicated model!");
-	return models.emplace(name, std::move(mod)).first->second;
 }
 void ModelLoader::load(const std::string& name, uint32_t v_slices, uint32_t h_slices)
 {

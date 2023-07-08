@@ -7,7 +7,7 @@ struct PlayerTankPrefab : public Prefab
 	{
 		GameObject base = scn.CreateGameObject("Tank");
 		base->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankBase"));
-		base->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
+		//base->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
 		CameraComponent& camera_component = base->EmplaceComponent<CameraComponent>(glm::mat4(1.0f), glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::radians(60.0f));
 		CameraComponent::ResetProjectionToSize(camera_component, Renderer::GetMainFramebuffer().GetSize().x, Renderer::GetMainFramebuffer().GetSize().y);
 		base->AddScript<TankControllerScript>();
@@ -15,24 +15,24 @@ struct PlayerTankPrefab : public Prefab
 		
 		GameObject wheels = scn.CreateGameObject("Tank Wheels", base);
 		wheels->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankWheels"));
-		wheels->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
+		//wheels->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
 		wheels->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, -0.52f, 1.25f);
 		wheels->RegisterToScene();
 
 		GameObject turret = scn.CreateGameObject("Tank Turret", base);
 		turret->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankTurret"));
-		turret->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
+		//turret->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
 		turret->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, 1.0f, 2.2f);
 		turret->RegisterToScene();
 
 		GameObject turret_barrel = scn.CreateGameObject("Tank Turret Barrel", turret);
 		turret_barrel->EmplaceComponent<MeshComponent>(ModelLoader::Get("TankTurretBarrel"));
-		turret_barrel->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
+		//turret_barrel->EmplaceComponent<MaterialComponent>(VertexTypes::PhongADS(), TextureLoader::Get("Desert"));
 		turret_barrel->GetComponent<TransformComponent>().position() = glm::vec3(0.0f, -0.3f, 0.955f);
 		turret_barrel->RegisterToScene();
 
 		GameObject crosshair = scn.CreateGameObject("Crosshair", base);
-		crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), Renderer2D::SCREEN_ANCHOR::TOP_LEFT);
+		//crosshair->EmplaceComponent<SpriteComponent>(TextureLoader::Get("Crosshair"), Renderer2D::SCREEN_ANCHOR::TOP_LEFT);
 		crosshair->GetComponent<TransformComponent>().scale() = glm::vec3(2.0f, 2.0f, 1.0f);
 		crosshair->RegisterToScene();
 

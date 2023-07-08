@@ -2,7 +2,9 @@
 #define _TEXTURE_LOADER
 
 #include "GlacierCore.h"
-#include "Texture.h"
+#include "GraphicsContext.h"
+#include "TextureOpenGL.h"
+#include "TextureDirectX.h"
 
 enum class PRELOADED_TEXTURES
 {
@@ -29,22 +31,22 @@ private:
 	TextureLoader& operator=(TextureLoader&&) = delete;
 	~TextureLoader() = default;
 
-	std::unordered_map<PRELOADED_TEXTURES, Texture> preloaded_textures;
-	std::unordered_map<std::string, Texture> textures;
+	std::unordered_map<PRELOADED_TEXTURES, TextureContext> preloaded_textures;
+	std::unordered_map<std::string, TextureContext> textures;
 
 	std::list<std::future<Texture&>> futures;
 	std::mutex load_mutex;
 
 	Texture& load_async_reg(const std::string& name, const std::string& file_path, const TextureParameters& tex_params);
-	void load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params);
 	Texture& load_async_cube(const std::string& name, const std::array<std::string, 6>& file_paths, const TextureParameters& tex_params);
+	void load(const std::string& name, const std::string& file_name, const TextureParameters& tex_params);
 	void load(const std::string& name, const std::array<std::string, 6>& file_names, const TextureParameters& tex_params);
 	void load(const std::string& name, const glm::vec4& color);
 	void load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params);
 	
-	const Texture& get(const PRELOADED_TEXTURES preloaded_tex);
-	const Texture& get(const std::string& name) const;
-	Texture& mod_get(const std::string& name);
+	const TextureContext& get(const PRELOADED_TEXTURES preloaded_tex);
+	const TextureContext& get(const std::string& name) const;
+	TextureContext& mod_get(const std::string& name);
 
 	static void WaitForThreadsAndLoadGPUData();
 	static void Terminate();
@@ -63,11 +65,11 @@ public:
 	static void Load(const std::string& name, const uint32_t width, const uint32_t height, const uint32_t num_channels, const uint8_t* data, const TextureParameters& tex_params = TextureParameters())
 		{ Instance().load(name, width, height, num_channels, data, tex_params); }
 	
-	static const Texture& Get(const PRELOADED_TEXTURES preloaded_tex) 
+	static const TextureContext& Get(const PRELOADED_TEXTURES preloaded_tex)
 		{ assert(instance && "TextureLoader not initialized!"); return instance->get(preloaded_tex); }
-	static const Texture& Get(const std::string& name)
+	static const TextureContext& Get(const std::string& name)
 		{ assert(instance && "TextureLoader not initialized!"); return instance->get(name); }
-	static Texture& ModGet(const std::string& name)
+	static TextureContext& ModGet(const std::string& name)
 	{ assert(instance && "TextureLoader not initialized!"); return instance->mod_get(name); }
 };
 

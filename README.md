@@ -1,4 +1,6 @@
 # GlacierV2
 Game Engine API
 
-Make sure to clone recursively and to set the Startup project to Sandbox
+This is where I attempt to add the option to use DirectX
+
+Make sure to clone recursively

@@ -5,29 +5,44 @@
 #include "Application.h"
 #include "Window.h"
 #include "ShaderLoader.h"
-#include "Shader.h"
+#include "ShaderOpenGL.h"
 #include "TextureLoader.h"
 #include "ModelLoader.h"
 #include "Lighting.h"
 #include "Animator.h"
 #include "SkeletalAnimation.h"
 #include "Logger.h"
+#include "DX.h"
+#include "ConstantBuffer.h"
 
 Renderer* Renderer::instance = nullptr;
+
+void Renderer::Initialize()
+{
+	assert(!instance);
+	instance = new Renderer;
+}
+void Renderer::Terminate()
+{
+	delete instance;
+	instance = nullptr;
+}
+
 Renderer::Renderer()
 	: main_framebuffer(Glacier::GetWindow().GetWindowWidth(), Glacier::GetWindow().GetWindowHeight())
 {
 }
 
+#if GLACIER_OPENGL
 void Renderer::UpdateCameraData(const CameraComponent& camera)
 {
 	const GLuint& ubo = ShaderLoader::GetMatricesUBO();
+	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-	const glm::mat4 proj_view[2] = { camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f))};
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4) * 2, &proj_view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
-void Renderer::UpdateViewportSize(const int& width, const int& height)
+void Renderer::UpdateViewportSize(const int width, const int height)
 {
 	assert(instance);
 	instance->main_framebuffer.Resize(width, height);
@@ -37,7 +52,7 @@ void Renderer::RenderLit(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
 	curr_shader->Bind();
 	GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
 	GLint material_ambient_uniform_loc = curr_shader->GetUniformLocation("material.ambient");
@@ -48,7 +63,7 @@ void Renderer::RenderLit(Scene& scn)
 	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
 	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
+	glBindTexture(GL_TEXTURE_2D, Lighting::Instance().DirShadow_tex);
 
 	// Render meshes with materials
 	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
@@ -74,7 +89,7 @@ void Renderer::RenderSkinned(Scene& scn)
 {
 	entt::registry& registry = scn.GetRegistry();
 
-	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
+	auto curr_shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
 	curr_shader->Bind();
 	const GLint bone_matrices_uniform_loc = curr_shader->GetUniformLocation("bone_matrices[0]");
 	const GLint world_matrix_uniform_loc = curr_shader->GetUniformLocation("world_matrix");
@@ -86,7 +101,7 @@ void Renderer::RenderSkinned(Scene& scn)
 	glUniform1i(curr_shader->GetUniformLocation("normal_map"), 4);
 	glUniform1i(curr_shader->GetUniformLocation("dir_shadow_map"), 5);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, Lighting::DirShadow_tex);
+	glBindTexture(GL_TEXTURE_2D, Lighting::Instance().DirShadow_tex);
 
 	// Render meshes with materials
 	glDisable(GL_CULL_FACE);
@@ -117,7 +132,7 @@ void Renderer::RenderUnlit(Scene& scn)
 {
 	// Render meshes without materials
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	auto shader = ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
+	auto shader = (const ShaderOpenGL*)ShaderLoader::Get(PRELOADED_SHADERS::COLOR);
 	shader->Bind();
 	GLint world_matrix_uniform_loc = shader->GetUniformLocation("world_matrix");
 	glUniform4fv(shader->GetUniformLocation("color"), 1, (const GLfloat*)&Colors::White);
@@ -142,12 +157,154 @@ void Renderer::RenderSkybox(Scene& scn)
 		curr_shader->Bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
-		const Model* skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
+		auto skybox_model = (const ModelOpenGL*)ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
 		glBindVertexArray(skybox_model->GetVAO());
 		glDrawElements(GL_TRIANGLES, skybox_model->GetNumTriangles() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glCullFace(GL_BACK);
 		glDepthFunc(GL_LESS);
+	}
+}
+
+const Framebuffer& Renderer::GetMainFramebuffer()
+{
+	assert(instance);
+	return instance->main_framebuffer;
+}
+
+void Renderer::CullScene(Scene& scn, const CameraComponent& camera)
+{
+	UNREFERENCED_PARAMETER(camera);
+
+	entt::registry& registry = scn.GetRegistry();
+
+	auto transform_mesh_view = registry.view<TransformComponent, MeshComponent>();
+	for (auto&& [entity, transform, mesh] : transform_mesh_view.each())
+	{
+
+	}
+}
+void Renderer::RenderScene(Scene& scn)
+{
+	GLACIER_LOG_FUNC_TIMER("3d");
+
+	const CameraComponent& camera = scn.GetActiveCamera();
+	UpdateCameraData(camera);
+
+	CullScene(scn, camera);
+
+	Lighting::RenderSceneShadows(&scn, camera);
+
+	const Framebuffer& framebuffer = instance->main_framebuffer;
+	framebuffer.Bind();
+	glViewport(0, 0, framebuffer.GetSize().x, framebuffer.GetSize().y);
+
+	RenderLit(scn);
+	RenderSkinned(scn);
+	RenderUnlit(scn);
+
+	RenderSkybox(scn);
+
+	framebuffer.Unbind();
+	const Window& window = Glacier::GetWindow();
+	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
+}
+#elif GLACIER_DIRECTX
+void Renderer::UpdateCameraData(const CameraComponent& camera)
+{
+	const VertexTypes::CamData CamData{ camera.proj, glm::lookAt(camera.cam_pos, camera.cam_pos + camera.cam_dir, glm::vec3(0.0f, 1.0f, 0.0f)) };
+	ShaderLoader::GetCamDataConstantBuffer()->UpdateData(DX::GetDeviceContext(), &CamData, sizeof(VertexTypes::CamData));
+}
+void Renderer::UpdateViewportSize(const int width, const int height)
+{
+	assert(instance);
+	instance->main_framebuffer.Resize(width, height);
+}
+
+void Renderer::RenderLit(Scene& scn)
+{
+	entt::registry& registry = scn.GetRegistry();
+
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto material_data_cbuffer = ShaderLoader::GetMaterialDataConstantBuffer();
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_LIT);
+	curr_shader->Bind();
+
+	Lighting::BindShadowDepthTexture(2);
+
+	// Render meshes with materials
+	auto render_group_material = registry.group<MaterialComponent, MeshComponent>(entt::get<TransformComponent>);
+	for (auto&& [entity, material, mesh, transform] : render_group_material.each())
+	{
+		material.tex->Bind(0);
+		material.norm_tex->Bind(1);
+		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
+		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4)); // not exactly safe yet
+		mesh.mod->Bind();
+		devcon->DrawIndexed(mesh.mod->GetNumTriangles() * 3, 0, 0);
+	}
+
+	Lighting::UnbindShadowDepthTexture(2);
+}
+void Renderer::RenderSkinned(Scene& scn)
+{
+	entt::registry& registry = scn.GetRegistry();
+
+	// Get the DX variables
+	auto devcon = DX::GetDeviceContext();
+	auto instance_data_cbuffer = ShaderLoader::GetInstanceDataConstantBuffer();
+	auto material_data_cbuffer = ShaderLoader::GetMaterialDataConstantBuffer();
+	auto joint_data_cbuffer = ShaderLoader::GetJointDataConstantBuffer();
+
+	auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::TEXTURE_SKINNED_LIT);
+	curr_shader->Bind();
+
+	// Render meshes with materials
+	Lighting::BindShadowDepthTexture(2);
+	DX::DisableCulling();
+	//DX::EnableBlending();
+	auto render_group = registry.group<SkeletalMeshComponent>(entt::get<TransformComponent, MaterialComponent>);
+	for (auto&& [entity, skel_mesh, transform, material] : render_group.each())
+	{
+		material.tex->Bind(0);
+		material.norm_tex->Bind(1);
+		material_data_cbuffer->UpdateData(devcon, &material.ads, sizeof(VertexTypes::PhongADS));
+		joint_data_cbuffer->UpdateData(devcon, skel_mesh.bone_matrices, sizeof(VertexTypes::JointData));
+		instance_data_cbuffer->UpdateData(devcon, &transform.GetWorldMatrix(), sizeof(glm::mat4));
+		skel_mesh.mod->Bind();
+		devcon->DrawIndexed(skel_mesh.mod->GetNumTriangles() * 3, 0, 0);
+	}
+	//DX::DisableBlending();
+	DX::EnableBackFaceCulling();
+	Lighting::UnbindShadowDepthTexture(2);
+}
+void Renderer::RenderUnlit(Scene& scn)
+{
+	UNREFERENCED_PARAMETER(scn);
+}
+void Renderer::RenderSkybox(Scene& scn)
+{
+	// Render skybox
+	if (const SkyboxComponent* skybox = scn.GetFirstComponent<SkyboxComponent>())
+	{
+		DX::EnableFrontFaceCulling();
+		DX::SetDepthFunctionToLessEqual();
+
+		auto curr_shader = ShaderLoader::Get(PRELOADED_SHADERS::SKYBOX);
+		curr_shader->Bind();
+		
+		auto skybox_model = ModelLoader::Get(PRELOADED_MODELS::UNIT_CUBE);
+		skybox_model->Bind();
+		
+		skybox->tex->Bind(0);
+
+		DX::GetDeviceContext()->DrawIndexed(skybox_model->GetNumTriangles() * 3, 0, 0);
+
+		DX::SetDepthFunctionToLess();
+		DX::EnableBackFaceCulling();
 	}
 }
 
@@ -179,29 +336,10 @@ void Renderer::RenderScene(Scene& scn)
 	CullScene(scn, camera);
 
 	Lighting::RenderSceneShadows(&scn, camera);
-	
-	const Framebuffer& framebuffer = instance->main_framebuffer;
-	framebuffer.Bind();
-	glViewport(0, 0, framebuffer.GetSize().x, framebuffer.GetSize().y);
 
 	RenderLit(scn);
 	RenderSkinned(scn);
-	RenderUnlit(scn);
 
 	RenderSkybox(scn);
-
-	framebuffer.Unbind();
-	const Window& window = Glacier::GetWindow();
-	glViewport(0, 0, window.GetWindowWidth(), window.GetWindowHeight());
 }
-
-void Renderer::Initialize()
-{
-	assert(!instance);
-	instance = new Renderer;
-}
-void Renderer::Terminate()
-{
-	delete instance;
-	instance = nullptr;
-}
+#endif
