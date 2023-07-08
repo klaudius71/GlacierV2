@@ -275,6 +275,7 @@ void Lighting::renderSceneShadows(Scene* const curr_scene, const CameraComponent
 	curr_shader->Bind();
 	devcon->PSSetShader(nullptr, nullptr, 0);
 	
+	DX::DisableCulling();
 	auto skel_mesh_anim_group = scene_registry.group<SkeletalMeshComponent>(entt::get<TransformComponent>);
 	for (auto&& [entity, skel_mesh, transform] : skel_mesh_anim_group.each())
 	{
