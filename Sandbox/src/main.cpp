@@ -8,7 +8,7 @@ struct MemMarker {
 	}
 } mem_marker;
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int main()
 {
 #ifdef _SHOW_CONSOLE
 	AllocConsole();

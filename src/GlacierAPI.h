@@ -1,4 +1,5 @@
 #if _WIN32
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 
@@ -20,8 +21,8 @@
 #include "GMathTools.h"
 #include "Colors.h"
 
-#include "../external/glad/include/glad/glad.h"
-#include "../external/glfw-3.3.8/include/GLFW/glfw3.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
