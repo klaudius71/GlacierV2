@@ -404,7 +404,7 @@ void Model::load_glacier(const std::string& file_name)
 {
 	std::ifstream file(file_name, std::ifstream::binary);
 	if (!file.is_open())
-		throw std::exception(("File " + file_name + " not found!").c_str());
+		throw std::runtime_error(("File " + file_name + " not found!").c_str());
 
 	file.seekg(0, std::ifstream::end);
 	const size_t file_size = file.tellg();
@@ -428,7 +428,7 @@ void Model::load_glacier(const std::string& file_name)
 	curr_index++;
 
 	// Read some data about the model
-	memcpy_s(&hdr.type, sizeof(uint32_t) * 5, &buf[curr_index], sizeof(uint32_t) * 5);
+	memcpy(&hdr.type, &buf[curr_index], sizeof(uint32_t) * 5);
 	num_vertices = hdr.num_vertices;
 	num_triangles = hdr.num_indices / 3;
 	num_joints = hdr.num_joints;

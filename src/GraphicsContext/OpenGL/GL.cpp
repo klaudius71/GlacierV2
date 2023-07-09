@@ -16,7 +16,7 @@ void GL::glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum sever
 void GL::InitializeOpenGL(const Window& window)
 {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		throw std::exception("Failed to initialize GLAD!");
+		throw std::runtime_error("Failed to initialize GLAD!");
 
 #if _DEBUG
 	int flags;

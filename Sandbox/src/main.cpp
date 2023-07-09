@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "Sandbox.h"
-#include "WindowDirectX.h"
 
 struct MemMarker {
 	~MemMarker()
@@ -10,7 +9,7 @@ struct MemMarker {
 
 int main()
 {
-#ifdef _SHOW_CONSOLE
+#if _SHOW_CONSOLE && defined(_WIN32)
 	AllocConsole();
 	FILE* fpstdin = stdin, * fpstdout = stdout, * fpstderr = stderr;
 	freopen_s(&fpstdin, "CONIN$", "r", stdin);
