@@ -13,6 +13,7 @@ DynamicCharacterController::DynamicCharacterController(const float& height, cons
 	m_halfHeight(height * 0.5f),
 	m_walkSpeed(125.0f) // meters/sec
 {
+	UNREFERENCED_PARAMETER(stepHeight);
 	btScalar sphereRadii[2]{ width, width };
 	btVector3 spherePositions[2]{ btVector3(0.0, (height * 0.5f - width), 0.0), 
 								  btVector3(0.0, (-height * 0.5f + width), 0.0) };
@@ -124,6 +125,9 @@ void DynamicCharacterController::preStep(const btDiscreteDynamicsWorld* collisio
 }
 void DynamicCharacterController::playerStep(const btDiscreteDynamicsWorld* dynaWorld, btScalar dt)
 {
+	UNREFERENCED_PARAMETER(dynaWorld);
+	UNREFERENCED_PARAMETER(dt);
+
 	btVector3 linearVelocity = m_rigidBody->getLinearVelocity();
 	
 	//Renderer2D::PrintText(FontLoader::Get("CascadiaMono20"), 0.0f, 800.0f, Colors::Blue, "onGround()=%s", onGround() ? "true" : "false");

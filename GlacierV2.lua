@@ -57,6 +57,8 @@ project "GlacierV2"
         IncludeDirs["Bullet"]
     }
 
+    defines { GLMDefines }
+
     filter "platforms:x64"
         architecture "x64"
 

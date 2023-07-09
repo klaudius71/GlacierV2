@@ -103,6 +103,17 @@ void Bone::ReadHierarchy(Bone* root, const uint32_t gltf_node, const std::vector
 				rotation_timestamps = std::vector<float>(timestamps, timestamps + count_timestamps);
 				rotations.reserve(rotation_timestamps.size());
 				rotations = std::vector<glm::quat>((glm::quat*)keyframes, ((glm::quat*)keyframes) + count_keyframes);
+				for (size_t i = 0; i < rotations.size(); i++)
+				{
+					const float real_x = rotations[i].w;
+					const float real_y = rotations[i].x;
+					const float real_z = rotations[i].y;
+					const float real_w = rotations[i].z;
+					rotations[i].x = real_x;
+					rotations[i].z = real_z;
+					rotations[i].y = real_y;
+					rotations[i].w = real_w;
+				}
 				break;
 			}
 			case Channel::Path::KEY_SCALE:

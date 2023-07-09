@@ -17,7 +17,8 @@ ConstantBuffer::ConstantBuffer(const uint32_t size)
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
 	bd.StructureByteStride = 0;
-	HRESULT hr = DX::GetDevice()->CreateBuffer(&bd, nullptr, &buf);
+	HRESULT hr;
+	hr = DX::GetDevice()->CreateBuffer(&bd, nullptr, &buf);
 	assert(SUCCEEDED(hr));
 }
 ConstantBuffer::ConstantBuffer(ConstantBuffer&& o)
@@ -47,7 +48,13 @@ void ConstantBuffer::Bind(const uint32_t index) const
 
 void ConstantBuffer::UpdateData(ID3D11DeviceContext* const devcon, const void* data, const uint32_t data_size) const
 {
-	assert(data_size <= size);
-	devcon->UpdateSubresource(buf, 0, nullptr, data, 0, 0);
+	if (data_size > size)
+	{
+		assert(data_size <= size);
+	}
+	else
+	{
+		devcon->UpdateSubresource(buf, 0, nullptr, data, 0, 0);
+	}
 }
 #endif GLACIER_DIRECTX

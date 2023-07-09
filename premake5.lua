@@ -37,7 +37,11 @@ project "Sandbox"
         "Sandbox/src/Scripts"
     }
 
-    defines { "_SHOW_CONSOLE" }
+    defines 
+    {
+        GLMDefines,
+        "_SHOW_CONSOLE" 
+    }
 
     filter { "platforms:x64" }
         architecture "x64"

@@ -2,7 +2,7 @@ project "LinearMath"
     location "bullet3/src/LinearMath"
     kind "StaticLib"
     language "C++"
-    warnings "Default"
+    warnings "Off"
 
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -38,7 +38,7 @@ project "BulletCollision"
     location "bullet3/src/BulletCollision"
     kind "StaticLib"
     language "C++"
-    warnings "Default"
+    warnings "Off"
     
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -74,7 +74,7 @@ project "BulletDynamics"
     location "bullet3/src/BulletDynamics"
     kind "StaticLib"
     language "C++"
-    warnings "Default"
+    warnings "Off"
     
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")

@@ -30,11 +30,6 @@
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
-#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
-#define GLM_FORCE_INTRINSICS
-#define GLM_FORCE_SSE42
-#define GLM_FORCE_INLINE
-#define GLM_ENABLE_EXPERIMENTAL // glm::length2() is experimental for some reason
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 

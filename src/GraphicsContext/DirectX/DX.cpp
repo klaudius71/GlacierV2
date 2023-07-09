@@ -252,7 +252,7 @@ void DX::resizeBuffers(const int width, const int height)
 	depthStencilTexture->Release();
 
 	resetRenderTarget();
-	setViewport(0, 0, width, height, 0.0f, 1.0f);
+	setViewport(0, 0, (float)width, (float)height, 0.0f, 1.0f);
 }
 
 void DX::enableBlending()

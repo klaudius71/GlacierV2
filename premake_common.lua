@@ -1,7 +1,7 @@
 -- Includes
 IncludeDirs = {}
 
--- External includes
+--- External includes
 IncludeDirs["glfw"] = "%{wks.location}/external/glfw/include"
 IncludeDirs["glad"] = "%{wks.location}/external/glad/include"
 IncludeDirs["glm"] = "%{wks.location}/external/glm"
@@ -51,3 +51,12 @@ IncludeDirs["GlacierV2"] =
 
 -- Libraries
 LibraryDirs = {}
+
+-- GLM defines
+GLMDefines = 
+{
+    "GLM_FORCE_SILENT_WARNINGS",
+    --"GLM_FORCE_DEFAULT_ALIGNED_GENTYPES", -- Lots of fixing needed to get this working
+    "GLM_FORCE_SSE42",
+    "GLM_ENABLE_EXPERIMENTAL",
+}
